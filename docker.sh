@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Command used to launch docker
-DOCKER_CMD='sudo docker'
-
-# Where to store the backups
-BACKUP_PATH='/media/store/docker-backup'
-
 # WhereAmI function
 get_script_dir () {
      SOURCE="${BASH_SOURCE[0]}"
@@ -250,19 +244,23 @@ function scriptRestart() {
 # backup the docker image
 function scriptBackup() {
 
-    safeProjectName="`echo "$PROJECT_NAME" | sed -e 's/[^a-zA-Z0-9\-]/_/g'`"
+    if [ "$BACKUP_PATH" == "" ]; then
+        showYellow "\n > Backup dir not set."
+    else
+        safeProjectName="`echo "$PROJECT_NAME" | sed -e 's/[^a-zA-Z0-9\-]/_/g'`"
 
-    backupPath="${BACKUP_PATH}/${safeProjectName}.tar"
+        backupPath="${BACKUP_PATH}/${safeProjectName}.tar"
 
-    if [ ! -d "${BACKUP_PATH}" ]; then
-        showGreen "\n > Creating backup dir..."
-        mkdir -p "${BACKUP_PATH}"
+        if [ ! -d "${BACKUP_PATH}" ]; then
+            showGreen "\n > Creating backup dir..."
+            mkdir -p "${BACKUP_PATH}"
+        fi
+
+        showYellow "\n > Creating backup..."
+        $DOCKER_CMD save --output "${backupPath}" "${PROJECT_NAME}"
+
+        showGreen "\n > DONE"
     fi
-
-    showYellow "\n > Creating backup..."
-    $DOCKER_CMD save --output "${backupPath}" "${PROJECT_NAME}"
-
-    showGreen "\n > DONE"
 
     echo
     exit 0
