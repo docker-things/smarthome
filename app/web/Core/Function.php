@@ -56,6 +56,9 @@ class Core_Function {
         // Set the received params into the function definition
         $function = $this->_setFunctionParams($config);
 
+        // Execute YAML function
+        $this->_runYamlFunctions($function);
+
         // Set state variables
         $function = $this->_setFunctionStateVariables($function);
 
@@ -176,7 +179,9 @@ class Core_Function {
         // Core_Logger::info('Core_Function::_runFunction("' . json_encode($function) . '");');
 
         if (!isset($function['run'])) {
-            Core_Logger::error('Core_Function::_runFunction(): Function doensn\'t have any command to run!');
+            if (!isset($function['runFunctions'])) {
+                Core_Logger::error('Core_Function::_runFunction(): Function doensn\'t have any command to run!');
+            }
             return false;
         }
 
@@ -189,6 +194,30 @@ class Core_Function {
         // Core_Logger::info('Core_Function::_runFunction(): Output: ' . $output);
 
         return $output;
+    }
+
+    /**
+     * @param $function
+     */
+    private function _runYamlFunctions($functions) {
+        // Core_Logger::info('Core_Function::_runYamlFunctions("' . json_encode($functions) . '");');
+
+        if (!isset($functions['runFunctions'])) {
+            if (!isset($functions['run'])) {
+                Core_Logger::error('Core_Function::_runYamlFunctions(): Function doensn\'t have any command to run!');
+            }
+            return false;
+        }
+
+        foreach ($functions['runFunctions'] as $function) {
+            Core_Logger::info('Core_Function::_runYamlFunctions(): Running: ' . $function);
+
+            // Init function object
+            $subfunction = new Core_Function($this->_app, $function);
+
+            // Run function
+            $subfunction->process();
+        }
     }
 
     /**
