@@ -1,0 +1,17 @@
+---
+
+type: sensor
+
+image: Plex.png
+
+mainStatusFrom: status
+positiveValues:
+  - playing
+  - resumed
+
+showInDashboard:
+  - status
+  - user
+  - mediaType
+  - mediaTitle
+  - device

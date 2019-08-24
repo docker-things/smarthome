@@ -1,0 +1,50 @@
+---
+
+name:
+  pretty: NONE
+  code: NONE
+
+motion-sensor:
+  object: NONE
+
+button:
+  object: NONE
+
+light:
+  object: NONE
+  brightness: 100
+  temperature: 3500
+  on-by-motion-when-lux-below: 15
+  off-when-no-motion-for-X-seconds: 120
+  off-when-lux-over: 200
+  auto-off-duration-milliseconds: 5000
+
+  secondary:
+    object: NONE
+    brightness: 50
+    temperature: 2700
+    off-when-lux-over: 200
+    off-when-no-motion-for-X-seconds: 3600
+    auto-off-duration-milliseconds: 5000
+
+plex:
+  object: NONE
+  user: NONE
+  device: NONE
+
+roborock:
+  object: NONE
+  zoned-cleaning-function: NONE
+
+tv:
+  object: NONE
+
+  audio-system:
+    object: NONE
+
+temperature-sensor:
+  object: NONE
+
+water-sensor:
+  object: NONE
+

@@ -1,0 +1,10 @@
+---
+
+ip: !required
+token: !required
+zone_bathroom: ''
+zone_bedroom: ''
+zone_livingroom: ''
+zone_kitchen: ''
+zone_hallway: ''
+zone_house: ''

@@ -1,0 +1,14 @@
+---
+
+type: toggle
+
+disabled: true
+
+image: XiaomiAqaraWater.jpg
+
+mainStatusFrom: water_leak
+positiveValue: 'true'
+
+showInDashboard:
+  - water_leak
+  - battery

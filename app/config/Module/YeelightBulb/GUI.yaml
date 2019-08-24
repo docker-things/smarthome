@@ -1,0 +1,15 @@
+---
+
+type: slider
+
+image: YeelightBulb.jpg
+
+mainStatusFrom: status
+positiveValue: 'on'
+
+dashboardFunction: brightness(value)
+
+showInDashboard:
+  - status
+  - brightness
+  - temperature

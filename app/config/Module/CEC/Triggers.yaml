@@ -1,0 +1,177 @@
+---
+
+message:
+  Power on:
+    if: this is '<< 10:90:00'
+    set:
+      status: 'on'
+
+  Power on showing smarthome:
+    if: this is '<< 1f:82:30:00'
+    set:
+      source: smarthome
+
+  Power on showing tv:
+    if: this is '>> 0f:82:00:00'
+    set:
+      source: tv
+
+  Power off:
+    if: this is '>> 0f:36'
+    set:
+      status: 'off'
+
+  Button release:
+    if: this is '>> 01:45'
+    set:
+      button-state: released
+
+  Button Press ok:
+    if: this is '>> 01:44:00'
+    set:
+      button-state: pressed
+      button: ok
+
+  Button Press up:
+    if: this is '>> 01:44:01'
+    set:
+      button-state: pressed
+      button: up
+
+  Button Press down:
+    if: this is '>> 01:44:02'
+    set:
+      button-state: pressed
+      button: down
+
+  Button Press left:
+    if: this is '>> 01:44:03'
+    set:
+      button-state: pressed
+      button: left
+
+  Button Press right:
+    if: this is '>> 01:44:04'
+    set:
+      button-state: pressed
+      button: right
+
+  Button Press back:
+    if: this is '>> 01:44:0d'
+    set:
+      button-state: pressed
+      button: back
+
+  Button Press pause:
+    if: this is '>> 01:44:46'
+    set:
+      button-state: pressed
+      button: pause
+
+  Button Press fastforward:
+    if: this is '>> 01:44:49'
+    set:
+      button-state: pressed
+      button: fastforward
+
+  Button Press rewind:
+    if: this is '>> 01:44:48'
+    set:
+      button-state: pressed
+      button: rewind
+
+  Button Press forward:
+    if: this is '>> 01:44:4b'
+    set:
+      button-state: pressed
+      button: forward
+
+  Button Press backward:
+    if: this is '>> 01:44:4c'
+    set:
+      button-state: pressed
+      button: backward
+
+  Button Press 0:
+    if: this is '>> 01:44:20'
+    set:
+      button-state: pressed
+      button: 0
+
+  Button Press 1:
+    if: this is '>> 01:44:21'
+    set:
+      button-state: pressed
+      button: 1
+
+  Button Press 2:
+    if: this is '>> 01:44:22'
+    set:
+      button-state: pressed
+      button: 2
+
+  Button Press 3:
+    if: this is '>> 01:44:23'
+    set:
+      button-state: pressed
+      button: 3
+
+  Button Press 4:
+    if: this is '>> 01:44:24'
+    set:
+      button-state: pressed
+      button: 4
+
+  Button Press 5:
+    if: this is '>> 01:44:25'
+    set:
+      button-state: pressed
+      button: 5
+
+  Button Press 6:
+    if: this is '>> 01:44:26'
+    set:
+      button-state: pressed
+      button: 6
+
+  Button Press 7:
+    if: this is '>> 01:44:27'
+    set:
+      button-state: pressed
+      button: 7
+
+  Button Press 8:
+    if: this is '>> 01:44:28'
+    set:
+      button-state: pressed
+      button: 8
+
+  Button Press 9:
+    if: this is '>> 01:44:29'
+    set:
+      button-state: pressed
+      button: 9
+
+  Button Press blue:
+    if: this is '>> 01:44:71'
+    set:
+      button-state: pressed
+      button: blue
+
+  Button Press red:
+    if: this is '>> 01:44:72'
+    set:
+      button-state: pressed
+      button: red
+
+  Button Press green:
+    if: this is '>> 01:44:73'
+    set:
+      button-state: pressed
+      button: green
+
+  Button Press yellow:
+    if: this is '>> 01:44:74'
+    set:
+      button-state: pressed
+      button: yellow

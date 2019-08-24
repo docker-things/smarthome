@@ -1,0 +1,15 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+RewriteBase /
+
+# Handle WebUI
+RewriteRule ^webui/(.*)/(.*)$ webUI.php?controller=$1&$2 [NC,L]
+RewriteRule ^webui/(.*)$ webUI.php?controller=$1 [NC,L]
+
+# Handle webhooks
+RewriteRule ^webhook$ incomingWebhooks.php [NC,L]
+
+# TO BE REMOVED
+RewriteRule ^status$ status.php [NC,L]
+RewriteRule ^clear_db$ clear_db.php [NC,L]

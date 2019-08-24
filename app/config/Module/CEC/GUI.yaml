@@ -1,0 +1,13 @@
+---
+
+type: toggle
+
+image: CEC.jpg
+
+mainStatusFrom: status
+positiveValue: 'on'
+
+dashboardFunction: toggle()
+
+showInDashboard:
+  - status

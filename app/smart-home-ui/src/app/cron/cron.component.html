@@ -1,0 +1,74 @@
+<nb-card>
+  <nb-card-body>
+          <h4>Cron</h4>
+          <nb-accordion>
+            <nb-accordion-item *ngFor="let action of cron; let i = index">
+              <nb-accordion-item-header>
+                <button (click)="deleteItem(i, cron)" nbButton status="danger">-</button>
+                <app-editable-input style="margin-left: 10px; width: 85%;" [obj]="action" [propertyName]="'name'"></app-editable-input>
+              </nb-accordion-item-header>
+              <nb-accordion-item-body>
+                <nb-list>
+                  <nb-list-item>
+                    Interval:
+                    <input type="text" [(ngModel)]="action.interval" nbInput>
+                  </nb-list-item>
+                </nb-list>
+                <nb-accordion>
+                  <nb-accordion-item [expanded]="true">
+                    <nb-accordion-item-header>
+                      <button (click)="addNewContition(action.if, $event)" nbButton status="success">+</button>
+                      <span style="margin-left: 10px">Conditions:</span>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                      <div class="conditionsDivContainer" *ngFor="let condition of action.if; let ind = index">
+                        <input type="text" style="text-align: right" [(ngModel)]="condition.arg1" nbInput>
+                        <nb-select placeholder="-" class="conditionSelect" style="min-width:auto; width: 80px" placeholder=""
+                                   [(ngModel)]="condition.cond">
+                          <nb-option *ngFor="let operator of possibleOperators" [value]="operator">{{operator}}</nb-option>
+                        </nb-select>
+                        <input type="text" [(ngModel)]="condition.arg2" nbInput>
+                        <button style="float: right" (click)="deleteItem(ind, action.if)" nbButton status="danger">-</button>
+                      </div>
+                    </nb-accordion-item-body>
+                  </nb-accordion-item>
+                </nb-accordion>
+
+                <nb-accordion>
+                  <nb-accordion-item [expanded]="true">
+                    <nb-accordion-item-header>
+                      <button (click)="addNewCFunction(action.run, $event)" nbButton status="success">+</button>
+                      <span style="margin-left: 10px">Actions:</span>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                      <nb-list>
+                        <nb-list-item *ngFor="let fn of action.run; let ind = index">
+                          <span>Function: </span>
+                          <nb-select placeholder="Select function" [(ngModel)]="fn.function">
+                            <nb-option *ngFor="let fnc of possibleFunctions" [value]="fnc.function"
+                                       (selectionChange)="selectionChange(fnc.params, fn)">{{fnc.function}}
+                            </nb-option>
+                          </nb-select>
+                          <button style="float:right" (click)="deleteItem(ind, action.run)" nbButton status="danger">-</button>
+                          <div class="propertiesDiv" *ngFor="let property of fn.params">
+                            <div class="nameDivContainer">
+                              <span class="moduleName">{{property.name}}:</span>
+                            </div>
+                            <div class="valueDivContainer">
+                              <input type="text" [(ngModel)]="property.value" nbInput>
+                            </div>
+                          </div>
+                        </nb-list-item>
+                      </nb-list>
+                    </nb-accordion-item-body>
+                  </nb-accordion-item>
+                </nb-accordion>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+          </nb-accordion>
+          <div class="cronButtonContainer">
+            <button (click)="addNewCACard()" nbButton status="success">Add</button>
+            <button (click)="saveCron(cron)" nbButton status="info">Save</button>
+          </div>
+  </nb-card-body>
+</nb-card>

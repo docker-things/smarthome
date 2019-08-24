@@ -1,0 +1,71 @@
+---
+
+functions:
+
+  sleep(seconds):
+    run: sleep ${ARGS.seconds}
+
+  getDate():
+    run: date +"%F"
+    set:
+      date: ${RESPONSE.output}
+
+  getYear():
+    run: date +"%Y"
+    set:
+      year: ${RESPONSE.output}
+
+  getMonth():
+    run: date +"%-m"
+    set:
+      month: ${RESPONSE.output}
+
+  getDay():
+    run: date +"%-d"
+    set:
+      day: ${RESPONSE.output}
+
+  getDayOfWeek():
+    run: date +"%u"
+    set:
+      dayOfWeek: ${RESPONSE.output}
+
+  getTime():
+    run: date +"%H:%M"
+    set:
+      time: ${RESPONSE.output}
+
+  getHour():
+    run: date +"%-H"
+    set:
+      hour: ${RESPONSE.output}
+
+  getMinute():
+    run: date +"%-M"
+    set:
+      minute: ${RESPONSE.output}
+
+  getTimestamp():
+    run: date +"%s"
+    set:
+      timestamp: ${RESPONSE.output}
+
+  getTotalMemory():
+    run: echo "$(echo "scale=2;`free -m | grep Mem | awk '{print $2}'` / 1024" | bc)GB"
+    set:
+      memory: ${RESPONSE.output}
+
+  getUptime():
+    run: uptime | awk -F'( |,|:)+' '{print $6,$7",",$8,"hours,",$9,"minutes."}' | sed -e 's/^0 days, //g' -e 's/^0 hours, //g'
+    set:
+      uptime: ${RESPONSE.output}
+
+  getTemperature():
+    run: sensors | grep Package | awk '{print $4}' | sed -e 's/+//g' -e 's/\.0°C//g'
+    set:
+      temperature: ${RESPONSE.output}
+
+  getLoad():
+    run: uptime | awk '{print $8, $9, $10}'
+    set:
+      load: ${RESPONSE.output}

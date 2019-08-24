@@ -1,0 +1,162 @@
+---
+
+cmd: '${Base.paths.modules}/yeelight/yeelight ${Properties.ip}'
+
+functions:
+
+  on():
+    run: '${cmd} on'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      status: 'on'
+    elseSet 2nd time:
+      status: offline
+
+  on(duration):
+    run: '${cmd} on ${ARGS.duration}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      status: 'on'
+    elseSet 2nd time:
+      status: offline
+
+  off():
+    run: '${cmd} off'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      status: 'off'
+    elseSet 2nd time:
+      status: offline
+
+  off(duration):
+    run: '${cmd} off ${ARGS.duration}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      status: 'off'
+    elseSet 2nd time:
+      status: offline
+
+  toggle():
+    run: '${cmd} toggle && ${cmd} status'
+    if: ${RESPONSE.status} is true
+    set:
+      status: ${RESPONSE.data.result.0}
+    elseSet 2nd time:
+      status: offline
+
+  toggle(duration):
+    run: '${cmd} toggle ${ARGS.duration}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      status: ${RESPONSE.data.result.0}
+    elseSet 2nd time:
+      status: offline
+
+  # brightness: 0-100
+  brightness(brightness):
+    run: '${cmd} brightness ${ARGS.brightness}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      brightness: ${ARGS.brightness}
+    elseSet 2nd time:
+      status: offline
+
+  brightness(brightness,duration):
+    run: '${cmd} brightness ${ARGS.brightness} ${ARGS.duration}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      brightness: ${ARGS.brightness}
+    elseSet 2nd time:
+      status: offline
+
+  # temperature: 1700 (warm light) - 6500 (cold light)
+  temperature(temperature):
+    run: '${cmd} temperature ${ARGS.temperature}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      mode: '2'
+      temperature: ${ARGS.temperature}
+    elseSet 2nd time:
+      status: offline
+
+  temperature(temperature,duration):
+    run: '${cmd} temperature ${ARGS.temperature} ${ARGS.duration}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      mode: temperature
+      temperature: ${ARGS.temperature}
+    elseSet 2nd time:
+      status: offline
+
+  # rgb: decimal integer ranges from 0 to 16777215 (hex: 0xFFFFFF); RGB = (R*65536)+(G*256)+B
+  rgb(rgb):
+    run: '${cmd} rgb ${ARGS.rgb}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      mode: rgb
+      rgb: ${ARGS.rgb}
+    elseSet 2nd time:
+      status: offline
+
+  rgb(rgb,duration):
+    run: '${cmd} rgb ${ARGS.rgb} ${ARGS.duration}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      mode: rgb
+      rgb: ${ARGS.rgb}
+    elseSet 2nd time:
+      status: offline
+
+  # hue: 0-359
+  # stauration: 0-100
+  hue(hue,saturation):
+    run: '${cmd} hue ${ARGS.hue} ${ARGS.saturation}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      mode: hue
+      hue: ${ARGS.hue}
+      saturation: ${ARGS.saturation}
+    elseSet 2nd time:
+      status: offline
+
+  hue(hue,saturation,duration):
+    run: '${cmd} hue ${ARGS.hue} ${ARGS.saturation} ${ARGS.duration}'
+    if: ${RESPONSE.status} is true and ${RESPONSE.data.result.0} is ok
+    set:
+      mode: hue
+      hue: ${ARGS.hue}
+      saturation: ${ARGS.saturation}
+    elseSet 2nd time:
+      status: offline
+
+  getStatus():
+    run: '${cmd} status'
+    if: ${RESPONSE.status} is true
+    set:
+      status: ${RESPONSE.data.result.0}
+      brightness: ${RESPONSE.data.result.1}
+      temperature: ${RESPONSE.data.result.2}
+      rgb: ${RESPONSE.data.result.3}
+      hue: ${RESPONSE.data.result.4}
+      saturation: ${RESPONSE.data.result.5}
+      mode: ${RESPONSE.data.result.6}
+      music: ${RESPONSE.data.result.7}
+      name: ${RESPONSE.data.result.8}
+    elseSet:
+      status: offline
+
+  getStatusByCron():
+    run: '${cmd} status'
+    if: ${RESPONSE.status} is true
+    set:
+      status: ${RESPONSE.data.result.0}
+      brightness: ${RESPONSE.data.result.1}
+      temperature: ${RESPONSE.data.result.2}
+      rgb: ${RESPONSE.data.result.3}
+      hue: ${RESPONSE.data.result.4}
+      saturation: ${RESPONSE.data.result.5}
+      mode: ${RESPONSE.data.result.6}
+      music: ${RESPONSE.data.result.7}
+      name: ${RESPONSE.data.result.8}
+    elseSet 2nd time:
+      status: offline

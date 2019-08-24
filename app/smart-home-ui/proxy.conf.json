@@ -1,0 +1,12 @@
+{
+  "/webui": {
+    "target": "http://192.168.0.100:1122",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/img": {
+    "target": "http://192.168.0.100:1122",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

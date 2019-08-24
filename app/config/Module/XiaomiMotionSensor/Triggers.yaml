@@ -1,0 +1,6 @@
+---
+
+battery:
+  Low battery:
+    if: this <= 5
+    run: SystemWarn.send('this.objectName has this.battery% battery left!')

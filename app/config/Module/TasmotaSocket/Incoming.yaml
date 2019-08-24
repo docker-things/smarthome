@@ -1,0 +1,61 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.mqtt-topic}: tele/${Properties.mqtt-topic}/STATE
+  - ${PARAMS.mqtt-topic}: tele/${Properties.mqtt-topic}/SENSOR
+  - ${PARAMS.mqtt-topic}: stat/${Properties.mqtt-topic}/RESULT
+  - ${PARAMS.mqtt-topic}: stat/${Properties.mqtt-topic}/UPTIME
+
+actionParam: ${PARAMS.mqtt-topic}
+
+# Known actions and what variables are set by them
+actions:
+
+  tele/${Properties.mqtt-topic}/STATE:
+    Time: ${PARAMS.Time}
+    Uptime: ${PARAMS.Uptime}
+    Vcc: ${PARAMS.Vcc}
+    SleepMode: ${PARAMS.SleepMode}
+    Sleep: ${PARAMS.Sleep}
+    LoadAvg: ${PARAMS.LoadAvg}
+    status: ${PARAMS.POWER}
+    Wifi.AP: ${PARAMS.Wifi.AP}
+    Wifi.SSId: ${PARAMS.Wifi.SSId}
+    Wifi.BSSId: ${PARAMS.Wifi.BSSId}
+    Wifi.Channel: ${PARAMS.Wifi.Channel}
+    Wifi.RSSI: ${PARAMS.Wifi.RSSI}
+
+  tele/${Properties.mqtt-topic}/SENSOR:
+    Energy.Time: ${PARAMS.Time}
+    Energy.TotalStartTime: ${PARAMS.ENERGY.TotalStartTime}
+    Energy.Total: ${PARAMS.ENERGY.Total}
+    Energy.Yesterday: ${PARAMS.ENERGY.Yesterday}
+    Energy.Today: ${PARAMS.ENERGY.Today}
+    Energy.Period: ${PARAMS.ENERGY.Period}
+    Energy.Power: ${PARAMS.ENERGY.Power}
+    Energy.ApparentPower: ${PARAMS.ENERGY.ApparentPower}
+    Energy.ReactivePower: ${PARAMS.ENERGY.ReactivePower}
+    Energy.Factor: ${PARAMS.ENERGY.Factor}
+    Energy.Voltage: ${PARAMS.ENERGY.Voltage}
+    Energy.Current: ${PARAMS.ENERGY.Current}
+
+  stat/${Properties.mqtt-topic}/RESULT:
+    status: ${PARAMS.POWER}
+
+  stat/${Properties.mqtt-topic}/UPTIME:
+    Time: ${PARAMS.Time}
+    Uptime: ${PARAMS.Uptime}
+
+# Normalize incoming params before writing to DB
+normalize-params:
+
+  tele/${Properties.mqtt-topic}/STATE:
+    status:
+      'ON': 'on'
+      'OFF': 'off'
+
+  stat/${Properties.mqtt-topic}/RESULT:
+    status:
+      'ON': 'on'
+      'OFF': 'off'

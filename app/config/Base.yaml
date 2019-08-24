@@ -1,0 +1,5 @@
+---  # Main config file
+
+paths:
+  mainDir: "/app"
+  modules: "/app/modules"

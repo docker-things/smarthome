@@ -1,0 +1,14 @@
+---
+
+type: toggle
+
+disabled: true
+
+image: XiaomiMijiaDoor.jpg
+
+mainStatusFrom: contact
+positiveValue: 'true'
+
+showInDashboard:
+  - contact
+  - battery

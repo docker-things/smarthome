@@ -1,0 +1,5 @@
+---
+
+jobs:
+  - interval: 5
+    run: getStatusByCron()

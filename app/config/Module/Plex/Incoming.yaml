@@ -1,0 +1,43 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.event}: media.play
+  - ${PARAMS.event}: media.resume
+  - ${PARAMS.event}: media.stop
+  - ${PARAMS.event}: media.pause
+  - ${PARAMS.event}: media.scrobble
+
+# Take the action param from the event param
+actionParam: ${PARAMS.event}
+
+# Known actions and what variables are set by them
+actions:
+  all:
+    device: ${PARAMS.Player.title}
+    librarySectionTitle: ${PARAMS.Metadata.librarySectionTitle}
+    librarySectionType: ${PARAMS.Metadata.librarySectionType}
+    local: ${PARAMS.Player.local}
+    mediaGrandparentTitle: ${PARAMS.Metadata.grandparentTitle}
+    mediaParentTitle: ${PARAMS.Metadata.parentTitle}
+    mediaTitle: ${PARAMS.Metadata.title}
+    mediaType: ${PARAMS.Metadata.type}
+    publicAddress: ${PARAMS.Player.publicAddress}
+    server: ${PARAMS.Server.title}
+    status: ${PARAMS.event}
+    user: ${PARAMS.Account.title}
+
+# Normalize incoming params before writing to DB
+normalize-params:
+  all:
+    status:
+      media.play: playing
+      media.resume: resumed
+      media.stop: stopped
+      media.pause: paused
+      media.scrobble: scrobbled
+
+# Params are not rewritten in the DB if the value isn't changed.
+# This allows them to be written anyway.
+alwaysSetWhenReceived:
+  - status

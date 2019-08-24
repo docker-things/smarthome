@@ -1,0 +1,20 @@
+---
+
+cmd: php ${Base.paths.modules}/sunrise_sunset/sunrise_sunset.php
+
+functions:
+
+  get():
+    run: '${cmd} ${Properties.latitude} ${Properties.longitude} today'
+    if: ${RESPONSE.status} is OK
+    set:
+      sunrise: ${RESPONSE.results.sunrise}
+      sunset: ${RESPONSE.results.sunset}
+      solar_noon: ${RESPONSE.results.solar_noon}
+      day_length: ${RESPONSE.results.day_length}
+      civil_twilight_begin: ${RESPONSE.results.civil_twilight_begin}
+      civil_twilight_end: ${RESPONSE.results.civil_twilight_end}
+      nautical_twilight_begin: ${RESPONSE.results.nautical_twilight_begin}
+      nautical_twilight_end: ${RESPONSE.results.nautical_twilight_end}
+      astronomical_twilight_begin: ${RESPONSE.results.astronomical_twilight_begin}
+      astronomical_twilight_end: ${RESPONSE.results.astronomical_twilight_end}

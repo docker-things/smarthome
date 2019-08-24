@@ -1,0 +1,82 @@
+---
+
+# SENSOR 1
+
+illuminance-1:
+  Set main variable:
+    if: this <= this.illuminance-2
+    set:
+      illuminance: this.illuminance-1
+
+occupancy-1:
+  Set main variable:
+    set:
+      occupancy: this.occupancy-1
+
+no_occupancy_since-1:
+  Set main variable:
+    if: this <= this.no_occupancy_since-2
+    set:
+      no_occupancy_since: this.no_occupancy_since-1
+
+linkquality-1:
+  Set main variable:
+    if: this <= this.linkquality-2
+    set:
+      linkquality: this.linkquality-1
+
+battery-1:
+  Set main variable:
+    if: this <= this.battery-2
+    set:
+      battery: this.battery-1
+
+voltage-1:
+  Set main variable:
+    if: this <= this.voltage-2
+    set:
+      voltage: this.voltage-1
+
+# SENSOR 2
+
+illuminance-2:
+  Set main variable:
+    if: this <= this.illuminance-1
+    set:
+      illuminance: this.illuminance-2
+
+occupancy-2:
+  Set main variable:
+    set:
+      occupancy: this.occupancy-2
+
+no_occupancy_since-2:
+  Set main variable:
+    if: this <= this.no_occupancy_since-1
+    set:
+      no_occupancy_since: this.no_occupancy_since-2
+
+linkquality-2:
+  Set main variable:
+    if: this <= this.linkquality-1
+    set:
+      linkquality: this.linkquality-2
+
+battery-2:
+  Set main variable:
+    if: this <= this.battery-1
+    set:
+      battery: this.battery-2
+
+voltage-2:
+  Set main variable:
+    if: this <= this.voltage-1
+    set:
+      voltage: this.voltage-2
+
+# MIX
+
+battery:
+  Low battery:
+    if: this <= 5
+    run: SystemWarn.send('this.objectName has this.battery% battery left!')

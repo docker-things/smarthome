@@ -1,0 +1,8 @@
+---
+
+type: sensor
+
+image: Slack.png
+
+showInDashboard:
+  - message

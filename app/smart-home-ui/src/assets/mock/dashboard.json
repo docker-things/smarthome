@@ -1,0 +1,63 @@
+{
+  "status": "success",
+  "data": {
+    "Phone": {
+      "status": "off",
+      "type": "sensor",
+      "params": {
+        "charging": "no",
+        "battery": "75",
+        "wifi": "nustiu"
+      }
+    },
+    "Plex": {
+      "status": "off",
+      "type": "sensor",
+      "params": {
+        "status": "stopped",
+        "user": "blchinezu",
+        "device": "TV UE40MU6102"
+      }
+    },
+    "Livingroom-Light": {
+      "status": 100,
+      "type": "slider",
+      "function": "Livingroom-Light.toggle()",
+      "params": {
+        "status": "on",
+        "brightness": "100",
+        "temperature": "3500"
+      }
+    },
+    "Bedroom-Light": {
+      "status": 10,
+      "type": "slider",
+      "function": "Bedroom-Light.toggle()",
+      "params": {
+        "status": "on",
+        "brightness": "100",
+        "temperature": "3500"
+      }
+    },
+    "Reading-Light": {
+      "status": 50,
+      "type": "slider",
+      "function": "Reading-Light.toggle()",
+      "params": {
+        "status": "off",
+        "brightness": "100",
+        "temperature": "2700"
+      }
+    },
+    "Priza": {
+      "status": "off",
+      "type": "toggle",
+      "function": "Reading-Light.toggle()",
+      "params": {
+        "status": "off",
+        "brightness": "100",
+        "temperature": "2700"
+      }
+    }
+  }
+}

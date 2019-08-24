@@ -1,0 +1,10 @@
+---
+
+jobs:
+  - interval: 5
+    if: this.status is offline
+    run: getStatusByCron()
+
+  - interval: 30
+    if: this.status is not offline
+    run: getStatusByCron()

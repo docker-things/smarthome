@@ -1,0 +1,11 @@
+---
+
+status:
+  Reconnect online:
+    if:
+      - this.status is 'on'
+      - this.status.previousValue is 'offline'
+    run:
+      - this.brightness('25')
+      - System.sleep('0.4')
+      - this.brightness('100')

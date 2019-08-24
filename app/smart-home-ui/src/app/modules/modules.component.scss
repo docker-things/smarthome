@@ -1,0 +1,26 @@
+@import '../dashboard/dashboard.component';
+.moduleImage{
+  width: $bg-size;
+  height: $bg-size;
+  background-repeat: no-repeat;
+  background-size: $bg-size $bg-size;
+  margin-right: 10px;
+}
+.moduleTextarea{
+  height: 500px;
+}
+.moduleButtonContainer{
+  display: flex;
+  justify-content: center;
+  button{
+    margin: 5px;
+  }
+}
+.modulesAddButtonContainer{
+  display: flex;
+  padding: 10px;
+  justify-content: flex-end;
+  button{
+    margin-left: 10px;
+  }
+}

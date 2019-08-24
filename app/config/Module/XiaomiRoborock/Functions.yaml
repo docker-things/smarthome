@@ -1,0 +1,131 @@
+---
+
+cmd: ash ${Base.paths.modules}/roborock/roborock.sh ${Properties.ip} ${Properties.token}
+
+functions:
+
+  start():
+    run: ${cmd} start
+    if: ${RESPONSE.Starting_cleaning} is ok
+    set:
+      status: 'Cleaning'
+      zone: 'none'
+
+  pause():
+    run: ${cmd} pause
+    if: ${RESPONSE.Pausing} is ok
+    set:
+      status: 'Paused'
+
+  resume():
+    run: ${cmd} start
+    if: ${RESPONSE.Starting_cleaning} is ok
+    set:
+      status: 'Cleaning'
+
+  stop():
+    run: ${cmd} stop
+    if: ${RESPONSE.Stop_cleaning} is ok
+    set:
+      status: 'Idle'
+
+  toggle():
+    run: ${cmd} toggle
+    if: ${RESPONSE.Starting_cleaning} is ok
+    set:
+      status: 'Cleaning'
+    elseSet:
+      status: 'Paused'
+
+  cleanBedroom():
+    run: ${cmd} zoned-cleanup '${Properties.zone_bedroom}'
+    if: ${RESPONSE.status} is ok
+    set:
+      status: 'Zoned_cleaning'
+      zone: 'bedroom'
+
+  cleanBathroom():
+    run: ${cmd} zoned-cleanup '${Properties.zone_bathroom}'
+    if: ${RESPONSE.status} is ok
+    set:
+      status: 'Zoned_cleaning'
+      zone: 'bathroom'
+
+  cleanLivingroom():
+    run: ${cmd} zoned-cleanup '${Properties.zone_livingroom}'
+    if: ${RESPONSE.status} is ok
+    set:
+      status: 'Zoned_cleaning'
+      zone: 'livingroom'
+
+  cleanHallway():
+    run: ${cmd} zoned-cleanup '${Properties.zone_hallway}'
+    if: ${RESPONSE.status} is ok
+    set:
+      status: 'Zoned_cleaning'
+      zone: 'hallway'
+
+  cleanKitchen():
+    run: ${cmd} zoned-cleanup '${Properties.zone_kitchen}'
+    if: ${RESPONSE.status} is ok
+    set:
+      status: 'Zoned_cleaning'
+      zone: 'kitchen'
+
+  cleanHouse():
+    run: ${cmd} zoned-cleanup '${Properties.zone_house}'
+    if: ${RESPONSE.status} is ok
+    set:
+      status: 'Zoned_cleaning'
+      zone: 'house'
+
+  home():
+    run: ${cmd} home
+    if: ${RESPONSE.Stop_cleaning} is ok
+    set:
+      status: 'Returning_home'
+      zone: ''
+
+  find():
+    run: ${cmd} find
+
+  setFanSpeed(speed):
+    run: ${cmd} fanspeed ${ARGS.speed}
+    set:
+      fanspeed: ${ARGS.speed}
+
+  getStatus():
+    run: ${cmd} status
+    if: ${RESPONSE.Battery} > 0 and ${RESPONSE.Battery} is not array
+    set:
+      status: ${RESPONSE.State}
+      battery: ${RESPONSE.Battery}
+      fanspeed: ${RESPONSE.Fanspeed}
+      cleaning_since: ${RESPONSE.Cleaning_since}
+      cleaned_area: ${RESPONSE.Cleaned_area}
+    elseSet 3rd time:
+      status: 'Offline'
+
+  getCleaningHistory():
+    run: ${cmd} cleaning-history
+    if: ${RESPONSE.total_clean_count} > 0
+    set:
+      total_clean_count: ${RESPONSE.total_clean_count}
+      total_cleaned_for: ${RESPONSE.total_cleaned_for}
+      last_start_date: ${RESPONSE.last_start_date}
+      last_start_time: ${RESPONSE.last_start_time}
+      last_end_date: ${RESPONSE.last_end_date}
+      last_end_time: ${RESPONSE.last_end_time}
+      last_complete: ${RESPONSE.last_complete}
+      last_error: ${RESPONSE.last_error}
+      last_area_cleaned: ${RESPONSE.last_area_cleaned}
+      last_duration: ${RESPONSE.last_duration}
+
+  getConsumablesStatus():
+    run: ${cmd} consumables
+    if: ${RESPONSE.Main_brush} is not array
+    set:
+      main_brush: ${RESPONSE.Main_brush}
+      side_brush: ${RESPONSE.Side_brush}
+      filter: ${RESPONSE.Filter}
+      sensor_dirty: ${RESPONSE.Sensor_dirty}

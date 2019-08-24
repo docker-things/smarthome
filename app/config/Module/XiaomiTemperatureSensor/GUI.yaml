@@ -1,0 +1,11 @@
+---
+
+type: sensor
+
+image: XiaomiAqaraTemperature.jpg
+
+showInDashboard:
+  - temperature
+  - humidity
+  - pressure
+  - battery

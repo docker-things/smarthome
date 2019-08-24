@@ -1,0 +1,11 @@
+---
+
+type: sensor
+
+image: XiaomiAqaraVibration.jpg
+
+showInDashboard:
+  - angle_x
+  - angle_y
+  - angle_z
+  - battery

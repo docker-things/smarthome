@@ -1,0 +1,14 @@
+---
+
+type: toggle
+
+image: XiaomiRoborock.png
+
+mainStatusFrom: status
+positiveValue: Cleaning
+
+dashboardFunction: toggle()
+
+showInDashboard:
+  - status
+  - battery

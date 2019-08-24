@@ -1,0 +1,11 @@
+---
+
+type: sensor
+
+image: System.png
+
+showInDashboard:
+  - uptime
+  - temperature
+  - load
+  - memory

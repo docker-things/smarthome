@@ -1,0 +1,11 @@
+---
+
+jobs:
+  - interval: 3600
+    run: getConsumablesStatus()
+
+  - interval: 300
+    run: getCleaningHistory()
+
+  - interval: 60
+    run: getStatus()

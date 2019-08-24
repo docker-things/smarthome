@@ -1,0 +1,45 @@
+$bg-size: 40px;
+$bg-battery-width: 12px;
+$bg-battery-height: 20px;
+.listNameContainer{
+  flex-grow: 1;
+  flex-direction: row;
+  display: flex;
+  justify-content: left;
+}
+.listFunctionContainer{
+  display: flex;
+}
+.listParamsContainer{
+  display: flex;
+  flex-direction: column;
+  .listParam{
+    span{
+      float: right;
+    }
+  }
+}
+.listContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .listImage{
+    width: $bg-size;
+    height: $bg-size;
+    background-repeat: no-repeat;
+    background-size: $bg-size $bg-size;
+    margin-right: 10px;
+    img{
+      width: $bg-size;
+      height: $bg-size;
+    }
+  }
+  .listBatteryImage{
+    width: $bg-battery-width;
+    height: $bg-battery-height;
+    background-repeat: no-repeat;
+    background-size: $bg-battery-width $bg-battery-height;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}

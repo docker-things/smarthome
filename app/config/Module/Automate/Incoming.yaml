@@ -1,0 +1,69 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.device}: ${Properties.device}
+
+# Known actions and what variables are set by them
+actions:
+
+  charging:
+    charging: ${PARAMS.charging_mode}
+    battery: ${PARAMS.battery}
+
+  discharging:
+    charging: "no"
+    battery: ${PARAMS.battery}
+
+  lux-change:
+    lux: ${PARAMS.lux}
+
+  incoming-call:
+    call-way: incoming
+    call-mode: ${PARAMS.mode}
+    call-phone-number: ${PARAMS.phone_number}
+    call-subscription-id: ${PARAMS.subscription_id}
+
+  outgoing-call:
+    call-subscription-id: ${PARAMS.subscription_id}
+    call-phone-number: ${PARAMS.phone_number}
+    call-mode: ${PARAMS.mode}
+    call-way: outgoing
+
+  gps:
+    gps.accuracy: ${PARAMS.accuracy}
+    gps.app-class: ${PARAMS.app_class}
+    gps.app-package: ${PARAMS.app_package}
+    gps.latitude: ${PARAMS.latitude}
+    gps.longitude: ${PARAMS.longitude}
+    gps.provider: ${PARAMS.provider}
+    gps.timestamp: ${PARAMS.timestamp}
+
+  notification-shown:
+    notification: ${PARAMS.title}
+    notification-shown.title: ${PARAMS.title}
+    notification-shown.message: ${PARAMS.message}
+    notification-shown.package: ${PARAMS.package}
+
+  notification-removed:
+    notification-removed.title: ${PARAMS.title}
+    notification-removed.message: ${PARAMS.message}
+    notification-removed.package: ${PARAMS.package}
+
+  speech:
+    speech-message: ${PARAMS.message}
+    speech-score: ${PARAMS.score}
+
+  wifi-state:
+    wifi: ${PARAMS.wifi}
+
+# Normalize incoming params before writing to DB
+normalize-params:
+  charging:
+    charging:
+      "": "none"
+      "1": "ac"
+      "4": "wireless"
+
+alwaysSetWhenReceived:
+  - call-way

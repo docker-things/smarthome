@@ -1,0 +1,24 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.mqtt-topic}: gamepad/${Properties.mqtt-topic}/rx
+
+actionParam: ${PARAMS.mqtt-topic}
+
+# Known actions and what variables are set by them
+actions:
+  gamepad/${Properties.mqtt-topic}/rx:
+    timestamp: ${PARAMS.timestamp}
+    timestamp.usec: ${PARAMS.timestamp.usec}
+    type_code: ${PARAMS.type_code}
+    type_name: ${PARAMS.type_name}
+    event_code: ${PARAMS.event_code}
+    event_name: ${PARAMS.event_name}
+    value: ${PARAMS.value}
+
+# Params are not rewritten in the DB if the value isn't changed.
+# This allows them to be written anyway.
+alwaysSetWhenReceived:
+  - event_code
+  - event_name

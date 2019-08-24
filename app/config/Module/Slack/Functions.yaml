@@ -1,0 +1,8 @@
+---
+
+functions:
+  send(message):
+    run: 'curl -s -X POST --data-urlencode "payload={\"text\": \"${Properties.prefix}${ARGS.message}\"}" "${Properties.endpoint}"'
+    if: ${RESPONSE.output} is ok
+    set:
+      message: ${ARGS.message}

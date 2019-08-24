@@ -1,0 +1,15 @@
+---
+
+type: sensor
+
+image: Automate.png
+
+mainStatusFrom: charging
+positiveValues:
+  - 'ac'
+  - 'wireless'
+
+showInDashboard:
+  - charging
+  - battery
+  - notification

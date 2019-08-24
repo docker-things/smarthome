@@ -1,0 +1,8 @@
+---
+
+type: sensor
+
+image: XiaomiMijiaButton.jpg
+
+showInDashboard:
+  - battery

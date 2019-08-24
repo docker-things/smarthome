@@ -1,0 +1,15 @@
+--- # Do stuff when certain variables are changed
+
+# EXAMPLE
+#
+# Livingroom-Button.click:
+#
+#   - if: this is single and Reading-Light.status is on
+#     run:
+#       - Reading-Light.off()
+#
+#   - if: this is single and Reading-Light.status is not on
+#     run:
+#       - Reading-Light.on()
+#       - Reading-Light.temperature('2700')
+#       - Reading-Light.brightness('100')

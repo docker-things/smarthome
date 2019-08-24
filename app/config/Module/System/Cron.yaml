@@ -1,0 +1,18 @@
+---
+
+jobs:
+  - interval: 60
+    run:
+      - getDate()
+      - getYear()
+      - getMonth()
+      - getDay()
+      - getDayOfWeek()
+      - getTime()
+      - getHour()
+      - getMinute()
+      - getTimestamp()
+      - getUptime()
+      - getTotalMemory()
+      - getTemperature()
+      - getLoad()

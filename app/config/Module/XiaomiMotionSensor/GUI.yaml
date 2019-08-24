@@ -1,0 +1,15 @@
+---
+
+type: toggle
+
+disabled: true
+
+image: XiaomiAqaraMotion.jpg
+
+mainStatusFrom: occupancy
+positiveValue: 'true'
+
+showInDashboard:
+  - occupancy
+  - illuminance
+  - battery

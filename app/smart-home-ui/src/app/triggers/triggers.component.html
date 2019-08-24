@@ -1,0 +1,99 @@
+<nb-card>
+  <nb-card-body>
+    <nb-list *ngIf="!selectedTrigger">
+      <nb-list-item>
+        <div *ngIf="!selectedTrigger" class="triggersAddButtonContainer">
+          <!--<input type="text" [(ngModel)]="newTriggerName" nbInput placeholder="New Trigger Name">-->
+          <nb-select placeholder="Select trigger" [(ngModel)]="newTriggerName">
+            <nb-option *ngFor="let trigger of possibleTriggers" [value]="trigger">{{trigger}}</nb-option>
+          </nb-select>
+          <button (click)="addTrigger()" nbButton status="success">Add Trigger</button>
+        </div>
+      </nb-list-item>
+      <nb-list-item style="align-items: center; display: flex; cursor: pointer" (click)="selectTrigger(trigger)"
+                    *ngFor="let trigger of triggers">
+        <span class="triggerImage" [ngStyle]="{'background-image': 'url(/img/device/'+trigger.image+')'}"></span>
+        <span>{{trigger.trigger}}</span>
+      </nb-list-item>
+    </nb-list>
+
+    <nb-accordion *ngIf="selectedTrigger">
+      <nb-accordion-item [expanded]="true">
+        <nb-accordion-item-header>
+          <span class="triggerImage"
+                [ngStyle]="{'background-image': 'url(/img/device/'+selectedTrigger.image+')'}"></span>
+          <span>{{selectedTrigger.trigger}}</span>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+
+          <nb-accordion *ngFor="let action of selectedTrigger.actions; let i = index">
+            <nb-accordion-item>
+              <nb-accordion-item-header>
+                <button (click)="deleteItem(i, selectedTrigger.actions)" nbButton status="danger">-</button>
+                <app-editable-input style="margin-left: 10px; width: 85%;" [obj]="action" [propertyName]="'name'"></app-editable-input>
+              </nb-accordion-item-header>
+              <nb-accordion-item-body>
+                <nb-accordion>
+                  <nb-accordion-item [expanded]="true">
+                    <nb-accordion-item-header>
+                      <button (click)="addNewContition(action.if, $event)" nbButton status="success">+</button>
+                      <span style="margin-left: 10px">Conditions:</span>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                      <div class="conditionsDivContainer" *ngFor="let condition of action.if; let ind = index">
+                        <input type="text" style="text-align: right" [(ngModel)]="condition.arg1" nbInput>
+                        <nb-select placeholder="-" class="conditionSelect" style="min-width:auto; width: 80px" placeholder=""
+                                   [(ngModel)]="condition.cond">
+                          <nb-option *ngFor="let operator of possibleOperators" [value]="operator">{{operator}}</nb-option>
+                        </nb-select>
+                        <input type="text" [(ngModel)]="condition.arg2" nbInput>
+                        <button style="float: right" (click)="deleteItem(ind, action.if)" nbButton status="danger">-</button>
+                      </div>
+                    </nb-accordion-item-body>
+                  </nb-accordion-item>
+                </nb-accordion>
+
+                <nb-accordion>
+                  <nb-accordion-item [expanded]="true">
+                    <nb-accordion-item-header>
+                      <button (click)="addNewCFunction(action.run, $event)" nbButton status="success">+</button>
+                      <span style="margin-left: 10px">Actions:</span>
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                      <nb-list>
+                        <nb-list-item *ngFor="let fn of action.run; let ind = index">
+                            <span>Function: </span>
+                            <nb-select placeholder="Select function" [(ngModel)]="fn.function">
+                              <nb-option *ngFor="let fnc of possibleFunctions" [value]="fnc.function"
+                                         (selectionChange)="selectionChange(fnc.params, fn)">{{fnc.function}}
+                              </nb-option>
+                            </nb-select>
+                            <button style="float:right" (click)="deleteItem(ind, action.run)" nbButton status="danger">-</button>
+                            <div class="propertiesDiv" *ngFor="let property of fn.params">
+                              <div class="nameDivContainer">
+                                <span class="moduleName">{{property.name}}:</span>
+                              </div>
+                              <div class="valueDivContainer">
+                                <input type="text" [(ngModel)]="property.value" nbInput>
+                              </div>
+                            </div>
+                        </nb-list-item>
+                      </nb-list>
+                    </nb-accordion-item-body>
+                  </nb-accordion-item>
+                </nb-accordion>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+          </nb-accordion>
+
+          <div class="triggerButtonContainer">
+            <button (click)="addNewCACard()" nbButton status="success">Add</button>
+            <button (click)="saveTrigger(selectedTrigger)" nbButton status="info">Save</button>
+            <button (click)="deleteTrigger(selectedTrigger.trigger)" nbButton status="danger">Delete</button>
+            <button (click)="backToList()" nbButton status="warning">Back To List</button>
+          </div>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,221 @@
+--- # Do stuff when certain variables are changed
+
+# Stop ignoring motion when turning light on
+
+${Properties.light.object}.status:
+  Stop ignoring motion:
+    if: this is on
+    set:
+      ignoreMotion: 'false'
+
+${Properties.light.secondary.object}.status:
+  Stop ignoring motion:
+    if: this is on
+    set:
+      ignoreMotion: 'false'
+
+# Turn lights off when sunny
+
+${Properties.motion-sensor.object}.illuminance:
+  Primary lights OFF (Sunny):
+    if:
+      - this > ${Properties.light.off-when-lux-over}
+      - Sun.state is day
+      - ${Properties.light.object}.status is on
+    run:
+      - ${Properties.light.object}.off('${Properties.light.auto-off-duration-milliseconds}')
+      - SystemNotify.send('${Properties.name.pretty} primary light OFF (Sunny)')
+
+  Secondary lights OFF (Sunny):
+    if:
+      - this > ${Properties.light.secondary.off-when-lux-over}
+      - Sun.state is day
+      - ${Properties.light.secondary.object}.status is on
+    run:
+      - ${Properties.light.secondary.object}.off('${Properties.light.secondary.auto-off-duration-milliseconds}')
+      - SystemNotify.send('${Properties.name.pretty} secondary light OFF (Sunny)')
+
+
+
+${Properties.motion-sensor.object}.occupancy:
+  Motion detected:
+    if:
+      - this is true
+      - ${Properties.light.object}.status not in ['on','offline']
+      - ${Properties.motion-sensor.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
+      - ${Properties.plex.object}.status not in ['playing','resumed']
+      - this.ignoreMotion is not true
+    run:
+      - ${Properties.light.object}.on()
+      - ${Properties.light.object}.temperature('${Properties.light.temperature}')
+      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
+      - SystemNotify.send('${Properties.name.pretty} lights ON (Motion detected)')
+
+${Properties.motion-sensor.object}.no_occupancy_since:
+  Mark house motion:
+    if: this is 0
+    set:
+      System.lastMotion: System.timestamp
+      System.lastMotionLocation: ${Properties.name.code}
+
+  No motion detected for some time - turn primary light off:
+    if:
+      - this is ${Properties.light.off-when-no-motion-for-X-seconds}
+      - ${Properties.motion-sensor.object}.occupancy is false
+      - ${Properties.light.object}.status is on
+    run:
+      - ${Properties.light.object}.off('${Properties.light.auto-off-duration-milliseconds}')
+      - SystemNotify.send('${Properties.name.pretty} lights OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds} seconds)')
+
+  No motion detected for some time - turn secondary light off:
+    if:
+      - this is ${Properties.light.secondary.off-when-no-motion-for-X-seconds}
+      - ${Properties.motion-sensor.object}.occupancy is false
+      - ${Properties.light.secondary.object}.status is on
+    run:
+      - ${Properties.light.secondary.object}.off('${Properties.light.secondary.auto-off-duration-milliseconds}')
+      - SystemNotify.send('${Properties.name.pretty} lights OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds} seconds)')
+
+${Properties.tv.object}.status:
+  Audio system ON when TV ON:
+    if:
+      - this is on
+      - this.ignoreMotion is not true
+    run:
+      - ${Properties.tv.audio-system.object}.on()
+      - SystemNotify.send('${Properties.tv.audio-system.object} ON (${Properties.tv.object} ON)')
+
+  Audio system OFF when TV OFF:
+    if: this is off
+    run:
+      - ${Properties.tv.audio-system.object}.off()
+      - SystemNotify.send('${Properties.tv.audio-system.object} OFF (${Properties.tv.object} OFF)')
+
+  Mark Plex stopped when TV OFF:
+    if:
+      - this is off
+      - ${Properties.plex.object}.status is not stopped
+      - ${Properties.plex.object}.user is ${Properties.plex.user}
+      - ${Properties.plex.object}.device is '${Properties.plex.device}'
+      - ${Properties.plex.object}.local is true
+    run:
+      - SystemNotify.send('Mark ${Properties.plex.object} stopped (${Properties.tv.object} OFF)')
+    set:
+      ${Properties.plex.object}.status: stopped
+
+${Properties.button.object}.click:
+
+  Single click - ${Properties.name.pretty} light OFF:
+    if:
+      - this is single
+      - ${Properties.light.object}.status is on
+    run:
+      - ${Properties.light.object}.off()
+      - SystemNotify.send('${Properties.name.pretty} light OFF (${Properties.name.pretty} button)')
+
+  Single click - ${Properties.name.pretty} light ON:
+    if:
+      - this is single
+      - ${Properties.light.object}.status not in ['on','offline']
+    run:
+      - ${Properties.light.object}.on()
+      - ${Properties.light.object}.temperature('${Properties.light.temperature}')
+      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
+      - SystemNotify.send('${Properties.name.pretty} light ON (${Properties.name.pretty} button)')
+
+  Quadruple click - Pause cleaning:
+    if:
+      - this is quadruple
+      - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
+      - ${Properties.roborock.object}.zone in ['none','${Properties.name.code}']
+    run:
+      - ${Properties.roborock.object}.pause()
+      - SystemNotify.send('Paused cleaning (${Properties.name.pretty} button)')
+
+  Quadruple click - Resume house cleaning:
+    if:
+      - this is quadruple
+      - ${Properties.roborock.object}.status is Paused
+      - ${Properties.roborock.object}.zone is none
+    run:
+      - ${Properties.roborock.object}.resume()
+      - SystemNotify.send('Resumed house cleaning (${Properties.name.pretty} button)')
+
+  Quadruple click - Restart room cleaning:
+    if:
+      - this is quadruple
+      - ${Properties.roborock.object}.status is Paused
+      - ${Properties.roborock.object}.zone is ${Properties.name.code}
+    run:
+      - ${Properties.roborock.object}.${Properties.roborock.zoned-cleaning-function}
+      - SystemNotify.send('Clean ${Properties.name.code} again (${Properties.name.pretty} button)')
+
+  Quadruple click - Start room cleaning:
+    if:
+      - this is quadruple
+      - ${Properties.roborock.object}.status is Charging
+    run:
+      - ${Properties.roborock.object}.${Properties.roborock.zoned-cleaning-function}
+      - SystemNotify.send('Clean ${Properties.name.code} (${Properties.name.pretty} button)')
+
+  Many click - Start House cleaning:
+    if:
+      - this is many
+      - ${Properties.roborock.object}.status is Charging
+    run:
+      - ${Properties.roborock.object}.start()
+      - SystemNotify.send('Clean house (${Properties.name.pretty} button)')
+
+  Many click - Pause cleaning:
+    if:
+      - this is many
+      - ${Properties.roborock.object}.status is Cleaning
+      - ${Properties.roborock.object}.zone is none
+    run:
+      - ${Properties.roborock.object}.pause()
+      - SystemNotify.send('Paused house cleaning (${Properties.name.pretty} button)')
+
+  Long click - Turn everything OFF:
+    if: this is long
+    run:
+      - House.off()
+      - SystemNotify.send('Turn house OFF (${Properties.name.pretty} button)')
+    set:
+      this.ignoreMotion: 'true'
+
+${Properties.water-sensor}.water_leak:
+
+  Leak detected - warn light:
+    if: this is true
+    run:
+      - ${Properties.light.object}.on()
+      - ${Properties.light.object}.rgb('16748687')
+      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.off('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.on('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.off('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.on('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.off('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.on('0.2')
+
+  Leak detected - send async message:
+    if: this is true
+    run: SystemWarn.send('WATER LEAK in ${Properties.name.code}!')
+
+  Leak gone - restore normal light:
+    if:
+      - this is false
+      - ${Properties.light.object}.status is on
+    run:
+      - ${Properties.light.object}.temperature('${Properties.light.temperature}')
+      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
+
+  Leak gone - send async message:
+    if: this is false
+    run: SystemWarn.send('Water leak in ${Properties.name.code} is gone')

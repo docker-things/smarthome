@@ -1,0 +1,16 @@
+---  # Known objects
+
+System:
+  base: !import Module.System
+
+# EXAMPLE:
+#
+# Livingroom-Button:
+#   base: !import Module.XiaomiButton
+#   with:
+#     mqtt-topic: zigbee2mqtt/button-2
+#
+# Reading-Light:
+#   base: !import Module.YeelightBulb
+#   with:
+#     ip: 192.168.0.130

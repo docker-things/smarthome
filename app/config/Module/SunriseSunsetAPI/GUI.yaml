@@ -1,0 +1,9 @@
+---
+
+type: sensor
+
+image: SunriseSunsetAPI.png
+
+showInDashboard:
+  - sunrise
+  - sunset

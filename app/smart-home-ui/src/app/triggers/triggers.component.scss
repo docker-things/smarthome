@@ -1,0 +1,57 @@
+@import '../dashboard/dashboard.component';
+
+.triggerImage {
+  width: $bg-size;
+  height: $bg-size;
+  background-repeat: no-repeat;
+  background-size: $bg-size $bg-size;
+  margin-right: 10px;
+}
+
+.triggerTextarea {
+  height: 500px;
+}
+
+.triggerButtonContainer {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  button {
+    margin: 5px;
+  }
+}
+
+.triggersAddButtonContainer {
+  display: flex;
+  padding: 10px;
+  justify-content: flex-end;
+  button {
+    margin-left: 10px;
+  }
+}
+
+.moduleName {
+  margin-right: 10px;
+}
+
+.propertiesDiv {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .nameDivContainer {
+    min-width: 100px;
+  }
+  .valueDivContainer{
+    width: 100%;
+    input{
+      width: 100%;
+      max-width: none;
+    }
+  }
+}
+
+.buttonsDiv {
+  display: flex;
+  justify-content: flex-end;
+}

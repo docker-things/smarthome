@@ -1,0 +1,17 @@
+---
+
+cmd: 'mosquitto_pub -h localhost -t "cec/client/tx" -m'
+
+functions:
+
+  on():
+    run: ${cmd} 'on 0'
+
+  off():
+    run: ${cmd} 'standby 0'
+
+  switchToSmarthome():
+    run: ${cmd} 'as'
+
+  sendRaw(command):
+    run: ${cmd} '${ARGS.command}''

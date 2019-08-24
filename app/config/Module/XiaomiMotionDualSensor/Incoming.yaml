@@ -1,0 +1,28 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic-1}
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic-2}
+
+# Take the action param from the event param
+actionParam: ${PARAMS.mqtt-topic}
+
+# Known actions and what variables are set by them
+actions:
+
+  ${Properties.mqtt-topic-1}:
+    illuminance-1: ${PARAMS.illuminance}
+    occupancy-1: ${PARAMS.occupancy}
+    no_occupancy_since-1: ${PARAMS.no_occupancy_since}
+    linkquality-1: ${PARAMS.linkquality}
+    battery-1: ${PARAMS.battery}
+    voltage-1: ${PARAMS.voltage}
+
+  ${Properties.mqtt-topic-2}:
+    illuminance-2: ${PARAMS.illuminance}
+    occupancy-2: ${PARAMS.occupancy}
+    no_occupancy_since-2: ${PARAMS.no_occupancy_since}
+    linkquality-2: ${PARAMS.linkquality}
+    battery-2: ${PARAMS.battery}
+    voltage-2: ${PARAMS.voltage}

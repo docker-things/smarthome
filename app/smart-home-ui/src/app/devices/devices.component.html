@@ -1,0 +1,41 @@
+<nb-card>
+  <nb-card-body>
+    <div class="devicesAddButtonContainer">
+      <input type="text" [(ngModel)]="newDeviceName" nbInput placeholder="New Device Name">
+      <button (click)="addDevice()" nbButton status="success">Add Device</button>
+    </div>
+
+    <nb-accordion>
+      <nb-accordion-item *ngFor="let device of devices">
+        <nb-accordion-item-header (click)="loadDevice(device.name)">
+          <span class="deviceImage" [ngStyle]="{'background-image': 'url(/img/device/'+device.image+')'}"></span>
+          <span>{{device.name}}</span>
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <div class="propertiesDiv">
+            <div class="nameDivContainer">
+              <span class="moduleName">Module:</span>
+            </div>
+            <div class="valueDivContainer">
+              <nb-select placeholder="" [(ngModel)]="device.module">
+                <nb-option *ngFor="let module of modules" (selectionChange)="selectionChange(module.properties, device)" [value]="module.name">{{module.name}}</nb-option>
+              </nb-select>
+            </div>
+          </div>
+          <div class="propertiesDiv" *ngFor="let property of device.properties">
+            <div class="nameDivContainer">
+              <span class="moduleName">{{property.name}}:</span>
+            </div>
+            <div class="valueDivContainer">
+              <input type="text" [(ngModel)]="property.value" nbInput>
+            </div>
+          </div>
+          <div class="deviceButtonContainer">
+            <button (click)="saveDevice(device)" nbButton status="info">Save</button>
+            <button (click)="deleteDevice(device.name)" nbButton status="danger">Delete</button>
+          </div>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+  </nb-card-body>
+</nb-card>

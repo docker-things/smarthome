@@ -1,0 +1,13 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}
+
+# Known actions and what variables are set by them
+actions:
+  all:
+    battery: ${PARAMS.battery}
+    water_leak: ${PARAMS.water_leak}
+    linkquality: ${PARAMS.linkquality}
+    voltage: ${PARAMS.voltage}
