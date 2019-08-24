@@ -2,6 +2,18 @@ FROM alpine:3.8
 MAINTAINER Gabriel Ionescu <gabi.ionescu+docker@protonmail.com>
 
 
+# CREATE USER
+ARG DOCKER_USERID
+ARG DOCKER_GROUPID
+ARG DOCKER_USERNAME
+ENV DOCKER_USERID $DOCKER_USERID
+ENV DOCKER_GROUPID $DOCKER_GROUPID
+ENV DOCKER_USERNAME $DOCKER_USERNAME
+RUN echo -e "\n > CREATE DOCKER USER: $DOCKER_USERNAME\n" \
+ && addgroup -g $DOCKER_GROUPID $DOCKER_USERNAME \
+ && adduser -D -u $DOCKER_USERID -G $DOCKER_USERNAME $DOCKER_USERNAME
+
+
 # INSTALL ESSENTIAL PACKAGES
 RUN echo -e "\n > INSTALL DEPENDENCIES\n" \
  && apk add --no-cache \
@@ -20,37 +32,12 @@ RUN echo -e "\n > INSTALL DEPENDENCIES\n" \
     /var/tmp/*
 
 
-# INSTALL ZIGBEE2MQTT
-ENV ZIGBEE2MQTT_PATH /app/modules/zigbee2mqtt
-RUN echo -e "\n > INSTALL ZIGBEE2MQTT IN $ZIGBEE2MQTT_PATH\n" \
- && apk add --no-cache --virtual=build-dependencies \
-    make \
-    gcc \
-    g++ \
-    python \
-    linux-headers \
-    udev \
-    git \
- && apk add --no-cache \
-    nodejs \
-    npm \
- \
- && git clone https://github.com/koenkk/zigbee2mqtt $ZIGBEE2MQTT_PATH \
- && cd $ZIGBEE2MQTT_PATH \
- && cp data/configuration.yaml ./ \
- \
- && npm install --unsafe-perm \
- && npm i semver mqtt winston moment js-yaml object-assign-deep mkdir-recursive rimraf \
- \
- && echo -e "\n > CLEANUP\n" \
- && apk del --purge \
-    build-dependencies \
- && rm -rf \
-    $ZIGBEE2MQTT_PATH/.git \
-    /tmp/* \
-    /var/tmp/* \
-    /root/.npm \
-    /root/.node-gyp
+# SET TIMEZONE
+ARG DOCKER_TIMEZONE
+ENV TZ "$DOCKER_TIMEZONE"
+RUN echo -e "\n > SET TIMEZONE: $TZ\n" \
+ && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+ && echo $TZ > /etc/timezone
 
 
 # INSTALL MOSQUITTO
@@ -106,37 +93,46 @@ RUN echo -e "\n > INSTALL APACHE\n" \
  && sed -i "s/Listen 80/Listen $APACHE_PORT/" /etc/apache2/httpd.conf \
  && mkdir -p /run/apache2 \
  \
+ && echo -e "\n > ADD APACHE TO THE USER GROUP: $DOCKER_GROUPID\n" \
+ && sed -i "s/$DOCKER_USERNAME:x:$DOCKER_GROUPID:$DOCKER_USERNAME/$DOCKER_USERNAME:x:$DOCKER_GROUPID:$DOCKER_USERNAME,apache/" /etc/group \
+ \
  && echo -e "\n > CLEANUP\n" \
  && rm -rf \
     /tmp/* \
     /var/tmp/*
 
 
-
-# INSTALL MODULE: YEELIGHT
-COPY app/modules/yeelight /app/modules/yeelight
-RUN echo -e "\n > INSTALL MODULE: YEELIGHT\n" \
+# INSTALL ZIGBEE2MQTT
+ENV ZIGBEE2MQTT_PATH /app/modules/zigbee2mqtt
+RUN echo -e "\n > INSTALL ZIGBEE2MQTT IN $ZIGBEE2MQTT_PATH\n" \
  && apk add --no-cache --virtual=build-dependencies \
-    go \
+    make \
+    gcc \
+    g++ \
+    python \
+    linux-headers \
+    udev \
     git \
-    musl-dev \
+ && apk add --no-cache \
+    nodejs \
+    npm \
  \
- && cd /app/modules/yeelight \
- && go build -ldflags "-s -w" src/yeelight.go \
+ && git clone https://github.com/koenkk/zigbee2mqtt $ZIGBEE2MQTT_PATH \
+ && cd $ZIGBEE2MQTT_PATH \
+ && cp data/configuration.yaml ./ \
  \
- && echo -e "\n > INSTALL MODULE: WAKEONLAN\n" \
- && go get github.com/blchinezu/go-wol/cmd/wol \
- && mv /root/go/bin/wol /app/modules/wakeonlan \
+ && npm install --unsafe-perm \
+ && npm i semver mqtt winston moment js-yaml object-assign-deep mkdir-recursive rimraf \
  \
  && echo -e "\n > CLEANUP\n" \
  && apk del --purge \
     build-dependencies \
  && rm -rf \
-    /app/modules/yeelight/src \
-    /root/.cache \
-    /root/go \
+    $ZIGBEE2MQTT_PATH/.git \
     /tmp/* \
-    /var/tmp/*
+    /var/tmp/* \
+    /root/.npm \
+    /root/.node-gyp
 
 
 # PYTHON-MIIO
@@ -173,52 +169,53 @@ RUN echo -e "\n > INSTALL CEC SUPPORT\n" \
     /var/tmp/*
 
 
-# INSTALL CEC-CLIENT TO MQTT BRIDGE
+# INSTALL GO COMPILED MODULES:
+# - CEC-CLIENT TO MQTT BRIDGE
+# - EVDEV2MQTT
+# - YEELIGHT
+# - WAKEONLAN
 COPY app/modules/cec-client-mqtt-bridge /app/modules/cec-client-mqtt-bridge
-RUN echo -e "\n > INSTALL CEC-CLIENT TO MQTT BRIDGE\n" \
- && apk add --no-cache --virtual=build-dependencies \
-    go \
-    git \
-    musl-dev \
-    \
- && cd /app/modules/cec-client-mqtt-bridge \
- && go get github.com/eclipse/paho.mqtt.golang \
- && go build -ldflags "-s -w" src/cec-client-mqtt-bridge.go \
- \
- && echo -e "\n > CLEANUP\n" \
- && apk del --purge \
-    build-dependencies \
- && rm -rf \
-    /app/modules/cec-client-mqtt-bridge/src \
-    /root/.cache \
-    /root/go \
-    /tmp/* \
-    /var/tmp/*
-
-
-# INSTALL EVDEV2MQTT
 COPY app/modules/evdev2mqtt /app/modules/evdev2mqtt
-RUN echo -e "\n > INSTALL EVDEV2MQTT\n" \
+COPY app/modules/yeelight /app/modules/yeelight
+RUN echo -e "\n > INSTALL GO BUILD ENV\n" \
+RUN echo -e "\n > CEC-CLIENT TO MQTT BRIDGE\n" \
  && apk add --no-cache --virtual=build-dependencies \
     go \
     git \
     musl-dev \
     linux-headers \
     \
+ && echo -e "\n > CEC-CLIENT TO MQTT BRIDGE\n" \
+ && cd /app/modules/cec-client-mqtt-bridge \
+ && go get github.com/eclipse/paho.mqtt.golang \
+ && go build -ldflags "-s -w" src/cec-client-mqtt-bridge.go \
+ \
+ && echo -e "\n > INSTALL EVDEV2MQTT\n" \
  && cd /app/modules/evdev2mqtt \
  && go get github.com/eclipse/paho.mqtt.golang \
  && go get github.com/gvalkov/golang-evdev \
  && go build -ldflags "-s -w" src/evdev2mqtt.go \
  \
+ && echo -e "\n > INSTALL MODULE: YEELIGHT\n" \
+ && cd /app/modules/yeelight \
+ && go build -ldflags "-s -w" src/yeelight.go \
+ \
+ && echo -e "\n > INSTALL MODULE: WAKEONLAN\n" \
+ && go get github.com/blchinezu/go-wol/cmd/wol \
+ && mv /root/go/bin/wol /app/modules/wakeonlan \
+ \
  && echo -e "\n > CLEANUP\n" \
  && apk del --purge \
     build-dependencies \
  && rm -rf \
+    /app/modules/cec-client-mqtt-bridge/src \
     /app/modules/evdev2mqtt/src \
+    /app/modules/yeelight/src \
     /root/.cache \
     /root/go \
     /tmp/* \
     /var/tmp/*
+
 
 # INSTALL BLUETOOTH
 RUN echo -e "\n > INSTALL HCITOOL\n" \
@@ -229,31 +226,6 @@ RUN echo -e "\n > INSTALL HCITOOL\n" \
  && rm -rf \
     /tmp/* \
     /var/tmp/*
-
-
-# ARGS
-ARG DOCKER_USERID
-ARG DOCKER_GROUPID
-ARG DOCKER_USERNAME
-ENV DOCKER_USERID $DOCKER_USERID
-ENV DOCKER_GROUPID $DOCKER_GROUPID
-ENV DOCKER_USERNAME $DOCKER_USERNAME
-RUN echo -e "\n > CREATE DOCKER USER: $DOCKER_USERNAME\n" \
- && addgroup -g $DOCKER_GROUPID $DOCKER_USERNAME \
- && adduser -D -u $DOCKER_USERID -G $DOCKER_USERNAME $DOCKER_USERNAME
-
-
-# ADD APACHE TO THE USER GROUP
-RUN echo -e "\n > ADD APACHE TO THE USER GROUP: $DOCKER_GROUPID\n" \
- && sed -i "s/$DOCKER_USERNAME:x:$DOCKER_GROUPID:$DOCKER_USERNAME/$DOCKER_USERNAME:x:$DOCKER_GROUPID:$DOCKER_USERNAME,apache/" /etc/group
-
-
-# SET TIMEZONE
-ARG DOCKER_TIMEZONE
-ENV TZ "$DOCKER_TIMEZONE"
-RUN echo -e "\n > SET TIMEZONE: $TZ\n" \
- && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
- && echo $TZ > /etc/timezone
 
 
 # RUN echo -e "\n > INSTALL PRESENCE DETECTION\n" \
