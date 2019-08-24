@@ -722,6 +722,13 @@ class Core_Config {
 
     private function _loadAllAppendMandatoryConfig() {
 
+        // NONE
+        if (!isset($this->_config['Objects']['NONE'])) {
+            $this->_config['Objects']['NONE'] = [
+                'base' => '!import Module.NONE',
+            ];
+        }
+
         // System
         if (!isset($this->_config['Objects']['System'])) {
             $this->_config['Objects']['System'] = [
