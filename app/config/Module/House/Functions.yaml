@@ -1,0 +1,55 @@
+---
+
+functions:
+
+  lightOn():
+    runFunctions:
+      - ${Properties.room-1}.lightOn()
+      - ${Properties.room-2}.lightOn()
+      - ${Properties.room-3}.lightOn()
+      - ${Properties.room-4}.lightOn()
+      - ${Properties.room-5}.lightOn()
+      - ${Properties.room-6}.lightOn()
+      - ${Properties.room-7}.lightOn()
+      - ${Properties.room-8}.lightOn()
+      - ${Properties.room-9}.lightOn()
+
+  lightOff():
+    runFunctions:
+      - ${Properties.room-1}.lightOff()
+      - ${Properties.room-2}.lightOff()
+      - ${Properties.room-3}.lightOff()
+      - ${Properties.room-4}.lightOff()
+      - ${Properties.room-5}.lightOff()
+      - ${Properties.room-6}.lightOff()
+      - ${Properties.room-7}.lightOff()
+      - ${Properties.room-8}.lightOff()
+      - ${Properties.room-9}.lightOff()
+
+  allLightsOff():
+    runFunctions:
+      - ${Properties.room-1}.allLightsOff()
+      - ${Properties.room-2}.allLightsOff()
+      - ${Properties.room-3}.allLightsOff()
+      - ${Properties.room-4}.allLightsOff()
+      - ${Properties.room-5}.allLightsOff()
+      - ${Properties.room-6}.allLightsOff()
+      - ${Properties.room-7}.allLightsOff()
+      - ${Properties.room-8}.allLightsOff()
+      - ${Properties.room-9}.allLightsOff()
+
+  updateDoorsStatus():
+    if:
+      - ${Properties.room-1}.closedDoor != true
+      - ${Properties.room-2}.closedDoor != true
+      - ${Properties.room-3}.closedDoor != true
+      - ${Properties.room-4}.closedDoor != true
+      - ${Properties.room-5}.closedDoor != true
+      - ${Properties.room-6}.closedDoor != true
+      - ${Properties.room-7}.closedDoor != true
+      - ${Properties.room-8}.closedDoor != true
+      - ${Properties.room-9}.closedDoor != true
+    set:
+      closedDoors: 'false'
+    elseSet:
+      closedDoors: 'true'

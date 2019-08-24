@@ -1,102 +1,335 @@
 --- # Do stuff when certain variables are changed
 
-# Stop ignoring motion when turning light on
+# TIME BASED
+
+System.time:
+  Stop ignoring motion - ${Properties.selfObjectName}:
+    if: this is ${Properties.motion.stop-ignoring-motion-at}
+    set:
+      ${Properties.selfObjectName}.ignoreMotion: 'false'
+
+  Start cleaning on weekdays if doors opened - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.roborock.weekdays-cleaning-hour}
+      - System.dayOfWeek in ['1','2','3','4','5']
+      - ${Properties.roborock.object}.last_start_date is not System.date
+      - House.closedDoors is not true
+    run:
+      - ${Properties.roborock.object}.setFanSpeed('${Properties.roborock.fanspeed}')
+      - ${Properties.roborock.object}.start()
+      - SystemNotify.send('Start cleaning (Weekday @ 11:00)')
+
+  Mark delayed cleanup on weekdays - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.roborock.weekdays-cleaning-hour}
+      - System.dayOfWeek in ['1','2','3','4','5']
+      - ${Properties.roborock.object}.last_start_date is not System.date
+      - House.closedDoors is true
+    set:
+      ${Properties.roborock.object}.delayedCleanup: 'true'
+
+  Start cleaning on weekends if doors opened - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.roborock.weekends-cleaning-hour}
+      - System.dayOfWeek in ['6','7']
+      - ${Properties.roborock.object}.last_start_date is not System.date
+      - House.closedDoors is not true
+    run:
+      - ${Properties.roborock.object}.setFanSpeed('${Properties.roborock.fanspeed}')
+      - ${Properties.roborock.object}.start()
+      - SystemNotify.send('Start cleaning (Weekend @ 12:00)')
+
+  Mark delayed cleanup on weekends - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.roborock.weekends-cleaning-hour}
+      - System.dayOfWeek in ['6','7']
+      - ${Properties.roborock.object}.last_start_date is not System.date
+      - House.closedDoors is true
+    set:
+      ${Properties.roborock.object}.delayedCleanup: 'true'
+
+# PLEX
+
+${Properties.plex.object}.status:
+  If Plex is playing or resumed, stop cleaning - ${Properties.selfObjectName}:
+    if:
+      - this in ['playing','resumed']
+      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.local is true
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+      - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
+      - ${Properties.roborock.object}.zone is none
+    run:
+      - ${Properties.roborock.object}.pause()
+      - SystemNotify.send('Paused cleaning (${Properties.plex.object} playing on ${Properties.plex.device})')
+
+  If Plex is playing or resumed, turn lights OFF - ${Properties.selfObjectName}:
+    if:
+      - this in ['playing','resumed']
+      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.local is true
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+    run:
+      - House.allLightsOff()
+      - SystemNotify.send('All lights OFF (${Properties.plex.object} playing on ${Properties.plex.device})')
+
+  If Plex is stopped or paused, resume cleaning - ${Properties.selfObjectName}:
+    if:
+      - this in ['stopped','paused']
+      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.local is true
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+      - ${Properties.roborock.object}.status is Paused
+    run:
+      - ${Properties.roborock.object}.resume()
+      - SystemNotify.send('Resumed cleaning (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.object.device})')
+
+  If Plex is stopped - ${Properties.selfObjectName}:
+    if:
+      - this is stopped
+      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.local is true
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+      - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
+    run:
+      - ${Properties.light.object}.on()
+      - ${Properties.light.object}.temperature('${Properties.light.temperature}')
+      - ${Properties.light.object}.brightness('${Properties.light.brightness}','${Properties.light.on-duration-when-plex-stopped}')
+      - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.object.device})')
+
+  If Plex is paused - ${Properties.selfObjectName}:
+    if:
+      - this is paused
+      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.local is true
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+      - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
+    run:
+      - ${Properties.light.object}.on()
+      - ${Properties.light.object}.temperature('${Properties.light.temperature}')
+      - ${Properties.light.object}.brightness('${Properties.level.dim-duration-when-plex-paused}','${Properties.light.dim-duration-when-plex-paused}')
+      - SystemNotify.send('${Properties.light.object} DIMMED (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.object.device})')
+
+# LIGHT
 
 ${Properties.light.object}.status:
-  Stop ignoring motion:
+  Stop ignoring motion - ${Properties.selfObjectName}:
     if: this is on
     set:
-      ignoreMotion: 'false'
+      ${Properties.selfObjectName}.ignoreMotion: 'false'
 
-${Properties.light.secondary.object}.status:
-  Stop ignoring motion:
-    if: this is on
-    set:
-      ignoreMotion: 'false'
+# MOTION
 
-# Turn lights off when sunny
-
-${Properties.motion-sensor.object}.illuminance:
-  Primary lights OFF (Sunny):
+${Properties.motion.object}.illuminance:
+  Lights OFF (Sunny) - ${Properties.selfObjectName}:
     if:
       - this > ${Properties.light.off-when-lux-over}
       - Sun.state is day
       - ${Properties.light.object}.status is on
     run:
-      - ${Properties.light.object}.off('${Properties.light.auto-off-duration-milliseconds}')
-      - SystemNotify.send('${Properties.name.pretty} primary light OFF (Sunny)')
+      - ${Properties.selfObjectName}.lightOff()
+      # - ${Properties.light.object}.off('${Properties.light.off-duration-milliseconds}')
+      - SystemNotify.send('${Properties.light.object} OFF (Sunny)')
 
-  Secondary lights OFF (Sunny):
+  Secondary lights OFF (Sunny) - ${Properties.selfObjectName}:
     if:
       - this > ${Properties.light.secondary.off-when-lux-over}
       - Sun.state is day
       - ${Properties.light.secondary.object}.status is on
     run:
-      - ${Properties.light.secondary.object}.off('${Properties.light.secondary.auto-off-duration-milliseconds}')
-      - SystemNotify.send('${Properties.name.pretty} secondary light OFF (Sunny)')
+      - ${Properties.selfObjectName}.secondaryLightOff()
+      # - ${Properties.light.secondary.object}.off('${Properties.light.secondary.off-duration-milliseconds}')
+      - SystemNotify.send('${Properties.light.secondary.object} OFF (Sunny)')
 
-
-
-${Properties.motion-sensor.object}.occupancy:
-  Motion detected:
+${Properties.motion.object}.occupancy:
+  Motion detected - ${Properties.selfObjectName}:
     if:
       - this is true
       - ${Properties.light.object}.status not in ['on','offline']
-      - ${Properties.motion-sensor.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
+      - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
       - ${Properties.plex.object}.status not in ['playing','resumed']
-      - this.ignoreMotion is not true
+      - ${Properties.selfObjectName}.ignoreMotion is not true
     run:
-      - ${Properties.light.object}.on()
-      - ${Properties.light.object}.temperature('${Properties.light.temperature}')
-      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
-      - SystemNotify.send('${Properties.name.pretty} lights ON (Motion detected)')
+      - ${Properties.selfObjectName}.lightOn()
+      - SystemNotify.send('${Properties.light.object} ON (Motion detected)')
 
-${Properties.motion-sensor.object}.no_occupancy_since:
-  Mark house motion:
-    if: this is 0
-    set:
-      System.lastMotion: System.timestamp
-      System.lastMotionLocation: ${Properties.name.code}
-
-  No motion detected for some time - turn primary light off:
+${Properties.motion.object}.no_occupancy_since:
+  Mark house motion - ${Properties.selfObjectName}:
     if:
-      - this is ${Properties.light.off-when-no-motion-for-X-seconds}
-      - ${Properties.motion-sensor.object}.occupancy is false
+      - this is 0
+      - ${Properties.selfObjectName}.lastMotion is not System.timestamp
+    set:
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastMotion: System.timestamp
+
+# GAMEPADS
+
+${Properties.gamepad-1.object}.event_name:
+  Mark motion - ${Properties.selfObjectName}:
+    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
+    set:
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastMotion: System.timestamp
+
+  Start TV in gaming - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv.object}.status is off
+    run:
+      - ${Properties.tv.object}.switchToSmarthome()
+      - ${Properties.selfObjectName}.lightOff()
+      - System.sleep("1")
+      - ${Properties.tv.object}.switchToSmarthome()
+      - SystemNotify.send('${Properties.tv.object} ON in gaming (${Properties.gamepad-1.object})')
+
+  Switch TV to gaming - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv.object}.status is on
+      - ${Properties.tv.object}.source is not smarthome
+    run:
+      - ${Properties.tv.object}.switchToSmarthome()
+      - ${Properties.selfObjectName}.lightOff()
+      - SystemNotify.send('${Properties.tv.object} switched to gaming (${Properties.gamepad-1.object})')
+
+  Local Light ON when stopping TV - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv.object}.status is on
+      - ${Properties.tv.object}.source is smarthome
+      - ${Properties.light.object}.status not in ['on','offline']
+      - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
+    run:
+      - ${Properties.selfObjectName}.lightOn()
+      - SystemNotify.send('${Properties.light.object} ON (${Properties.gamepad-1.object} TV OFF)')
+
+  Stop TV - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv.object}.status is on
+      - ${Properties.tv.object}.source is smarthome
+    run:
+      - ${Properties.tv.object}.off()
+      - SystemNotify.send('${Properties.tv.object} OFF (${Properties.gamepad-1.object})')
+
+  Local light OFF - ${Properties.selfObjectName}:
+    if:
+      - this in ['BTN_TL','BTN_TR']
       - ${Properties.light.object}.status is on
     run:
-      - ${Properties.light.object}.off('${Properties.light.auto-off-duration-milliseconds}')
-      - SystemNotify.send('${Properties.name.pretty} lights OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds} seconds)')
+      - ${Properties.selfObjectName}.lightOff()
+      - SystemNotify.send('${Properties.light.object} OFF (${Properties.gamepad-1.object})')
 
-  No motion detected for some time - turn secondary light off:
+  Local light ON - ${Properties.selfObjectName}:
     if:
-      - this is ${Properties.light.secondary.off-when-no-motion-for-X-seconds}
-      - ${Properties.motion-sensor.object}.occupancy is false
-      - ${Properties.light.secondary.object}.status is on
+      - this in ['BTN_TL','BTN_TR']
+      - ${Properties.light.object}.status not in ['on','offline']
     run:
-      - ${Properties.light.secondary.object}.off('${Properties.light.secondary.auto-off-duration-milliseconds}')
-      - SystemNotify.send('${Properties.name.pretty} lights OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds} seconds)')
+      - ${Properties.selfObjectName}.lightOn()
+      - SystemNotify.send('${Properties.light.object} ON (${Properties.gamepad-1.object})')
+
+${Properties.gamepad-2.object}.event_name:
+  Mark motion - ${Properties.selfObjectName}:
+    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
+    set:
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastMotion: System.timestamp
+
+  Start TV in gaming - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv.object}.status is off
+    run:
+      - ${Properties.tv.object}.switchToSmarthome()
+      - ${Properties.selfObjectName}.lightOff()
+      - System.sleep("1")
+      - ${Properties.tv.object}.switchToSmarthome()
+      - SystemNotify.send('${Properties.tv.object} ON in gaming (${Properties.gamepad-2.object})')
+
+  Switch TV to gaming - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv.object}.status is on
+      - ${Properties.tv.object}.source is not smarthome
+    run:
+      - ${Properties.tv.object}.switchToSmarthome()
+      - ${Properties.selfObjectName}.lightOff()
+      - SystemNotify.send('${Properties.tv.object} switched to gaming (${Properties.gamepad-2.object})')
+
+  Local Light ON when stopping TV - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv.object}.status is on
+      - ${Properties.tv.object}.source is smarthome
+      - ${Properties.light.object}.status not in ['on','offline']
+      - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
+    run:
+      - ${Properties.selfObjectName}.lightOn()
+      - SystemNotify.send('${Properties.light.object} ON (${Properties.gamepad-2.object} TV OFF)')
+
+  Stop TV - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv.object}.status is on
+      - ${Properties.tv.object}.source is smarthome
+    run:
+      - ${Properties.tv.object}.off()
+      - SystemNotify.send('${Properties.tv.object} OFF (${Properties.gamepad-2.object})')
+
+  Local light OFF - ${Properties.selfObjectName}:
+    if:
+      - this in ['BTN_TL','BTN_TR']
+      - ${Properties.light.object}.status is on
+    run:
+      - ${Properties.selfObjectName}.lightOff()
+      - SystemNotify.send('${Properties.light.object} OFF (${Properties.gamepad-2.object})')
+
+  Local light ON - ${Properties.selfObjectName}:
+    if:
+      - this in ['BTN_TL','BTN_TR']
+      - ${Properties.light.object}.status not in ['on','offline']
+    run:
+      - ${Properties.selfObjectName}.lightOn()
+      - SystemNotify.send('${Properties.light.object} ON (${Properties.gamepad-2.object})')
+
+# TV
 
 ${Properties.tv.object}.status:
-  Audio system ON when TV ON:
+  Mark motion - ${Properties.selfObjectName}:
+    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
+    set:
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastMotion: System.timestamp
+
+  Subwoofer ON when TV ON - ${Properties.selfObjectName}:
     if:
       - this is on
-      - this.ignoreMotion is not true
+      - ${Properties.selfObjectName}.ignoreMotion is not true
     run:
       - ${Properties.tv.audio-system.object}.on()
       - SystemNotify.send('${Properties.tv.audio-system.object} ON (${Properties.tv.object} ON)')
 
-  Audio system OFF when TV OFF:
+  Subwoofer OFF when TV OFF - ${Properties.selfObjectName}:
     if: this is off
     run:
       - ${Properties.tv.audio-system.object}.off()
       - SystemNotify.send('${Properties.tv.audio-system.object} OFF (${Properties.tv.object} OFF)')
 
-  Mark Plex stopped when TV OFF:
+  Mark Plex stopped when TV OFF - ${Properties.selfObjectName}:
     if:
       - this is off
       - ${Properties.plex.object}.status is not stopped
-      - ${Properties.plex.object}.user is ${Properties.plex.user}
-      - ${Properties.plex.object}.device is '${Properties.plex.device}'
+      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
       - ${Properties.plex.object}.local is true
     run:
       - SystemNotify.send('Mark ${Properties.plex.object} stopped (${Properties.tv.object} OFF)')
@@ -104,118 +337,184 @@ ${Properties.tv.object}.status:
       ${Properties.plex.object}.status: stopped
 
 ${Properties.button.object}.click:
+  Mark motion - ${Properties.selfObjectName}:
+    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
+    set:
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastMotion: System.timestamp
 
-  Single click - ${Properties.name.pretty} light OFF:
+  Single click - Local light OFF - ${Properties.selfObjectName}:
     if:
       - this is single
       - ${Properties.light.object}.status is on
     run:
-      - ${Properties.light.object}.off()
-      - SystemNotify.send('${Properties.name.pretty} light OFF (${Properties.name.pretty} button)')
+      - ${Properties.selfObjectName}.lightOff()
+      - SystemNotify.send('${Properties.light.object} OFF (${Properties.button.object})')
 
-  Single click - ${Properties.name.pretty} light ON:
+  Single click - Local light ON - ${Properties.selfObjectName}:
     if:
       - this is single
       - ${Properties.light.object}.status not in ['on','offline']
     run:
-      - ${Properties.light.object}.on()
-      - ${Properties.light.object}.temperature('${Properties.light.temperature}')
-      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
-      - SystemNotify.send('${Properties.name.pretty} light ON (${Properties.name.pretty} button)')
+      - ${Properties.selfObjectName}.lightOn()
+      - ${Properties.light.secondary.object}.off()
+      - SystemNotify.send('${Properties.light.object} ON (${Properties.button.object})')
 
-  Quadruple click - Pause cleaning:
+  Double click - Secondary light OFF - ${Properties.selfObjectName}:
+    if:
+      - this is double
+      - ${Properties.light.secondary.object}.status is on
+    run:
+      - ${Properties.light.secondary.object}.off()
+      - SystemNotify.send('${Properties.light.secondary.object} OFF (${Properties.button.object})')
+
+  Double click - Secondary light ON - ${Properties.selfObjectName}:
+    if:
+      - this is double
+      - ${Properties.light.secondary.object}.status not in ['on','offline']
+    run:
+      - ${Properties.selfObjectName}.secondaryLightOff()
+      - ${Properties.selfObjectName}.lightOff()
+      - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
+
+  Triple click - Subwoofer light OFF - ${Properties.selfObjectName}:
+    if:
+      - this is triple
+      - ${Properties.tv.audio-system.object}.status is on
+    run:
+      - ${Properties.tv.audio-system.object}.off()
+      - SystemNotify.send('${Properties.tv.audio-system.object} OFF (${Properties.button.object})')
+
+  Triple click - Subwoofer light ON - ${Properties.selfObjectName}:
+    if:
+      - this is triple
+      - ${Properties.tv.audio-system.object}.status is not on
+    run:
+      - ${Properties.tv.audio-system.object}.on()
+      - SystemNotify.send('${Properties.tv.audio-system.object} ON (${Properties.button.object})')
+
+  Quadruple click - Pause cleaning - ${Properties.selfObjectName}:
     if:
       - this is quadruple
       - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
-      - ${Properties.roborock.object}.zone in ['none','${Properties.name.code}']
+      - ${Properties.roborock.object}.zone in ['none','${Properties.name}']
     run:
       - ${Properties.roborock.object}.pause()
-      - SystemNotify.send('Paused cleaning (${Properties.name.pretty} button)')
+      - SystemNotify.send('Paused cleaning (${Properties.button.object})')
 
-  Quadruple click - Resume house cleaning:
+  Quadruple click - Resume cleaning - ${Properties.selfObjectName}:
     if:
       - this is quadruple
       - ${Properties.roborock.object}.status is Paused
       - ${Properties.roborock.object}.zone is none
     run:
       - ${Properties.roborock.object}.resume()
-      - SystemNotify.send('Resumed house cleaning (${Properties.name.pretty} button)')
+      - SystemNotify.send('Resumed cleaning (${Properties.button.object})')
 
-  Quadruple click - Restart room cleaning:
+  Quadruple click - Restart local cleaning - ${Properties.selfObjectName}:
     if:
       - this is quadruple
       - ${Properties.roborock.object}.status is Paused
-      - ${Properties.roborock.object}.zone is ${Properties.name.code}
+      - ${Properties.roborock.object}.zone is ${Properties.name}
     run:
-      - ${Properties.roborock.object}.${Properties.roborock.zoned-cleaning-function}
-      - SystemNotify.send('Clean ${Properties.name.code} again (${Properties.name.pretty} button)')
+      - ${Properties.roborock.object}.clean${Properties.name-ucfirst}()
+      - SystemNotify.send('Clean ${Properties.selfObjectName} (${Properties.button.object})')
 
-  Quadruple click - Start room cleaning:
+  Quadruple click - Start Local cleaning - ${Properties.selfObjectName}:
     if:
       - this is quadruple
       - ${Properties.roborock.object}.status is Charging
     run:
-      - ${Properties.roborock.object}.${Properties.roborock.zoned-cleaning-function}
-      - SystemNotify.send('Clean ${Properties.name.code} (${Properties.name.pretty} button)')
+      - ${Properties.roborock.object}.clean${Properties.name-ucfirst}()
+      - SystemNotify.send('Clean Local (${Properties.button.object})')
 
-  Many click - Start House cleaning:
+  Many click - Start House cleaning - ${Properties.selfObjectName}:
     if:
       - this is many
       - ${Properties.roborock.object}.status is Charging
     run:
       - ${Properties.roborock.object}.start()
-      - SystemNotify.send('Clean house (${Properties.name.pretty} button)')
+      - SystemNotify.send('Clean house (${Properties.button.object})')
 
-  Many click - Pause cleaning:
+  Many click - Pause cleaning - ${Properties.selfObjectName}:
     if:
       - this is many
-      - ${Properties.roborock.object}.status is Cleaning
-      - ${Properties.roborock.object}.zone is none
+      - ${Properties.roborock.object}.status in ['Cleaning']
+      - ${Properties.roborock.object}.zone in ['none']
     run:
       - ${Properties.roborock.object}.pause()
-      - SystemNotify.send('Paused house cleaning (${Properties.name.pretty} button)')
+      - SystemNotify.send('Paused cleaning (${Properties.button.object})')
 
-  Long click - Turn everything OFF:
+  Long click - Turn everything OFF - ${Properties.selfObjectName}:
     if: this is long
     run:
+      - ${Properties.selfObjectName}.off()
       - House.off()
-      - SystemNotify.send('Turn house OFF (${Properties.name.pretty} button)')
+      - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
     set:
-      this.ignoreMotion: 'true'
+      ${Properties.selfObjectName}.ignoreMotion: 'true'
 
-${Properties.water-sensor}.water_leak:
+# DOOR
 
-  Leak detected - warn light:
-    if: this is true
+${Properties.door.object}.contact:
+  Mark motion - ${Properties.selfObjectName}:
+    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
+    set:
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastMotion: System.timestamp
+
+  Mark door status - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.closedDoor: ${Properties.door.object}.contact
     run:
-      - ${Properties.light.object}.on()
-      - ${Properties.light.object}.rgb('16748687')
-      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
-      - System.sleep('0.4')
-      - ${Properties.light.object}.off('0.2')
-      - System.sleep('0.4')
-      - ${Properties.light.object}.on('0.2')
-      - System.sleep('0.4')
-      - ${Properties.light.object}.off('0.2')
-      - System.sleep('0.4')
-      - ${Properties.light.object}.on('0.2')
-      - System.sleep('0.4')
-      - ${Properties.light.object}.off('0.2')
-      - System.sleep('0.4')
-      - ${Properties.light.object}.on('0.2')
+      - House.updateDoorsStatus()
 
-  Leak detected - send async message:
-    if: this is true
-    run: SystemWarn.send('WATER LEAK in ${Properties.name.code}!')
+  Stop cleaning on close - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
+      - ${Properties.roborock.object}.zone is ['none','${Properties.name}']
+    run:
+      - ${Properties.roborock.object}.pause()
+      - SystemNotify.send('Paused cleaning (${Properties.door.object} closed)')
 
-  Leak gone - restore normal light:
+  Resume cleaning on open - ${Properties.selfObjectName}:
     if:
       - this is false
-      - ${Properties.light.object}.status is on
+      - ${Properties.roborock.object}.status is Paused
+      - ${Properties.roborock.object}.zone is none
     run:
-      - ${Properties.light.object}.temperature('${Properties.light.temperature}')
-      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
+      - ${Properties.roborock.object}.resume()
+      - SystemNotify.send('Resumed cleaning (${Properties.door.object} opened)')
 
-  Leak gone - send async message:
+  Restart local cleaning on open - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.roborock.object}.status is Paused
+      - ${Properties.roborock.object}.zone is ${Properties.name}
+    run:
+      - ${Properties.roborock.object}.clean${Properties.name-ucfirst}()
+      - SystemNotify.send('Restart Bathroom cleaning (${Properties.door.object} opened)')
+
+${Properties.water-sensor.object}.water_leak:
+
+  Leak Detected - Primary Light Flash - ${Properties.selfObjectName}:
+    if: this is true
+    run: ${Properties.selfObjectName}.lightWarn()
+
+  Leak Detected - Secondary Light Flash - ${Properties.selfObjectName}:
+    if: this is true
+    run: ${Properties.selfObjectName}.secondaryLightWarn()
+
+  Leak Detected - Send Message - ${Properties.selfObjectName}:
+    if: this is true
+    run: SystemWarn.send('WATER LEAK in ${Properties.selfObjectName}!')
+
+  Leak Gone - ${Properties.selfObjectName}:
     if: this is false
-    run: SystemWarn.send('Water leak in ${Properties.name.code} is gone')
+    run:
+      - ${Properties.selfObjectName}.lightUnwarn()
+      - ${Properties.selfObjectName}.secondaryLightUnwarn()
+      - SystemWarn.send('Water leak is gone in ${Properties.selfObjectName}')

@@ -1,0 +1,94 @@
+---
+
+functions:
+
+  lightOn():
+    if:
+      - ${Properties.light.object}.status not in ['on','offline']
+    runFunctions:
+      - ${Properties.light.object}.on()
+      - ${Properties.light.object}.temperature('${Properties.light.temperature}')
+      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
+
+  secondaryLightOn():
+    if:
+      - ${Properties.light.secondary.object}.status not in ['on','offline']
+    runFunctions:
+      - ${Properties.light.secondary.object}.on()
+      - ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
+      - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')
+
+  lightOff():
+    if:
+      - ${Properties.light.object}.status is 'on'
+    runFunctions:
+      - ${Properties.light.object}.off()
+
+  secondaryLightOff():
+    if:
+      - ${Properties.light.secondary.object}.status is 'on'
+    runFunctions:
+      - ${Properties.light.secondary.object}.off()
+
+  allLightsOff():
+    runFunctions:
+      - ${Properties.selfObjectName}.lightOff()
+      - ${Properties.selfObjectName}.secondaryLightOff()
+
+  off():
+    runFunctions:
+      - lightOff()
+      - secondaryLightOff()
+      - ${Properties.tv.object}.off()
+      - ${Properties.tv.audio-system.object}.off()
+      - ${Properties.roborock.object}.home()
+
+  lightWarn():
+    if: ${Properties.light.object}.status in ['on','off']
+    runFunctions:
+      - ${Properties.light.object}.on()
+      - ${Properties.light.object}.rgb('16748687')
+      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.off('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.on('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.off('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.on('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.off('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.object}.on('0.2')
+
+  lightUnwarn():
+    if: ${Properties.light.object}.status is on
+    runFunctions:
+      - ${Properties.light.object}.temperature('${Properties.light.temperature}')
+      - ${Properties.light.object}.brightness('${Properties.light.brightness}')
+
+  secondaryLightWarn():
+    if: ${Properties.light.secondary.object}.status in ['on','off']
+    runFunctions:
+      - ${Properties.light.secondary.object}.on()
+      - ${Properties.light.secondary.object}.rgb('16748687')
+      - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')
+      - System.sleep('0.4')
+      - ${Properties.light.secondary.object}.off('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.secondary.object}.on('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.secondary.object}.off('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.secondary.object}.on('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.secondary.object}.off('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.secondary.object}.on('0.2')
+
+  secondaryLightUnwarn():
+    if: ${Properties.light.secondary.object}.status is on
+    runFunctions:
+      - ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
+      - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')

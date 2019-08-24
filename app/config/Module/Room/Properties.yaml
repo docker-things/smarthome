@@ -1,11 +1,10 @@
 ---
 
-name:
-  pretty: NONE
-  code: NONE
+name: NONE
 
-motion-sensor:
+motion:
   object: NONE
+  stop-ignoring-motion-at: '12:00'
 
 button:
   object: NONE
@@ -15,17 +14,20 @@ light:
   brightness: 100
   temperature: 3500
   on-by-motion-when-lux-below: 15
+  on-duration-when-plex-stopped: 20000
+  dim-level-when-plex-paused: 5
+  dim-duration-when-plex-paused: 1000
   off-when-no-motion-for-X-seconds: 120
   off-when-lux-over: 200
-  auto-off-duration-milliseconds: 5000
+  off-duration-milliseconds: 5000
 
   secondary:
     object: NONE
     brightness: 50
     temperature: 2700
-    off-when-lux-over: 200
     off-when-no-motion-for-X-seconds: 3600
-    auto-off-duration-milliseconds: 5000
+    off-when-lux-over: 200
+    off-duration-milliseconds: 5000
 
 plex:
   object: NONE
@@ -35,15 +37,15 @@ plex:
 roborock:
   object: NONE
   zoned-cleaning-function: NONE
+  fanspeed: 60
+  weekends-cleaning-hour: '12:00'
+  weekends-cleaning-hour: '12:00'
 
 tv:
   object: NONE
 
   audio-system:
     object: NONE
-
-temperature-sensor:
-  object: NONE
 
 water-sensor:
   object: NONE

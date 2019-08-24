@@ -1,0 +1,12 @@
+---
+
+System.time:
+  It's day:
+    if: this is this.sunrise
+    set:
+      state: day
+
+  It's night:
+    if: this is this.sunset
+    set:
+      state: night
