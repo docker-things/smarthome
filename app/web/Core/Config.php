@@ -143,7 +143,10 @@ class Core_Config {
 
                 // Prepend the object name for all the function calls
                 foreach ($job['run'] AS $key => $function) {
-                    $job['run'][$key] = $objectName . '.' . $function;
+                    if (strpos($function, '.') === false) {
+                        $function = $objectName . '.' . $function;
+                    }
+                    $job['run'][$key] = $function;
                 }
             }
 
