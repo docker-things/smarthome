@@ -1,8 +1,5 @@
 ---  # Known objects
 
-System:
-  base: !import Module.System
-
 # EXAMPLE:
 #
 # Livingroom-Button:
@@ -14,3 +11,16 @@ System:
 #   base: !import Module.YeelightBulb
 #   with:
 #     ip: 192.168.0.130
+
+
+# SYSTEM NOTIFIFCATIONS - SLACK
+
+# SystemNotify:
+#   base: !import Module.Slack
+#   with:
+#     endpoint: YOUR_SLACK_WEBHOOK_ENDPOINT
+
+# SystemWarn:
+#   base: !import Module.Slack
+#   with:
+#     endpoint: YOUR_SLACK_WEBHOOK_ENDPOINT
