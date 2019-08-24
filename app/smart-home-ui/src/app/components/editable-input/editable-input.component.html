@@ -1,2 +1,0 @@
-<span (click)="editText($event)" *ngIf="!isInEdit">{{obj[propertyName]}}</span>
-<input style="width: 100%; max-width: none" [(ngModel)]="obj[propertyName]" (click)="stopEdit($event)" (keypress)="stopEdit($event)" nbInput *ngIf="isInEdit">

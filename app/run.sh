@@ -69,7 +69,6 @@ for service in $SERVICES ; do
     echo "   > Launch $service screen [$i]"
     screen -S "$SCREEN_NAME" -X screen -t "$service"
     screen -S "$SCREEN_NAME" -p $i -X stuff $'ash services/'${service}$'.service;exit\r'
-    # screen -S "$SCREEN_NAME" -p $i -X stuff $'while [ 1 = 1 ]; do ash services/'${service}$'.service; sleep 5s; done\r'
 done
 
 # Close first unused screen
