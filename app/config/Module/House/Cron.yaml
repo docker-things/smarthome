@@ -1,0 +1,11 @@
+---
+
+jobs:
+
+  # No motion detected for one hour
+  - interval: 60
+    if:
+      - House.lastMotion.timeSince >= 3600
+    run:
+      - ${Properties.selfObjectName}.allLightsOff()
+      - SystemNotify.send('All lights OFF (No house motion for 3600 seconds)')
