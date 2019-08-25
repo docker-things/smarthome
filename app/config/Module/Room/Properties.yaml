@@ -18,7 +18,9 @@ light:
   on-duration-when-plex-stopped: 20000
   dim-level-when-plex-paused: 5
   dim-duration-when-plex-paused: 1000
-  off-when-no-motion-for-X-seconds: 120
+  off-when-no-motion-for-X-seconds-current-location: 3600
+  off-when-no-motion-for-X-seconds-prev-location: 120
+  off-when-no-motion-for-X-seconds-old-location: 5
   off-when-lux-over: 200
 
   secondary:
