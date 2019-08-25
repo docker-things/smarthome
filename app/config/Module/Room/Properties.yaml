@@ -5,6 +5,7 @@ name: NONE
 motion:
   object: NONE
   stop-ignoring-motion-at: '12:00'
+  stop-ignoring-motion-after-X-seconds: 28800
 
 button:
   object: NONE
@@ -36,10 +37,7 @@ plex:
 
 roborock:
   object: NONE
-  zoned-cleaning-function: NONE
-  fanspeed: 60
-  weekends-cleaning-hour: '12:00'
-  weekends-cleaning-hour: '12:00'
+  local-zone: NONE
 
 tv:
   object: NONE

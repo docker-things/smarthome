@@ -1,3 +1,7 @@
 ---
 
 mqtt-topic: !required
+room: NONE
+tv: NONE
+motion: NONE
+light: NONE

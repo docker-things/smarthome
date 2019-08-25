@@ -53,3 +53,15 @@ functions:
       closedDoors: 'false'
     elseSet:
       closedDoors: 'true'
+
+  off():
+    runFunctions:
+      - ${Properties.room-1}.off()
+      - ${Properties.room-2}.off()
+      - ${Properties.room-3}.off()
+      - ${Properties.room-4}.off()
+      - ${Properties.room-5}.off()
+      - ${Properties.room-6}.off()
+      - ${Properties.room-7}.off()
+      - ${Properties.room-8}.off()
+      - ${Properties.room-9}.off()

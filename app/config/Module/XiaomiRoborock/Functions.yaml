@@ -37,6 +37,13 @@ functions:
     elseSet:
       status: 'Paused'
 
+  cleanZone(coords,name):
+    run: ${cmd} zoned-cleanup '${ARGS.coords}'
+    if: ${RESPONSE.status} is ok
+    set:
+      status: 'Zoned_cleaning'
+      zone: '${ARGS.name}'
+
   cleanBedroom():
     run: ${cmd} zoned-cleanup '${Properties.zone_bedroom}'
     if: ${RESPONSE.status} is ok

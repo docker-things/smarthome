@@ -2,6 +2,11 @@
 
 ip: !required
 token: !required
+
+weekdays-cleaning-hour: '11:00'
+weekends-cleaning-hour: '12:00'
+fanspeed: 60
+
 zone_bathroom: ''
 zone_bedroom: ''
 zone_livingroom: ''

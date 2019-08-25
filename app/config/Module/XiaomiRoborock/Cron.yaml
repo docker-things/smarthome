@@ -9,3 +9,14 @@ jobs:
 
   - interval: 60
     run: getStatus()
+
+  - interval: 5
+    if:
+      - ${Properties.selfObjectName}.delayedCleanup is true
+      - House.closedDoors is false
+      - House.closedDoors.timeSince > 300
+    run:
+      - ${Properties.selfObjectName}.start()
+      - SystemNotify.send('Delayed cleanup')
+    set:
+      ${Properties.selfObjectName}.delayedCleanup: 'false'

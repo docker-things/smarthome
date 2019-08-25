@@ -1,0 +1,47 @@
+---
+
+System.time:
+
+  # CLEANING
+
+  Start cleaning on weekdays if doors opened - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.weekdays-cleaning-hour}
+      - System.dayOfWeek in ['1','2','3','4','5']
+      - ${Properties.selfObjectName}.last_start_date is not System.date
+      - House.closedDoors is not true
+    run:
+      - ${Properties.selfObjectName}.setFanSpeed('${Properties.fanspeed}')
+      - ${Properties.selfObjectName}.start()
+      - SystemNotify.send('Start cleaning (Weekday @ ${Properties.weekdays-cleaning-hour})')
+
+  Start cleaning on weekends if doors opened - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.weekends-cleaning-hour}
+      - System.dayOfWeek in ['6','7']
+      - ${Properties.selfObjectName}.last_start_date is not System.date
+      - House.closedDoors is not true
+    run:
+      - ${Properties.selfObjectName}.setFanSpeed('${Properties.fanspeed}')
+      - ${Properties.selfObjectName}.start()
+      - SystemNotify.send('Start cleaning (Weekend @ ${Properties.weekends-cleaning-hour})')
+
+  # DELAYED CLEANING
+
+  Mark delayed cleanup on weekdays - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.weekdays-cleaning-hour}
+      - System.dayOfWeek in ['1','2','3','4','5']
+      - ${Properties.selfObjectName}.last_start_date is not System.date
+      - House.closedDoors is true
+    set:
+      ${Properties.selfObjectName}.delayedCleanup: 'true'
+
+  Mark delayed cleanup on weekends - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.weekends-cleaning-hour}
+      - System.dayOfWeek in ['6','7']
+      - ${Properties.selfObjectName}.last_start_date is not System.date
+      - House.closedDoors is true
+    set:
+      ${Properties.selfObjectName}.delayedCleanup: 'true'

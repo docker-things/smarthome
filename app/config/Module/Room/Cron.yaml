@@ -38,3 +38,11 @@ jobs:
       - ${Properties.light.object}.off('${Properties.light.auto-off-duration-milliseconds}')
       # - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.object} OFF (No motion for 5 seconds - old location)')
+
+  # Stop ignoring movement after X seconds
+  - interval: 5
+    if:
+      - ${Properties.selfObjectName}.ignoreMotion is true
+      - ${Properties.selfObjectName}.ignoreMotion.timeSince >= ${Properties.motion.stop-ignoring-motion-after-X-seconds}
+    set:
+      ${Properties.selfObjectName}.ignoreMotion: 'false'

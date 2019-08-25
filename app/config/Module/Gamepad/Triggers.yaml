@@ -1,0 +1,67 @@
+--- # Do stuff when certain variables are changed
+
+event_name:
+
+  MARK MOTION - ${Properties.selfObjectName}:
+    if: ${Properties.room}.lastMotion is not System.timestamp
+    set:
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.room}.lastMotion: System.timestamp
+
+  TV ON IN GAMING - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv}.status is off
+    run:
+      - ${Properties.tv}.switchToSmarthome()
+      - ${Properties.room}.lightOff()
+      - System.sleep("1")
+      - ${Properties.tv}.switchToSmarthome()
+      - SystemNotify.send('${Properties.tv} ON in gaming (${Properties.selfObjectName})')
+
+  SWITCH TV TO GAMING - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv}.status is on
+      - ${Properties.tv}.source is not smarthome
+    run:
+      - ${Properties.tv}.switchToSmarthome()
+      - ${Properties.room}.lightOff()
+      - SystemNotify.send('${Properties.tv} switched to gaming (${Properties.selfObjectName})')
+
+  LIGHT ON WHEN TV OFF - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv}.status is on
+      - ${Properties.tv}.source is smarthome
+      - ${Properties.light}.status not in ['on','offline']
+      - ${Properties.motion}.illuminance < ${Properties.light-on-by-motion-when-lux-below}
+    run:
+      - ${Properties.room}.lightOn()
+      - SystemNotify.send('${Properties.light} ON (${Properties.selfObjectName} TV OFF)')
+
+  TV OFF - ${Properties.selfObjectName}:
+    if:
+      - this is BTN_MODE
+      - ${Properties.tv}.status is on
+      - ${Properties.tv}.source is smarthome
+    run:
+      - ${Properties.tv}.off()
+      - SystemNotify.send('${Properties.tv} OFF (${Properties.selfObjectName})')
+
+  MANUAL LIGHT OFF - ${Properties.selfObjectName}:
+    if:
+      - this in ['BTN_TL','BTN_TR']
+      - ${Properties.light}.status not in ['off','offline']
+    run:
+      - ${Properties.room}.lightOff()
+      - SystemNotify.send('${Properties.light} OFF (${Properties.selfObjectName})')
+
+  MANUAL LIGHT ON - ${Properties.selfObjectName}:
+    if:
+      - this in ['BTN_TL','BTN_TR']
+      - ${Properties.light}.status not in ['on','offline']
+    run:
+      - ${Properties.room}.lightOn()
+      - SystemNotify.send('${Properties.light} ON (${Properties.selfObjectName})')
