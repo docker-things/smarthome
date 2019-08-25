@@ -8,7 +8,7 @@ jobs:
       - ${Properties.light.object}.status is on
       - ${Properties.motion.object}.occupancy is false
       - House.lastMotionLocation is '${Properties.name}'
-      - ${Properties.door.object}.contact is false
+      - ${Properties.door.object}.contact is not true
       - ${Properties.motion.object}.occupancy.timeSince >= 3600
     run:
       - ${Properties.selfObjectName}.lightOff()
@@ -20,7 +20,7 @@ jobs:
       - ${Properties.light.object}.status is on
       - ${Properties.motion.object}.occupancy is false
       - House.lastMotionLocation.previousValue is '${Properties.name}'
-      - ${Properties.door.object}.contact is false
+      - ${Properties.door.object}.contact is not true
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds}
     run:
       - ${Properties.selfObjectName}.lightOff()
@@ -33,7 +33,7 @@ jobs:
       - ${Properties.motion.object}.occupancy is false
       - House.lastMotionLocation is not '${Properties.name}'
       - House.lastMotionLocation.previousValue is not '${Properties.name}'
-      - ${Properties.door.object}.contact is false
+      - ${Properties.door.object}.contact is not true
       - ${Properties.motion.object}.occupancy.timeSince >= 5
     run:
       - ${Properties.selfObjectName}.lightOff()
