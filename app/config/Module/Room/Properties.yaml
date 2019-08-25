@@ -20,7 +20,6 @@ light:
   dim-duration-when-plex-paused: 1000
   off-when-no-motion-for-X-seconds: 120
   off-when-lux-over: 200
-  off-duration-milliseconds: 5000
 
   secondary:
     object: NONE
@@ -28,7 +27,9 @@ light:
     temperature: 2700
     off-when-no-motion-for-X-seconds: 3600
     off-when-lux-over: 200
-    off-duration-milliseconds: 5000
+
+door:
+  object: NONE
 
 plex:
   object: NONE

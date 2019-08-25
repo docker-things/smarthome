@@ -8,10 +8,10 @@ jobs:
       - ${Properties.light.object}.status is on
       - ${Properties.motion.object}.occupancy is false
       - House.lastMotionLocation is '${Properties.name}'
+      - ${Properties.door.object}.contact is false
       - ${Properties.motion.object}.occupancy.timeSince >= 3600
     run:
-      - ${Properties.light.object}.off('${Properties.light.auto-off-duration-milliseconds}')
-      # - ${Properties.selfObjectName}.lightOff()
+      - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.object} OFF (No motion for 3600 seconds - current location)')
 
   # No motion detected - prev motion is local
@@ -20,10 +20,10 @@ jobs:
       - ${Properties.light.object}.status is on
       - ${Properties.motion.object}.occupancy is false
       - House.lastMotionLocation.previousValue is '${Properties.name}'
+      - ${Properties.door.object}.contact is false
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds}
     run:
-      - ${Properties.light.object}.off('${Properties.light.auto-off-duration-milliseconds}')
-      # - ${Properties.selfObjectName}.lightOff()
+      - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds} minutes - prev location)')
 
   # No motion detected - last & prev motion is not local
@@ -33,10 +33,10 @@ jobs:
       - ${Properties.motion.object}.occupancy is false
       - House.lastMotionLocation is not '${Properties.name}'
       - House.lastMotionLocation.previousValue is not '${Properties.name}'
+      - ${Properties.door.object}.contact is false
       - ${Properties.motion.object}.occupancy.timeSince >= 5
     run:
-      - ${Properties.light.object}.off('${Properties.light.auto-off-duration-milliseconds}')
-      # - ${Properties.selfObjectName}.lightOff()
+      - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.object} OFF (No motion for 5 seconds - old location)')
 
   # Stop ignoring movement after X seconds
