@@ -198,7 +198,7 @@ ${Properties.button.object}.click:
       - ${Properties.light.object}.status not in ['on','offline']
     run:
       - ${Properties.selfObjectName}.lightOn()
-      - ${Properties.light.secondary.object}.off()
+      - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.object} ON (${Properties.button.object})')
 
   Double click - Secondary light OFF - ${Properties.selfObjectName}:
@@ -214,7 +214,7 @@ ${Properties.button.object}.click:
       - this is double
       - ${Properties.light.secondary.object}.status not in ['on','offline']
     run:
-      - ${Properties.selfObjectName}.secondaryLightOff()
+      - ${Properties.selfObjectName}.secondaryLightOn()
       - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
 
