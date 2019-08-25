@@ -728,21 +728,21 @@ class Core_Config {
         // NONE
         if (!isset($this->_config['Objects']['NONE'])) {
             $this->_config['Objects']['NONE'] = [
-                'base' => '!import Module.NONE',
+                'base' => '!import Module.System.NONE',
             ];
         }
 
         // System
         if (!isset($this->_config['Objects']['System'])) {
             $this->_config['Objects']['System'] = [
-                'base' => '!import Module.System',
+                'base' => '!import Module.System.System',
             ];
         }
 
         // Sun
         if (!isset($this->_config['Objects']['Sun'])) {
             $this->_config['Objects']['Sun'] = [
-                'base' => '!import Module.SunriseSunsetAPI',
+                'base' => '!import Module.System.SunriseSunsetAPI',
                 'with' => [
                     'latitude'  => '44.438757',
                     'longitude' => '26.0206698',

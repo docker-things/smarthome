@@ -1,0 +1,10 @@
+---
+
+click:
+  Clicked the button:
+    run: "SystemNotify.send('${Properties.selfObjectName} was clicked: this')"
+
+battery:
+  Low battery:
+    if: this <= 5
+    run: SystemWarn.send('${Properties.selfObjectName} has this.battery% battery left!')
