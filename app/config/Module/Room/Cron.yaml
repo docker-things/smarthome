@@ -24,7 +24,7 @@ jobs:
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds}
     run:
       - ${Properties.selfObjectName}.lightOff()
-      - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds} minutes - prev location)')
+      - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds} seconds - prev location)')
 
   # No motion detected - last & prev motion is not local
   - interval: 5
