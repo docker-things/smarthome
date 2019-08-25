@@ -1,0 +1,45 @@
+---
+
+# BLUETOOTH
+
+${Properties.bluetooth}.last_seen:
+  Mark presence - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last_seen: System.timestamp
+
+${Properties.bluetooth-2}.last_seen:
+  Mark presence - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last_seen: System.timestamp
+
+${Properties.bluetooth-3}.last_seen:
+  Mark presence - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last_seen: System.timestamp
+
+${Properties.bluetooth-4}.last_seen:
+  Mark presence - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last_seen: System.timestamp
+
+# WAKE ON LAN
+
+${Properties.wakeonlan}.status:
+  Mark presence - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last_seen: System.timestamp
+
+${Properties.wakeonlan-2}.status:
+  Mark presence - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last_seen: System.timestamp
+
+${Properties.wakeonlan-3}.status:
+  Mark presence - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last_seen: System.timestamp
+
+${Properties.wakeonlan-4}.status:
+  Mark presence - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last_seen: System.timestamp

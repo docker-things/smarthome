@@ -1,4 +1,11 @@
 ---
 
-human-1: NONE
-human-2: NONE
+bluetooth: NONE
+bluetooth-2: NONE
+bluetooth-3: NONE
+bluetooth-3: NONE
+
+wakeonlan: NONE
+wakeonlan-2: NONE
+wakeonlan-3: NONE
+wakeonlan-4: NONE

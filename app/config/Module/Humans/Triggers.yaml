@@ -1,0 +1,11 @@
+---
+
+${Properties.human-1}.last_seen:
+  Mark presence - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last_seen: System.timestamp
+
+${Properties.human-2}.last_seen:
+  Mark presence - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last_seen: System.timestamp
