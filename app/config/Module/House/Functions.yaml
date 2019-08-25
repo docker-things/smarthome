@@ -65,3 +65,4 @@ functions:
       - ${Properties.room-7}.off()
       - ${Properties.room-8}.off()
       - ${Properties.room-9}.off()
+      - ${Properties.roborock.object}.home()

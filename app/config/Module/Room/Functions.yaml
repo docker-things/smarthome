@@ -41,7 +41,6 @@ functions:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - ${Properties.tv.object}.off()
       - ${Properties.tv.audio-system.object}.off()
-      - ${Properties.roborock.object}.home()
 
   lightWarn():
     if: ${Properties.light.object}.status in ['on','off']
