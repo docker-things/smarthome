@@ -54,7 +54,7 @@ functions:
     elseSet:
       closedDoors: 'true'
 
-  off():
+  offWithoutVacuum():
     runFunctions:
       - ${Properties.room-1}.off()
       - ${Properties.room-2}.off()
@@ -65,4 +65,8 @@ functions:
       - ${Properties.room-7}.off()
       - ${Properties.room-8}.off()
       - ${Properties.room-9}.off()
+
+  off():
+    runFunctions:
+      - House.offWithoutVacuum()
       - ${Properties.roborock.object}.home()

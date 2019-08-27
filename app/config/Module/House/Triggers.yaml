@@ -1,0 +1,36 @@
+---
+
+${Properties.door}.contact:
+  Mark presence:
+    set:
+      House.presence: 'true'
+      House.shouldCheckPresence: 'true'
+
+  Door is closed - send message:
+    if: this is true
+    run: SystemWarn.send('${Properties.door} was closed!')
+
+  Door is opened - send message:
+    if: this is false
+    run: SystemWarn.send('${Properties.door} was opened!')
+
+  Door is opened - someone arrived:
+    if:
+      - this is false
+      - House.presence is false
+    run:
+      - SystemWarn.send('Someone entered the house')
+
+House.presence:
+  When house is empty:
+    if:
+      - this is false
+    run:
+      - House.offWithoutVacuum()
+      - SystemWarn.send('House is empty. Turned everything off.')
+
+  When house is populated:
+    if:
+      - this is true
+    run:
+      - SystemWarn.send('Presence detected!')
