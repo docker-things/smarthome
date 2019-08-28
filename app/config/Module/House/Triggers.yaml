@@ -8,11 +8,15 @@ ${Properties.door}.contact:
 
   Door is closed - send message:
     if: this is true
-    run: SystemWarn.send('${Properties.door} was closed!')
+    run:
+      - SystemWarn.send('${Properties.door} was closed!')
+      - SystemNotify.send('${Properties.door} was closed!')
 
   Door is opened - send message:
     if: this is false
-    run: SystemWarn.send('${Properties.door} was opened!')
+    run:
+      - SystemWarn.send('${Properties.door} was opened!')
+      - SystemNotify.send('${Properties.door} was opened!')
 
   Door is opened - someone arrived:
     if:
@@ -20,6 +24,7 @@ ${Properties.door}.contact:
       - House.presence is false
     run:
       - SystemWarn.send('Someone entered the house')
+      - SystemNotify.send('Someone entered the house')
 
 House.presence:
   When house is empty:
@@ -28,9 +33,11 @@ House.presence:
     run:
       - House.offWithoutVacuum()
       - SystemWarn.send('House is empty. Turned everything off.')
+      - SystemNotify.send('House is empty. Turned everything off.')
 
   When house is populated:
     if:
       - this is true
     run:
       - SystemWarn.send('Presence detected!')
+      - SystemNotify.send('Presence detected!')
