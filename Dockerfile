@@ -185,22 +185,22 @@ RUN echo -e "\n > CEC-CLIENT TO MQTT BRIDGE\n" \
     musl-dev \
     linux-headers \
     \
- && echo -e "\n > CEC-CLIENT TO MQTT BRIDGE\n" \
+ && echo -e "\n > BUILD MODULE: CEC-CLIENT TO MQTT BRIDGE\n" \
  && cd /app/modules/cec-client-mqtt-bridge \
  && go get github.com/eclipse/paho.mqtt.golang \
  && go build -ldflags "-s -w" src/cec-client-mqtt-bridge.go \
  \
- && echo -e "\n > INSTALL EVDEV2MQTT\n" \
+ && echo -e "\n > BUILD MODULE: EVDEV2MQTT\n" \
  && cd /app/modules/evdev2mqtt \
  && go get github.com/eclipse/paho.mqtt.golang \
  && go get github.com/gvalkov/golang-evdev \
  && go build -ldflags "-s -w" src/evdev2mqtt.go \
  \
- && echo -e "\n > INSTALL MODULE: YEELIGHT\n" \
+ && echo -e "\n > BUILD MODULE: YEELIGHT\n" \
  && cd /app/modules/yeelight \
  && go build -ldflags "-s -w" src/yeelight.go \
  \
- && echo -e "\n > INSTALL MODULE: WAKEONLAN\n" \
+ && echo -e "\n > BUILD MODULE: WAKEONLAN\n" \
  && go get github.com/blchinezu/go-wol/cmd/wol \
  && mv /root/go/bin/wol /app/modules/wakeonlan \
  \
