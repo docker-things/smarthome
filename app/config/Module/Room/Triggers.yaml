@@ -98,8 +98,8 @@ ${Properties.light.object}.status:
       - this is on
       - House.presence is false
     run:
-      ${Properties.light.object}.off()
-      SystemWarn.send('Detected light ON while nobody home! Turned it off.')
+      - ${Properties.light.object}.off()
+      - SystemWarn.send('Detected light ON while nobody home! Turned it off.')
 
 # ILLUMINANCE
 
@@ -128,6 +128,7 @@ ${Properties.motion.object}.occupancy:
   Motion detected - ${Properties.selfObjectName}:
     if:
       - this is true
+      - House.presence is true
       - ${Properties.selfObjectName}.ignoreMotion is not true
       - ${Properties.light.object}.status not in ['on','offline']
       - ${Properties.light.secondary.object}.status is not on
@@ -136,6 +137,14 @@ ${Properties.motion.object}.occupancy:
     run:
       - ${Properties.selfObjectName}.lightOn()
       - SystemNotify.send('${Properties.light.object} ON (Motion detected)')
+
+  Motion detected - Nobody home - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - House.presence is false
+    run:
+      - SystemWarn.send('Motion detected but nobody is home!')
+      - SystemNotify.send('Motion detected but nobody is home!')
 
 ${Properties.motion.object}.no_occupancy_since:
   Mark house motion - ${Properties.selfObjectName}:
@@ -155,8 +164,8 @@ ${Properties.tv.object}.status:
       - this is on
       - House.presence is false
     run:
-      ${Properties.tv.object}.off()
-      SystemWarn.send('Detected TV ON while nobody home! Turned it off.')
+      - ${Properties.tv.object}.off()
+      - SystemWarn.send('Detected TV ON while nobody home! Turned it off.')
 
   Mark motion - ${Properties.selfObjectName}:
     if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
