@@ -130,6 +130,7 @@ ${Properties.motion.object}.occupancy:
       - this is true
       - ${Properties.selfObjectName}.ignoreMotion is not true
       - ${Properties.light.object}.status not in ['on','offline']
+      - ${Properties.light.secondary.object}.status is not on
       - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
       - ${Properties.plex.object}.status not in ['playing','resumed']
     run:
@@ -226,7 +227,7 @@ ${Properties.button.object}.click:
       - this is double
       - ${Properties.light.secondary.object}.status is on
     run:
-      - ${Properties.light.secondary.object}.off()
+      - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (${Properties.button.object})')
 
   Double click - Secondary light ON - ${Properties.selfObjectName}:
