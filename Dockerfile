@@ -178,7 +178,6 @@ COPY app/modules/cec-client-mqtt-bridge /app/modules/cec-client-mqtt-bridge
 COPY app/modules/evdev2mqtt /app/modules/evdev2mqtt
 COPY app/modules/yeelight /app/modules/yeelight
 RUN echo -e "\n > INSTALL GO BUILD ENV\n" \
-RUN echo -e "\n > CEC-CLIENT TO MQTT BRIDGE\n" \
  && apk add --no-cache --virtual=build-dependencies \
     go \
     git \
