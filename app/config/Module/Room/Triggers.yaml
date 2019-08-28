@@ -20,8 +20,8 @@ ${Properties.plex.object}.status:
   If Plex is playing or resumed, stop cleaning - ${Properties.selfObjectName}:
     if:
       - this in ['playing','resumed']
-      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.user is '${Properties.plex.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.device}'
       - ${Properties.plex.object}.local is true
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
@@ -33,8 +33,8 @@ ${Properties.plex.object}.status:
   If Plex is playing or resumed, turn lights OFF - ${Properties.selfObjectName}:
     if:
       - this in ['playing','resumed']
-      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.user is '${Properties.plex.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.device}'
       - ${Properties.plex.object}.local is true
       - ${Properties.plex.object}.mediaType in ['episode','movie']
     run:
@@ -46,8 +46,8 @@ ${Properties.plex.object}.status:
   If Plex is paused - ${Properties.selfObjectName}:
     if:
       - this is paused
-      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.user is '${Properties.plex.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.device}'
       - ${Properties.plex.object}.local is true
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
@@ -55,27 +55,27 @@ ${Properties.plex.object}.status:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
       - ${Properties.light.object}.brightness('${Properties.level.dim-duration-when-plex-paused}','${Properties.light.dim-duration-when-plex-paused}')
-      - SystemNotify.send('${Properties.light.object} DIMMED (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.object.device})')
+      - SystemNotify.send('${Properties.light.object} DIMMED (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.device})')
 
   # STOPPED
 
   If Plex is stopped, resume cleaning - ${Properties.selfObjectName}:
     if:
       - this is stopped
-      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.user is '${Properties.plex.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.device}'
       - ${Properties.plex.object}.local is true
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.roborock.object}.status is Paused
     run:
       - ${Properties.roborock.object}.resume()
-      - SystemNotify.send('Resumed cleaning (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.object.device})')
+      - SystemNotify.send('Resumed cleaning (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.device})')
 
   If Plex is stopped - ${Properties.selfObjectName}:
     if:
       - this is stopped
-      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.user is '${Properties.plex.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.device}'
       - ${Properties.plex.object}.local is true
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
@@ -83,7 +83,7 @@ ${Properties.plex.object}.status:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
       - ${Properties.light.object}.brightness('${Properties.light.brightness}','${Properties.light.on-duration-when-plex-stopped}')
-      - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.object.device})')
+      - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.device})')
 
 # LIGHT
 
@@ -192,8 +192,8 @@ ${Properties.tv.object}.status:
     if:
       - this is off
       - ${Properties.plex.object}.status is not stopped
-      - ${Properties.plex.object}.user is '${Properties.plex.object.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.object.device}'
+      - ${Properties.plex.object}.user is '${Properties.plex.user}'
+      - ${Properties.plex.object}.device is '${Properties.plex.device}'
       - ${Properties.plex.object}.local is true
     run:
       - SystemNotify.send('Mark ${Properties.plex.object} stopped (${Properties.tv.object} OFF)')
