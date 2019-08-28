@@ -5,6 +5,7 @@ jobs:
   # No motion detected for one hour
   - interval: 60
     if:
+      - House.presence is true
       - House.lastMotion.timeSince >= 3600
     run:
       - House.allLightsOff()
