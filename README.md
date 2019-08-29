@@ -20,7 +20,7 @@ Probably more but that's what I thought of really quick.
 
 --------------------------------------------------------------------------------
 
-### Languages
+### Languages & Advantages
 
 It's mainly written in `PHP`, `YAML`, `BASH` and it also has a few modules written in `GO`.
 
