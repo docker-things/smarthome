@@ -1,87 +1,45 @@
 # smart-home
 
-#### TODO: Update README.md because it's extremely outdated.
+A Docker image meant to connect and automate smart devices in a house.
 
 --------------------------------------------------------------------------------
 
-#### Testing stuff - nothing polished yet - work in progress
+### Supported stuff
 
-For the moment this automatically manages an Yeelight smart bulb.
+- Zigbee2MQTT
+- Bluetooth detection
+- HTTP incoming webhooks
+- Tasmota sockets
+- Yeelight WIFI bulbs
+- WakeOnLan
+- XBOX controllers
+- CEC
+- Roborock vacuum cleaners
 
-### What's this?
+Probably more but that's what I thought of really quick.
 
-This is a docker image that can automatize stuff in the house.
+--------------------------------------------------------------------------------
 
-### Startup flow
+### Languages
 
-You're running ```bash launch.sh``` this happens:
+It's mainly written in `PHP`, `YAML`, `BASH` and it also has a few modules written in GO.
 
- - A backup of the existing files is created
- - A RAM partition is mounted in the image and data is copied to RAM
- - A _Screen_ session is created
- - Apache, Cron & Sync are started in separated _Screen_ windows
- - The user is attached to the _Screen_ session
- - When detaching/exiting the image, files are synced back to the HDD
+I'm saying it's also written in YAML because one of the advantages of this app is that you don't have to know PHP or the source code to create your automation. You can script everything through YAML configs: initiate devices from existing templates, create event triggers, functions and crons or even create new device templates.
 
-The files are synced to the HDD every minute while the image is running anyway.
+Another great advantage over other automation apps is that it's language agnostic. So you can create modules/services written in about any language you want and then integrate them through YAML configs.
 
+--------------------------------------------------------------------------------
 
-### Hardware used
+### Description
 
- - Yeelight smart bulb
- - Fix Android phone with Automate (stays at home as a light sensor)
- - Mobile Android phone wth Automate (triggers home arrival/departure)
- - Laptop which contains this docker image
+This description is quite incomplete but I'll update it once the projects reaches a relatively stable version.
 
+--------------------------------------------------------------------------------
 
-### Structure
+### Rewrite in Rust
 
-```php
- - Dockerfile             "The docker build configuration"
- - build.sh               "Run this to build your docker image"
- - launch.sh              "Run this to launch your docker image"
+Once the project is stable I plan to rewrite the PHP part in Rust to make it as snappy as possible. But until then I want to make sure I have a clear image of what the app has to do. I still find new use cases which require code changes.
 
- - install/               "Files to  be included in the docker image (readonly in the image)"
- - install/bashrc/        "The basrc files to be used in the docker image"
- - install/paths.sh       "Keeps dir paths (ram dir, mount dir, dirs to be synced in ram)"
- - install/startup.sh     "The script launched when starting the docker image"
- - install/sync.sh        "Used to sync data between HDD and RAM"
+For the moment its description is extremely out of date because I've fully refactored the project a few times but I'll update it once it'll reach a relatively stable version.
 
- - mount/                 "Files to be mounted in the docker image (persistent changes in the image)"
- - mount/html/            "Contains the web php service"
- - mount/html/classes/    "Main classes (some of them are so poorly written you'll wish you didn't look)"
- - mount/html/crons/      "Cron jobs (like the sunrise time getter or the automatic bulb on/off)"
- - mount/html/config.php  "Configs used through the web service (IPs, WiFi names, home city...)"
- - mount/html/cron.php    "Launches the cron service"
- - mount/html/index.php   "The web service endpoint"
- - mount/yeelight/        "Contains the Yeelight Python API"
-```
-
-### Crons
-
- - BulbStateFix
-    - Checks if the light is on/off and should be off/on depending on room light
-
- - BulbStatus
-    - Gets the current status of the Yeelight Bulb and saves it in the DB every
-
- - DayNight
-    - Depending on the sunrise and sunset times saves a dayNight variable in the DB which can hold "day" or "night"
-
- - SunriseSunset
-    - Gets the sunrise and sunset times for the current day
-
-### Yeelight Bulb Behaviour
-
-Arrival/Departure:
- - On when arriving home (if the room is dark enough)
- - Off when leaving home (if the room is dark enough)
-
-Already home:
- - On when the room goes dark (if not playing a movie)
- - Off when the room gets enough light
-
-Plex:
- - Off when playing/resuming a movie
- - On when stopping a movie (if the room is dark enough)
- - On (dimmed) when pausing a movie (if the room is dark enough)
+Also, I've published the repo rather late because it wasn't decent enough until recently.
