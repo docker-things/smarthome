@@ -22,7 +22,7 @@ Probably more but that's what I thought of really quick.
 
 ### Languages
 
-It's mainly written in `PHP`, `YAML`, `BASH` and it also has a few modules written in GO.
+It's mainly written in `PHP`, `YAML`, `BASH` and it also has a few modules written in `GO`.
 
 I'm saying it's also written in YAML because one of the advantages of this app is that you don't have to know PHP or the source code to create your automation. You can script everything through YAML configs: initiate devices from existing templates, create event triggers, functions and crons or even create new device templates.
 
