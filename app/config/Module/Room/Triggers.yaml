@@ -20,70 +20,55 @@ ${Properties.plex.object}.status:
   If Plex is playing or resumed, stop cleaning - ${Properties.selfObjectName}:
     if:
       - this in ['playing','resumed']
-      - ${Properties.plex.object}.user is '${Properties.plex.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.device}'
-      - ${Properties.plex.object}.local is true
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
       - ${Properties.roborock.object}.zone is none
     run:
       - ${Properties.roborock.object}.pause()
-      - SystemNotify.send('Paused cleaning (${Properties.plex.object} playing on ${Properties.plex.device})')
+      - SystemNotify.send('Paused cleaning (${Properties.plex.object} playing)')
 
   If Plex is playing or resumed, turn lights OFF - ${Properties.selfObjectName}:
     if:
       - this in ['playing','resumed']
-      - ${Properties.plex.object}.user is '${Properties.plex.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.device}'
-      - ${Properties.plex.object}.local is true
       - ${Properties.plex.object}.mediaType in ['episode','movie']
     run:
       - House.allLightsOff()
-      - SystemNotify.send('All lights OFF (${Properties.plex.object} playing on ${Properties.plex.device})')
+      - SystemNotify.send('All lights OFF (${Properties.plex.object} playing)')
 
   # PAUSED
 
   If Plex is paused - ${Properties.selfObjectName}:
     if:
       - this is paused
-      - ${Properties.plex.object}.user is '${Properties.plex.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.device}'
-      - ${Properties.plex.object}.local is true
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
     run:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
       - ${Properties.light.object}.brightness('${Properties.level.dim-duration-when-plex-paused}','${Properties.light.dim-duration-when-plex-paused}')
-      - SystemNotify.send('${Properties.light.object} DIMMED (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.device})')
+      - SystemNotify.send('${Properties.light.object} DIMMED (${Properties.plex.object} is ${Properties.plex.object}.status)')
 
   # STOPPED
 
   If Plex is stopped, resume cleaning - ${Properties.selfObjectName}:
     if:
       - this is stopped
-      - ${Properties.plex.object}.user is '${Properties.plex.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.device}'
-      - ${Properties.plex.object}.local is true
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.roborock.object}.status is Paused
     run:
       - ${Properties.roborock.object}.resume()
-      - SystemNotify.send('Resumed cleaning (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.device})')
+      - SystemNotify.send('Resumed cleaning (${Properties.plex.object} is ${Properties.plex.object}.status)')
 
   If Plex is stopped - ${Properties.selfObjectName}:
     if:
       - this is stopped
-      - ${Properties.plex.object}.user is '${Properties.plex.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.device}'
-      - ${Properties.plex.object}.local is true
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
     run:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
       - ${Properties.light.object}.brightness('${Properties.light.brightness}','${Properties.light.on-duration-when-plex-stopped}')
-      - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} is ${Properties.plex.object}.status on ${Properties.plex.device})')
+      - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} is ${Properties.plex.object}.status)')
 
 # LIGHT
 
@@ -192,9 +177,6 @@ ${Properties.tv.object}.status:
     if:
       - this is off
       - ${Properties.plex.object}.status is not stopped
-      - ${Properties.plex.object}.user is '${Properties.plex.user}'
-      - ${Properties.plex.object}.device is '${Properties.plex.device}'
-      - ${Properties.plex.object}.local is true
     run:
       - SystemNotify.send('Mark ${Properties.plex.object} stopped (${Properties.tv.object} OFF)')
     set:
@@ -320,7 +302,8 @@ ${Properties.button.object}.click:
     if: this is long
     run:
       - ${Properties.selfObjectName}.off()
-      - House.off()
+      # TODO: RESTORE WHEN NO GUESTS
+      # - House.off()
       - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'true'
