@@ -86,6 +86,14 @@ ${Properties.light.object}.status:
       - ${Properties.light.object}.off()
       - SystemWarn.send('Detected light ON while nobody home! Turned it off.')
 
+  Reconnect online - ${Properties.selfObjectName}:
+    if:
+      - this.status is 'on'
+      - this.status.previousValue is 'offline'
+      - ${Properties.light.secondary.object}.status is 'on'
+    run:
+      - ${Properties.selfObjectName}.secondaryLightOff()
+
 # ILLUMINANCE
 
 ${Properties.motion.object}.illuminance:
