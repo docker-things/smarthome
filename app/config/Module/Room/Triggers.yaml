@@ -78,21 +78,53 @@ ${Properties.light.object}.status:
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'false'
 
-  Abnormal light ON while nobody home - ${Properties.selfObjectName}:
-    if:
-      - this is on
-      - House.presence is false
-    run:
-      - ${Properties.light.object}.off()
-      - SystemWarn.send('Detected light ON while nobody home! Turned it off.')
+  # Abnormal light ON while nobody home - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is on
+  #     - House.presence is false
+  #   run:
+  #     - ${Properties.light.object}.off()
+  #     - SystemWarn.send('Detected light ON while nobody home! Turned it off.')
 
-  Reconnect online - ${Properties.selfObjectName}:
+  Reconnect - turn off secondary light - ${Properties.selfObjectName}:
     if:
       - this.status is 'on'
       - this.status.previousValue is 'offline'
       - ${Properties.light.secondary.object}.status is 'on'
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
+
+  Reconnect - someone is present - ${Properties.selfObjectName}:
+    if:
+      - this.status is 'on'
+      - this.status.previousValue is 'offline'
+    set:
+      House.presence: 'true'
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+
+${Properties.light.secondary.object}.status:
+  Stop ignoring motion - ${Properties.selfObjectName}:
+    if: this is on
+    set:
+      ${Properties.selfObjectName}.ignoreMotion: 'false'
+
+  Reconnect - turn off primary light - ${Properties.selfObjectName}:
+    if:
+      - this.status is 'on'
+      - this.status.previousValue is 'offline'
+      - ${Properties.light.object}.status is 'on'
+    run:
+      - ${Properties.selfObjectName}.lightOff()
+
+  Reconnect - someone is present - ${Properties.selfObjectName}:
+    if:
+      - this.status is 'on'
+      - this.status.previousValue is 'offline'
+    set:
+      House.presence: 'true'
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
 
 # ILLUMINANCE
 
