@@ -168,7 +168,7 @@ ${Properties.motion.object}.occupancy:
       - this is true
       - House.presence is false
     run:
-      - SystemWarn.send('Motion detected but nobody is home!')
+      - SystemWarn.send('Motion detected but nobody is home (${Properties.selfObjectName})!')
       - SystemNotify.send('Motion detected but nobody is home (${Properties.selfObjectName})!')
 
 ${Properties.motion.object}.no_occupancy_since:

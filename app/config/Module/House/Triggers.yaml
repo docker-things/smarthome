@@ -24,6 +24,7 @@ ${Properties.door}.contact:
       - this is false
       - House.presence is false
     run:
+      - ${Properties.entrance-room}.lightOn()
       - SystemWarn.send('Someone entered the house')
       - SystemNotify.send('Someone entered the house')
 

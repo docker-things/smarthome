@@ -16,7 +16,7 @@ jobs:
     if:
       - House.shouldCheckPresence is true
       - ${Properties.door}.contact is true
-      - ${Properties.door}.contact.timeSince >= 300
+      - ${Properties.door}.contact.timeSince >= 30
       - ${Properties.door}.contact.timeSince <= House.lastMotion.timeSince
     set:
       House.shouldCheckPresence: 'false'
@@ -28,7 +28,7 @@ jobs:
     if:
       - House.shouldCheckPresence is true
       - ${Properties.door}.contact is true
-      - ${Properties.door}.contact.timeSince >= 300
+      - ${Properties.door}.contact.timeSince >= 30
       - ${Properties.door}.contact.timeSince > House.lastMotion.timeSince
     set:
       House.shouldCheckPresence: 'false'
