@@ -5,6 +5,6 @@ jobs:
     if: this.status is offline
     run: getStatusByCron()
 
-  - interval: 30
+  - interval: 60
     if: this.status is not offline
     run: getStatusByCron()
