@@ -40,6 +40,12 @@ class Core_State {
     public function deleteAllData() {
         $this->_db->exec("DELETE FROM `current`");
         $this->_db->exec("DELETE FROM `history`");
+        $this->optimizeDB();
+    }
+
+    public function deleteHistory() {
+        $this->_db->exec("DELETE FROM `history`");
+        $this->optimizeDB();
     }
 
     /**
@@ -48,6 +54,7 @@ class Core_State {
     public function deleteObjectData($object) {
         $this->_db->exec("DELETE FROM `current` WHERE source = '" . $this->_db->escape($object) . "'");
         $this->_db->exec("DELETE FROM `history` WHERE source = '" . $this->_db->escape($object) . "'");
+        $this->optimizeDB();
     }
 
     /**
@@ -223,6 +230,12 @@ class Core_State {
      */
     public function isUserValid($username, $password) {
         return $this->_db->isUserValid($username, $password);
+    }
+
+    public function optimizeDB() {
+        $this->_db->exec("OPTIMIZE TABLE `current`");
+        $this->_db->exec("OPTIMIZE TABLE `history`");
+        $this->_db->exec("PURGE BINARY LOGS BEFORE DATE(NOW() - INTERVAL 1 DAY) + INTERVAL 0 SECOND");
     }
 
     public function reload() {

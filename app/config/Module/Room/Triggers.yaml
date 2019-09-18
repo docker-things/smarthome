@@ -362,6 +362,14 @@ ${Properties.button.object}.click:
 
 ${Properties.door.object}.contact:
   Mark motion - ${Properties.selfObjectName}:
+    if: House.presence is false
+    set:
+      House.presence: 'true'
+    run:
+      - SystemWarn.send('Presence detected (${Properties.door.object})')
+      - SystemNotify.send('Presence detected (${Properties.door.object})')
+
+  Mark motion - ${Properties.selfObjectName}:
     if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
     set:
       House.lastMotion: System.timestamp
