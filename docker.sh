@@ -42,6 +42,7 @@ function scriptRun() {
         "remove")      scriptRemove $@     ;;
         "restore")     scriptRestore $@    ;;
         "install")     scriptInstall $@    ;;
+        "clear-data")  scriptClearData $@  ;;
         "set-default") scriptSetDefault $@ ;;
         *)             showUsage $@        ;;
     esac
@@ -49,7 +50,7 @@ function scriptRun() {
 
 # Show script usage
 function showUsage() {
-    showNormal "\nUsage: bash $0 [build|start|logs|status|connect|stop|kill|restart|backup|remove|restore]\n"
+    showNormal "\nUsage: bash $0 [build|start|logs|status|connect|stop|kill|restart|backup|remove|restore|install|clear-data|set-default]\n"
     exit 1
 }
 
@@ -361,6 +362,13 @@ function scriptSetDefault() {
     fi
 }
 
+function scriptClearData() {
+    showGreen "\nRemoving data for $PROJECT_NAME stored at `pwd`/data..."
+    rm -rf ./data
+    showGreen "\nRebuilding runtime dirs..."
+    buildRuntimeVolumeDirs
+}
+
 # Make the app runnable from the host system
 function scriptInstall() {
     showGreen "\nInstalling $PROJECT_NAME..."
@@ -381,6 +389,11 @@ function scriptInstall() {
     if [ -f "`pwd`/icon.png" ]; then
         # Default app categories
         APP_CATEGORIES="${APP_CATEGORIES:=GNOME;GTK;Utility;}"
+
+        # Open in terminal
+        if [ "$APP_TERMINAL" == "true" ]; then
+            BIN_FILE="x-terminal-emulator -e $BIN_FILE"
+        fi
 
         # Where to add the entry
         DESKTOP_FILE="/usr/share/applications/$safeProjectName.desktop"
