@@ -1,10 +1,6 @@
 ---
 
 ${Properties.door}.contact:
-  Mark presence:
-    set:
-      House.presence: 'true'
-
   Door is closed - send message:
     if: this is true
     run:
@@ -18,6 +14,8 @@ ${Properties.door}.contact:
     run:
       - SystemWarn.send('${Properties.door} was opened!')
       - SystemNotify.send('${Properties.door} was opened!')
+    set:
+      House.presence: 'true'
 
   Door is opened - someone arrived:
     if:

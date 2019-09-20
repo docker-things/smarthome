@@ -163,6 +163,24 @@ ${Properties.motion.object}.occupancy:
       - ${Properties.selfObjectName}.lightOn()
       - SystemNotify.send('${Properties.light.object} ON (Motion detected)')
 
+  Motion detected - no presence - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - House.presence is false
+      - ${Properties.motion.trigger-presence} is true
+      - ${Properties.selfObjectName}.ignoreMotion is not true
+      - ${Properties.light.object}.status not in ['on','offline']
+      - ${Properties.light.secondary.object}.status is not on
+      - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
+      - ${Properties.plex.object}.status not in ['playing','resumed']
+    run:
+      - ${Properties.selfObjectName}.lightOn()
+      - SystemWarn.send('Presence detected (${Properties.selfObjectName} motion)!')
+      - SystemNotify.send('Presence detected (${Properties.selfObjectName} motion)!')
+      - SystemNotify.send('${Properties.light.object} ON (Motion detected)')
+    set:
+      House.presence: 'true'
+
   Motion detected - Nobody home - ${Properties.selfObjectName}:
     if:
       - this is true
@@ -170,17 +188,6 @@ ${Properties.motion.object}.occupancy:
     run:
       - SystemWarn.send('Motion detected but nobody is home (${Properties.selfObjectName})!')
       - SystemNotify.send('Motion detected but nobody is home (${Properties.selfObjectName})!')
-
-  Motion detected - Nobody home - ${Properties.selfObjectName}:
-    if:
-      - this is true
-      - House.presence is false
-      - ${Properties.motion.trigger-presence} is true
-    run:
-      - SystemWarn.send('Presence detected (${Properties.selfObjectName} motion)!')
-      - SystemNotify.send('Presence detected (${Properties.selfObjectName} motion)!')
-    set:
-      House.presence: 'true'
 
 ${Properties.motion.object}.no_occupancy_since:
   Mark house motion - ${Properties.selfObjectName}:

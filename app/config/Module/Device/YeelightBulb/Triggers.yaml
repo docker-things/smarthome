@@ -6,9 +6,6 @@ status:
       - this.status is 'on'
       - this.status.previousValue is 'offline'
     run:
-      # - this.brightness('25')
-      # - System.sleep('0.4')
-      # - this.brightness('100')
-      - this.rgb('1005255')
-      - System.sleep('6')
-      - this.temperature('3500')
+      - this.brightness('25')
+      - System.sleep('0.4')
+      - this.brightness('100')
