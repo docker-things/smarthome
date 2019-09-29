@@ -290,6 +290,16 @@ ${Properties.button.object}.click:
       ${Properties.selfObjectName}.forceLightOff: 'false'
       ${Properties.selfObjectName}.forceLightOn: 'true'
 
+  Double click - Disable forced primary state - ${Properties.selfObjectName}:
+    if:
+      - this is double
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} deactivated forced light state')
+      - SystemNotify.send('${Properties.selfObjectName} deactivated forced light state')
+    set:
+      ${Properties.selfObjectName}.forceLightOff: 'false'
+      ${Properties.selfObjectName}.forceLightOn: 'false'
+
   Double click - Secondary light OFF - ${Properties.selfObjectName}:
     if:
       - this is double
@@ -297,9 +307,6 @@ ${Properties.button.object}.click:
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (${Properties.button.object})')
-    set:
-      ${Properties.selfObjectName}.forceLightOff: 'false'
-      ${Properties.selfObjectName}.forceLightOn: 'false'
 
   Double click - Secondary light ON - ${Properties.selfObjectName}:
     if:
@@ -309,9 +316,6 @@ ${Properties.button.object}.click:
       - ${Properties.selfObjectName}.secondaryLightOn()
       - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
-    set:
-      ${Properties.selfObjectName}.forceLightOff: 'false'
-      ${Properties.selfObjectName}.forceLightOn: 'false'
 
   Triple click - Audio system OFF - ${Properties.selfObjectName}:
     if:
