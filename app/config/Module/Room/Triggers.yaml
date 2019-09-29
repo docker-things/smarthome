@@ -150,11 +150,12 @@ ${Properties.motion.object}.illuminance:
 # MOTION
 
 ${Properties.motion.object}.occupancy:
-  Motion detected - ${Properties.selfObjectName}:
+  Motion detected - light on - ${Properties.selfObjectName}:
     if:
       - this is true
       - House.presence is true
       - ${Properties.selfObjectName}.ignoreMotion is not true
+      - ${Properties.selfObjectName}.forceLightOff is not true
       - ${Properties.light.object}.status not in ['on','offline']
       - ${Properties.light.secondary.object}.status is not on
       - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
@@ -168,18 +169,26 @@ ${Properties.motion.object}.occupancy:
       - this is true
       - House.presence is false
       - ${Properties.motion.trigger-presence} is true
+    run:
+      - SystemWarn.send('Presence detected (${Properties.selfObjectName} motion)!')
+      - SystemNotify.send('Presence detected (${Properties.selfObjectName} motion)!')
+    set:
+      House.presence: 'true'
+
+  Motion detected - no presence - light - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - House.presence is false
+      - ${Properties.motion.trigger-presence} is true
       - ${Properties.selfObjectName}.ignoreMotion is not true
+      - ${Properties.selfObjectName}.forceLightOff is not true
       - ${Properties.light.object}.status not in ['on','offline']
       - ${Properties.light.secondary.object}.status is not on
       - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
       - ${Properties.plex.object}.status not in ['playing','resumed']
     run:
       - ${Properties.selfObjectName}.lightOn()
-      - SystemWarn.send('Presence detected (${Properties.selfObjectName} motion)!')
-      - SystemNotify.send('Presence detected (${Properties.selfObjectName} motion)!')
       - SystemNotify.send('${Properties.light.object} ON (Motion detected)')
-    set:
-      House.presence: 'true'
 
   Motion detected - Nobody home - ${Properties.selfObjectName}:
     if:
@@ -261,6 +270,11 @@ ${Properties.button.object}.click:
     run:
       - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.object} OFF (${Properties.button.object})')
+      - SystemWarn.send('${Properties.selfObjectName} deactivated force light off')
+      - SystemNotify.send('${Properties.selfObjectName} deactivated force light off')
+    set:
+      ${Properties.selfObjectName}.forceLightOff: 'true'
+      ${Properties.selfObjectName}.forceLightOn: 'false'
 
   Single click - Local light ON - ${Properties.selfObjectName}:
     if:
@@ -270,6 +284,9 @@ ${Properties.button.object}.click:
       - ${Properties.selfObjectName}.lightOn()
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.object} ON (${Properties.button.object})')
+    set:
+      ${Properties.selfObjectName}.forceLightOff: 'false'
+      ${Properties.selfObjectName}.forceLightOn: 'true'
 
   Double click - Secondary light OFF - ${Properties.selfObjectName}:
     if:
@@ -278,6 +295,9 @@ ${Properties.button.object}.click:
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (${Properties.button.object})')
+    set:
+      ${Properties.selfObjectName}.forceSecondaryLightOff: 'true'
+      ${Properties.selfObjectName}.forceSecondaryLightOn: 'false'
 
   Double click - Secondary light ON - ${Properties.selfObjectName}:
     if:
@@ -287,6 +307,9 @@ ${Properties.button.object}.click:
       - ${Properties.selfObjectName}.secondaryLightOn()
       - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
+    set:
+      ${Properties.selfObjectName}.forceSecondaryLightOff: 'false'
+      ${Properties.selfObjectName}.forceSecondaryLightOn: 'true'
 
   Triple click - Audio system OFF - ${Properties.selfObjectName}:
     if:

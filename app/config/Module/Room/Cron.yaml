@@ -9,6 +9,7 @@ jobs:
     if:
       - ${Properties.light.object}.status is on
       - ${Properties.motion.object}.occupancy is false
+      - ${Properties.selfObjectName}.forceLightOn is not true
       - House.lastMotionLocation is '${Properties.name}'
       - ${Properties.door.object}.contact is not true
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-current-location}
@@ -35,6 +36,7 @@ jobs:
     if:
       - ${Properties.light.object}.status is on
       - ${Properties.motion.object}.occupancy is false
+      - ${Properties.selfObjectName}.forceLightOn is not true
       - House.lastMotionLocation.previousValue is '${Properties.name}'
       - ${Properties.door.object}.contact is not true
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-prev-location}
@@ -61,6 +63,7 @@ jobs:
     if:
       - ${Properties.light.object}.status is on
       - ${Properties.motion.object}.occupancy is false
+      - ${Properties.selfObjectName}.forceLightOn is not true
       - House.lastMotionLocation is not '${Properties.name}'
       - House.lastMotionLocation.previousValue is not '${Properties.name}'
       - ${Properties.door.object}.contact is not true
@@ -89,3 +92,27 @@ jobs:
       - ${Properties.selfObjectName}.ignoreMotion.timeSince >= ${Properties.motion.stop-ignoring-motion-after-X-seconds}
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'false'
+
+  # STOP FORCED ON/OFF LIGHT
+
+  # Primary Light Force OFF
+  - interval: 5
+    if:
+      - ${Properties.selfObjectName}.forceLightOff is true
+      - ${Properties.selfObjectName}.forceLightOff.timeSince >= ${Properties.light.force-light-off-seconds}
+    set:
+      ${Properties.selfObjectName}.forceLightOff: 'false'
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} deactivated force light off')
+      - SystemNotify.send('${Properties.selfObjectName} deactivated force light off')
+
+  # Primary Light Force ON
+  - interval: 5
+    if:
+      - ${Properties.selfObjectName}.forceLightOn is true
+      - ${Properties.selfObjectName}.forceLightOn.timeSince >= ${Properties.light.force-light-on-seconds}
+    set:
+      ${Properties.selfObjectName}.forceLightOn: 'false'
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} deactivated force light on')
+      - SystemNotify.send('${Properties.selfObjectName} deactivated force light on')

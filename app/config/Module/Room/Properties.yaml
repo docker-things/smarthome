@@ -11,6 +11,7 @@ motion:
 button:
   object: NONE
 
+
 light:
   object: NONE
   brightness: 100
@@ -23,6 +24,8 @@ light:
   off-when-no-motion-for-X-seconds-prev-location: 120
   off-when-no-motion-for-X-seconds-old-location: 5
   off-when-lux-over: 200
+  force-light-off-seconds: 3600
+  force-light-on-seconds: 3600
 
   secondary:
     object: NONE

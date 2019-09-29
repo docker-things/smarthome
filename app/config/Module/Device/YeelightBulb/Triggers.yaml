@@ -9,6 +9,14 @@ status:
       - SystemWarn.send('${Properties.selfObjectName} is offline!')
       - SystemNotify.send('${Properties.selfObjectName} is offline!')
 
+  Reconnect notification - ${Properties.selfObjectName}:
+    if:
+      - this.status in ('on','off')
+      - this.status.previousValue is 'offline'
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} is online')
+      - SystemNotify.send('${Properties.selfObjectName} is online')
+
   Reconnect action - ${Properties.selfObjectName}:
     if:
       - this.status is 'on'
@@ -17,11 +25,3 @@ status:
       - this.brightness('25')
       - System.sleep('0.4')
       - this.brightness('100')
-
-  Reconnect notification - ${Properties.selfObjectName}:
-    if:
-      - this.status in ('on','off')
-      - this.status.previousValue is 'offline'
-    run:
-      - SystemWarn.send('${Properties.selfObjectName} is online')
-      - SystemNotify.send('${Properties.selfObjectName} is online')
