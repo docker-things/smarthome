@@ -1,23 +1,23 @@
 ---
 
 status:
-  Disconnect notification - ${Properties.selfObjectName}:
+  Disconnect notification:
     if:
       - this.status is 'offline'
       - this.status.previousValue in ('on','off')
     run:
-      - SystemWarn.send('${Properties.selfObjectName} is offline!')
-      - SystemNotify.send('${Properties.selfObjectName} is offline!')
+      - SystemWarn.send('A light is offline!')
+      - SystemNotify.send('A light is offline!')
 
-  Reconnect notification - ${Properties.selfObjectName}:
+  Reconnect notification:
     if:
       - this.status in ('on','off')
       - this.status.previousValue is 'offline'
     run:
-      - SystemWarn.send('${Properties.selfObjectName} is online')
-      - SystemNotify.send('${Properties.selfObjectName} is online')
+      - SystemWarn.send('A light is online')
+      - SystemNotify.send('A light is online')
 
-  Reconnect action - ${Properties.selfObjectName}:
+  Reconnect action:
     if:
       - this.status is 'on'
       - this.status.previousValue is 'offline'
