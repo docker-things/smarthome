@@ -270,8 +270,8 @@ ${Properties.button.object}.click:
     run:
       - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.object} OFF (${Properties.button.object})')
-      - SystemWarn.send('${Properties.selfObjectName} deactivated force light off')
-      - SystemNotify.send('${Properties.selfObjectName} deactivated force light off')
+      - SystemWarn.send('${Properties.selfObjectName} activated force light off')
+      - SystemNotify.send('${Properties.selfObjectName} activated force light off')
     set:
       ${Properties.selfObjectName}.forceLightOff: 'true'
       ${Properties.selfObjectName}.forceLightOn: 'false'
