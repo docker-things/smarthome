@@ -25,10 +25,10 @@ if [ "`ls -1 "$CONFIG_DIR" | wc -l`" == "0" ]; then
     rmdir "$CONFIG_DIR"
     cp -R "$DEFAULT_CONFIG_DIR" "$CONFIG_DIR"
 
-# # Config modules sync
-# else
-#     echo " > Updating config modules from $DEFAULT_CONFIG_DIR/Module to $CONFIG_DIR/Module"
-#     rsync --delete-after --update -rvz "$DEFAULT_CONFIG_DIR/Module/" "$CONFIG_DIR/Module"
+# TODO: Remove in prod - sync modules config from default
+else
+    echo "[DEV] > Setting default modules config from $DEFAULT_CONFIG_DIR/Module to $CONFIG_DIR/Module"
+    rsync --delete-after --update -rvz "$DEFAULT_CONFIG_DIR/Module/" "$CONFIG_DIR/Module"
 fi
 
 # Permissions
