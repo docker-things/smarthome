@@ -270,8 +270,8 @@ ${Properties.button.object}.click:
     run:
       - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.object} OFF (${Properties.button.object})')
-      - SystemWarn.send('${Properties.selfObjectName} activated force light off')
-      - SystemNotify.send('${Properties.selfObjectName} activated force light off')
+      - SystemWarn.send('${Properties.selfObjectName} force light OFF')
+      - SystemNotify.send('${Properties.selfObjectName} force light OFF')
     set:
       ${Properties.selfObjectName}.forceLightOff: 'true'
       ${Properties.selfObjectName}.forceLightOn: 'false'
@@ -284,6 +284,8 @@ ${Properties.button.object}.click:
       - ${Properties.selfObjectName}.lightOn()
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.object} ON (${Properties.button.object})')
+      - SystemWarn.send('${Properties.selfObjectName} force light ON')
+      - SystemNotify.send('${Properties.selfObjectName} force light ON')
     set:
       ${Properties.selfObjectName}.forceLightOff: 'false'
       ${Properties.selfObjectName}.forceLightOn: 'true'
@@ -296,8 +298,8 @@ ${Properties.button.object}.click:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (${Properties.button.object})')
     set:
-      ${Properties.selfObjectName}.forceSecondaryLightOff: 'true'
-      ${Properties.selfObjectName}.forceSecondaryLightOn: 'false'
+      ${Properties.selfObjectName}.forceLightOff: 'false'
+      ${Properties.selfObjectName}.forceLightOn: 'false'
 
   Double click - Secondary light ON - ${Properties.selfObjectName}:
     if:
@@ -308,8 +310,8 @@ ${Properties.button.object}.click:
       - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
     set:
-      ${Properties.selfObjectName}.forceSecondaryLightOff: 'false'
-      ${Properties.selfObjectName}.forceSecondaryLightOn: 'true'
+      ${Properties.selfObjectName}.forceLightOff: 'false'
+      ${Properties.selfObjectName}.forceLightOn: 'false'
 
   Triple click - Audio system OFF - ${Properties.selfObjectName}:
     if:
