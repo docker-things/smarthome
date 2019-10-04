@@ -41,3 +41,14 @@ House.presence:
     run:
       - SystemWarn.send('Presence detected!')
       - SystemNotify.send('Presence detected!')
+
+  When leaving with opened windows:
+    if:
+      - this is false
+      - House.openWindows is true
+    run:
+      - ${Properties.entrance-room}.lightWarn()
+      - House.allLightsOff()
+      - House.lightOnWhereWindowsAreOpened()
+      - SystemWarn.send('Windows are opened!')
+      - SystemNotify.send('Windows are opened!')

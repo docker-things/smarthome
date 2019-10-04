@@ -38,6 +38,18 @@ functions:
       - ${Properties.room-8}.allLightsOff()
       - ${Properties.room-9}.allLightsOff()
 
+  lightOnWhereWindowsAreOpened():
+    runFunctions:
+      - ${Properties.room-1}.forceLightOnIfWindowsAreOpened()
+      - ${Properties.room-2}.forceLightOnIfWindowsAreOpened()
+      - ${Properties.room-3}.forceLightOnIfWindowsAreOpened()
+      - ${Properties.room-4}.forceLightOnIfWindowsAreOpened()
+      - ${Properties.room-5}.forceLightOnIfWindowsAreOpened()
+      - ${Properties.room-6}.forceLightOnIfWindowsAreOpened()
+      - ${Properties.room-7}.forceLightOnIfWindowsAreOpened()
+      - ${Properties.room-8}.forceLightOnIfWindowsAreOpened()
+      - ${Properties.room-9}.forceLightOnIfWindowsAreOpened()
+
   updateDoorsStatus():
     if:
       - ${Properties.room-1}.closedDoor != true
@@ -53,6 +65,22 @@ functions:
       closedDoors: 'false'
     elseSet:
       closedDoors: 'true'
+
+  updateWindowsStatus():
+    if:
+      - ${Properties.room-1}.openWindows != true
+      - ${Properties.room-2}.openWindows != true
+      - ${Properties.room-3}.openWindows != true
+      - ${Properties.room-4}.openWindows != true
+      - ${Properties.room-5}.openWindows != true
+      - ${Properties.room-6}.openWindows != true
+      - ${Properties.room-7}.openWindows != true
+      - ${Properties.room-8}.openWindows != true
+      - ${Properties.room-9}.openWindows != true
+    set:
+      openWindows: 'false'
+    elseSet:
+      openWindows: 'true'
 
   offWithoutVacuum():
     runFunctions:

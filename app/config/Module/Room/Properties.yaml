@@ -37,6 +37,12 @@ light:
 door:
   object: NONE
 
+window:
+  object: NONE
+
+window-2:
+  object: NONE
+
 plex:
   object: NONE
   user: NONE

@@ -78,6 +78,22 @@ ${Properties.light.object}.status:
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'false'
 
+  Disconnect notification - ${Properties.selfObjectName}:
+    if:
+      - this.status is 'offline'
+      - this.status.previousValue in ['on','off']
+    run:
+      - SystemWarn.send('${Properties.light.object} went OFFLINE!')
+      - SystemNotify.send('${Properties.light.object} went OFFLINE!')
+
+  Reconnect notification - ${Properties.selfObjectName}:
+    if:
+      - this.status in ['on','off']
+      - this.status.previousValue is 'offline'
+    run:
+      - SystemWarn.send('${Properties.light.object} is back ONLINE')
+      - SystemNotify.send('${Properties.light.object} is back ONLINE')
+
   Abnormal light ON while nobody home - ${Properties.selfObjectName}:
     if:
       - this is on
@@ -104,6 +120,22 @@ ${Properties.light.object}.status:
       House.lastMotionLocation: '${Properties.name}'
 
 ${Properties.light.secondary.object}.status:
+  Disconnect notification - ${Properties.selfObjectName}:
+    if:
+      - this.status is 'offline'
+      - this.status.previousValue in ['on','off']
+    run:
+      - SystemWarn.send('${Properties.light.secondary.object} went OFFLINE!')
+      - SystemNotify.send('${Properties.light.secondary.object} went OFFLINE!')
+
+  Reconnect notification - ${Properties.selfObjectName}:
+    if:
+      - this.status in ['on','off']
+      - this.status.previousValue is 'offline'
+    run:
+      - SystemWarn.send('${Properties.light.secondary.object} is back ONLINE')
+      - SystemNotify.send('${Properties.light.secondary.object} is back ONLINE')
+
   Stop ignoring motion - ${Properties.selfObjectName}:
     if: this is on
     set:
@@ -397,7 +429,7 @@ ${Properties.button.object}.click:
 # DOOR
 
 ${Properties.door.object}.contact:
-  Mark motion - ${Properties.selfObjectName}:
+  Mark presence - ${Properties.selfObjectName}:
     if: House.presence is false
     set:
       House.presence: 'true'
@@ -444,6 +476,82 @@ ${Properties.door.object}.contact:
     run:
       - ${Properties.roborock.object}.cleanZone('${Properties.roborock.local-zone}','${Properties.name}')
       - SystemNotify.send('Restart cleaning (${Properties.door.object} opened)')
+
+# WINDOWS
+
+${Properties.window.object}.contact:
+  Mark presence - ${Properties.selfObjectName}:
+    if: House.presence is false
+    set:
+      House.presence: 'true'
+    run:
+      - SystemWarn.send('Presence detected (${Properties.window.object})')
+      - SystemNotify.send('Presence detected (${Properties.window.object})')
+
+  Mark motion - ${Properties.selfObjectName}:
+    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
+    set:
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastMotion: System.timestamp
+
+  Mark status and alert if window opened - ${Properties.selfObjectName}:
+    if: this is false
+    set:
+      ${Properties.selfObjectName}.openWindows: 'true'
+
+  Mark status if all windows in room are closed - ${Properties.selfObjectName}:
+    if:
+      - this is not false
+      - ${Properties.window-2.object}.contact is not false
+    set:
+      ${Properties.selfObjectName}.openWindows: 'false'
+
+${Properties.window-2.object}.contact:
+  Mark presence - ${Properties.selfObjectName}:
+    if: House.presence is false
+    set:
+      House.presence: 'true'
+    run:
+      - SystemWarn.send('Presence detected (${Properties.window-2.object})')
+      - SystemNotify.send('Presence detected (${Properties.window-2.object})')
+
+  Mark motion - ${Properties.selfObjectName}:
+    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
+    set:
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastMotion: System.timestamp
+
+  Mark status and alert if window opened - ${Properties.selfObjectName}:
+    if: this is false
+    set:
+      ${Properties.selfObjectName}.openWindows: 'true'
+
+  Mark status if all windows in room are closed - ${Properties.selfObjectName}:
+    if:
+      - this is not false
+      - ${Properties.window.object}.contact is not false
+    set:
+      ${Properties.selfObjectName}.openWindows: 'false'
+
+${Properties.selfObjectName}.openWindows:
+
+  Update house windows status - ${Properties.selfObjectName}:
+    run:
+      - House.updateWindowsStatus()
+
+  Notify if closed - ${Properties.selfObjectName}:
+    if: this is true
+    run:
+      - SystemNotify.send('Closed window in ${Properties.selfObjectName}')
+
+  Notify if opened - ${Properties.selfObjectName}:
+    if: this is false
+    run:
+      - SystemNotify.send('Opened window in ${Properties.selfObjectName}')
+
+# WATER SENSOR
 
 ${Properties.water-sensor.object}.water_leak:
 
