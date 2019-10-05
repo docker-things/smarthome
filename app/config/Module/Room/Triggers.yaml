@@ -466,8 +466,6 @@ ${Properties.door.object}.contact:
   Mark door status - ${Properties.selfObjectName}:
     set:
       ${Properties.selfObjectName}.closedDoor: ${Properties.door.object}.contact
-    run:
-      - House.updateDoorsStatus()
 
   Stop cleaning on close - ${Properties.selfObjectName}:
     if:
@@ -495,6 +493,10 @@ ${Properties.door.object}.contact:
     run:
       - ${Properties.roborock.object}.cleanZone('${Properties.roborock.local-zone}','${Properties.name}')
       - SystemNotify.send('Restart cleaning (${Properties.door.object} opened)')
+
+${Properties.selfObjectName}.closedDoor:
+  Mark house doors status - ${Properties.selfObjectName}:
+    run: House.updateDoorsStatus()
 
 # WINDOWS
 
