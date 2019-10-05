@@ -17,6 +17,6 @@ jobs:
       - House.closedDoors.timeSince > 300
     run:
       - ${Properties.selfObjectName}.start()
-      - SystemNotify.send('Delayed cleanup')
+      - SystemNotify.send('Started delayed cleaning')
     set:
       ${Properties.selfObjectName}.delayedCleanup: 'false'
