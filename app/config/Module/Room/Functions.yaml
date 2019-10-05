@@ -103,6 +103,18 @@ functions:
       - System.sleep('0.4')
       - ${Properties.light.secondary.object}.on('0.2')
 
+  secondaryLightWarnShort():
+    if: ${Properties.light.secondary.object}.status in ['on','off']
+    runFunctions:
+      - ${Properties.light.secondary.object}.on()
+      - ${Properties.light.secondary.object}.rgb('16748687')
+      - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')
+      - System.sleep('0.4')
+      - ${Properties.light.secondary.object}.off('0.2')
+      - System.sleep('0.4')
+      - ${Properties.light.secondary.object}.on('0.2')
+      - System.sleep('0.4')
+
   secondaryLightSuccess():
     if: ${Properties.light.secondary.object}.status in ['on','off']
     runFunctions:

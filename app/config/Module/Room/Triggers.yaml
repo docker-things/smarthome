@@ -418,8 +418,23 @@ ${Properties.button.object}.click:
       - SystemNotify.send('Paused cleaning (${Properties.button.object})')
 
   Long click - Turn everything OFF - ${Properties.selfObjectName}:
-    if: this is long
+    if:
+      - this is long
+      - House.openWindows is false
     run:
+      - ${Properties.selfObjectName}.off()
+      - House.off()
+      - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
+    set:
+      ${Properties.selfObjectName}.ignoreMotion: 'true'
+
+  Long click - Turn everything OFF - Alert opened windows ${Properties.selfObjectName}:
+    if:
+      - this is long
+      - House.openWindows is true
+    run:
+      - ${Properties.selfObjectName}.off()
+      - ${Properties.selfObjectName}.secondaryLightWarnShort()
       - ${Properties.selfObjectName}.off()
       - House.off()
       - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
