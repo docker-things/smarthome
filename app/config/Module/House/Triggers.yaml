@@ -37,13 +37,6 @@ ${Properties.door}.contact:
       - SystemWarn.send('Windows are opened!')
       - SystemNotify.send('Windows are opened!')
 
-  When leaving with closed windows:
-    if:
-      - this is false
-      - House.openWindows is false
-    run:
-      - ${Properties.entrance-room}.lightSuccess()
-
 House.presence:
   When house is empty:
     if:

@@ -9,6 +9,8 @@ functions:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
       - ${Properties.light.object}.brightness('${Properties.light.brightness}')
+    set:
+      ${Properties.selfObjectName}.forceLightOff: 'false'
 
   secondaryLightOn():
     if:
@@ -23,6 +25,8 @@ functions:
       - ${Properties.light.object}.status is 'on'
     runFunctions:
       - ${Properties.light.object}.off()
+    set:
+      ${Properties.selfObjectName}.forceLightOn: 'false'
 
   secondaryLightOff():
     if:
@@ -41,8 +45,6 @@ functions:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - ${Properties.tv.object}.off()
       - ${Properties.tv.audio-system.object}.off()
-    set:
-      ${Properties.selfObjectName}.forceLightOn: 'false'
 
   lightWarn():
     if: ${Properties.light.object}.status in ['on','off']
@@ -142,7 +144,6 @@ functions:
       - ${Properties.light.object}.status in ['on','off']
     set:
       ${Properties.selfObjectName}.forceLightOn: 'true'
-      ${Properties.selfObjectName}.forceLightOff: 'false'
     run:
       - ${Properties.selfObjectName}.lightOn()
       - SystemWarn.send('Light ON (Window is opened @ ${Properties.selfObjectName}')

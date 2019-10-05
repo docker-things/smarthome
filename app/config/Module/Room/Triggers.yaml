@@ -306,7 +306,6 @@ ${Properties.button.object}.click:
       - SystemNotify.send('${Properties.selfObjectName} force light OFF')
     set:
       ${Properties.selfObjectName}.forceLightOff: 'true'
-      ${Properties.selfObjectName}.forceLightOn: 'false'
 
   Single click - Local light ON - ${Properties.selfObjectName}:
     if:
@@ -319,7 +318,6 @@ ${Properties.button.object}.click:
       - SystemWarn.send('${Properties.selfObjectName} force light ON')
       - SystemNotify.send('${Properties.selfObjectName} force light ON')
     set:
-      ${Properties.selfObjectName}.forceLightOff: 'false'
       ${Properties.selfObjectName}.forceLightOn: 'true'
 
   Double click - Disable forced primary state - ${Properties.selfObjectName}:
@@ -343,7 +341,7 @@ ${Properties.button.object}.click:
   Double click - Secondary light ON - ${Properties.selfObjectName}:
     if:
       - this is double
-      - ${Properties.light.secondary.object}.status not in ['on','offline']
+      - ${Properties.light.secondary.object}.status not in ['on','offline','NONE.status']
     run:
       - ${Properties.selfObjectName}.secondaryLightOn()
       - ${Properties.selfObjectName}.lightOff()
@@ -360,7 +358,7 @@ ${Properties.button.object}.click:
   Triple click - Audio system ON - ${Properties.selfObjectName}:
     if:
       - this is triple
-      - ${Properties.tv.audio-system.object}.status is not on
+      - ${Properties.tv.audio-system.object}.status not in ['on','NONE.status']
     run:
       - ${Properties.tv.audio-system.object}.on()
       - SystemNotify.send('${Properties.tv.audio-system.object} ON (${Properties.button.object})')
@@ -427,8 +425,6 @@ ${Properties.button.object}.click:
       - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'true'
-      ${Properties.selfObjectName}.forceLightOn: 'false'
-      ${Properties.selfObjectName}.forceLightOff: 'false'
 
   Long click - Turn everything OFF - Alert opened windows ${Properties.selfObjectName}:
     if:
@@ -442,8 +438,6 @@ ${Properties.button.object}.click:
       - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'true'
-      ${Properties.selfObjectName}.forceLightOn: 'false'
-      ${Properties.selfObjectName}.forceLightOff: 'false'
 
 # DOOR
 
