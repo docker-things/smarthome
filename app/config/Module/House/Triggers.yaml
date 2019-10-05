@@ -26,17 +26,6 @@ ${Properties.door}.contact:
       - SystemWarn.send('Someone entered the house')
       - SystemNotify.send('Someone entered the house')
 
-  When leaving with opened windows:
-    if:
-      - this is false
-      - House.openWindows is true
-    run:
-      - ${Properties.entrance-room}.lightWarn()
-      - House.allLightsOff()
-      - House.lightOnWhereWindowsAreOpened()
-      - SystemWarn.send('Windows are opened!')
-      - SystemNotify.send('Windows are opened!')
-
 House.presence:
   When house is empty:
     if:
@@ -45,6 +34,14 @@ House.presence:
       - House.offWithoutVacuum()
       - SystemWarn.send('House is empty. Turned everything off.')
       - SystemNotify.send('House is empty. Turned everything off.')
+
+  When house is empty with opened windows:
+    if:
+      - this is false
+      - House.openWindows is true
+    run:
+      - SystemWarn.send('Windows are opened!')
+      - SystemNotify.send('Windows are opened!')
 
   When house is populated:
     if:
