@@ -305,6 +305,7 @@ ${Properties.button.object}.click:
       - SystemWarn.send('${Properties.selfObjectName} force light OFF')
       - SystemNotify.send('${Properties.selfObjectName} force light OFF')
     set:
+      ${Properties.selfObjectName}.forceLightOn: 'false'
       ${Properties.selfObjectName}.forceLightOff: 'true'
 
   Single click - Local light ON - ${Properties.selfObjectName}:
@@ -318,6 +319,7 @@ ${Properties.button.object}.click:
       - SystemWarn.send('${Properties.selfObjectName} force light ON')
       - SystemNotify.send('${Properties.selfObjectName} force light ON')
     set:
+      ${Properties.selfObjectName}.forceLightOff: 'false'
       ${Properties.selfObjectName}.forceLightOn: 'true'
 
   Double click - Disable forced primary state - ${Properties.selfObjectName}:

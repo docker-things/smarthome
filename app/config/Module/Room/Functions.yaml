@@ -10,7 +10,7 @@ functions:
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
       - ${Properties.light.object}.brightness('${Properties.light.brightness}')
     set:
-      ${Properties.selfObjectName}.forceLightOff: 'false'
+      forceLightOff: 'false'
 
   secondaryLightOn():
     if:
@@ -26,7 +26,7 @@ functions:
     runFunctions:
       - ${Properties.light.object}.off()
     set:
-      ${Properties.selfObjectName}.forceLightOn: 'false'
+      forceLightOn: 'false'
 
   secondaryLightOff():
     if:
@@ -165,7 +165,7 @@ functions:
       - ${Properties.selfObjectName}.openWindows is true
       - ${Properties.light.object}.status in ['on','off']
     set:
-      ${Properties.selfObjectName}.forceLightOn: 'true'
+      forceLightOn: 'true'
     runFunctions:
       - ${Properties.selfObjectName}.lightOn()
       - SystemWarn.send('Light ON (Window is opened @ ${Properties.selfObjectName}')
