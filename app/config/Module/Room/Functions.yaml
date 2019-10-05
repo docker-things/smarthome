@@ -35,12 +35,12 @@ functions:
       - ${Properties.light.secondary.object}.off()
 
   allLightsOff():
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.selfObjectName}.lightOff()
       - ${Properties.selfObjectName}.secondaryLightOff()
 
   off():
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.selfObjectName}.lightOff()
       - ${Properties.selfObjectName}.secondaryLightOff()
       - ${Properties.tv.object}.off()
@@ -144,7 +144,7 @@ functions:
       - ${Properties.light.object}.status in ['on','off']
     set:
       ${Properties.selfObjectName}.forceLightOn: 'true'
-    run:
+    runFunctions:
       - ${Properties.selfObjectName}.lightOn()
       - SystemWarn.send('Light ON (Window is opened @ ${Properties.selfObjectName}')
       - SystemNotify.send('Light ON (Window is opened @ ${Properties.selfObjectName}')

@@ -179,7 +179,7 @@ class Core_Function {
         // Core_Logger::info('Core_Function::_runFunction("' . json_encode($function) . '");');
 
         if (!isset($function['run'])) {
-            if (!isset($function['runFunctions'])) {
+            if (!isset($function['runFunctions']) && !isset($function['runFunctionsAsync'])) {
                 Core_Logger::error('Core_Function::_runFunction(): Function doensn\'t have any command to run!');
             }
             return false;
@@ -202,21 +202,34 @@ class Core_Function {
     private function _runYamlFunctions($functions) {
         // Core_Logger::info('Core_Function::_runYamlFunctions("' . json_encode($functions) . '");');
 
-        if (!isset($functions['runFunctions'])) {
+        if (!isset($functions['runFunctions']) && !isset($functions['runFunctionsAsync'])) {
             if (!isset($functions['run'])) {
-                Core_Logger::error('Core_Function::_runYamlFunctions(): Function doensn\'t have any command to run!');
+                Core_Logger::error('Core_Function::_runYamlFunctions(): Function doesn\'t have any command to run!');
             }
             return false;
         }
 
-        foreach ($functions['runFunctions'] as $function) {
-            Core_Logger::info('Core_Function::_runYamlFunctions(): Running: ' . $function);
+        // Run async functions
+        if (isset($functions['runFunctionsAsync'])) {
+            foreach ($functions['runFunctionsAsync'] as $function) {
+                Core_Logger::info('Core_Function::_runYamlFunctions(): Running async: ' . $function);
 
-            // Init function object
-            $subfunction = new Core_Function($this->_app, $function);
+                // Run function in another process
+                exec("php web/runFunctions.php '" . urlencode($function) . "' > /dev/null 2>&1 &");
+            }
+        }
 
-            // Run function
-            $subfunction->process();
+        // Run ordered functions
+        if (isset($functions['runFunctions'])) {
+            foreach ($functions['runFunctions'] as $function) {
+                Core_Logger::info('Core_Function::_runYamlFunctions(): Running: ' . $function);
+
+                // Init function object
+                $subfunction = new Core_Function($this->_app, $function);
+
+                // Run function
+                $subfunction->process();
+            }
         }
     }
 

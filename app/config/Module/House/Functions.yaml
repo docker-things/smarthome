@@ -3,7 +3,7 @@
 functions:
 
   lightOn():
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.room-1}.lightOn()
       - ${Properties.room-2}.lightOn()
       - ${Properties.room-3}.lightOn()
@@ -15,7 +15,7 @@ functions:
       - ${Properties.room-9}.lightOn()
 
   lightOff():
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.room-1}.lightOff()
       - ${Properties.room-2}.lightOff()
       - ${Properties.room-3}.lightOff()
@@ -27,7 +27,7 @@ functions:
       - ${Properties.room-9}.lightOff()
 
   allLightsOff():
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.room-1}.allLightsOff()
       - ${Properties.room-2}.allLightsOff()
       - ${Properties.room-3}.allLightsOff()
@@ -39,7 +39,7 @@ functions:
       - ${Properties.room-9}.allLightsOff()
 
   lightOnWhereWindowsAreOpened():
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.room-1}.forceLightOnIfWindowsAreOpened()
       - ${Properties.room-2}.forceLightOnIfWindowsAreOpened()
       - ${Properties.room-3}.forceLightOnIfWindowsAreOpened()
@@ -83,7 +83,7 @@ functions:
       openWindows: 'true'
 
   offWithoutVacuum():
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.room-1}.off()
       - ${Properties.room-2}.off()
       - ${Properties.room-3}.off()
@@ -95,6 +95,6 @@ functions:
       - ${Properties.room-9}.off()
 
   off():
-    runFunctions:
+    runFunctionsAsync:
       - House.offWithoutVacuum()
       - ${Properties.roborock.object}.home()
