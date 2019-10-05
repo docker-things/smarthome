@@ -10,6 +10,9 @@ jobs:
     run:
       - House.allLightsOff()
       - SystemNotify.send('All lights OFF (No house motion for 3600 seconds)')
+    set:
+      House.shouldCheckPresence: 'false'
+      House.presence: 'false'
 
   # Someone left the house:
   - interval: 5
