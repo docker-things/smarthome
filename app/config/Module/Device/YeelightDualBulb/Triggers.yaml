@@ -1,0 +1,111 @@
+---
+
+# BULB 1
+
+${Properties.bulb-1}.status:
+  When going offline - ${Properties.selfObjectName}:
+    if:
+      - this is offline
+      - ${Properties.bulb-2}.status is offline
+    set:
+      ${Properties.selfObjectName}.status: offline
+
+  Online status change - ${Properties.selfObjectName}:
+    if: this is not offline
+    set:
+      ${Properties.selfObjectName}.status: this.status
+
+${Properties.bulb-1}.brightness:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.brightness: this.brightness
+
+${Properties.bulb-1}.temperature:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.temperature: this.temperature
+
+${Properties.bulb-1}.rgb:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.rgb: this.rgb
+
+${Properties.bulb-1}.hue:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.hue: this.hue
+
+${Properties.bulb-1}.saturation:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.saturation: this.saturation
+
+${Properties.bulb-1}.mode:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.mode: this.mode
+
+${Properties.bulb-1}.music:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.music: this.music
+
+${Properties.bulb-1}.name:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.name: ${Properties.selfObjectName}
+
+# BULB 2
+
+${Properties.bulb-2}.status:
+  When going offline - ${Properties.selfObjectName}:
+    if:
+      - this is offline
+      - ${Properties.bulb-1}.status is offline
+    set:
+      ${Properties.selfObjectName}.status: offline
+
+  Online status change - ${Properties.selfObjectName}:
+    if: this is not offline
+    set:
+      ${Properties.selfObjectName}.status: this.status
+
+${Properties.bulb-2}.brightness:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.brightness: this.brightness
+
+${Properties.bulb-2}.temperature:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.temperature: this.temperature
+
+${Properties.bulb-2}.rgb:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.rgb: this.rgb
+
+${Properties.bulb-2}.hue:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.hue: this.hue
+
+${Properties.bulb-2}.saturation:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.saturation: this.saturation
+
+${Properties.bulb-2}.mode:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.mode: this.mode
+
+${Properties.bulb-2}.music:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.music: this.music
+
+${Properties.bulb-2}.name:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.name: ${Properties.selfObjectName}

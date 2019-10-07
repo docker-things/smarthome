@@ -1,0 +1,98 @@
+---
+
+cmd: '${Base.paths.modules}/yeelight/yeelight ${Properties.ip}'
+
+functions:
+
+  on():
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.on()
+      - ${Properties.bulb-2}.on()
+    set:
+      status: 'on'
+
+  on(duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.on('${ARGS.duration}')
+      - ${Properties.bulb-2}.on('${ARGS.duration}')
+    set:
+      status: 'on'
+
+  off():
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.off()
+      - ${Properties.bulb-2}.off()
+    set:
+      status: 'off'
+
+  off(duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.off('${ARGS.duration}')
+      - ${Properties.bulb-2}.off('${ARGS.duration}')
+    set:
+      status: 'off'
+
+  toggle():
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.toggle()
+      - ${Properties.bulb-2}.toggle()
+
+  toggle(duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.toggle('${ARGS.duration}')
+      - ${Properties.bulb-2}.toggle('${ARGS.duration}')
+
+  # brightness: 0-100
+  brightness(brightness):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.brightness('${ARGS.brightness}')
+      - ${Properties.bulb-2}.brightness('${ARGS.brightness}')
+
+  brightness(brightness,duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.brightness('${ARGS.brightness}','${ARGS.duration}')
+      - ${Properties.bulb-2}.brightness('${ARGS.brightness}','${ARGS.duration}')
+
+  # temperature: 1700 (warm light) - 6500 (cold light)
+  temperature(temperature):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.temperature('${ARGS.temperature}')
+      - ${Properties.bulb-2}.temperature('${ARGS.temperature}')
+
+  temperature(temperature,duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.temperature('${ARGS.temperature}','${ARGS.duration}')
+      - ${Properties.bulb-2}.temperature('${ARGS.temperature}','${ARGS.duration}')
+
+  # rgb: decimal integer ranges from 0 to 16777215 (hex: 0xFFFFFF); RGB = (R*65536)+(G*256)+B
+  rgb(rgb):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.rgb('${ARGS.rgb}')
+      - ${Properties.bulb-2}.rgb('${ARGS.rgb}')
+
+  rgb(rgb,duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.rgb('${ARGS.rgb}','${ARGS.duration}')
+      - ${Properties.bulb-2}.rgb('${ARGS.rgb}','${ARGS.duration}')
+
+  # hue: 0-359
+  # stauration: 0-100
+  hue(hue,saturation):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.hue('${ARGS.hue}','${ARGS.saturation}')
+      - ${Properties.bulb-2}.hue('${ARGS.hue}','${ARGS.saturation}')
+
+  hue(hue,saturation,duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.hue('${ARGS.hue}','${ARGS.saturation}','${ARGS.duration}')
+      - ${Properties.bulb-2}.hue('${ARGS.hue}','${ARGS.saturation}','${ARGS.duration}')
+
+  getStatus():
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.getStatus()
+      - ${Properties.bulb-2}.getStatus()
+
+  getStatusByCron():
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.getStatusByCron()
+      - ${Properties.bulb-2}.getStatusByCron()

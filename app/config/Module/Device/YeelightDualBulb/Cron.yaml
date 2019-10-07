@@ -1,0 +1,27 @@
+---
+
+jobs:
+  - interval: 5
+    if:
+      - ${Properties.selfObjectName}.status is not ${Properties.bulb-1}.status
+      - ${Properties.selfObjectName}.status is not ${Properties.bulb-2}.status
+      - ${Properties.bulb-1}.status is not offline
+    set:
+      ${Properties.selfObjectName}.status: ''
+
+  - interval: 5
+    if:
+      - ${Properties.selfObjectName}.status is not ${Properties.bulb-2}.status
+      - ${Properties.selfObjectName}.status is not ${Properties.bulb-1}.status
+      - ${Properties.bulb-2}.status is not offline
+      - ${Properties.bulb-1}.status is offline
+    set:
+      ${Properties.selfObjectName}.status: ''
+
+  - interval: 5
+    if:
+      - ${Properties.bulb-1}.status is not ${Properties.selfObjectName}.status
+      - ${Properties.bulb-1}.status is ${Properties.bulb-2}.status
+      - ${Properties.bulb-1}.status is offline
+    set:
+      ${Properties.selfObjectName}.status: offline
