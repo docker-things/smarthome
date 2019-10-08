@@ -322,14 +322,24 @@ ${Properties.button.object}.click:
       ${Properties.selfObjectName}.forceLightOff: 'false'
       ${Properties.selfObjectName}.forceLightOn: 'true'
 
-  Double click - Disable forced primary state - ${Properties.selfObjectName}:
+  Double click - Disable forced off primary state - ${Properties.selfObjectName}:
     if:
       - this is double
+      - ${Properties.selfObjectName}.forceLightOff is true
     run:
-      - SystemWarn.send('${Properties.selfObjectName} deactivated forced light state')
-      - SystemNotify.send('${Properties.selfObjectName} deactivated forced light state')
+      - SystemWarn.send('${Properties.selfObjectName} deactivated forced light off (${Properties.button.object})')
+      - SystemNotify.send('${Properties.selfObjectName} deactivated forced light off (${Properties.button.object})')
     set:
       ${Properties.selfObjectName}.forceLightOff: 'false'
+
+  Double click - Disable forced on primary state - ${Properties.selfObjectName}:
+    if:
+      - this is double
+      - ${Properties.selfObjectName}.forceLightOn is true
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} deactivated forced light on (${Properties.button.object})')
+      - SystemNotify.send('${Properties.selfObjectName} deactivated forced light on (${Properties.button.object})')
+    set:
       ${Properties.selfObjectName}.forceLightOn: 'false'
 
   Double click - Secondary light OFF - ${Properties.selfObjectName}:
