@@ -168,5 +168,5 @@ functions:
       forceLightOn: 'true'
     runFunctions:
       - ${Properties.selfObjectName}.lightOn()
-      - SystemWarn.send('Light ON (Window is opened @ ${Properties.selfObjectName}')
-      - SystemNotify.send('Light ON (Window is opened @ ${Properties.selfObjectName}')
+      - SystemWarn.send('Light ON (Window is opened @ ${Properties.selfObjectName})')
+      - SystemNotify.send('Light ON (Window is opened @ ${Properties.selfObjectName})')
