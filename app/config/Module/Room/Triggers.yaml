@@ -570,6 +570,9 @@ ${Properties.water-sensor.object}.water_leak:
   Leak Detected - Primary Light Flash - ${Properties.selfObjectName}:
     if: this is true
     run: ${Properties.selfObjectName}.lightWarn()
+    set:
+      ${Properties.selfObjectName}.forceLightOn: 'true'
+      ${Properties.selfObjectName}.forceLightOff: 'false'
 
   Leak Detected - Secondary Light Flash - ${Properties.selfObjectName}:
     if: this is true
@@ -585,3 +588,5 @@ ${Properties.water-sensor.object}.water_leak:
       - ${Properties.selfObjectName}.lightUnwarn()
       - ${Properties.selfObjectName}.secondaryLightUnwarn()
       - SystemWarn.send('Water leak is gone in ${Properties.selfObjectName}')
+    set:
+      ${Properties.selfObjectName}.forceLightOn: 'false'

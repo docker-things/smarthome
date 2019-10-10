@@ -64,6 +64,8 @@ functions:
       - ${Properties.light.object}.off('0.2')
       - System.sleep('0.4')
       - ${Properties.light.object}.on('0.2')
+    set:
+      forceLightOn: 'true'
 
   lightWarnShort():
     if: ${Properties.light.object}.status in ['on','off']
@@ -102,6 +104,8 @@ functions:
     runFunctions:
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
       - ${Properties.light.object}.brightness('${Properties.light.brightness}')
+    set:
+      forceLightOn: 'false'
 
   secondaryLightWarn():
     if: ${Properties.light.secondary.object}.status in ['on','off']
