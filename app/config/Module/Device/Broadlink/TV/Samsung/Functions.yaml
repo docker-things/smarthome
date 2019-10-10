@@ -1,0 +1,191 @@
+---
+
+functions:
+
+  1():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYUNhQ3ExETEhMSExITEhM3EzcTNxMSExITEhMSExITEhMSEzcTEhMSExITEhMSEzYUNhQSEzYUNhQ2EzcTNxMADQUAAA==')
+
+  2():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNxM3ExITEhMSExITEhM2FDYUNhMSExITEhMSExITNxMSEzcTEhMSExITEhMSExITNxMSEzcTNxM3EzcTNhQADQUAAA==')
+
+  3():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYUNhQ2ExITEhMSExITEhM3EzcTNxMSExITEhMSExITEhM3EzcTEhMSExITERQRFDYUERQREzcTNxM3EzcTNxMADQUAAA==')
+
+  4():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNxM3ExITEhMSExITEhM3EzYUNhQRFBEUERQRFBEUERQRFBETOBISExITEhMSEzcTNxM3ExITNxM3EzcTNxMADQUAAA==')
+
+  5():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYUNhQ2ExITEhMSExITEhM3EzcTNxMSExITEhMSExITNxMSExITNxMSExITEhMSExITNhQ2FBETNxM3EzcTNxMADQUAAA==')
+
+  6():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYUNhQ2ExITEhMSExITEhM3EzcTNxMSExITEhMSExITEhM2FBITNhQRFBEUERQRFDYTEhM3ExITNxM3EzcTNxMADQUAAA==')
+
+  7():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNxM3ExITEhMSExITEhM3EzYUNhQSExITERQRFBEUERQRFDYTNxMSExITEhMSEzcTNxMSExITNxM3EzcTNxMADQUAAA==')
+
+  8():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYUNhQ2ExMSEhMSExITEhM3EzcTNxMSExITEhMSExITNxMSEzcTNhQSExITEhMRFBEUNhQRExIUNhM3EzcTOBIADQUAAA==')
+
+  9():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJWUEzcTNxM3ExITEhMSExITEhM3EzcTNxMSExITEhMSExITEhM2FDYUNhQRFBEUERMSEzcTEhMSExITNxM3EzcTNxMABgiWlBM3EzYUNhQRFBEUERQRFBEUNhM3EzcTEhMSExITEhMSExITNxM3EzcTEhMSExITEhM2FBITEhMSEzYUNhQ2FDYTAA0FAAAAAAAAAAAAAAAA')
+
+  0():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaUEzcTNxM3ExITEhMSExITEhM2FDYUNhQRFBETEhMSExITNxMSExITEhM3ExITEhMSExITNxM3EzcTEhM3EzcTNhQABgiWlBM3EzcTNxMSExITEhMSExITNRU2FDYUERQRFBEUERQRFDYTEhMSExITNxMSExITEhMSEzcTOBI3ExITNxM3EzcTAA0FAAAAAAAAAAAAAAAA')
+
+  source():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNxM3ExITEhMSExITEhM3EzYUNhQSExITEhMSExEUNhQRFBEUERQRFBEUERMSExIUNhM3EzcTNxM3EzcTNxMADQUAAA==')
+
+  on():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNxM3ExITEhMSExITERQ2FDYTNxMSExITEhMSExITEhM3ExITEhMSExITEhMSEzcTEhM2FDYUNhQ2EzcTNxMADQUAAA==')
+
+  off():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYUNhQ2ExITEhMSExITEhM3EzcTNxMSExITEhMSExITEhM3ExITEhMSExITEhMSEzYUERQ2FDYTNxM3EzcTNxMADQUAAA==')
+
+  ttxMix():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYTNxM3ExITEhMSExITEhM4EjcTNxMSExITEhMSExITEhMSEzYUNhMSEzcTEhMSEzcTNxMSExITNxMSEzcTNxMADQUAAA==')
+
+  prCh():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYUNhQ2FBEUERQRExITEhM3EzcTNxMSExITEhMSExITNxM3ExITEhM3ExITEhMSExITEhM2FDYUEhM2FDYUNhMADQUAAA==')
+
+  volumeUp():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNxM2FBITEhMSExITEhM3EzYUNhQSExITERQRFBEUNhM3EzgSEhMSExITEhMSExITEhMSEzcTNxM3EzYUNhQADQUAAA==')
+
+  volumeDown():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYUNhQ2ExITEhMSExITEhM3EzcTNxMSExITEhMSExITNxM3ExITNhQSExITEhMRFBEUERQ2FBETNxM3EzcTNxMADQUAAA==')
+
+  mute():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJiUEzcTNhQ2FBITERQRFBEUERQ2FDYTNxMSExITEhMSExITNxM3EzcTNxMSExITEhMSExITEhMSExITNxM2FDYUNhQADQUAAA==')
+
+  channelUp():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJSWETgSOBI4ERQRFBEUERQRFBI4EjgROREUEhMRFBEUERQSExI4EhMRFBI4ERQSExEUETgRFBI4ETkSExI4ETkSOBIABgmUlhI4ETkSOBEUERQRFBETERQRORE5EjgRFBEUERQRFBEUERQRORITEhMSOBITEhMSExE5ERQROBI4ExIRORE5EjgSAA0FAAAAAAAAAAAAAAAA')
+
+  channelDown():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaUEzcTNxM3ExITEhMSExITEhM3EzcTNxMSExITERQRFBEUERQRFBITERQ2FBETEhMSEzcTNxM3EzcTEhM3EzcTNxMABgiWkxQ2FDYTNxMSExITEhMSExITNxM3EzcTEhMSExITEhMSExITEhMSExITNxMSExITEhM2FDYUNhQ2ExITNxM3EzcTAA0FAAAAAAAAAAAAAAAA')
+
+  channelList():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJSVETkRORE5ERQRFBEUERQRFBE5ETgSOBITERQRFBITERQRORE5ERQROREUETkROREUEhMSExE5ERQROREUEBQSOBEADQUAAA==')
+
+  sports():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJWVETkTNxE5EhMSExEUERQRFBE4EjgSOBEUERQRFBEUEhMQFREUERQRORI4EjgSExI4ETkRORE5ERQRFBEUEDkRFBIADQUAAA==')
+
+  guide():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNhQ2FBEUERQRFBEUERQ2EzcTNxMSExITEhMSExITNxM3EzcTNBYSExITNhQSExEUERQRFBEUNhQ2ExITNxMADQUAAA==')
+
+  home():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzYUNhQ2FBEUERQRExITEhM3EzcTNxMSExITEhMSExITNxMSExITNhQ2FDYUNhQRFBEUNhM3ExITEhMSExITNxMADQUAAA==')
+
+  extra():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYUNhQ2ExITEhMSExITEhM3EzcTNxMSExITEhMSExITNxM3EzYUNhQRFDYUERM3FBEUERMSExITNxMSEzcTEhMADQUAAA==')
+
+  info():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNxM3ExITEhMSExITEhM2FDYUNhQRFBEUERMSExITNxM3EzcTNxM3ExITEhMSExITEhMSExITEhM2FDYUNhMADQUAAA==')
+
+  left():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTEzcTNxM3ExITEhMSExITEhM3EzcTNxMSExITEhMSExITNhQRFDYUERQREzcTNxMSExITNxMSEzcTNxMSExITNxMADQUAAA==')
+
+  right():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTEzcTNxM3ExITEhMSExITEhM3EzcTNxMSExITEhMSExITEhM3ExITEhMSEzYUNhQRFDYUERQ2EzcTNxMSExITNxMADQUAAA==')
+
+  up():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNxM3ExITEhMSExITEhM3EzYUNhQRFBEUERQRExITEhMSExITEhMSEzcTNxMSEzcTNxM3EzcTNxMSExITNhQADQUAAA==')
+
+  down():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaUEzcTNhQ2FBEUERQRFBEUERQ2EzcTNxMSExITEhMSExITNxMSExITEhMSEzcTNxMSExITNxM2FDYUNhQSExEUNhMABgmWlBM3EzYUNhQSExEUERQRFBEUNhQ2FDYUERMSExITEhMSEzcTEhMSExITEhM3EzcTEhMSEzcTNxM3EzcTEhMSEzcTAA0FAAAAAAAAAAAAAAAA')
+
+  ok():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNxM3ExITEhMSExITEhM2FDYTNxMSExITEhMSExITEhMSExITNxMSEzcTNxMSEzYUNhQ2FBETNxMSExITNxMADQUAAA==')
+
+  back():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaRFjcTNhQ2FBEUERQRFBEUERQ2FDYTNxMSExITEhMSExITEhMSExITNxM3ExITNxMSEzcTNxM3ExITEhM3ExITNhQADQUAAA==')
+
+  exit():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaUEzcTNxM3ExITEhMSExITEhM3EzYUNhQRFBEUERQRFBEUNhQRFDYTNxMSEzcTEhMSExITNxMSExITNxMSEzcTNxMABgiWkxQ2FDYUNhQRFBEUERQRFBEUNhQ2EzcTEhMSExITEhMSEzcTEhM3EzcTEhM3ExITEhMSEzcTEhMSEzYUEhM2FDYUAA0FAAAAAAAAAAAAAAAA')
+
+  red():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaUEzcTNxM2FBITEhMRFBEUERQ2FDYTNxMSExITEhMSExITEhMSEzcTNxMSEzcTNxMSEzYUNhQRFBEUNhMSExITNxMABgiWkxQ2FDYUNhQRFBETEhMSExITNxM3EzcTEhMSExITEhMSExITEhM3EzYUEhM2FDYUERQ2EzcTEhMSEzcTEhMSEzcTAA0FAAAAAAAAAAAAAAAA')
+
+  green():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaTFDYUNhQ2ExITEhMSExITEhM3EzcTNxMSExITEhMSExITEhMSEzcTERQ2FBEUERQRFDYTNxMSEzcTEhM3EzcTNxMABgeWlBM3EzcTNxMSExITEhMSExITNxM3EzYUERQRFBEUERQRExITEhM3FBETNxMSExITEhM3EzcTEhM3ExITNhQ2FDYUAA0FAAAAAAAAAAAAAAAA')
+
+  yellow():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYTNxM3ExITEhMSExITEhM3EzcTNxMSExITEhMSExITNxMSEzYUERQ2FBEUERQRFBETNxMSEzcTEhM3EzcTNxMADQUAAA==')
+
+  blue():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaTFDYUNhQ2ExITEhMSExITEhM3EzcTNxMSExITEhMSExITEhM2FDYUERQ2FBEUERQREzcTEhMSEzcTEhM3EzcTNxMABgiWlBM2FDYUNhQRFBEUERQRFBEUNhM3EzcTEhMSExITEhMSExITNxM3ExITNxMSExITEhM2FBEUERQ2FBEUNhM3EzcTAA0FAAAAAAAAAAAAAAAA')
+
+  settings():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYUNhQ2FBEUERQRFBETEhM3EzcTNxMSExITEhMSExITEhM3ExITNxM3ExITEhMSEzYUERQ2ExITEhM3EzcTNxMADQUAAA==')
+
+  accessibility():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaUEzcTNxM3ExITEhMSExITEhM2FDYUNhQRFBEUERQRFBEUNhQRFDYTEhMSEzcTEhMSExITNxMSEzcTNxMSEzYUNhQABgiWkxQ2FDYUNhQRExITEhMSExITNxM3EzcTEhMSExITEhMSEzcTEhM3ExITEhM2FBITEhMSEzYUERQ2FDYUERQ2EzcTAA0FAAAAAAAAAAAAAAAA')
+
+  stop():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaUEzcTNhQ2FBEUERQRFBEUERQ2FDYTNxMSExITEhMSExITEhM3EzcTEhMSExITNxMSEzcTEhMSEzYUNhQ2FBEUNhMABgiWlBM3EzcTNxMSExITEhMSExITNxM3EzYUEhMSExITERQRFBEUNhQ2FBEUERQREzcTEhM3ExITEhM3EzcTNxMSEzcTAA0FAAAAAAAAAAAAAAAA')
+
+  rewind():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaTEzcTNxM3ExITEhMSExITEhM3EzcTNhQSExITEhMSExEUNhQRFDYTEhQRExITNxMSExITNxMSEzcTNxM3ExITNxMABgiWkxM3EzcTNxMSExITEhMSExITNxM3EzYUERQRFBEUERQRFDYUERM3ExITEhMSEzcTEhMSEzcTEhM3EzcTNxMSEzYUAA0FAAAAAAAAAAAAAAAA')
+
+  play():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaTFDYTNxM3ExITEhMSExITEhM3EzcTNxMSExITEhMSExITNhQ2FDYUERQRFBEUNhMSExITEhMSEzcTNxM3ExITNxMADQUAAA==')
+
+  pause():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaUEzcTNxM3ExITEhMSExITEhM2FDYUNhMSExITEhMSExITEhM3ExITNxMSExITNxMSEzYUEhM2FBEUNhQ2ExITNxMABgiWlBM2FDYUNhQRFBEUERQRExITNxM3EzcTEhMSExITEhMSExITNxMSEzcTEhMRFDYUERQ2FBETNxMSEzcTNhQSEzcTAA0FAAAAAAAAAAAAAAAA')
+
+  seekForward():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJWUEzcTNxM3ExITEhMSExITEhM3EzYUNhQRFBEUERQRFBEUERQRFBEUNhMSExITNxMSEzcTNxM3ExITNxM3ExITNxMABgiWkxQ2FDYUNhQRFBETEhMSExITNxM3EzcTEhMSExITEhMSExITEhMSEzcTEhMSEzYUERQ2FDYUNhMSEzcTNxMSEzcTAA0FAAAAAAAAAAAAAAAA')
+
+  seekBack():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgBGAJaUEzcTNxM3ExITEhMSExITEhM2FDYUNhQRExITEhMSExITNxMSEzcTEhMSExITNxMSExITNxMSEzYUNhQ2FBEUNhQADQUAAA==')
+
+  record():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('JgCMAJaTFDYTNxM3ExITEhMSExITEhM3EzcTNxMSExITEhMSExITNhQRFBEUNhQRExITNxMSExITNxM3ExITNxM3ExITNxMABgiWkxQ2FDYUNhQRFBETEhMSExITNxM3EzcTEhMSExITEhMSEzcTEhMSEzcTEhMSEzYUEhMRFDYUNhMSEzcTNxMSEzcTAA0FAAAAAAAAAAAAAAAA')
+
+  record2():
+    runFunctions:
+      - ${Properties.broadlinkController}.sendIrPacket('AAAAAAAAAAAAAAAA')

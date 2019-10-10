@@ -134,7 +134,6 @@ RUN echo -e "\n > INSTALL ZIGBEE2MQTT IN $ZIGBEE2MQTT_PATH\n" \
     /root/.npm \
     /root/.node-gyp
 
-
 # PYTHON-MIIO
 RUN echo -e "\n > INSTALL PYTHON-MIIO\n" \
  && apk add --no-cache \
@@ -240,6 +239,24 @@ RUN echo -e "\n > INSTALL HCITOOL\n" \
 #     /app/modules/presence/.git \
 #     # /tmp/* \
 #     /var/tmp/*
+
+
+# INSTALL BROADLINK
+COPY app/modules/broadlink2mqtt /app/modules/broadlink2mqtt
+RUN echo -e "\n > INSTALL BROADLINK IN $BROADLINK_PATH\n" \
+ && apk add --no-cache --virtual=build-dependencies \
+    git \
+ && pip3 install \
+    paho-mqtt \
+ \
+ && git clone https://github.com/mjg59/python-broadlink.git /app/modules/broadlink2mqtt/broadlink \
+ \
+ && echo -e "\n > CLEANUP\n" \
+ && apk del --purge \
+    build-dependencies \
+ && rm -rf \
+    /tmp/* \
+    /var/tmp/*
 
 
 # COPY APP FILES

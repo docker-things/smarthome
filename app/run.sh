@@ -52,6 +52,7 @@ SERVICES='
     cec-client-mqtt-bridge
     bluetooth-scan
     evdev2mqtt
+    broadlink2mqtt
     cron
     '
 
