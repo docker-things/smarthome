@@ -50,11 +50,11 @@ SERVICES='
     mqtt-listener
     zigbee2mqtt
     cec-client-mqtt-bridge
-    bluetooth-scan
     evdev2mqtt
     broadlink2mqtt
     cron
     '
+    # bluetooth-scan
 
 # Launch daemon
 echo " > Launch screen daemon"
