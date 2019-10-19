@@ -2,14 +2,14 @@
 
 jobs:
 
-  # No motion detected for one hour
+  # No motion detected for 2 hours
   - interval: 60
     if:
       - House.presence is true
-      - House.lastMotion.timeSince >= 3600
+      - House.lastMotion.timeSince >= 7200
     run:
       - House.allLightsOff()
-      - SystemNotify.send('All lights OFF (No house motion for 3600 seconds)')
+      - SystemNotify.send('All lights OFF (No house motion for 7200 seconds)')
     set:
       House.shouldCheckPresence: 'false'
       House.presence: 'false'
