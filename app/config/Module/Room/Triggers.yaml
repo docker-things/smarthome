@@ -327,7 +327,6 @@ ${Properties.button.object}.click:
       - this is double
       - ${Properties.selfObjectName}.forceLightOff is true
     run:
-      - SystemWarn.send('${Properties.selfObjectName} deactivated forced light off (${Properties.button.object})')
       - SystemNotify.send('${Properties.selfObjectName} deactivated forced light off (${Properties.button.object})')
     set:
       ${Properties.selfObjectName}.forceLightOff: 'false'
@@ -337,7 +336,6 @@ ${Properties.button.object}.click:
       - this is double
       - ${Properties.selfObjectName}.forceLightOn is true
     run:
-      - SystemWarn.send('${Properties.selfObjectName} deactivated forced light on (${Properties.button.object})')
       - SystemNotify.send('${Properties.selfObjectName} deactivated forced light on (${Properties.button.object})')
     set:
       ${Properties.selfObjectName}.forceLightOn: 'false'
