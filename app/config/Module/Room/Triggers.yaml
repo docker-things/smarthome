@@ -302,7 +302,6 @@ ${Properties.button.object}.click:
     run:
       - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.object} OFF (${Properties.button.object})')
-      - SystemWarn.send('${Properties.selfObjectName} force light OFF')
       - SystemNotify.send('${Properties.selfObjectName} force light OFF')
     set:
       ${Properties.selfObjectName}.forceLightOn: 'false'
@@ -316,7 +315,6 @@ ${Properties.button.object}.click:
       - ${Properties.selfObjectName}.lightOn()
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.object} ON (${Properties.button.object})')
-      - SystemWarn.send('${Properties.selfObjectName} force light ON')
       - SystemNotify.send('${Properties.selfObjectName} force light ON')
     set:
       ${Properties.selfObjectName}.forceLightOff: 'false'
