@@ -18,6 +18,7 @@ light:
   temperature: 3500
   on-by-motion-when-lux-below: 15
   on-duration-when-plex-stopped: 20000
+  on-while-door-closed: 'false'
   dim-level-when-plex-paused: 5
   dim-duration-when-plex-paused: 1000
   off-when-no-motion-for-X-seconds-current-location: 3600

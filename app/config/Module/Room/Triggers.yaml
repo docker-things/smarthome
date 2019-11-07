@@ -454,6 +454,36 @@ ${Properties.door.object}.contact:
     set:
       ${Properties.selfObjectName}.closedDoor: ${Properties.door.object}.contact
 
+  Opened - Notification - ${Properties.selfObjectName}:
+    if: this is false
+    run:
+      - SystemNotify.send('${Properties.door.object} opened')
+
+  Closed - Notification - ${Properties.selfObjectName}:
+    if: this is true
+    run:
+      - SystemNotify.send('${Properties.door.object} closed')
+
+  Force light on when closed - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.light.on-while-door-closed} is true
+      - this is true
+    run:
+      - ${Properties.selfObjectName}.lightOn()
+      - SystemNotify.send('Keep light on (${Properties.door.object} closed)')
+    set:
+      ${Properties.selfObjectName}.forceLightOn: 'true'
+      ${Properties.selfObjectName}.forceLightOff: 'false'
+
+  Unforce light on when opened - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.light.on-while-door-closed} is true
+      - this is false
+    run:
+      - SystemNotify.send('Stop keeping light on (${Properties.door.object} opened)')
+    set:
+      ${Properties.selfObjectName}.forceLightOn: 'false'
+
   Stop cleaning on close - ${Properties.selfObjectName}:
     if:
       - this is true
@@ -503,6 +533,16 @@ ${Properties.window.object}.contact:
       House.lastMotionLocation: '${Properties.name}'
       ${Properties.selfObjectName}.lastMotion: System.timestamp
 
+  Opened - Notification - ${Properties.selfObjectName}:
+    if: this is false
+    run:
+      - SystemNotify.send('${Properties.window.object} opened')
+
+  Closed - Notification - ${Properties.selfObjectName}:
+    if: this is true
+    run:
+      - SystemNotify.send('${Properties.window.object} closed')
+
   Mark status and alert if window opened - ${Properties.selfObjectName}:
     if: this is false
     set:
@@ -536,6 +576,16 @@ ${Properties.window-2.object}.contact:
     set:
       ${Properties.selfObjectName}.openWindows: 'true'
 
+  Opened - Notification - ${Properties.selfObjectName}:
+    if: this is false
+    run:
+      - SystemNotify.send('${Properties.window-2.object} opened')
+
+  Closed - Notification - ${Properties.selfObjectName}:
+    if: this is true
+    run:
+      - SystemNotify.send('${Properties.window-2.object} closed')
+
   Mark status if all windows in room are closed - ${Properties.selfObjectName}:
     if:
       - this is not false
@@ -548,16 +598,6 @@ ${Properties.selfObjectName}.openWindows:
   Update house windows status - ${Properties.selfObjectName}:
     run:
       - House.updateWindowsStatus()
-
-  Notify if closed - ${Properties.selfObjectName}:
-    if: this is true
-    run:
-      - SystemNotify.send('Closed window in ${Properties.selfObjectName}')
-
-  Notify if opened - ${Properties.selfObjectName}:
-    if: this is false
-    run:
-      - SystemNotify.send('Opened window in ${Properties.selfObjectName}')
 
 # WATER SENSOR
 
