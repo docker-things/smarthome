@@ -194,6 +194,8 @@ ${Properties.motion.object}.occupancy:
       - ${Properties.plex.object}.status not in ['playing','resumed']
     run:
       - ${Properties.selfObjectName}.lightOn()
+      - ${Properties.ledstrip.object}.on()
+      - ${Properties.ledstrip.object}.brightness('50')
       - SystemNotify.send('${Properties.light.object} ON (Motion detected)')
 
   Motion detected - no presence - ${Properties.selfObjectName}:
@@ -220,6 +222,8 @@ ${Properties.motion.object}.occupancy:
       - ${Properties.plex.object}.status not in ['playing','resumed']
     run:
       - ${Properties.selfObjectName}.lightOn()
+      - ${Properties.ledstrip.object}.on()
+      - ${Properties.ledstrip.object}.brightness('50')
       - SystemNotify.send('${Properties.light.object} ON (Motion detected)')
 
   Motion detected - Nobody home - ${Properties.selfObjectName}:
@@ -338,6 +342,30 @@ ${Properties.button.object}.click:
     set:
       ${Properties.selfObjectName}.forceLightOn: 'false'
 
+  Double click - Ledstrip on - 50% - ${Properties.selfObjectName}:
+    if:
+      - this is double
+      - ${Properties.ledstrip.object}.status is not on
+    run:
+      - ${Properties.ledstrip.object}.on()
+      - ${Properties.ledstrip.object}.brightness('50')
+
+  Double click - Ledstrip on - 100% - ${Properties.selfObjectName}:
+    if:
+      - this is double
+      - ${Properties.ledstrip.object}.status is on
+      - ${Properties.ledstrip.object}.brightness is 50
+    run:
+      - ${Properties.ledstrip.object}.brightness('100')
+
+  Double click - Ledstrip off - ${Properties.selfObjectName}:
+    if:
+      - this is double
+      - ${Properties.ledstrip.object}.status is on
+      - ${Properties.ledstrip.object}.brightness is not 50
+    run:
+      - ${Properties.ledstrip.object}.off()
+
   Double click - Secondary light OFF - ${Properties.selfObjectName}:
     if:
       - this is double
@@ -349,6 +377,7 @@ ${Properties.button.object}.click:
   Double click - Secondary light ON - ${Properties.selfObjectName}:
     if:
       - this is double
+      - ${Properties.light.secondary.object} is not NONE
       - ${Properties.light.secondary.object}.status not in ['on','offline','NONE.status']
     run:
       - ${Properties.selfObjectName}.secondaryLightOn()

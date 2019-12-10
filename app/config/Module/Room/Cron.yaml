@@ -14,6 +14,7 @@ jobs:
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-current-location}
     run:
       - ${Properties.selfObjectName}.lightOff()
+      - ${Properties.ledstrip.object}.off()
       - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-current-location} seconds - current location)')
 
   # Secondary Light
@@ -39,6 +40,7 @@ jobs:
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-prev-location}
     run:
       - ${Properties.selfObjectName}.lightOff()
+      - ${Properties.ledstrip.object}.off()
       - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-prev-location} seconds - prev location)')
 
   # Secondary Light
@@ -65,6 +67,7 @@ jobs:
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-old-location}
     run:
       - ${Properties.selfObjectName}.lightOff()
+      - ${Properties.ledstrip.object}.off()
       - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-old-location} seconds - old location)')
 
   # Secondary Light

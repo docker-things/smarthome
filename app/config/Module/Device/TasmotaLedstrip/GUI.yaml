@@ -1,0 +1,15 @@
+---
+
+type: toggle
+
+image: TasmotaSocket.jpg
+
+mainStatusFrom: status
+positiveValue: 'on'
+
+dashboardFunction: toggle()
+
+showInDashboard:
+  - status
+  - Energy.Power
+  - Energy.Today

@@ -38,11 +38,13 @@ functions:
     runFunctionsAsync:
       - ${Properties.selfObjectName}.lightOff()
       - ${Properties.selfObjectName}.secondaryLightOff()
+      - ${Properties.ledstrip.object}.off()
 
   off():
     runFunctionsAsync:
       - ${Properties.selfObjectName}.lightOff()
       - ${Properties.selfObjectName}.secondaryLightOff()
+      - ${Properties.ledstrip.object}.off()
       - ${Properties.tv.object}.off()
       - ${Properties.tv.audio-system.object}.off()
 
