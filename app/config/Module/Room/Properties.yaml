@@ -35,6 +35,10 @@ light:
     off-when-no-motion-for-X-seconds: 3600
     off-when-lux-over: 200
 
+    ledstrip:
+      object: NONE
+      motion: NONE
+
 door:
   object: NONE
 

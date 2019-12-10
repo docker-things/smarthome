@@ -244,6 +244,32 @@ ${Properties.motion.object}.no_occupancy_since:
       House.lastMotionLocation: '${Properties.name}'
       ${Properties.selfObjectName}.lastMotion: System.timestamp
 
+# MOTION - LEDSTRIP
+
+${Properties.ledstrip.motion.object}.occupancy:
+  Motion detected - ledstrip 100% - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - House.presence is true
+      - ${Properties.selfObjectName}.ignoreMotion is not true
+      - ${Properties.selfObjectName}.forceLightOff is not true
+      - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
+      - ${Properties.ledstrip.object}.brightness is not 100
+      # - ${Properties.ledstrip.object}.status is on
+    run:
+      - ${Properties.ledstrip.object}.brightness('100')
+      - SystemNotify.send('${Properties.ledstrip.object} brightness 100% (Motion detected)')
+
+${Properties.ledstrip.motion.object}.no_occupancy_since:
+  ledstrip 50% - ${Properties.selfObjectName}:
+    if:
+      - this >= 60
+      - ${Properties.ledstrip.object}.brightness is 100
+      - ${Properties.ledstrip.object}.status is on
+    run:
+      - ${Properties.ledstrip.object}.brightness('50')
+      - SystemNotify.send('${Properties.ledstrip.object} brightness 50% (No motion)')
+
 # TV
 
 ${Properties.tv.object}.status:
