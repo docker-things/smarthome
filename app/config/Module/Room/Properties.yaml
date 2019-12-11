@@ -37,6 +37,10 @@ light:
 
     ledstrip:
       object: NONE
+      off-when-no-motion-for-X-seconds-current-location: 3600
+      off-when-no-motion-for-X-seconds-prev-location: 120
+      off-when-no-motion-for-X-seconds-old-location: 5
+
       motion: NONE
 
 door:

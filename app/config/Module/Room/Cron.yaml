@@ -14,7 +14,6 @@ jobs:
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-current-location}
     run:
       - ${Properties.selfObjectName}.lightOff()
-      - ${Properties.ledstrip.object}.off()
       - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-current-location} seconds - current location)')
 
   # Secondary Light
@@ -28,6 +27,18 @@ jobs:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds-current-location} seconds - current location)')
 
+  # Ledstrip
+  - interval: 5
+    if:
+      - ${Properties.ledstrip.object}.status is on
+      - ${Properties.motion.object}.occupancy is false
+      - ${Properties.selfObjectName}.forceLightOn is not true
+      - House.lastMotionLocation is '${Properties.name}'
+      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.ledstrip.off-when-no-motion-for-X-seconds-current-location}
+    run:
+      - ${Properties.ledstrip.object}.off()
+      - SystemNotify.send('${Properties.ledstrip.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-current-location} seconds - current location)')
+
   # NO MOTION DETECTED - PREV MOTION IS LOCAL
 
   # Primary Light
@@ -40,7 +51,6 @@ jobs:
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-prev-location}
     run:
       - ${Properties.selfObjectName}.lightOff()
-      - ${Properties.ledstrip.object}.off()
       - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-prev-location} seconds - prev location)')
 
   # Secondary Light
@@ -53,6 +63,18 @@ jobs:
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds-prev-location} seconds - prev location)')
+
+  # Ledstrip
+  - interval: 4
+    if:
+      - ${Properties.ledstrip.object}.status is on
+      - ${Properties.motion.object}.occupancy is false
+      - ${Properties.selfObjectName}.forceLightOn is not true
+      - House.lastMotionLocation.previousValue is '${Properties.name}'
+      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.ledstrip.off-when-no-motion-for-X-seconds-prev-location}
+    run:
+      - ${Properties.ledstrip.object}.off()
+      - SystemNotify.send('${Properties.ledstrip.object} OFF (No motion for ${Properties.ledstrip.off-when-no-motion-for-X-seconds-prev-location} seconds - prev location)')
 
   # NO MOTION DETECTED - LAST & PREV MOTION IS NOT LOCAL
 
@@ -67,7 +89,6 @@ jobs:
       - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-old-location}
     run:
       - ${Properties.selfObjectName}.lightOff()
-      - ${Properties.ledstrip.object}.off()
       - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-old-location} seconds - old location)')
 
   # Secondary Light
@@ -81,6 +102,19 @@ jobs:
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds-old-location} seconds - old location)')
+
+  # Ledstrip
+  - interval: 3
+    if:
+      - ${Properties.ledstrip.object}.status is on
+      - ${Properties.motion.object}.occupancy is false
+      - ${Properties.selfObjectName}.forceLightOn is not true
+      - House.lastMotionLocation is not '${Properties.name}'
+      - House.lastMotionLocation.previousValue is not '${Properties.name}'
+      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.ledstrip.off-when-no-motion-for-X-seconds-old-location}
+    run:
+      - ${Properties.ledstrip.object}.off()
+      - SystemNotify.send('${Properties.ledstrip.object} OFF (No motion for ${Properties.ledstrip.off-when-no-motion-for-X-seconds-old-location} seconds - old location)')
 
   # STOP IGNORING MOVEMENT AFTER X SECONDS
   - interval: 5
