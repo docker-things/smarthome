@@ -46,7 +46,7 @@ class Core_Controller_MqttListener extends Core_Controller_Base {
             $topic = $tmp[0];
             $json  = json_decode($tmp[1], true);
 
-            if (!$json) {
+            if (!$json || $json == $tmp[1]) {
                 $json = [];
             }
             $json['RAW'] = trim($tmp[1]);
