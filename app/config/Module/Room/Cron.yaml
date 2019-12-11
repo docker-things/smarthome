@@ -2,6 +2,18 @@
 
 jobs:
 
+  # Ledstrip - dim light
+  - interval: 5
+    if:
+      - ${Properties.light.object}.status is on
+      - ${Properties.ledstrip.object}.status is on
+      - ${Properties.ledstrip.object}.brightness is 100
+      - ${Properties.ledstrip.motion.object}.occupancy is false
+      - ${Properties.ledstrip.motion.object}.occupancy.timeSince >= 300
+    run:
+      - ${Properties.ledstrip.object}.brightness('50')
+      - SystemNotify.send('${Properties.ledstrip.object} dimmed (No motion for 300s)')
+
   # NO MOTION DETECTED - LAST MOTION IS LOCAL
 
   # Primary Light
