@@ -17,15 +17,15 @@ ${Properties.plex.object}.status:
 
   # PLAYING
 
-  If Plex is playing or resumed, stop cleaning - ${Properties.selfObjectName}:
-    if:
-      - this in ['playing','resumed']
-      - ${Properties.plex.object}.mediaType in ['episode','movie']
-      - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
-      - ${Properties.roborock.object}.zone is none
-    run:
-      - ${Properties.roborock.object}.pause()
-      - SystemNotify.send('Paused cleaning (${Properties.plex.object} playing)')
+  # If Plex is playing or resumed, stop cleaning - ${Properties.selfObjectName}:
+  #   if:
+  #     - this in ['playing','resumed']
+  #     - ${Properties.plex.object}.mediaType in ['episode','movie']
+  #     - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
+  #     - ${Properties.roborock.object}.zone is none
+  #   run:
+  #     - ${Properties.roborock.object}.pause()
+  #     - SystemNotify.send('Paused cleaning (${Properties.plex.object} playing)')
 
   If Plex is playing or resumed, turn lights OFF - ${Properties.selfObjectName}:
     if:
@@ -50,14 +50,14 @@ ${Properties.plex.object}.status:
 
   # STOPPED
 
-  If Plex is stopped, resume cleaning - ${Properties.selfObjectName}:
-    if:
-      - this is stopped
-      - ${Properties.plex.object}.mediaType in ['episode','movie']
-      - ${Properties.roborock.object}.status is Paused
-    run:
-      - ${Properties.roborock.object}.resume()
-      - SystemNotify.send('Resumed cleaning (${Properties.plex.object} is ${Properties.plex.object}.status)')
+  # If Plex is stopped, resume cleaning - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is stopped
+  #     - ${Properties.plex.object}.mediaType in ['episode','movie']
+  #     - ${Properties.roborock.object}.status is Paused
+  #   run:
+  #     - ${Properties.roborock.object}.resume()
+  #     - SystemNotify.send('Resumed cleaning (${Properties.plex.object} is ${Properties.plex.object}.status)')
 
   If Plex is stopped - ${Properties.selfObjectName}:
     if:
@@ -478,14 +478,34 @@ ${Properties.button.object}.click:
       - ${Properties.roborock.object}.pause()
       - SystemNotify.send('Paused cleaning (${Properties.button.object})')
 
+  Long click - Going to sleep - ${Properties.selfObjectName}:
+    if:
+      - this is long
+      - ${Properties.selfObjectName} in ['Bedroom','Livingroom']
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('Going to sleep (${Properties.button.object})')
+    set:
+      ${Properties.selfObjectName}.ignoreMotion: 'true'
+
   Long click - Turn everything OFF - ${Properties.selfObjectName}:
     if:
       - this is long
+      - ${Properties.selfObjectName} not in ['Bedroom','Livingroom']
     run:
       - House.off()
       - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'true'
+
+  # Long click - Turn everything OFF - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is long
+  #   run:
+  #     - House.off()
+  #     - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
+  #   set:
+  #     ${Properties.selfObjectName}.ignoreMotion: 'true'
 
 # DOOR
 
