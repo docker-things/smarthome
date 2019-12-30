@@ -1,8 +1,8 @@
 ---
 
-click:
-  Clicked the button:
-    run: "SystemNotify.send('${Properties.selfObjectName} was clicked: this')"
+# click:
+#   Clicked the button:
+#     run: "SystemNotify.send('${Properties.selfObjectName} was clicked: this')"
 
 battery:
   Low battery:
