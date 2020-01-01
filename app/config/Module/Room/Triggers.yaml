@@ -396,18 +396,41 @@ ${Properties.button.object}.click:
     if:
       - this is double
       - ${Properties.light.secondary.object}.status is on
+      - ${Properties.light.secondary.object}.brightness is 100
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (${Properties.button.object})')
 
-  Double click - Secondary light ON - ${Properties.selfObjectName}:
+  Double click - Secondary light ON 25% - ${Properties.selfObjectName}:
     if:
       - this is double
       - ${Properties.light.secondary.object} is not NONE
       - ${Properties.light.secondary.object}.status not in ['on','offline','NONE.status']
     run:
-      - ${Properties.selfObjectName}.secondaryLightOn()
+      - ${Properties.light.secondary.object}.on()
+      - ${Properties.light.secondary.object}.brightness('25')
+      - ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
       - ${Properties.selfObjectName}.lightOff()
+      - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
+
+  Double click - Secondary light ON 50% - ${Properties.selfObjectName}:
+    if:
+      - this is double
+      - ${Properties.light.secondary.object} is not NONE
+      - ${Properties.light.secondary.object}.status is on
+      - ${Properties.light.secondary.object}.brightness is 25
+    run:
+      - ${Properties.light.secondary.object}.brightness('50')
+      - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
+
+  Double click - Secondary light ON 100% - ${Properties.selfObjectName}:
+    if:
+      - this is double
+      - ${Properties.light.secondary.object} is not NONE
+      - ${Properties.light.secondary.object}.status is on
+      - ${Properties.light.secondary.object}.brightness is 50
+    run:
+      - ${Properties.light.secondary.object}.brightness('100')
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
 
   Triple click - Audio system OFF - ${Properties.selfObjectName}:
