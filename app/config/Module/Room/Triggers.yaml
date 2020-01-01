@@ -478,34 +478,34 @@ ${Properties.button.object}.click:
       - ${Properties.roborock.object}.pause()
       - SystemNotify.send('Paused cleaning (${Properties.button.object})')
 
-  Long click - Going to sleep - ${Properties.selfObjectName}:
-    if:
-      - this is long
-      - ${Properties.selfObjectName} in ['Bedroom','Livingroom']
-    run:
-      - ${Properties.selfObjectName}.off()
-      - SystemNotify.send('Going to sleep (${Properties.button.object})')
-    set:
-      ${Properties.selfObjectName}.ignoreMotion: 'true'
-
-  Long click - Turn everything OFF - ${Properties.selfObjectName}:
-    if:
-      - this is long
-      - ${Properties.selfObjectName} not in ['Bedroom','Livingroom']
-    run:
-      - House.off()
-      - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
-    set:
-      ${Properties.selfObjectName}.ignoreMotion: 'true'
+  # Long click - Going to sleep - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is long
+  #     - ${Properties.selfObjectName} in ['Bedroom','Livingroom']
+  #   run:
+  #     - ${Properties.selfObjectName}.off()
+  #     - SystemNotify.send('Going to sleep (${Properties.button.object})')
+  #   set:
+  #     ${Properties.selfObjectName}.ignoreMotion: 'true'
 
   # Long click - Turn everything OFF - ${Properties.selfObjectName}:
   #   if:
   #     - this is long
+  #     - ${Properties.selfObjectName} not in ['Bedroom','Livingroom']
   #   run:
   #     - House.off()
   #     - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
   #   set:
   #     ${Properties.selfObjectName}.ignoreMotion: 'true'
+
+  Long click - Turn everything OFF - ${Properties.selfObjectName}:
+    if:
+      - this is long
+    run:
+      - House.off()
+      - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
+    set:
+      ${Properties.selfObjectName}.ignoreMotion: 'true'
 
 # DOOR
 
