@@ -198,6 +198,15 @@ ${Properties.motion.object}.occupancy:
       - ${Properties.ledstrip.object}.brightness('50')
       - SystemNotify.send('${Properties.light.object} ON (Motion detected)')
 
+  Turn diffuser on when motion detected and not sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.selfObjectName}.ignoreMotion is false
+      - ${Properties.diffuser.object}.status is off
+    run:
+      - ${Properties.diffuser.object}.on()
+      - SystemNotify.send('Diffuser ON (${Properties.selfObjectName} awake motion)')
+
   Motion detected - no presence - ${Properties.selfObjectName}:
     if:
       - this is true

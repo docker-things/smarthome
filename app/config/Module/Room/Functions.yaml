@@ -47,6 +47,7 @@ functions:
       - ${Properties.ledstrip.object}.off()
       - ${Properties.tv.object}.off()
       - ${Properties.tv.audio-system.object}.off()
+      - ${Properties.diffuser.object}.off()
 
   lightWarn():
     if: ${Properties.light.object}.status in ['on','off']
