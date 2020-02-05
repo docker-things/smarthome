@@ -158,6 +158,33 @@ ${Properties.light.secondary.object}.status:
       House.lastMotion: System.timestamp
       House.lastMotionLocation: '${Properties.name}'
 
+
+# CLAPPER
+
+${Properties.clapper.object}.time:
+  Light ON when clapping - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.light.object}.status not in ['on','offline']
+    run:
+      - ${Properties.selfObjectName}.lightOn()
+      - SystemNotify.send('${Properties.selfObjectName} light ON (Clapped)!')
+    set:
+      House.presence: 'true'
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+
+  Light OFF when clapping - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.light.object}.status is on
+    run:
+      - ${Properties.selfObjectName}.lightOff()
+      - SystemNotify.send('${Properties.selfObjectName} light OFF (Clapped)!')
+    set:
+      House.presence: 'true'
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+
+
 # ILLUMINANCE
 
 ${Properties.motion.object}.illuminance:

@@ -11,6 +11,9 @@ motion:
 button:
   object: NONE
 
+clapper:
+  object: NONE
+
 
 light:
   object: NONE
