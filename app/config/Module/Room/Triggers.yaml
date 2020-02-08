@@ -11,6 +11,28 @@ System.time:
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'false'
 
+# MARK SLEEPING
+
+${Properties.selfObjectName}.ignoreMotion:
+  Mark sleeping - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.motion.ignored-motion-means-sleeping} is true
+      - this is true
+    set:
+      ${Properties.selfObjectName}.sleeping: 'true'
+
+  Mark awake - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.motion.ignored-motion-means-sleeping} is true
+      - this is false
+    set:
+      ${Properties.selfObjectName}.sleeping: 'false'
+
+${Properties.selfObjectName}.sleeping:
+  Mark sleeping - ${Properties.selfObjectName}:
+    run:
+      - House.updateSleepingStatus()
+
 # PLEX
 
 ${Properties.plex.object}.status:
@@ -484,6 +506,28 @@ ${Properties.button.object}.click:
     run:
       - ${Properties.tv.audio-system.object}.on()
       - SystemNotify.send('${Properties.tv.audio-system.object} ON (${Properties.button.object})')
+
+  Triple click - Heating OFF - ${Properties.selfObjectName}:
+    if:
+      - this is triple
+      - ${Properties.heating}.status is on
+    run:
+      - ${Properties.heating}.off()
+      - SystemNotify.send('${Properties.heating} OFF (${Properties.button.object})')
+    set:
+      ${Properties.heating}.forceOff: 'true'
+      ${Properties.heating}.forceOn: 'false'
+
+  Triple click - Heating ON - ${Properties.selfObjectName}:
+    if:
+      - this is triple
+      - ${Properties.heating}.status not in ['on','NONE.status']
+    run:
+      - ${Properties.heating}.on()
+      - SystemNotify.send('${Properties.heating} ON (${Properties.button.object})')
+    set:
+      ${Properties.heating}.forceOff: 'false'
+      ${Properties.heating}.forceOn: 'true'
 
   Quadruple click - Pause cleaning - ${Properties.selfObjectName}:
     if:

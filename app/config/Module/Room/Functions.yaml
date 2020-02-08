@@ -3,7 +3,7 @@
 functions:
 
   lightOn():
-    if:
+    runIf:
       - ${Properties.light.object}.status not in ['on','offline']
     runFunctions:
       - ${Properties.light.object}.on()
@@ -13,7 +13,7 @@ functions:
       forceLightOff: 'false'
 
   secondaryLightOn():
-    if:
+    runIf:
       - ${Properties.light.secondary.object}.status not in ['on','offline']
     runFunctions:
       - ${Properties.light.secondary.object}.on()
@@ -21,7 +21,7 @@ functions:
       - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')
 
   lightOff():
-    if:
+    runIf:
       - ${Properties.light.object}.status is 'on'
     runFunctions:
       - ${Properties.light.object}.off()
@@ -29,7 +29,7 @@ functions:
       forceLightOn: 'false'
 
   secondaryLightOff():
-    if:
+    runIf:
       - ${Properties.light.secondary.object}.status is 'on'
     runFunctions:
       - ${Properties.light.secondary.object}.off()
@@ -50,7 +50,7 @@ functions:
       - ${Properties.diffuser.object}.off()
 
   lightWarn():
-    if: ${Properties.light.object}.status in ['on','off']
+    runIf: ${Properties.light.object}.status in ['on','off']
     runFunctions:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.rgb('16748687')
@@ -71,7 +71,7 @@ functions:
       forceLightOn: 'true'
 
   lightWarnShort():
-    if: ${Properties.light.object}.status in ['on','off']
+    runIf: ${Properties.light.object}.status in ['on','off']
     runFunctions:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.rgb('16748687')
@@ -79,7 +79,7 @@ functions:
       - System.sleep('1')
 
   lightSuccess():
-    if: ${Properties.light.object}.status in ['on','off']
+    runIf: ${Properties.light.object}.status in ['on','off']
     runFunctions:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.rgb('4390713')
@@ -94,7 +94,7 @@ functions:
       - ${Properties.selfObjectName}.lightUnwarn()
 
   lightSuccessShort():
-    if: ${Properties.light.object}.status in ['on','off']
+    runIf: ${Properties.light.object}.status in ['on','off']
     runFunctions:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.rgb('4390713')
@@ -103,7 +103,7 @@ functions:
       - ${Properties.selfObjectName}.lightUnwarn()
 
   lightUnwarn():
-    if: ${Properties.light.object}.status is on
+    runIf: ${Properties.light.object}.status is on
     runFunctions:
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
       - ${Properties.light.object}.brightness('${Properties.light.brightness}')
@@ -111,7 +111,7 @@ functions:
       forceLightOn: 'false'
 
   secondaryLightWarn():
-    if: ${Properties.light.secondary.object}.status in ['on','off']
+    runIf: ${Properties.light.secondary.object}.status in ['on','off']
     runFunctions:
       - ${Properties.light.secondary.object}.on()
       - ${Properties.light.secondary.object}.rgb('16748687')
@@ -130,7 +130,7 @@ functions:
       - ${Properties.light.secondary.object}.on('0.2')
 
   secondaryLightWarnShort():
-    if: ${Properties.light.secondary.object}.status in ['on','off']
+    runIf: ${Properties.light.secondary.object}.status in ['on','off']
     runFunctions:
       - ${Properties.light.secondary.object}.on()
       - ${Properties.light.secondary.object}.rgb('16748687')
@@ -138,7 +138,7 @@ functions:
       - System.sleep('1')
 
   secondaryLightSuccess():
-    if: ${Properties.light.secondary.object}.status in ['on','off']
+    runIf: ${Properties.light.secondary.object}.status in ['on','off']
     runFunctions:
       - ${Properties.light.secondary.object}.on()
       - ${Properties.light.secondary.object}.rgb('4390713')
@@ -153,7 +153,7 @@ functions:
       - ${Properties.selfObjectName}.secondaryLightUnwarn()
 
   secondaryLightSuccessShort():
-    if: ${Properties.light.secondary.object}.status in ['on','off']
+    runIf: ${Properties.light.secondary.object}.status in ['on','off']
     runFunctions:
       - ${Properties.light.secondary.object}.on()
       - ${Properties.light.secondary.object}.rgb('4390713')
@@ -162,13 +162,13 @@ functions:
       - ${Properties.selfObjectName}.secondaryLightUnwarn()
 
   secondaryLightUnwarn():
-    if: ${Properties.light.secondary.object}.status is on
+    runIf: ${Properties.light.secondary.object}.status is on
     runFunctions:
       - ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
       - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')
 
   forceLightOnIfWindowsAreOpened():
-    if:
+    runIf:
       - ${Properties.selfObjectName}.openWindows is true
       - ${Properties.light.object}.status in ['on','off']
     set:

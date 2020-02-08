@@ -1,0 +1,27 @@
+---
+
+jobs:
+
+  # STOP FORCED ON/OFF
+
+  # Force OFF
+  - interval: 60
+    if:
+      - ${Properties.selfObjectName}.forceOff is true
+      - ${Properties.selfObjectName}.forceOff.timeSince >= ${Properties.force-off-seconds}
+    set:
+      ${Properties.selfObjectName}.forceOff: 'false'
+    run:
+      - SystemNotify.send('${Properties.selfObjectName} deactivated force off')
+      - SystemWarn.send('${Properties.selfObjectName} deactivated force off')
+
+  # Force ON
+  - interval: 60
+    if:
+      - ${Properties.selfObjectName}.forceOn is true
+      - ${Properties.selfObjectName}.forceOn.timeSince >= ${Properties.force-on-seconds}
+    set:
+      ${Properties.selfObjectName}.forceOn: 'false'
+    run:
+      - SystemNotify.send('${Properties.selfObjectName} deactivated force on')
+      - SystemWarn.send('${Properties.selfObjectName} deactivated force on')

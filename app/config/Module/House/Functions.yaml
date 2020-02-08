@@ -82,6 +82,22 @@ functions:
     elseSet:
       openWindows: 'true'
 
+  updateSleepingStatus():
+    if:
+      - ${Properties.room-1}.sleeping != true
+      - ${Properties.room-2}.sleeping != true
+      - ${Properties.room-3}.sleeping != true
+      - ${Properties.room-4}.sleeping != true
+      - ${Properties.room-5}.sleeping != true
+      - ${Properties.room-6}.sleeping != true
+      - ${Properties.room-7}.sleeping != true
+      - ${Properties.room-8}.sleeping != true
+      - ${Properties.room-9}.sleeping != true
+    set:
+      sleeping: 'false'
+    elseSet:
+      sleeping: 'true'
+
   offWithoutVacuum():
     runFunctionsAsync:
       - ${Properties.room-1}.off()

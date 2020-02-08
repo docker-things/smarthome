@@ -56,23 +56,27 @@ class Core_Function {
         // Set the received params into the function definition
         $function = $this->_setFunctionParams($config);
 
-        // Execute YAML function
-        $this->_runYamlFunctions($function);
+        // Check if we should run something
+        if ($this->_checkRunConditions($function, $output)) {
 
-        // Set state variables
-        $function = $this->_setFunctionStateVariables($function);
+            // Execute YAML function
+            $this->_runYamlFunctions($function);
 
-        // Execute function
-        $output = $this->_runFunction($function);
+            // Set state variables
+            $function = $this->_setFunctionStateVariables($function);
 
-        // Decode output
-        $output = $this->_decodeOutput($output);
+            // Execute function
+            $output = $this->_runFunction($function);
 
-        // Set new states if we have valid conditions
-        if ($this->_checkConditions($function, $output)) {
-            $this->_setNewStates($function, $output, 'set');
-        } else {
-            $this->_setNewStates($function, $output, 'elseSet');
+            // Decode output
+            $output = $this->_decodeOutput($output);
+
+            // Set new states if we have valid conditions
+            if ($this->_checkConditions($function, $output)) {
+                $this->_setNewStates($function, $output, 'set');
+            } else {
+                $this->_setNewStates($function, $output, 'elseSet');
+            }
         }
 
         return true;
@@ -116,6 +120,28 @@ class Core_Function {
 
         // Check conditions
         return $conditions->check($function['if']);
+    }
+
+    /**
+     * @param  $function
+     * @param  $output
+     * @return mixed
+     */
+    private function _checkRunConditions($function, $output) {
+
+        // Assume we always set states when no conditions are set
+        if (!isset($function['runIf'])) {
+            return true;
+        }
+
+        // Initialize conditions checking object
+        $conditions = new Core_Conditions($this->_app);
+
+        // Set function output
+        $conditions->set('RESPONSE', $output);
+
+        // Check conditions
+        return $conditions->check($function['runIf']);
     }
 
     /**

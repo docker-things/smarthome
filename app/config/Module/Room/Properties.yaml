@@ -2,11 +2,14 @@
 
 name: NONE
 
+heating: NONE
+
 motion:
   object: NONE
   stop-ignoring-motion-at: '12:00'
   stop-ignoring-motion-after-X-seconds: 28800
   trigger-presence: 'false'
+  ignored-motion-means-sleeping: 'false'
 
 button:
   object: NONE
