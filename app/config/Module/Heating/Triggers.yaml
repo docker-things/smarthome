@@ -10,8 +10,7 @@ Livingroom-Button.click:
 # TEMPERATURE
 
 ${Properties.temperature.object}.temperature:
-
-  Turn on - ${Properties.selfObjectName}:
+  Adjust heating - ${Properties.selfObjectName}:
     run:
       - ${Properties.selfObjectName}.auto()
 

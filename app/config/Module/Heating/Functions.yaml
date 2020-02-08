@@ -5,14 +5,10 @@ functions:
   on():
     runFunctions:
       - ${Properties.controller}.on()
-    set:
-      status: 'on'
 
   off():
     runFunctions:
       - ${Properties.controller}.off()
-    set:
-      status: 'off'
 
   # ALL CHECKS
 
