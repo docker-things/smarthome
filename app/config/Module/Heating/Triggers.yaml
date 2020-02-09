@@ -11,32 +11,69 @@ ${Properties.temperature.object}.temperature:
 
 ${Properties.controller}.status:
   Take controller status - ON - ${Properties.selfObjectName}:
-    if: this is on
+    if:
+      - this is on
     set:
       ${Properties.selfObjectName}.status: 'on'
 
   Take controller status - OFF - ${Properties.selfObjectName}:
-    if: this is off
+    if:
+      - this is off
     set:
       ${Properties.selfObjectName}.status: 'off'
 
 # WINDOWS
 
 House.openWindows:
-  On status change - ${Properties.selfObjectName}:
+
+  Opening windows - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.selfObjectName}.status is not off
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (Opened windows)')
+
+  Closing windows - ${Properties.selfObjectName}:
+    if:
+      - this is false
     run:
       - ${Properties.selfObjectName}.auto()
 
 # PRESENCE
 
 House.presence:
-  On status change - ${Properties.selfObjectName}:
+  When house is empty - turn off heating - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.selfObjectName}.status is not off
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Empty house)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (Empty house)')
+
+  When house is populated - ${Properties.selfObjectName}:
+    if:
+      - this is true
     run:
       - ${Properties.selfObjectName}.auto()
 
 # SLEEPING
 
 House.sleeping:
-  On status change - ${Properties.selfObjectName}:
+
+  Sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.selfObjectName}.status is not off
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Sleeping)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (Sleeping)')
+
+  Awake - ${Properties.selfObjectName}:
+    if:
+      - this is false
     run:
       - ${Properties.selfObjectName}.auto()
