@@ -9,14 +9,6 @@ ${Properties.door}.contact:
     set:
       House.shouldCheckPresence: 'true'
 
-  Door is opened - send message:
-    if: this is false
-    run:
-      - SystemWarn.send('${Properties.door} was opened!')
-      - SystemNotify.send('${Properties.door} was opened!')
-    set:
-      House.presence: 'true'
-
   Door is opened - someone arrived:
     if:
       - this is false
@@ -25,6 +17,14 @@ ${Properties.door}.contact:
       - ${Properties.entrance-room}.lightOn()
       - SystemWarn.send('Someone entered the house')
       - SystemNotify.send('Someone entered the house')
+
+  Door is opened - send message:
+    if: this is false
+    run:
+      - SystemWarn.send('${Properties.door} was opened!')
+      - SystemNotify.send('${Properties.door} was opened!')
+    set:
+      House.presence: 'true'
 
 House.presence:
   When house is empty:

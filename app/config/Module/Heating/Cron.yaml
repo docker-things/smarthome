@@ -26,7 +26,7 @@ jobs:
       - SystemNotify.send('${Properties.selfObjectName} deactivated force on')
       - SystemWarn.send('${Properties.selfObjectName} deactivated force on')
 
-  # SYNC WITH CONTROLLER
+  # SYNC WITH CONTROLLER - TODO: REMOVE
 
   - interval: 60
     if:
