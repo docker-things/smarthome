@@ -177,3 +177,15 @@ functions:
       - ${Properties.selfObjectName}.lightOn()
       - SystemWarn.send('Light ON (Window is opened @ ${Properties.selfObjectName})')
       - SystemNotify.send('Light ON (Window is opened @ ${Properties.selfObjectName})')
+
+  awake():
+    runIf:
+      - ${Properties.selfObjectName}.sleeping is true
+    set:
+      ignoreMotion: 'false'
+      sleeping: 'false'
+      forceLightOff: 'true'
+      forceLightOn: 'false'
+    runFunctions:
+      - SystemWarn.send('Awake (${Properties.selfObjectName})')
+      - SystemNotify.send('Awake (${Properties.selfObjectName})')

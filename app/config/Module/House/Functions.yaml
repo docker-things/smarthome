@@ -114,3 +114,16 @@ functions:
     runFunctionsAsync:
       - House.offWithoutVacuum()
       - ${Properties.roborock.object}.home()
+
+
+  awake():
+    runFunctionsAsync:
+      - ${Properties.room-1}.awake()
+      - ${Properties.room-2}.awake()
+      - ${Properties.room-3}.awake()
+      - ${Properties.room-4}.awake()
+      - ${Properties.room-5}.awake()
+      - ${Properties.room-6}.awake()
+      - ${Properties.room-7}.awake()
+      - ${Properties.room-8}.awake()
+      - ${Properties.room-9}.awake()
