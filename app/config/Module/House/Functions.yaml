@@ -127,3 +127,5 @@ functions:
       - ${Properties.room-7}.awake()
       - ${Properties.room-8}.awake()
       - ${Properties.room-9}.awake()
+    set:
+      sleeping: 'false'
