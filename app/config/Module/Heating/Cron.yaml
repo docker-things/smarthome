@@ -2,6 +2,12 @@
 
 jobs:
 
+  # CHECK EVERY 5 MINS
+
+  - interval: 300
+    run:
+      - ${Properties.selfObjectName}.auto()
+
   # STOP FORCED ON/OFF
 
   # Force OFF
