@@ -383,6 +383,14 @@ ${Properties.button.object}.click:
       House.lastMotionLocation: '${Properties.name}'
       ${Properties.selfObjectName}.lastMotion: System.timestamp
 
+  Turn diffuser on - ${Properties.selfObjectName}:
+    if:
+      - this is not long
+      - ${Properties.diffuser.object}.status is off
+    run:
+      - ${Properties.diffuser.object}.on()
+      - SystemNotify.send('Diffuser ON (${Properties.selfObjectName} button)')
+
   Single click - Local light OFF - ${Properties.selfObjectName}:
     if:
       - this is single
