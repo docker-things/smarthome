@@ -57,7 +57,7 @@ class Core_Function {
         $function = $this->_setFunctionParams($config);
 
         // Check if we should run something
-        if ($this->_checkRunConditions($function, $output)) {
+        if ($this->_checkRunConditions($function, '')) {
 
             // Execute YAML function
             $this->_runYamlFunctions($function);

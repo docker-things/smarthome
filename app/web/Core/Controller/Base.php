@@ -120,7 +120,7 @@ class Core_Controller_Base {
     }
 
     /**
-     * @param $value
+     * @param  $value
      * @return mixed
      */
     public function shouldRunFunctionsAsync($value = null) {
@@ -166,7 +166,7 @@ class Core_Controller_Base {
         $params = trim(file_get_contents("php://input"));
         if (!empty($params)) {
             $params = json_decode($params, true);
-            if (false !== $params) {
+            if (false !== $params && null !== $params) {
                 foreach ($params AS $key => $value) {
                     $payload[$key] = $value;
                 }

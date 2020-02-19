@@ -8,15 +8,3 @@ force-off-seconds: 3600
 temperature:
 
   object: NONE
-
-  presence:
-    min: 21
-    max: 22
-
-  sleeping:
-    min: 14
-    max: 15
-
-  no-presence:
-    min: 10
-    max: 11

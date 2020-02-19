@@ -13,18 +13,18 @@ functions:
   # ALL CHECKS
 
   auto():
-    runFunctionsAsync:
+    runFunctions:
       - ${Properties.selfObjectName}.onIfConditionsMet()
       - ${Properties.selfObjectName}.offIfConditionsMet()
 
   onIfConditionsMet():
-    runFunctionsAsync:
+    runFunctions:
       - ${Properties.selfObjectName}.onIfPresenceNotSleeping()
       - ${Properties.selfObjectName}.onIfPresenceSleeping()
       - ${Properties.selfObjectName}.onIfNoPresence()
 
   offIfConditionsMet():
-    runFunctionsAsync:
+    runFunctions:
       - ${Properties.selfObjectName}.offIfPresenceNotSleeping()
       - ${Properties.selfObjectName}.offIfPresenceSleeping()
       - ${Properties.selfObjectName}.offIfNoPresence()
@@ -38,11 +38,11 @@ functions:
       - ${Properties.selfObjectName}.status is not on
       - ${Properties.selfObjectName}.forceOff is not true
       - House.openWindows is not true
-      - ${Properties.temperature.object}.temperature < ${Properties.temperature.presence.min}
+      - ${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.presenceMinTemp
     runFunctions:
       - ${Properties.selfObjectName}.on()
-      - SystemNotify.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.temperature.presence.min})')
-      - SystemWarn.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.temperature.presence.min})')
+      - SystemNotify.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.presenceMinTemp)')
+      - SystemWarn.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.presenceMinTemp)')
 
   offIfPresenceNotSleeping():
     runIf:
@@ -50,11 +50,11 @@ functions:
       - House.sleeping is not true
       - ${Properties.selfObjectName}.status is on
       - ${Properties.selfObjectName}.forceOn is not true
-      - ${Properties.temperature.object}.temperature > ${Properties.temperature.presence.max}
+      - ${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.presenceMaxTemp
     runFunctions:
       - ${Properties.selfObjectName}.off()
-      - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.temperature.presence.max})')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.temperature.presence.max})')
+      - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.presenceMaxTemp)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.presenceMaxTemp)')
 
   # PRESENCE SLEEPING
 
@@ -65,11 +65,11 @@ functions:
       - ${Properties.selfObjectName}.status is not on
       - ${Properties.selfObjectName}.forceOff is not true
       - House.openWindows is not true
-      - ${Properties.temperature.object}.temperature < ${Properties.temperature.sleeping.min}
+      - ${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.sleepingMinTemp
     runFunctions:
       - ${Properties.selfObjectName}.on()
-      - SystemNotify.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.temperature.sleeping.min})')
-      - SystemWarn.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.temperature.sleeping.min})')
+      - SystemNotify.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.sleepingMinTemp)')
+      - SystemWarn.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.sleepingMinTemp)')
 
   offIfPresenceSleeping():
     runIf:
@@ -77,11 +77,11 @@ functions:
       - House.sleeping is true
       - ${Properties.selfObjectName}.status is on
       - ${Properties.selfObjectName}.forceOn is not true
-      - ${Properties.temperature.object}.temperature > ${Properties.temperature.sleeping.max}
+      - ${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.sleepingMaxTemp
     runFunctions:
       - ${Properties.selfObjectName}.off()
-      - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.temperature.sleeping.max})')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.temperature.sleeping.max})')
+      - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.sleepingMaxTemp)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.sleepingMaxTemp)')
 
   # NO PRESENCE
 
@@ -91,19 +91,19 @@ functions:
       - ${Properties.selfObjectName}.status is not on
       - ${Properties.selfObjectName}.forceOff is not true
       - House.openWindows is not true
-      - ${Properties.temperature.object}.temperature < ${Properties.temperature.no-presence.min}
+      - ${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.noPresenceMinTemp
     runFunctions:
       - ${Properties.selfObjectName}.on()
-      - SystemNotify.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.temperature.no-presence.min})')
-      - SystemWarn.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.temperature.no-presence.min})')
+      - SystemNotify.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.noPresenceMinTemp)')
+      - SystemWarn.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.noPresenceMinTemp)')
 
   offIfNoPresence():
     runIf:
       - House.presence is false
       - ${Properties.selfObjectName}.status is on
       - ${Properties.selfObjectName}.forceOn is not true
-      - ${Properties.temperature.object}.temperature > ${Properties.temperature.no-presence.max}
+      - ${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.noPresenceMaxTemp
     runFunctions:
       - ${Properties.selfObjectName}.off()
-      - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.temperature.no-presence.max})')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.temperature.no-presence.max})')
+      - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.noPresenceMaxTemp)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.noPresenceMaxTemp)')

@@ -2,9 +2,9 @@
 
 jobs:
 
-  # CHECK EVERY 5 MINS
+  # CHECK EVERY MINUTE
 
-  - interval: 300
+  - interval: 60
     run:
       - ${Properties.selfObjectName}.auto()
 
@@ -31,25 +31,3 @@ jobs:
     run:
       - SystemNotify.send('${Properties.selfObjectName} deactivated force on')
       - SystemWarn.send('${Properties.selfObjectName} deactivated force on')
-
-  # SYNC WITH CONTROLLER - TODO: REMOVE
-
-  - interval: 60
-    if:
-      - ${Properties.controller}.status != ${Properties.selfObjectName}.status
-      - ${Properties.controller}.status is on
-    run:
-      - SystemNotify.send('${Properties.selfObjectName} RESYNC with controller!')
-      - SystemWarn.send('${Properties.selfObjectName} RESYNC with controller!')
-    set:
-      ${Properties.selfObjectName}.status: 'on'
-
-  - interval: 60
-    if:
-      - ${Properties.controller}.status != ${Properties.selfObjectName}.status
-      - ${Properties.controller}.status is off
-    run:
-      - SystemNotify.send('${Properties.selfObjectName} RESYNC with controller!')
-      - SystemWarn.send('${Properties.selfObjectName} RESYNC with controller!')
-    set:
-      ${Properties.selfObjectName}.status: 'off'

@@ -739,6 +739,13 @@ class Core_Config {
             ];
         }
 
+        // Config
+        if (!isset($this->_config['Objects']['Config'])) {
+            $this->_config['Objects']['Config'] = [
+                'base' => '!import Module.System.Config',
+            ];
+        }
+
         // Sun
         if (!isset($this->_config['Objects']['Sun'])) {
             $this->_config['Objects']['Sun'] = [
