@@ -6,21 +6,27 @@ class Core_Controller_Config extends Core_Controller_Base {
      */
     private $customView = [
         'Heating' => [
-            'alias'       => 'Heating Temperature',
-            'Awake'    => [
-                'data' => 'presenceMinTemp',
-                'type' => 'number',
-                'attr' => 'step="0.1"',
+            'alias'   => 'Heating Temperature',
+            'details' => [
+                // 'Bathroom-Temperature.temperature'   => 'Bathroom Temperature',
+                'Livingroom-Temperature.temperature' => 'Livingroom Temperature',
             ],
-            'Sleeping'    => [
-                'data' => 'sleepingMinTemp',
-                'type' => 'number',
-                'attr' => 'step="0.1"',
-            ],
-            'Empty-House' => [
-                'data' => 'noPresenceMinTemp',
-                'type' => 'number',
-                'attr' => 'step="0.1"',
+            'data'    => [
+                'Awake'       => [
+                    'data' => 'presenceMinTemp',
+                    'type' => 'number',
+                    'attr' => 'step="0.5"',
+                ],
+                'Sleeping'    => [
+                    'data' => 'sleepingMinTemp',
+                    'type' => 'number',
+                    'attr' => 'step="0.5"',
+                ],
+                'Empty-House' => [
+                    'data' => 'noPresenceMinTemp',
+                    'type' => 'number',
+                    'attr' => 'step="0.5"',
+                ],
             ],
         ],
     ];
@@ -37,48 +43,48 @@ class Core_Controller_Config extends Core_Controller_Base {
         }
 
         echo '<html><head>
-			<meta name="viewport" content="width=device-width, initial-scale=1" />
-			<title>' . $title . '</title>
-			<style>
-			html, body {
-				padding: 0;
-				margin: 0;
-				text-align: center;
-			}
-			body {
-				padding: 10px;
-			}
-			pre {
-				text-align: left;
-				margin: 5px;
-			}
-			table {
-				margin: 0 auto;
-			}
-			td {
-				padding: 0px 10px;
-			}
-			.rawVariables {
-				opacity: 0.5;
-				color: red;
-			}
-			input[type=text],
-			input[type=number],
-			input[type=submit] {
-				width: 150px;
-				height: 32px;
-				padding: 5px;
-				margin: 5px;
-			}
-			input[type=submit] {
-				width: 70px;
-				padding: 0;
-			}
-			.rawVariables * {
-				color: red;
-			}
-			</style>
-    		</head><body>';
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>' . $title . '</title>
+            <style>
+            html, body {
+                padding: 0;
+                margin: 0;
+                text-align: center;
+            }
+            body {
+                padding: 10px;
+            }
+            pre {
+                text-align: left;
+                margin: 5px;
+            }
+            table {
+                margin: 0 auto;
+            }
+            td {
+                padding: 0px 10px;
+            }
+            .rawVariables {
+                opacity: 0.5;
+                color: red;
+            }
+            input[type=text],
+            input[type=number],
+            input[type=submit] {
+                width: 150px;
+                height: 32px;
+                padding: 5px;
+                margin: 5px;
+            }
+            input[type=submit] {
+                width: 70px;
+                padding: 0;
+            }
+            .rawVariables * {
+                color: red;
+            }
+            </style>
+            </head><body>';
         $this->_savePostData();
         foreach ($this->getState()->getState() as $object => $vars) {
             if (isset($_GET['object']) && strtolower($_GET['object']) != strtolower($object)) {
@@ -100,14 +106,14 @@ class Core_Controller_Config extends Core_Controller_Base {
             }
         }
         return '
-    	<form method="POST" name="addNew">
-			<h2>ADD</h2>
-			<input type="' . (empty($object) ? 'text' : 'hidden') . '" name="objectName" placeholder="Object" value="' . $object . '">
-			<input type="text" name="variable" placeholder="Variable" value="">
-			<input type="text" name="value" placeholder="Value" value="">
-			<input type="submit" name="addButton" value="Add">
-		</form>
-		';
+        <form method="POST" name="addNew">
+            <h2>ADD</h2>
+            <input type="' . (empty($object) ? 'text' : 'hidden') . '" name="objectName" placeholder="Object" value="' . $object . '">
+            <input type="text" name="variable" placeholder="Variable" value="">
+            <input type="text" name="value" placeholder="Value" value="">
+            <input type="submit" name="addButton" value="Add">
+        </form>
+        ';
     }
 
     /**
@@ -144,7 +150,6 @@ class Core_Controller_Config extends Core_Controller_Base {
             $objectAlias = $object;
             if (isset($this->customView[$object]['alias'])) {
                 $objectAlias = $this->customView[$object]['alias'];
-                unset($this->customView[$object]['alias']);
             }
             $form .= '<h2>' . $objectAlias . '</h2>';
             $form .= '<input type="hidden" name="objectName" value="' . $object . '">';
@@ -152,19 +157,33 @@ class Core_Controller_Config extends Core_Controller_Base {
 
             // Variables
             $first = true;
-            foreach ($this->customView[$object] AS $alias => $var) {
+            foreach ($this->customView[$object]['data'] AS $alias => $var) {
                 $attr = isset($var['attr']) ? $var['attr'] : '';
                 $form .= '<tr>';
                 $form .= '<td>' . str_replace('-', ' ', $alias) . '</td>';
                 $form .= '<td><input type="' . $var['type'] . '" ' . $attr . ' name="' . $alias . '" placeholder="Value" value="' . $vars[$var['data']] . '"></td>';
                 if ($first) {
                     $first = false;
-                    $form .= '<td rowspan="' . count($this->customView[$object]) . '"><input type="submit" name="editButton" value="Save"></td>';
+                    $form .= '<td rowspan="' . count($this->customView[$object]['data']) . '"><input type="submit" name="editButton" value="Save"></td>';
                 }
                 $form .= '</tr>';
             }
             $form .= '</table>';
             $form .= '</form>';
+
+            // Details
+            $form .= '<table>';
+            foreach ($this->customView[$object]['details'] AS $detail => $alias) {
+                $tmp   = explode('.', $detail, 2);
+                $value = $this->getState()->getVariableValue($tmp[0], $tmp[1], '?');
+                $form .= '<tr>';
+                $form .= '<td>' . $alias . ':</td>';
+                $form .= '<td>' . $value . '</td>';
+                $form .= '</tr>';
+            }
+            $form .= '</table>';
+
+            // If no raw, return
             if (!isset($_GET['raw'])) {
                 return $form;
             }
