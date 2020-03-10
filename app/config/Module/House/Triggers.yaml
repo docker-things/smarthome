@@ -26,6 +26,14 @@ ${Properties.door}.contact:
     set:
       House.presence: 'true'
 
+House.openWindows:
+  When opening windows without presence:
+    if:
+      - this is true
+    run:
+      - SystemWarn.send('Someone opened windows but house is empty!')
+      - SystemNotify.send('Someone opened windows but house is empty!')
+
 House.presence:
   When house is empty:
     if:
