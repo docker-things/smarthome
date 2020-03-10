@@ -164,7 +164,6 @@ functions:
   # 1/2/3
   set_fan_level(number):
     run: ${cmd} set_fan_level ${ARGS.number}
-    if: ${RESPONSE.power} in ['on','off']
     set:
       fan_level: ${ARGS.number}
       mode: fan
@@ -192,7 +191,6 @@ functions:
     runIf:
       - ${Properties.selfObjectName}.led_brightness is not '${ARGS.mode}'
     run: ${cmd} set_led_brightness ${ARGS.mode}
-    if: ${RESPONSE.power} in ['on','off']
     set:
       led_brightness: ${ARGS.mode}
 
