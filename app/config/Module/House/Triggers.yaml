@@ -30,6 +30,7 @@ House.openWindows:
   When opening windows without presence:
     if:
       - this is true
+      - House.presence is false
     run:
       - SystemWarn.send('Someone opened windows but house is empty!')
       - SystemNotify.send('Someone opened windows but house is empty!')
