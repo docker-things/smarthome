@@ -57,7 +57,7 @@ functions:
       - ${Properties.selfObjectName}.set_mode('auto')
       - ${Properties.selfObjectName}.set_led_brightness('dim')
       - SystemNotify.send('${Properties.selfObjectName} AUTO (AQI = ${Properties.selfObjectName}.aqi)')
-      - SystemWarn.send('${Properties.selfObjectName} AUTO (AQI = ${Properties.selfObjectName}.aqi)')
+      - SystemWarn.send('${Properties.selfObjectName} AUTO (AQI = ${Properties.selfObjectName}.aqi; Prev mode=${Properties.selfObjectName}.mode)')
 
   adjustLevel1():
     runIf:
@@ -68,7 +68,7 @@ functions:
       - ${Properties.selfObjectName}.set_fan_level('1')
       - ${Properties.selfObjectName}.set_led_brightness('dim')
       - SystemNotify.send('${Properties.selfObjectName} LEVEL 1 (AQI = ${Properties.selfObjectName}.aqi)')
-      - SystemWarn.send('${Properties.selfObjectName} LEVEL 1 (AQI = ${Properties.selfObjectName}.aqi)')
+      - SystemWarn.send('${Properties.selfObjectName} LEVEL 1 (AQI = ${Properties.selfObjectName}.aqi; Prev fan_level=${Properties.selfObjectName}.fan_level; Prev mode=${Properties.selfObjectName}.mode)')
 
   adjustLevel2():
     runIf:
@@ -79,7 +79,7 @@ functions:
       - ${Properties.selfObjectName}.set_fan_level('2')
       - ${Properties.selfObjectName}.set_led_brightness('bright')
       - SystemNotify.send('${Properties.selfObjectName} LEVEL 2 (AQI = ${Properties.selfObjectName}.aqi)')
-      - SystemWarn.send('${Properties.selfObjectName} LEVEL 2 (AQI = ${Properties.selfObjectName}.aqi)')
+      - SystemWarn.send('${Properties.selfObjectName} LEVEL 2 (AQI = ${Properties.selfObjectName}.aqi; Prev fan_level=${Properties.selfObjectName}.fan_level; Prev mode=${Properties.selfObjectName}.mode)')
 
   adjustLevel3():
     runIf:
@@ -90,7 +90,7 @@ functions:
       - ${Properties.selfObjectName}.set_fan_level('3')
       - ${Properties.selfObjectName}.set_led_brightness('bright')
       - SystemNotify.send('${Properties.selfObjectName} LEVEL 3 (AQI = ${Properties.selfObjectName}.aqi)')
-      - SystemWarn.send('${Properties.selfObjectName} LEVEL 3 (AQI = ${Properties.selfObjectName}.aqi)')
+      - SystemWarn.send('${Properties.selfObjectName} LEVEL 3 (AQI = ${Properties.selfObjectName}.aqi; Prev fan_level=${Properties.selfObjectName}.fan_level; Prev mode=${Properties.selfObjectName}.mode)')
 
   adjustMax():
     runIf:
@@ -102,7 +102,7 @@ functions:
       - ${Properties.selfObjectName}.set_favorite_rpm('2300')
       - ${Properties.selfObjectName}.set_led_brightness('bright')
       - SystemNotify.send('${Properties.selfObjectName} MAX (AQI = ${Properties.selfObjectName}.aqi)')
-      - SystemWarn.send('${Properties.selfObjectName} MAX (AQI = ${Properties.selfObjectName}.aqi)')
+      - SystemWarn.send('${Properties.selfObjectName} MAX (AQI = ${Properties.selfObjectName}.aqi; Prev mode=${Properties.selfObjectName}.mode)')
 
   adjustForAQI():
     runIf:
