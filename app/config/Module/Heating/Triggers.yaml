@@ -50,7 +50,6 @@ House.openWindows:
     run:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (Opened windows)')
 
   Closing windows - ${Properties.selfObjectName}:
     if:
@@ -68,7 +67,6 @@ House.presence:
     run:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Empty house)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (Empty house)')
 
   When house is populated - ${Properties.selfObjectName}:
     if:
@@ -87,7 +85,6 @@ House.sleeping:
     run:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Sleeping)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (Sleeping)')
 
   Awake - ${Properties.selfObjectName}:
     if:

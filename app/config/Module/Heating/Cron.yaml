@@ -19,7 +19,6 @@ jobs:
       ${Properties.selfObjectName}.forceOff: 'false'
     run:
       - SystemNotify.send('${Properties.selfObjectName} deactivated force off')
-      - SystemWarn.send('${Properties.selfObjectName} deactivated force off')
 
   # Force ON
   - interval: 60
@@ -30,4 +29,3 @@ jobs:
       ${Properties.selfObjectName}.forceOn: 'false'
     run:
       - SystemNotify.send('${Properties.selfObjectName} deactivated force on')
-      - SystemWarn.send('${Properties.selfObjectName} deactivated force on')

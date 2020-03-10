@@ -42,7 +42,6 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.on()
       - SystemNotify.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.presenceMinTemp)')
-      - SystemWarn.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.presenceMinTemp)')
 
   offIfPresenceNotSleeping():
     runIf:
@@ -54,7 +53,6 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.presenceMaxTemp)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.presenceMaxTemp)')
 
   # PRESENCE SLEEPING
 
@@ -69,7 +67,6 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.on()
       - SystemNotify.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.sleepingMinTemp)')
-      - SystemWarn.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.sleepingMinTemp)')
 
   offIfPresenceSleeping():
     runIf:
@@ -81,7 +78,6 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.sleepingMaxTemp)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.sleepingMaxTemp)')
 
   # NO PRESENCE
 
@@ -95,7 +91,6 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.on()
       - SystemNotify.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.noPresenceMinTemp)')
-      - SystemWarn.send('${Properties.selfObjectName} ON (${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.noPresenceMinTemp)')
 
   offIfNoPresence():
     runIf:
@@ -106,4 +101,3 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.noPresenceMaxTemp)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (${Properties.temperature.object}.temperature > ${Properties.selfObjectName}.noPresenceMaxTemp)')
