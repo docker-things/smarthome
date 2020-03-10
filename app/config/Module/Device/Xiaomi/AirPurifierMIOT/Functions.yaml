@@ -21,24 +21,15 @@ functions:
 
   # Adjust speeds when awake with closed windows
 
-  adjustPowerFromOff():
+  adjustState():
     runIf:
-      - ${Properties.selfObjectName}.status is off
-    runFunctions:
-      - ${Properties.selfObjectName}.on()
-      - ${Properties.selfObjectName}.set_led_brightness('dim')
-      - SystemNotify.send('${Properties.selfObjectName} ON')
-      - SystemWarn.send('${Properties.selfObjectName} ON')
-
-  adjustStateFromSilent():
-    runIf:
-      - ${Properties.selfObjectName}.status is on
+      - ${Properties.selfObjectName}.status is ['on','off']
       - ${Properties.selfObjectName}.mode is silent
     runFunctions:
       - ${Properties.selfObjectName}.set_mode('auto')
       - ${Properties.selfObjectName}.set_led_brightness('dim')
-      - SystemNotify.send('${Properties.selfObjectName} AUTO (Wrong silent mode)')
-      - SystemWarn.send('${Properties.selfObjectName} AUTO (Wrong silent mode)')
+      - SystemNotify.send('${Properties.selfObjectName} AUTO (From silent/off)')
+      - SystemWarn.send('${Properties.selfObjectName} AUTO (From silent/off)')
 
   adjustAuto():
     runIf:
@@ -100,8 +91,7 @@ functions:
       - House.sleeping is not true
       - House.openWindows is not true
     runFunctions:
-      - ${Properties.selfObjectName}.adjustPowerFromOff()
-      - ${Properties.selfObjectName}.adjustStateFromSilent()
+      - ${Properties.selfObjectName}.adjustState()
       - ${Properties.selfObjectName}.adjustAuto()
       - ${Properties.selfObjectName}.adjustLevel1()
       - ${Properties.selfObjectName}.adjustLevel2()
@@ -113,12 +103,13 @@ functions:
   checkSleeping():
     runIf:
       - House.sleeping is true
+      - House.openWindows is false
       - ${Properties.selfObjectName}.mode is not silent
     runFunctions:
       - ${Properties.selfObjectName}.set_mode('silent')
       - ${Properties.selfObjectName}.set_led_brightness('off')
-      - SystemNotify.send('${Properties.selfObjectName} SLEEPING (Sleeping)')
-      - SystemWarn.send('${Properties.selfObjectName} SLEEPING (Sleeping)')
+      - SystemNotify.send('${Properties.selfObjectName} SILENT (Sleeping)')
+      - SystemWarn.send('${Properties.selfObjectName} SILENT (Sleeping)')
 
   checkOpenWindows():
     runIf:
@@ -126,8 +117,8 @@ functions:
       - ${Properties.selfObjectName}.mode is not silent
     runFunctions:
       - ${Properties.selfObjectName}.off()
-      - SystemNotify.send('${Properties.selfObjectName} SLEEPING (Opened windows)')
-      - SystemWarn.send('${Properties.selfObjectName} SLEEPING (Opened windows)')
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (Opened windows)')
 
   # Full auto checks
 
