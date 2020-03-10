@@ -21,15 +21,33 @@ functions:
 
   # Adjust speeds when awake with closed windows
 
-  adjustState():
+  adjustPowerFromOff():
     runIf:
-      - ${Properties.selfObjectName}.status is ['on','off']
+      - ${Properties.selfObjectName}.status is off
+    runFunctions:
+      - ${Properties.selfObjectName}.on()
+      - ${Properties.selfObjectName}.set_mode('auto')
+      - ${Properties.selfObjectName}.set_led_brightness('dim')
+      - SystemNotify.send('${Properties.selfObjectName} AUTO (From OFF)')
+      - SystemWarn.send('${Properties.selfObjectName} AUTO (From OFF)')
+
+  adjustStateFromSilent():
+    runIf:
+      - ${Properties.selfObjectName}.status is on
       - ${Properties.selfObjectName}.mode is silent
     runFunctions:
       - ${Properties.selfObjectName}.set_mode('auto')
       - ${Properties.selfObjectName}.set_led_brightness('dim')
-      - SystemNotify.send('${Properties.selfObjectName} AUTO (From silent/off)')
-      - SystemWarn.send('${Properties.selfObjectName} AUTO (From silent/off)')
+      - SystemNotify.send('${Properties.selfObjectName} AUTO (From silent mode)')
+      - SystemWarn.send('${Properties.selfObjectName} AUTO (From silent mode)')
+
+  adjustLedState():
+    runIf:
+      - ${Properties.selfObjectName}.led_brightness is off
+    runFunctions:
+      - ${Properties.selfObjectName}.set_led_brightness('dim')
+      - SystemNotify.send('${Properties.selfObjectName} Display ON')
+      - SystemWarn.send('${Properties.selfObjectName} Display ON')
 
   adjustAuto():
     runIf:
@@ -91,7 +109,9 @@ functions:
       - House.sleeping is not true
       - House.openWindows is not true
     runFunctions:
-      - ${Properties.selfObjectName}.adjustState()
+      - ${Properties.selfObjectName}.adjustPowerFromOff()
+      - ${Properties.selfObjectName}.adjustLedState()
+      - ${Properties.selfObjectName}.adjustStateFromSilent()
       - ${Properties.selfObjectName}.adjustAuto()
       - ${Properties.selfObjectName}.adjustLevel1()
       - ${Properties.selfObjectName}.adjustLevel2()
@@ -107,6 +127,7 @@ functions:
       - ${Properties.selfObjectName}.mode is not silent
     runFunctions:
       - ${Properties.selfObjectName}.set_mode('silent')
+      - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('off')
       - SystemNotify.send('${Properties.selfObjectName} SILENT (Sleeping)')
       - SystemWarn.send('${Properties.selfObjectName} SILENT (Sleeping)')
