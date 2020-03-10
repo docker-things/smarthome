@@ -156,7 +156,6 @@ RUN echo -e "\n > INSTALL PYTHON-MIIO\n" \
     /tmp/* \
     /var/tmp/*
 
-
 # INSTALL CEC SUPPORT
 RUN echo -e "\n > INSTALL CEC SUPPORT\n" \
  && apk add --no-cache \
@@ -258,11 +257,29 @@ RUN echo -e "\n > INSTALL BROADLINK IN $BROADLINK_PATH\n" \
     /tmp/* \
     /var/tmp/*
 
+# PYTHON-MIIO
+RUN echo -e "\n > INSTALL PYTHON-MIIO\n" \
+ && apk add --no-cache --virtual build-dependencies \
+    git \
+ \
+ && git clone https://github.com/foxel/python-miio.git /tmp/python-miio \
+ && cd /tmp/python-miio \
+ && git checkout air-purifier-3h-support \
+ && python3 setup.py install -f \
+ \
+ && echo -e "\n > CLEANUP\n" \
+ && apk del --purge \
+    build-dependencies \
+ && rm -rf \
+    /tmp/* \
+    /var/tmp/*
+
 
 # COPY APP FILES
 COPY app/config /app/config
 COPY app/modules/bluetooth-scan /app/modules/bluetooth-scan
 COPY app/modules/roborock /app/modules/roborock
+COPY app/modules/airpurifier-miot /app/modules/airpurifier-miot
 COPY app/modules/sunrise_sunset /app/modules/sunrise_sunset
 COPY app/services /app/services
 COPY app/web /app/web

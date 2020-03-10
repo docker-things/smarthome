@@ -1,0 +1,17 @@
+--- # Do stuff when certain variables are changed
+
+${Properties.selfObjectName}.aqi:
+  Do them checks - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.auto()
+
+House.openWindows:
+  Do them checks - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.auto()
+
+House.sleeping:
+  Do them checks - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.auto()
+

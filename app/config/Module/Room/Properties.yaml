@@ -17,6 +17,11 @@ button:
 clapper:
   object: NONE
 
+diffuser:
+  object: NONE
+
+airpurifier:
+  object: NONE
 
 light:
   object: NONE

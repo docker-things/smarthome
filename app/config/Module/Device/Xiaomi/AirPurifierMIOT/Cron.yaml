@@ -1,0 +1,8 @@
+---
+
+jobs:
+  - interval: 60
+    run: getStatus()
+
+  - interval: 60
+    run: auto()

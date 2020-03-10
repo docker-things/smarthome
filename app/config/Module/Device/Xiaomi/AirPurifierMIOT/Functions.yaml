@@ -1,0 +1,222 @@
+---
+
+cmd: bash ${Base.paths.modules}/airpurifier-miot/airpurifier-miot.sh ${Properties.ip} ${Properties.token}
+
+functions:
+
+  on():
+    run: ${cmd} on
+    set:
+      status: 'on'
+
+  off():
+    run: ${cmd} off
+    set:
+      status: 'off'
+
+  sleep():
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('silent')
+      - ${Properties.selfObjectName}.set_led_brightness('off')
+
+  # Adjust speeds when awake with closed windows
+
+  adjustPowerFromOff():
+    runIf:
+      - ${Properties.selfObjectName}.status is off
+    runFunctions:
+      - ${Properties.selfObjectName}.on()
+      - ${Properties.selfObjectName}.set_led_brightness('dim')
+      - SystemNotify.send('${Properties.selfObjectName} ON')
+      - SystemWarn.send('${Properties.selfObjectName} ON')
+
+  adjustStateFromSilent():
+    runIf:
+      - ${Properties.selfObjectName}.status is on
+      - ${Properties.selfObjectName}.mode is silent
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('auto')
+      - ${Properties.selfObjectName}.set_led_brightness('dim')
+      - SystemNotify.send('${Properties.selfObjectName} AUTO (Wrong silent mode)')
+      - SystemWarn.send('${Properties.selfObjectName} AUTO (Wrong silent mode)')
+
+  adjustAuto():
+    runIf:
+      - ${Properties.selfObjectName}.aqi < 5
+      - ${Properties.selfObjectName}.mode is not auto
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('auto')
+      - ${Properties.selfObjectName}.set_led_brightness('dim')
+      - SystemNotify.send('${Properties.selfObjectName} AUTO (AQI = ${Properties.selfObjectName}.aqi)')
+      - SystemWarn.send('${Properties.selfObjectName} AUTO (AQI = ${Properties.selfObjectName}.aqi)')
+
+  adjustLevel1():
+    runIf:
+      - ${Properties.selfObjectName}.aqi >= 5
+      - ${Properties.selfObjectName}.aqi < 10
+      - ${Properties.selfObjectName}.fan_level is not 1
+    runFunctions:
+      - ${Properties.selfObjectName}.set_fan_level('1')
+      - ${Properties.selfObjectName}.set_led_brightness('dim')
+      - SystemNotify.send('${Properties.selfObjectName} LEVEL 1 (AQI = ${Properties.selfObjectName}.aqi)')
+      - SystemWarn.send('${Properties.selfObjectName} LEVEL 1 (AQI = ${Properties.selfObjectName}.aqi)')
+
+  adjustLevel2():
+    runIf:
+      - ${Properties.selfObjectName}.aqi >= 10
+      - ${Properties.selfObjectName}.aqi < 20
+      - ${Properties.selfObjectName}.fan_level is not 2
+    runFunctions:
+      - ${Properties.selfObjectName}.set_fan_level('2')
+      - ${Properties.selfObjectName}.set_led_brightness('bright')
+      - SystemNotify.send('${Properties.selfObjectName} LEVEL 2 (AQI = ${Properties.selfObjectName}.aqi)')
+      - SystemWarn.send('${Properties.selfObjectName} LEVEL 2 (AQI = ${Properties.selfObjectName}.aqi)')
+
+  adjustLevel3():
+    runIf:
+      - ${Properties.selfObjectName}.aqi >= 20
+      - ${Properties.selfObjectName}.aqi < 100
+      - ${Properties.selfObjectName}.fan_level is not 3
+    runFunctions:
+      - ${Properties.selfObjectName}.set_fan_level('3')
+      - ${Properties.selfObjectName}.set_led_brightness('bright')
+      - SystemNotify.send('${Properties.selfObjectName} LEVEL 3 (AQI = ${Properties.selfObjectName}.aqi)')
+      - SystemWarn.send('${Properties.selfObjectName} LEVEL 3 (AQI = ${Properties.selfObjectName}.aqi)')
+
+  adjustMax():
+    runIf:
+      - ${Properties.selfObjectName}.aqi >= 100
+      - ${Properties.selfObjectName}.mode is not favorite
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('favorite')
+      - ${Properties.selfObjectName}.set_favorite_level('14')
+      - ${Properties.selfObjectName}.set_favorite_rpm('2300')
+      - ${Properties.selfObjectName}.set_led_brightness('bright')
+      - SystemNotify.send('${Properties.selfObjectName} MAX (AQI = ${Properties.selfObjectName}.aqi)')
+      - SystemWarn.send('${Properties.selfObjectName} MAX (AQI = ${Properties.selfObjectName}.aqi)')
+
+  adjustForAQI():
+    runIf:
+      - House.sleeping is not true
+      - House.openWindows is not true
+    runFunctions:
+      - ${Properties.selfObjectName}.adjustPowerFromOff()
+      - ${Properties.selfObjectName}.adjustStateFromSilent()
+      - ${Properties.selfObjectName}.adjustAuto()
+      - ${Properties.selfObjectName}.adjustLevel1()
+      - ${Properties.selfObjectName}.adjustLevel2()
+      - ${Properties.selfObjectName}.adjustLevel3()
+      - ${Properties.selfObjectName}.adjustMax()
+
+  # Check if it should sleep
+
+  checkSleeping():
+    runIf:
+      - House.sleeping is true
+      - ${Properties.selfObjectName}.mode is not silent
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('silent')
+      - ${Properties.selfObjectName}.set_led_brightness('off')
+      - SystemNotify.send('${Properties.selfObjectName} SLEEPING (Sleeping)')
+      - SystemWarn.send('${Properties.selfObjectName} SLEEPING (Sleeping)')
+
+  checkOpenWindows():
+    runIf:
+      - House.openWindows is true
+      - ${Properties.selfObjectName}.mode is not silent
+    runFunctions:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} SLEEPING (Opened windows)')
+      - SystemWarn.send('${Properties.selfObjectName} SLEEPING (Opened windows)')
+
+  # Full auto checks
+
+  auto():
+    runFunctions:
+      - ${Properties.selfObjectName}.adjustForAQI()
+      - ${Properties.selfObjectName}.checkOpenWindows()
+      - ${Properties.selfObjectName}.checkSleeping()
+      - ${Properties.selfObjectName}.checkNoPresence()
+
+  # true/false
+  set_buzzer(boolean):
+    run: ${cmd} set_buzzer ${ARGS.boolean}
+    set:
+      buzzer: ${ARGS.boolean}
+
+  # true/false
+  set_child_lock(boolean):
+    run: ${cmd} set_child_lock ${ARGS.boolean}
+    set:
+      child_lock: ${ARGS.boolean}
+
+  # 1/2/3
+  set_fan_level(number):
+    run: ${cmd} set_fan_level ${ARGS.number}
+    if: ${RESPONSE.power} in ['on','off']
+    set:
+      fan_level: ${ARGS.number}
+      mode: fan
+
+  # 0-14
+  set_favorite_level(number):
+    run: ${cmd} set_favorite_level ${ARGS.number}
+    set:
+      favorite_level: ${ARGS.number}
+
+  # 300-2300 (steps of 10)
+  set_favorite_rpm(number):
+    run: ${cmd} set_favorite_rpm ${ARGS.number}
+    set:
+      motor_speed: ${ARGS.number}
+
+  # true/false
+  set_led(boolean):
+    run: ${cmd} set_led ${ARGS.boolean}
+    set:
+      led: ${ARGS.boolean}
+
+  # bright/dim/off
+  set_led_brightness(mode):
+    runIf:
+      - ${Properties.selfObjectName}.led_brightness is not '${ARGS.mode}'
+    run: ${cmd} set_led_brightness ${ARGS.mode}
+    if: ${RESPONSE.power} in ['on','off']
+    set:
+      led_brightness: ${ARGS.mode}
+
+  # auto/fan/favorite/silent
+  set_mode(mode):
+    runIf:
+      - ${Properties.selfObjectName}.mode is not '${ARGS.mode}'
+    run: ${cmd} set_mode ${ARGS.mode}
+    set:
+      mode: ${ARGS.mode}
+
+  getStatus():
+    run: ${cmd} status
+    if: ${RESPONSE.power} in ['on','off']
+    set:
+      status: ${RESPONSE.power}
+      aqi: ${RESPONSE.aqi}
+      average_aqi: ${RESPONSE.average_aqi}
+      humidity: ${RESPONSE.humidity}
+      temperature: ${RESPONSE.temperature}
+      fan_level: ${RESPONSE.fan_level}
+      mode: ${RESPONSE.mode}
+      led: ${RESPONSE.led}
+      led_brightness: ${RESPONSE.led_brightness}
+      buzzer: ${RESPONSE.buzzer}
+      buzzer_vol: ${RESPONSE.buzzer_vol}
+      child_lock: ${RESPONSE.child_lock}
+      favorite_level: ${RESPONSE.favorite_level}
+      filter_life_remaining: ${RESPONSE.filter_life_remaining}
+      filter_hours_used: ${RESPONSE.filter_hours_used}
+      use_time: ${RESPONSE.use_time}
+      purify_volume: ${RESPONSE.purify_volume}
+      motor_speed: ${RESPONSE.motor_speed}
+      filter_rfid_product_id: ${RESPONSE.filter_rfid_product_id}
+      filter_rfid_tag: ${RESPONSE.filter_rfid_tag}
+      filter_type: ${RESPONSE.filter_type}
+    elseSet 3rd time:
+      status: 'offline'
