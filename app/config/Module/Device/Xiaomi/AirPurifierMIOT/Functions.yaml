@@ -127,7 +127,6 @@ functions:
       - ${Properties.selfObjectName}.mode is not silent
     runFunctions:
       - ${Properties.selfObjectName}.set_mode('silent')
-      - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('off')
       - SystemNotify.send('${Properties.selfObjectName} SILENT (Sleeping)')
       - SystemWarn.send('${Properties.selfObjectName} SILENT (Sleeping)')
@@ -135,7 +134,7 @@ functions:
   checkOpenWindows():
     runIf:
       - House.openWindows is true
-      - ${Properties.selfObjectName}.mode is not silent
+      - ${Properties.selfObjectName}.status is not off
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
