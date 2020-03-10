@@ -134,9 +134,10 @@ functions:
   checkOpenWindows():
     runIf:
       - House.openWindows is true
-      - ${Properties.selfObjectName}.status is not off
+      - ${Properties.selfObjectName}.mode is not silent
     runFunctions:
-      - ${Properties.selfObjectName}.off()
+      - ${Properties.selfObjectName}.set_mode('silent')
+      - ${Properties.selfObjectName}.set_led_brightness('off')
       - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
       - SystemWarn.send('${Properties.selfObjectName} OFF (Opened windows)')
 
