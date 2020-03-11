@@ -144,7 +144,7 @@ functions:
     runIf:
       - House.openWindows is true
       - House.openWindows.timeSince >= 60
-      - ${Properties.selfObjectName}.status if not off
+      - ${Properties.selfObjectName}.status is not off
       - House.presence is true
     runFunctions:
       - ${Properties.selfObjectName}.off()
