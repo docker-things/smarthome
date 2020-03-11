@@ -46,7 +46,7 @@ functions:
 
   adjustAuto():
     runIf:
-      - ${Properties.selfObjectName}.aqi < 5
+      - ${Properties.selfObjectName}.aqi <= 10
       - ${Properties.selfObjectName}.mode is not auto
     runFunctions:
       - ${Properties.selfObjectName}.set_mode('auto')
@@ -56,8 +56,8 @@ functions:
 
   adjustLevel1():
     runIf:
-      - ${Properties.selfObjectName}.aqi >= 5
-      - ${Properties.selfObjectName}.aqi < 10
+      - ${Properties.selfObjectName}.aqi > 10
+      - ${Properties.selfObjectName}.aqi <= 20
       - ${Properties.selfObjectName}.fan_level is not 1
     runFunctions:
       - ${Properties.selfObjectName}.set_fan_level('1')
@@ -67,8 +67,8 @@ functions:
 
   adjustLevel2():
     runIf:
-      - ${Properties.selfObjectName}.aqi >= 10
-      - ${Properties.selfObjectName}.aqi < 20
+      - ${Properties.selfObjectName}.aqi > 20
+      - ${Properties.selfObjectName}.aqi <= 40
       - ${Properties.selfObjectName}.fan_level is not 2
     runFunctions:
       - ${Properties.selfObjectName}.set_fan_level('2')
@@ -78,8 +78,8 @@ functions:
 
   adjustLevel3():
     runIf:
-      - ${Properties.selfObjectName}.aqi >= 20
-      - ${Properties.selfObjectName}.aqi < 100
+      - ${Properties.selfObjectName}.aqi > 40
+      - ${Properties.selfObjectName}.aqi <= 80
       - ${Properties.selfObjectName}.fan_level is not 3
     runFunctions:
       - ${Properties.selfObjectName}.set_fan_level('3')
@@ -89,7 +89,7 @@ functions:
 
   adjustMax():
     runIf:
-      - ${Properties.selfObjectName}.aqi >= 100
+      - ${Properties.selfObjectName}.aqi > 80
       - ${Properties.selfObjectName}.mode is not favorite
     runFunctions:
       - ${Properties.selfObjectName}.set_mode('favorite')
@@ -113,11 +113,12 @@ functions:
       - ${Properties.selfObjectName}.adjustMax()
       - ${Properties.selfObjectName}.adjustLedState()
 
-  # Check if it should sleep
+  # Check if it should go silent or turn off
 
-  checkSleeping():
+  checkSleepingFirst5Minutes():
     runIf:
       - House.sleeping is true
+      - House.sleeping.timeSince < 300
       - House.openWindows is false
       - House.presence is true
       - ${Properties.selfObjectName}.mode is not silent
@@ -127,21 +128,33 @@ functions:
       - SystemNotify.send('${Properties.selfObjectName} SILENT (Sleeping)')
       - SystemWarn.send('${Properties.selfObjectName} SILENT (Sleeping)')
 
+  checkSleepingForReal():
+    runIf:
+      - House.sleeping is true
+      - House.sleeping.timeSince >= 300
+      - House.openWindows is false
+      - House.presence is true
+      - ${Properties.selfObjectName}.status is not off
+    runFunctions:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Sleeping)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (Sleeping)')
+
   checkOpenWindows():
     runIf:
       - House.openWindows is true
-      - ${Properties.selfObjectName}.mode is not silent
+      - House.openWindows.timeSince >= 60
+      - ${Properties.selfObjectName}.status if not off
       - House.presence is true
     runFunctions:
-      - ${Properties.selfObjectName}.set_mode('silent')
-      - ${Properties.selfObjectName}.set_led_brightness('dim')
-      - SystemNotify.send('${Properties.selfObjectName} SILENT (Opened windows)')
-      - SystemWarn.send('${Properties.selfObjectName} SILENT (Opened windows)')
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (Opened windows)')
 
-  checkEmptyHouseForMoreThan1Hour():
+  checkEmptyHouse():
     runIf:
       - House.presence is false
-      - House.presence.timeSince > 3600
+      - House.presence.timeSince > 1800
       - ${Properties.selfObjectName}.status is not off
     runFunctions:
       - ${Properties.selfObjectName}.off()
@@ -154,8 +167,9 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.adjustForAQI()
       - ${Properties.selfObjectName}.checkOpenWindows()
-      - ${Properties.selfObjectName}.checkSleeping()
-      - ${Properties.selfObjectName}.checkEmptyHouseForMoreThan1Hour()
+      - ${Properties.selfObjectName}.checkSleepingFirst5Minutes()
+      - ${Properties.selfObjectName}.checkSleepingForReal()
+      - ${Properties.selfObjectName}.checkEmptyHouse()
 
   # true/false
   set_buzzer(boolean):
