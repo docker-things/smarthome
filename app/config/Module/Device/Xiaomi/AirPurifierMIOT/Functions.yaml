@@ -14,11 +14,6 @@ functions:
     set:
       status: 'off'
 
-  sleep():
-    runFunctions:
-      - ${Properties.selfObjectName}.set_mode('silent')
-      - ${Properties.selfObjectName}.set_led_brightness('off')
-
   # Adjust speeds when awake with closed windows
 
   adjustPowerFromOff():
@@ -110,13 +105,13 @@ functions:
       - House.openWindows is not true
     runFunctions:
       - ${Properties.selfObjectName}.adjustPowerFromOff()
-      - ${Properties.selfObjectName}.adjustLedState()
       - ${Properties.selfObjectName}.adjustStateFromSilent()
       - ${Properties.selfObjectName}.adjustAuto()
       - ${Properties.selfObjectName}.adjustLevel1()
       - ${Properties.selfObjectName}.adjustLevel2()
       - ${Properties.selfObjectName}.adjustLevel3()
       - ${Properties.selfObjectName}.adjustMax()
+      - ${Properties.selfObjectName}.adjustLedState()
 
   # Check if it should sleep
 
@@ -124,6 +119,7 @@ functions:
     runIf:
       - House.sleeping is true
       - House.openWindows is false
+      - House.presence is true
       - ${Properties.selfObjectName}.mode is not silent
     runFunctions:
       - ${Properties.selfObjectName}.set_mode('silent')
@@ -135,11 +131,22 @@ functions:
     runIf:
       - House.openWindows is true
       - ${Properties.selfObjectName}.mode is not silent
+      - House.presence is true
     runFunctions:
       - ${Properties.selfObjectName}.set_mode('silent')
       - ${Properties.selfObjectName}.set_led_brightness('dim')
       - SystemNotify.send('${Properties.selfObjectName} SILENT (Opened windows)')
       - SystemWarn.send('${Properties.selfObjectName} SILENT (Opened windows)')
+
+  checkEmptyHouseForMoreThan1Hour():
+    runIf:
+      - House.presence is false
+      - House.presence.timeSince > 3600
+      - ${Properties.selfObjectName}.status is not off
+    runFunctions:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Empty house for 1h)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (Empty house for 1h)')
 
   # Full auto checks
 
@@ -148,7 +155,7 @@ functions:
       - ${Properties.selfObjectName}.adjustForAQI()
       - ${Properties.selfObjectName}.checkOpenWindows()
       - ${Properties.selfObjectName}.checkSleeping()
-      - ${Properties.selfObjectName}.checkNoPresence()
+      - ${Properties.selfObjectName}.checkEmptyHouseForMoreThan1Hour()
 
   # true/false
   set_buzzer(boolean):

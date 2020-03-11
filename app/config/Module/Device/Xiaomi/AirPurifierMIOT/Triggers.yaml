@@ -15,3 +15,8 @@ House.sleeping:
     run:
       - ${Properties.selfObjectName}.auto()
 
+House.presence:
+  Do them checks - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.auto()
+
