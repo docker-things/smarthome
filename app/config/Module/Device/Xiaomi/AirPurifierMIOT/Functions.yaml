@@ -140,6 +140,18 @@ functions:
       - SystemNotify.send('${Properties.selfObjectName} OFF (Sleeping)')
       - SystemWarn.send('${Properties.selfObjectName} OFF (Sleeping)')
 
+  checkOpenWindowsFirstMinute():
+    runIf:
+      - House.openWindows is true
+      - House.openWindows.timeSince < 60
+      - ${Properties.selfObjectName}.mode is not silent
+      - House.presence is true
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('silent')
+      - ${Properties.selfObjectName}.set_led_brightness('dim')
+      - SystemNotify.send('${Properties.selfObjectName} SILENT (Opened windows)')
+      - SystemWarn.send('${Properties.selfObjectName} SILENT (Opened windows)')
+
   checkOpenWindows():
     runIf:
       - House.openWindows is true
@@ -166,6 +178,7 @@ functions:
   auto():
     runFunctions:
       - ${Properties.selfObjectName}.adjustForAQI()
+      - ${Properties.selfObjectName}.checkOpenWindowsFirstMinute()
       - ${Properties.selfObjectName}.checkOpenWindows()
       - ${Properties.selfObjectName}.checkSleepingFirst5Minutes()
       - ${Properties.selfObjectName}.checkSleepingForReal()
