@@ -1,8 +1,8 @@
 ---
 
 jobs:
-  - interval: 60
+  - interval: 30
     run: getStatus()
 
-  - interval: 60
+  - interval: 31
     run: auto()
