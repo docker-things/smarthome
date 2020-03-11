@@ -138,8 +138,8 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.set_mode('silent')
       - ${Properties.selfObjectName}.set_led_brightness('off')
-      - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (Opened windows)')
+      - SystemNotify.send('${Properties.selfObjectName} SILENT (Opened windows)')
+      - SystemWarn.send('${Properties.selfObjectName} SILENT (Opened windows)')
 
   # Full auto checks
 
