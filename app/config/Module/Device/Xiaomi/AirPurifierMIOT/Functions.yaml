@@ -101,6 +101,7 @@ functions:
 
   adjustForAQI():
     runIf:
+      - House.presece is true
       - House.sleeping is not true
       - House.openWindows is not true
     runFunctions:
