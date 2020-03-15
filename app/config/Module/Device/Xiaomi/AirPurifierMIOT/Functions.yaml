@@ -107,12 +107,12 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.adjustPowerFromOff()
       - ${Properties.selfObjectName}.adjustStateFromSilent()
-      - ${Properties.selfObjectName}.adjustAuto()
-      - ${Properties.selfObjectName}.adjustLevel1()
-      - ${Properties.selfObjectName}.adjustLevel2()
-      - ${Properties.selfObjectName}.adjustLevel3()
-      - ${Properties.selfObjectName}.adjustMax()
-      - ${Properties.selfObjectName}.adjustLedState()
+      # - ${Properties.selfObjectName}.adjustAuto()
+      # - ${Properties.selfObjectName}.adjustLevel1()
+      # - ${Properties.selfObjectName}.adjustLevel2()
+      # - ${Properties.selfObjectName}.adjustLevel3()
+      # - ${Properties.selfObjectName}.adjustMax()
+      # - ${Properties.selfObjectName}.adjustLedState()
 
   # Check if it should go silent or turn off
 
@@ -167,12 +167,12 @@ functions:
   checkEmptyHouse():
     runIf:
       - House.presence is false
-      - House.presence.timeSince > 1800
+      - House.presence.timeSince > 600
       - ${Properties.selfObjectName}.status is not off
     runFunctions:
       - ${Properties.selfObjectName}.off()
-      - SystemNotify.send('${Properties.selfObjectName} OFF (Empty house for 1h)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (Empty house for 1h)')
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Empty house for 10m)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (Empty house for 10m)')
 
   # Full auto checks
 
