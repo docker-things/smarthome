@@ -1,0 +1,17 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/tx
+
+actionParam: ${PARAMS.mqtt-topic}
+
+# Known actions and what variables are set by them
+actions:
+
+  ${Properties.mqtt-topic}/tx:
+    battery: ${PARAMS.battery}
+    trigger: ${PARAMS.trigger}
+    brightness: ${PARAMS.brightness}
+    status: ${PARAMS.status}
+    message: ${PARAMS.message}
