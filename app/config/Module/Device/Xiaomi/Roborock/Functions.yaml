@@ -101,6 +101,11 @@ functions:
     set:
       fanspeed: ${ARGS.speed}
 
+  goto(x,y):
+    run: ${cmd} fanspeed ${ARGS.x} ${ARGS.y}
+    set:
+      status: goto
+
   getStatus():
     run: ${cmd} status
     if: ${RESPONSE.Battery} > 0 and ${RESPONSE.Battery} is not array

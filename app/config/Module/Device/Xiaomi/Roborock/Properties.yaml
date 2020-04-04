@@ -7,6 +7,12 @@ weekdays-cleaning-hour: '11:00'
 weekends-cleaning-hour: '12:00'
 fanspeed: 60
 
+lidSensor: NONE
+
+clean-point:
+  x: '?'
+  y: '?'
+
 zone_bathroom: ''
 zone_bedroom: ''
 zone_livingroom: ''

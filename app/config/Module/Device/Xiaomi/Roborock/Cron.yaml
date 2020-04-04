@@ -8,13 +8,27 @@ jobs:
     run: getCleaningHistory()
 
   - interval: 60
-    run: getStatus()
+    if:
+      - ${Properties.roborock.object}.status is Charging
+    run:
+      - getStatus()
+
+  - interval: 30
+    if:
+      - ${Properties.roborock.object}.status is not Charging
+    run:
+      - getStatus()
 
   - interval: 5
     if:
       - ${Properties.selfObjectName}.delayedCleanup is true
+      - ${Properties.selfObjectName}.status is Charging
       - House.closedDoors is false
       - House.closedDoors.timeSince > 300
+      - House.sleeping is false
+      - House.sleeping.timeSince > 300
+      - ${Properties.selfObjectName}.lidOpened is false
+      - ${Properties.selfObjectName}.lidOpened.timeSince > 300
     run:
       - ${Properties.selfObjectName}.start()
       - SystemNotify.send('Started delayed cleaning')

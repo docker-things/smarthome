@@ -1,34 +1,79 @@
 ---
 
+${Properties.lidSensor}.contact:
+  When opening lid - ${Properties.selfObjectName}:
+    if:
+      - this is false
+    run:
+      - SystemNotify.send('Opened ${Properties.selfObjectName} lid')
+      - SystemWarn.send('Opened ${Properties.selfObjectName} lid')
+    set:
+      ${Properties.selfObjectName}.lidOpened: 'true'
+
+  When closing lid - ${Properties.selfObjectName}:
+    if:
+      - this is true
+    run:
+      - ${Properties.selfObjectName}.home()
+      - SystemNotify.send('Closed ${Properties.selfObjectName} lid')
+      - SystemWarn.send('Closed ${Properties.selfObjectName} lid')
+    set:
+      ${Properties.selfObjectName}.lidOpened: 'false'
+
 System.time:
+
+  # SHOULD EMPTY CONTAINER
+
+  Container not emptied for 48 hours - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.selfObjectName}.lidOpened is not true
+      - ${Properties.selfObjectName}.lidOpened.timeSince > 172800
+      - House.presence is true
+      - House.presence.timeSince > 600
+      - House.sleeping is not true`
+      - House.sleeping.timeSince > 10800
+      - House.closedDoors is not true
+      - House.closedDoors.timeSince > 300
+    run:
+      - ${Properties.selfObjectName}.goto('${Properties.clean-point.x}','${Properties.clean-point.y}')
+      - SystemNotify.send('${Properties.selfObjectName} not cleaned for more than 48 hours. Going to cleaning point')
+      - SystemWarn.send('${Properties.selfObjectName} not cleaned for more than 48 hours. Going to cleaning point')
 
   # CLEANING
 
-  Start cleaning on weekdays if doors opened - ${Properties.selfObjectName}:
+  Start cleaning on weekdays - ${Properties.selfObjectName}:
     if:
       - this is ${Properties.weekdays-cleaning-hour}
       - System.dayOfWeek in ['1','2','3','4','5']
       - ${Properties.selfObjectName}.last_start_date is not System.date
+      - ${Properties.selfObjectName}.status is Charging
       - House.closedDoors is not true
+      - House.sleeping is not true
+      - ${Properties.selfObjectName}.lidOpened is not true
+      - ${Properties.selfObjectName}.lidOpened.timeSince < 259200
     run:
       - ${Properties.selfObjectName}.setFanSpeed('${Properties.fanspeed}')
       - ${Properties.selfObjectName}.start()
       - SystemNotify.send('Start cleaning (Weekday @ ${Properties.weekdays-cleaning-hour})')
 
-  Start cleaning on weekends if doors opened - ${Properties.selfObjectName}:
+  Start cleaning on weekends - ${Properties.selfObjectName}:
     if:
       - this is ${Properties.weekends-cleaning-hour}
       - System.dayOfWeek in ['6','7']
       - ${Properties.selfObjectName}.last_start_date is not System.date
+      - ${Properties.selfObjectName}.status is Charging
       - House.closedDoors is not true
+      - House.sleeping is not true
+      - ${Properties.selfObjectName}.lidOpened is not true
+      - ${Properties.selfObjectName}.lidOpened.timeSince < 259200
     run:
       - ${Properties.selfObjectName}.setFanSpeed('${Properties.fanspeed}')
       - ${Properties.selfObjectName}.start()
       - SystemNotify.send('Start cleaning (Weekend @ ${Properties.weekends-cleaning-hour})')
 
-  # DELAYED CLEANING
+  # DELAYED CLEANING - CLOSED DOORS
 
-  Mark delayed cleanup on weekdays - ${Properties.selfObjectName}:
+  Mark delayed cleanup on weekdays - Closed doors - ${Properties.selfObjectName}:
     if:
       - this is ${Properties.weekdays-cleaning-hour}
       - System.dayOfWeek in ['1','2','3','4','5']
@@ -37,9 +82,10 @@ System.time:
     set:
       ${Properties.selfObjectName}.delayedCleanup: 'true'
     run:
-      - SystemNotify.send('Mark delayed cleaning (Weekend @ ${Properties.weekends-cleaning-hour})')
+      - SystemNotify.send('Mark delayed cleaning - Closed doors (Weekend @ ${Properties.weekends-cleaning-hour})')
+      - SystemWarn.send('Mark delayed cleaning - Closed doors (Weekend @ ${Properties.weekends-cleaning-hour})')
 
-  Mark delayed cleanup on weekends - ${Properties.selfObjectName}:
+  Mark delayed cleanup on weekends - Closed doors - ${Properties.selfObjectName}:
     if:
       - this is ${Properties.weekends-cleaning-hour}
       - System.dayOfWeek in ['6','7']
@@ -48,4 +94,57 @@ System.time:
     set:
       ${Properties.selfObjectName}.delayedCleanup: 'true'
     run:
-      - SystemNotify.send('Mark delayed cleaning (Weekday @ ${Properties.weekdays-cleaning-hour})')
+      - SystemNotify.send('Mark delayed cleaning - Closed doors (Weekday @ ${Properties.weekdays-cleaning-hour})')
+      - SystemWarn.send('Mark delayed cleaning - Closed doors (Weekday @ ${Properties.weekdays-cleaning-hour})')
+
+  # DELAYED CLEANING - SLEEPING
+
+  Mark delayed cleanup on weekdays - Sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.weekdays-cleaning-hour}
+      - System.dayOfWeek in ['1','2','3','4','5']
+      - ${Properties.selfObjectName}.last_start_date is not System.date
+      - House.sleeping is true
+    set:
+      ${Properties.selfObjectName}.delayedCleanup: 'true'
+    run:
+      - SystemNotify.send('Mark delayed cleaning - Sleeping (Weekend @ ${Properties.weekends-cleaning-hour})')
+      - SystemWarn.send('Mark delayed cleaning - Sleeping (Weekend @ ${Properties.weekends-cleaning-hour})')
+
+  Mark delayed cleanup on weekends - Sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.weekends-cleaning-hour}
+      - System.dayOfWeek in ['6','7']
+      - ${Properties.selfObjectName}.last_start_date is not System.date
+      - House.sleeping is true
+    set:
+      ${Properties.selfObjectName}.delayedCleanup: 'true'
+    run:
+      - SystemNotify.send('Mark delayed cleaning - Sleeping (Weekday @ ${Properties.weekdays-cleaning-hour})')
+      - SystemWarn.send('Mark delayed cleaning - Sleeping (Weekday @ ${Properties.weekdays-cleaning-hour})')
+
+  # DELAYED CLEANING - OPENED LID
+
+  Mark delayed cleanup on weekdays - Opened lid - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.weekdays-cleaning-hour}
+      - System.dayOfWeek in ['1','2','3','4','5']
+      - ${Properties.selfObjectName}.last_start_date is not System.date
+      - ${Properties.selfObjectName}.lidOpened is true
+    set:
+      ${Properties.selfObjectName}.delayedCleanup: 'true'
+    run:
+      - SystemNotify.send('Mark delayed cleaning - Opened lid (Weekend @ ${Properties.weekends-cleaning-hour})')
+      - SystemWarn.send('Mark delayed cleaning - Opened lid (Weekend @ ${Properties.weekends-cleaning-hour})')
+
+  Mark delayed cleanup on weekends - Opened lid - ${Properties.selfObjectName}:
+    if:
+      - this is ${Properties.weekends-cleaning-hour}
+      - System.dayOfWeek in ['6','7']
+      - ${Properties.selfObjectName}.last_start_date is not System.date
+      - ${Properties.selfObjectName}.lidOpened is true
+    set:
+      ${Properties.selfObjectName}.delayedCleanup: 'true'
+    run:
+      - SystemNotify.send('Mark delayed cleaning - Opened lid (Weekday @ ${Properties.weekdays-cleaning-hour})')
+      - SystemWarn.send('Mark delayed cleaning - Opened lid (Weekday @ ${Properties.weekdays-cleaning-hour})')

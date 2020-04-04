@@ -5,6 +5,7 @@ IP="$1"
 TOKEN="$2"
 ACTION="$3"
 PARAM="$4"
+PARAM="$5"
 
 # Command base
 CMD="mirobo --id-file /tmp/python-mirobo.seq --ip $IP --token $TOKEN"
@@ -17,6 +18,28 @@ if [ "$ACTION" == "toggle" ]; then
 	else
 		ACTION="start"
 	fi
+fi
+
+# Find
+if [ "$ACTION" == "find" ]; then
+	OUTPUT="`$CMD find`"
+	if [ "echo -e \"$OUTPUT\" | grep \"\['ok'\]\"" != "" ]; then
+		echo "{\"status\":\"ok\"}"
+		exit
+	fi
+	echo "{\"status\":\"$OUTPUT\"}"
+	exit
+fi
+
+# Go to
+if [ "$ACTION" == "goto" ]; then
+	OUTPUT="`$CMD goto $PARAM $PARAM2`"
+	if [ "echo -e \"$OUTPUT\" | grep \"\['ok'\]\"" != "" ]; then
+		echo "{\"status\":\"ok\"}"
+		exit
+	fi
+	echo "{\"status\":\"$OUTPUT\"}"
+	exit
 fi
 
 # Zone cleanup
@@ -68,7 +91,7 @@ fi
 
 # Take action
 printf "{"
-$CMD $ACTION $PARAM | \
+$CMD $ACTION $PARAM $PARAM2 | \
 	sed \
 		-e 's/: /": "/g' \
 		-e 's/$/"/g' \
