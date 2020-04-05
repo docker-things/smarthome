@@ -317,6 +317,9 @@ class Core_State {
             )
             ");
 
+        // Notify state change
+        $this->notifyChange($source, $name, $value, $prevValue, $timestamp);
+
         // Initialize trigger
         $triggers = new Core_Trigger($this->_app, $source, $name, $value);
 
@@ -469,5 +472,27 @@ class Core_State {
         }
 
         return true;
+    }
+
+    /**
+     * @param $source
+     * @param $name
+     * @param $value
+     * @param $prevValue
+     * @param $timestamp
+     */
+    private function notifyChange($source, $name, $value, $prevValue, $timestamp) {
+        $payload = json_encode([
+            'source'    => $source,
+            'name'      => $name,
+            'value'     => $value,
+            'prevValue' => $prevValue,
+            'timestamp' => $timestamp,
+        ]);
+
+        $cmd = "mosquitto_pub -h localhost -t 'core-state/change' -m '" . $payload . "'";
+        ob_start();
+        system($cmd . ' 2>&1 &', $retval);
+        ob_end_clean();
     }
 }
