@@ -262,15 +262,15 @@ class Core_Controller_Config extends Core_Controller_Base {
         if ('Heating' == $object) {
             if ('Awake' == $var) {
                 $this->getState()->set($object, 'presenceMinTemp', floatval($value));
-                $this->getState()->set($object, 'presenceMaxTemp', floatval($value) + 0.5);
+                $this->getState()->set($object, 'presenceMaxTemp', floatval($value) + 0.25);
                 $done = true;
             } elseif ('Sleeping' == $var) {
                 $this->getState()->set($object, 'sleepingMinTemp', floatval($value));
-                $this->getState()->set($object, 'sleepingMaxTemp', floatval($value) + 0.5);
+                $this->getState()->set($object, 'sleepingMaxTemp', floatval($value) + 0.25);
                 $done = true;
             } elseif ('Empty-House' == $var) {
                 $this->getState()->set($object, 'noPresenceMinTemp', floatval($value));
-                $this->getState()->set($object, 'noPresenceMaxTemp', floatval($value) + 0.5);
+                $this->getState()->set($object, 'noPresenceMaxTemp', floatval($value) + 0.25);
                 $done = true;
             }
         }
