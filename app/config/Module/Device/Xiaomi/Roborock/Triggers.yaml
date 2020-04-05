@@ -31,7 +31,7 @@ System.time:
       - House.presence is true
       - House.presence.timeSince > 600
       - House.sleeping is not true`
-      - House.sleeping.timeSince > 10800
+      - House.sleeping.timeSince > 3600
       - House.closedDoors is not true
       - House.closedDoors.timeSince > 300
     run:
