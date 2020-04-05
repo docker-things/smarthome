@@ -11,5 +11,7 @@ RewriteRule ^webui/(.*)$ webUI.php?controller=$1 [NC,L]
 RewriteRule ^webhook$ incomingWebhooks.php [NC,L]
 
 # TO BE REMOVED
+RewriteRule ^dashboard$ dashboard.php [NC,L]
+RewriteRule ^config$ config.php [NC,L]
 RewriteRule ^status$ status.php [NC,L]
 RewriteRule ^clear_db$ clear_db.php [NC,L]

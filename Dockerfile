@@ -41,15 +41,97 @@ RUN echo -e "\n > SET TIMEZONE: $TZ\n" \
 
 
 # INSTALL MOSQUITTO
+# RUN echo -e "\n > INSTALL MOSQUITTO\n" \
+#  && apk add --no-cache \
+# 	mosquitto \
+# 	mosquitto-clients \
+#  \
+#  && echo -e "\n > CLEANUP\n" \
+#  && rm -rf \
+#     /tmp/* \
+#     /var/tmp/*
+ENV MOSQUITTO_VERSION=1.6.9 \
+    DOWNLOAD_SHA256=412979b2db0a0020bd02fa64f0a0de9e7000b84462586e32b67f29bb1f6c1685 \
+    GPG_KEYS=A0D6EEA1DCAE49A635A3B2F0779B22DFB3E717B7 \
+    LIB_WEBSOCKETS_VERSION=2.4.2
+
 RUN echo -e "\n > INSTALL MOSQUITTO\n" \
- && apk add --no-cache \
-	mosquitto \
-	mosquitto-clients \
- \
- && echo -e "\n > CLEANUP\n" \
+ && set -x \
+ && apk --no-cache add --virtual build-deps \
+      build-base \
+      cmake \
+      gnupg \
+      libressl-dev \
+      util-linux-dev \
+ && wget https://github.com/warmcat/libwebsockets/archive/v${LIB_WEBSOCKETS_VERSION}.tar.gz -O /tmp/lws.tar.gz \
+ && mkdir -p /build/lws \
+ && tar --strip=1 -xf /tmp/lws.tar.gz -C /build/lws \
+ && rm /tmp/lws.tar.gz \
+ && cd /build/lws \
+ && cmake . \
+      -DCMAKE_BUILD_TYPE=MinSizeRel \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DLWS_IPV6=ON \
+      -DLWS_WITHOUT_BUILTIN_GETIFADDRS=ON \
+      -DLWS_WITHOUT_CLIENT=ON \
+      -DLWS_WITHOUT_EXTENSIONS=ON \
+      -DLWS_WITHOUT_TESTAPPS=ON \
+      -DLWS_WITH_SHARED=OFF \
+      -DLWS_WITH_ZIP_FOPS=OFF \
+      -DLWS_WITH_ZLIB=OFF \
+ && make -j "$(nproc)" \
+ && rm -rf /root/.cmake \
+ && \
+    wget https://mosquitto.org/files/source/mosquitto-${MOSQUITTO_VERSION}.tar.gz -O /tmp/mosq.tar.gz \
+ && echo "$DOWNLOAD_SHA256  /tmp/mosq.tar.gz" | sha256sum -c - \
+ && wget https://mosquitto.org/files/source/mosquitto-${MOSQUITTO_VERSION}.tar.gz.asc -O /tmp/mosq.tar.gz.asc \
+ && export GNUPGHOME="$(mktemp -d)" \
+ && found=''; \
+    for server in \
+        ha.pool.sks-keyservers.net \
+        hkp://keyserver.ubuntu.com:80 \
+        hkp://p80.pool.sks-keyservers.net:80 \
+        pgp.mit.edu \
+    ; do \
+        echo "Fetching GPG key $GPG_KEYS from $server"; \
+        gpg --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$GPG_KEYS" && found=yes && break; \
+    done; \
+    test -z "$found" && echo >&2 "error: failed to fetch GPG key $GPG_KEYS" && exit 1; \
+    gpg --batch --verify /tmp/mosq.tar.gz.asc /tmp/mosq.tar.gz \
+ && gpgconf --kill all \
+ && rm -rf "$GNUPGHOME" /tmp/mosq.tar.gz.asc \
+ && mkdir -p /build/mosq \
+ && tar --strip=1 -xf /tmp/mosq.tar.gz -C /build/mosq \
+ && rm /tmp/mosq.tar.gz \
+ && make -C /build/mosq -j "$(nproc)" \
+        CFLAGS="-Wall -O2 -I/build/lws/include" \
+        LDFLAGS="-L/build/lws/lib" \
+        WITH_ADNS=no \
+        WITH_DOCS=no \
+        WITH_SHARED_LIBRARIES=yes \
+        WITH_SRV=no \
+        WITH_STRIP=yes \
+        WITH_TLS_PSK=no \
+        WITH_WEBSOCKETS=yes \
+        prefix=/usr \
+        binary \
+ && addgroup -S -g 1883 mosquitto 2>/dev/null \
+ && adduser -S -u 1883 -D -H -h /var/empty -s /sbin/nologin -G mosquitto -g mosquitto mosquitto 2>/dev/null \
+ && mkdir -p /etc/mosquitto /mosquitto/data /mosquitto/log \
+ && install -d /usr/sbin/ \
+ && install -s -m755 /build/mosq/client/mosquitto_pub /usr/bin/mosquitto_pub \
+ && install -s -m755 /build/mosq/client/mosquitto_rr /usr/bin/mosquitto_rr \
+ && install -s -m755 /build/mosq/client/mosquitto_sub /usr/bin/mosquitto_sub \
+ && install -s -m644 /build/mosq/lib/libmosquitto.so.1 /usr/lib/libmosquitto.so.1 \
+ && install -s -m755 /build/mosq/src/mosquitto /usr/sbin/mosquitto \
+ && install -s -m755 /build/mosq/src/mosquitto_passwd /usr/bin/mosquitto_passwd \
+ && install -m644 /build/mosq/mosquitto.conf /etc/mosquitto/mosquitto.conf \
+ && apk --no-cache add \
+        ca-certificates \
+ && apk del build-deps \
  && rm -rf \
-    /tmp/* \
-    /var/tmp/*
+      /build \
+      /tmp/*
 
 
 # INSTALL MARIADB
@@ -299,6 +381,7 @@ EXPOSE $APACHE_PORT
 
 # EXPOSE MQTT BROKER
 EXPOSE 1883
+EXPOSE 1884
 
 # LAUNCH
 CMD ["ash", "run.sh"]

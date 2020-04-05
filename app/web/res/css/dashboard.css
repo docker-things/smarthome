@@ -1,0 +1,38 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: #000;
+  color: #FFF;
+}
+.mapContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.map {
+  position: relative;
+}
+.room {
+  position: absolute;
+  background: #000;
+  opacity: 0.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 500ms ease-out;
+}
+.room.bright {
+  position: absolute;
+  background: #000;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.room .name {
+  display: none;
+}

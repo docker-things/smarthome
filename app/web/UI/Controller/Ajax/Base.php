@@ -1,6 +1,6 @@
 <?php
 
-class UI_Controller_Base extends Core_Controller_Base {
+class UI_Controller_Ajax_Base extends Core_Controller_Base {
     /**
      * @var string
      */

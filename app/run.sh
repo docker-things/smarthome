@@ -48,6 +48,8 @@ SERVICES='
     mariadb
     apache
     mqtt-listener
+    full-state-provider
+    function-run-listener
     zigbee2mqtt
     cec-client-mqtt-bridge
     evdev2mqtt

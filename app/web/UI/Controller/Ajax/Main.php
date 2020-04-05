@@ -1,6 +1,6 @@
 <?php
 
-class UI_Controller_Main extends UI_Controller_Base {
+class UI_Controller_Ajax_Main extends UI_Controller_Base {
     public function run() {
 
         header("Access-Control-Allow-Origin: *");

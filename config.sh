@@ -47,6 +47,7 @@ RUN_ARGS=(
     # TODO: remove mounts - used for development
     -v $(pwd)/app/web/Core:/app/web/Core
     -v $(pwd)/app/web/UI:/app/web/UI
+    -v $(pwd)/app/web/res:/app/web/res
 
     # zigbee2mqtt device
     --device=/dev/ttyACM0
@@ -58,6 +59,8 @@ RUN_ARGS=(
 
     # # mqtt port
     # -p 1883:1883
+    # # mqtt websockets port
+    # -p 1884:1884
 
     # pihole dns - use it if you have a pi-hole docker image running
     # --dns="`sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pi-hole`"
