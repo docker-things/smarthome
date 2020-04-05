@@ -5,7 +5,7 @@ IP="$1"
 TOKEN="$2"
 ACTION="$3"
 PARAM="$4"
-PARAM="$5"
+PARAM2="$5"
 
 # Command base
 CMD="mirobo --id-file /tmp/python-mirobo.seq --ip $IP --token $TOKEN"
