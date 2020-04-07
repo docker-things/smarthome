@@ -1,7 +1,9 @@
-MQTT_CLIENT = undefined;
+var MQTT_CLIENT = undefined;
 
-HOUSE_STATE = {}
-TRIGGERS = {}
+var HOUSE_STATE = {}
+var TRIGGERS = {}
+
+var SERVER_CONNECTED_ONCE = false;
 
 /**
  * Run functions
@@ -138,6 +140,11 @@ function startStateListener() {
     reconnect: true,
 
     onSuccess: function() {
+      // If server disconnected refresh just in case code changed
+      if (SERVER_CONNECTED_ONCE) {
+        window.location.reload(true);
+      }
+      SERVER_CONNECTED_ONCE = true;
       // Subscribe to the state change topic
       MQTT_CLIENT.subscribe("core-state/change");
     },
@@ -148,22 +155,66 @@ function startStateListener() {
   });
 }
 
+function setTemperatureTriggers() {
+  $('.map .room').each(function() {
+    let roomObject = $(this);
+    let name = $(roomObject).find('.name').text();
+    setTrigger(name + '-Temperature', 'temperature', function(props) {
+        $(roomObject).find('.temperature .value').html(props['value']);
+        $(roomObject).find('.temperature').addClass('visible');
+    })
+  });
+}
+
+function setHumidityTriggers() {
+  $('.map .room').each(function() {
+    let roomObject = $(this);
+    let name = $(roomObject).find('.name').text();
+    setTrigger(name + '-Temperature', 'humidity', function(props) {
+        $(roomObject).find('.humidity .value').html(props['value']);
+        $(roomObject).find('.humidity').addClass('visible');
+    })
+  });
+}
+
+function setPressureTriggers() {
+  $('.map .room').each(function() {
+    let roomObject = $(this);
+    let name = $(roomObject).find('.name').text();
+    setTrigger(name + '-Temperature', 'pressure', function(props) {
+        $(roomObject).find('.pressure .value').html(props['value']);
+        $(roomObject).find('.pressure').addClass('visible');
+    })
+  });
+}
+
 function setBrightnessTriggers() {
   $('.map .room').each(function() {
     let roomObject = $(this);
     let name = $(roomObject).find('.name').text();
     setTrigger(name + '-Light', 'status', function(props) {
       if (props.value == 'on') {
-        $(roomObject).addClass('bright');
+        $(roomObject).find('.dimLayer').addClass('on');
       } else {
-        $(roomObject).removeClass('bright');
+        $(roomObject).find('.dimLayer').removeClass('on');
       }
     })
   });
 }
 
 function clickedRoom(roomName, roomObject) {
-  console.log(getStateValue(roomName + '-Light', 'status'))
+  // // Local cleaning
+  // const status = getStateValue('Roborock', 'status');
+  // if (status == 'Charging') {
+  //   runFunction(roomName + '.cleanRoom()');
+  // } else
+  // if (status == 'Cleaning') {
+  //   runFunction(roomName + '.pauseCleaning()');
+  // } else if (status == 'Paused') {
+  //   runFunction(roomName + '.resumeCleaningRoom()');
+  // }
+
+  // Toggle light
   if (getStateValue(roomName + '-Light', 'status') == 'on') {
     runFunction(roomName + '.lightOff()');
   } else {
@@ -186,6 +237,9 @@ function setRoomClickListeners() {
 $(document).ready(function() {
 
   // Do local setup
+  setTemperatureTriggers();
+  setHumidityTriggers();
+  setPressureTriggers();
   setBrightnessTriggers();
   setRoomClickListeners();
 

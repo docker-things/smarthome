@@ -5,12 +5,21 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
      * @var array
      */
     private $map = [
-        'url'   => '/res/img/house-plan.png',
-        'size'  => [556, 425], // width, height
-        'rooms' => [
+        'url'        => '/res/img/house-plan.png',
+        'size'       => [556, 425], // width, height
+        'wall-width' => 6,
+        'rooms'      => [
             'Bedroom'    => [
                 'position' => [6, 6],     // x, y
                 'size'     => [242, 282], // width, height
+                'door'     => [
+                    'Bedroom-Door' => [
+                        'position'  => [242, 50],
+                        'width'     => 50,
+                        'opens'     => ['up', 'right'],
+                        'direction' => 'horizontal',
+                    ],
+                ],
             ],
             'Livingroom' => [
                 'position' => [255, 6],   // x, y
@@ -101,8 +110,29 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
         $html = '';
         foreach ($this->map['rooms'] AS $name => $room) {
             $class = 'room' . $name;
+
             $html .= '<div class="room ' . $class . '">';
+            $html .= '<div class="roomContainer">';
             $html .= '<div class="name">' . $name . '</div>';
+            if (isset($room['door'])) {
+                foreach ($room['door'] AS $doorName => $door) {
+                    $doorClass = implode(' ', [
+                        $doorName,
+                        'opens-'.$door['opens'][0],
+                        'opens-'.$door['opens'][1],
+                        $door['direction'],
+                    ]);
+                    $html .= '<div class="door ' . $doorClass . '"></div>';
+
+                }
+            }
+            $html .= '<div class="details">';
+            $html .= '<span class="temperature"><span class="value"></span><span class="unit">°C</span></span>';
+            $html .= '<span class="humidity"><span class="value"></span><span class="unit">%</span></span>';
+            $html .= '<span class="pressure"><span class="value"></span><span class="unit">hPa</span></span>';
+            $html .= '</div>';
+            $html .= '<div class="dimLayer"></div>';
+            $html .= '</div>';
             $html .= '</div>';
         }
         return $html;
