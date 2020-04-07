@@ -467,26 +467,17 @@ ${Properties.button.object}.click:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (${Properties.button.object})')
 
-  Double click - Secondary light ON 25% - ${Properties.selfObjectName}:
-    if:
-      - this is double
-      - ${Properties.light.secondary.object} is not NONE
-      - ${Properties.light.secondary.object}.status not in ['on','offline','NONE.status']
-    run:
-      - ${Properties.light.secondary.object}.on()
-      - ${Properties.light.secondary.object}.brightness('25')
-      - ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
-      - ${Properties.selfObjectName}.lightOff()
-      - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
-
   Double click - Secondary light ON 50% - ${Properties.selfObjectName}:
     if:
       - this is double
       - ${Properties.light.secondary.object} is not NONE
-      - ${Properties.light.secondary.object}.status is on
-      - ${Properties.light.secondary.object}.brightness is 25
+      - ${Properties.light.secondary.object}.status not in ['on','offline','NONE.status']
+      - ${Properties.name} is not bedroom
     run:
+      - ${Properties.light.secondary.object}.on()
       - ${Properties.light.secondary.object}.brightness('50')
+      - ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
+      - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
 
   Double click - Secondary light ON 100% - ${Properties.selfObjectName}:
@@ -497,6 +488,17 @@ ${Properties.button.object}.click:
       - ${Properties.light.secondary.object}.brightness is 50
     run:
       - ${Properties.light.secondary.object}.brightness('100')
+      - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
+
+  Double click - Secondary light ON 100% - Bedroom - ${Properties.selfObjectName}:
+    if:
+      - this is double
+      - ${Properties.light.secondary.object} is not NONE
+      - ${Properties.light.secondary.object}.status is on
+      - ${Properties.name} is bedroom
+    run:
+      - ${Properties.light.secondary.object}.brightness('100')
+      - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
 
   Triple click - Audio system OFF - ${Properties.selfObjectName}:
