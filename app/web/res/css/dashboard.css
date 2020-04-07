@@ -41,11 +41,18 @@ body {
   margin: 3px 5px;
   float: center;
   left: 50%;
-  display: none;
   font-weight: bold;
+  overflow: none;
+  height: 0px;
+  width: 0px;
+  opacity: 0;
+  transition: all 500ms ease-out;
 }
 .map .room .details>span.visible {
   display: block;
+  height: auto;
+  width: auto;
+  opacity: 1;
 }
 .map .room .details .unit {
   margin-left: 2px;
