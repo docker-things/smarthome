@@ -49,6 +49,7 @@ SERVICES='
     apache
     mqtt-listener
     full-state-provider
+    state-setter
     function-run-listener
     zigbee2mqtt
     cec-client-mqtt-bridge

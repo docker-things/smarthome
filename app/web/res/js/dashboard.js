@@ -6,6 +6,19 @@ var TRIGGERS = {}
 var SERVER_CONNECTED_ONCE = false;
 
 /**
+ * Set state
+ */
+function setState(source, name, value) {
+  message = new Paho.MQTT.Message(JSON.stringify({
+    'source': source,
+    'name': name,
+    'value': value,
+  }));
+  message.destinationName = "core-state/set";
+  MQTT_CLIENT.send(message);
+}
+
+/**
  * Run functions
  */
 function runFunction(func) {
@@ -205,7 +218,7 @@ function setBrightnessTriggers() {
 function setDoorTriggers() {
   $('.map .room').each(function() {
     let roomObject = $(this);
-    $(roomObject).find('.door').each(function(){
+    $(roomObject).find('.door').each(function() {
       let doorObject = $(this);
       let objectName = $(doorObject).attr('objectName');
       setTrigger(objectName, 'contact', function(props) {
@@ -222,7 +235,7 @@ function setDoorTriggers() {
 function setWindowTriggers() {
   $('.map .room').each(function() {
     let roomObject = $(this);
-    $(roomObject).find('.window').each(function(){
+    $(roomObject).find('.window').each(function() {
       let windowObject = $(this);
       let objectName = $(windowObject).attr('objectName');
       setTrigger(objectName, 'contact', function(props) {
@@ -250,9 +263,13 @@ function clickedRoom(roomName, roomObject) {
 
   // Toggle light
   if (getStateValue(roomName + '-Light', 'status') == 'on') {
+    setState(roomName, 'forceLightOn', 'false');
     runFunction(roomName + '.lightOff()');
+    setState(roomName, 'forceLightOff', 'true');
   } else {
+    setState(roomName, 'forceLightOff', 'false');
     runFunction(roomName + '.lightOn()');
+    setState(roomName, 'forceLightOn', 'true');
   }
 }
 

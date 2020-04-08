@@ -1,0 +1,8 @@
+#!/bin/ash
+
+while [ 1 = 1 ]; do
+	sudo -u apache php /app/web/stateSetter.php
+
+    echo " > Service stopped, restarting in 5 seconds..."
+    sleep 5s
+done
