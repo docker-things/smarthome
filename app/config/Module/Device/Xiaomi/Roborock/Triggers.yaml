@@ -34,10 +34,13 @@ System.time:
       - House.sleeping.timeSince > 3600
       - House.closedDoors is not true
       - House.closedDoors.timeSince > 300
+      - ${Properties.selfObjectName}.announced.timeSince > 10800
     run:
       - ${Properties.selfObjectName}.goto('${Properties.clean-point.x}','${Properties.clean-point.y}')
       - SystemNotify.send('${Properties.selfObjectName} not cleaned for more than 48 hours. Going to cleaning point')
       - SystemWarn.send('${Properties.selfObjectName} not cleaned for more than 48 hours. Going to cleaning point')
+    set:
+      ${Properties.selfObjectName}.announced: System.time
 
   # CLEANING
 
