@@ -282,6 +282,14 @@ function setRoomClickListeners() {
   });
 }
 
+function goFullScreenOnAnyClick() {
+  var elem = $('body').get(0)
+  elem.onclick = function() {
+    req = elem.requestFullScreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
+    req.call(elem);
+  }
+}
+
 /**
  * RUN STUFF!!!
  */
@@ -294,7 +302,10 @@ $(document).ready(function() {
   setBrightnessTriggers();
   setDoorTriggers();
   setWindowTriggers();
+
+  // Set click listeners
   setRoomClickListeners();
+  goFullScreenOnAnyClick();
 
   // Get full state initially - one time
   getFullState();
