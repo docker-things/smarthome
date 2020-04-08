@@ -160,8 +160,8 @@ function setTemperatureTriggers() {
     let roomObject = $(this);
     let name = $(roomObject).find('.name').text();
     setTrigger(name + '-Temperature', 'temperature', function(props) {
-        $(roomObject).find('.temperature .value').html(props['value']);
-        $(roomObject).find('.temperature').addClass('visible');
+      $(roomObject).find('.temperature .value').html(props['value']);
+      $(roomObject).find('.temperature').addClass('visible');
     })
   });
 }
@@ -171,8 +171,8 @@ function setHumidityTriggers() {
     let roomObject = $(this);
     let name = $(roomObject).find('.name').text();
     setTrigger(name + '-Temperature', 'humidity', function(props) {
-        $(roomObject).find('.humidity .value').html(props['value']);
-        $(roomObject).find('.humidity').addClass('visible');
+      $(roomObject).find('.humidity .value').html(props['value']);
+      $(roomObject).find('.humidity').addClass('visible');
     })
   });
 }
@@ -182,8 +182,8 @@ function setPressureTriggers() {
     let roomObject = $(this);
     let name = $(roomObject).find('.name').text();
     setTrigger(name + '-Temperature', 'pressure', function(props) {
-        $(roomObject).find('.pressure .value').html(props['value']);
-        $(roomObject).find('.pressure').addClass('visible');
+      $(roomObject).find('.pressure .value').html(props['value']);
+      $(roomObject).find('.pressure').addClass('visible');
     })
   });
 }
@@ -199,6 +199,40 @@ function setBrightnessTriggers() {
         $(roomObject).find('.dimLayer').removeClass('on');
       }
     })
+  });
+}
+
+function setDoorTriggers() {
+  $('.map .room').each(function() {
+    let roomObject = $(this);
+    $(roomObject).find('.door').each(function(){
+      let doorObject = $(this);
+      let objectName = $(doorObject).attr('objectName');
+      setTrigger(objectName, 'contact', function(props) {
+        if (props.value == 'true') {
+          $(doorObject).removeClass('opened');
+        } else {
+          $(doorObject).addClass('opened');
+        }
+      })
+    });
+  });
+}
+
+function setWindowTriggers() {
+  $('.map .room').each(function() {
+    let roomObject = $(this);
+    $(roomObject).find('.window').each(function(){
+      let windowObject = $(this);
+      let objectName = $(windowObject).attr('objectName');
+      setTrigger(objectName, 'contact', function(props) {
+        if (props.value == 'true') {
+          $(windowObject).removeClass('opened');
+        } else {
+          $(windowObject).addClass('opened');
+        }
+      })
+    });
   });
 }
 
@@ -241,6 +275,8 @@ $(document).ready(function() {
   setHumidityTriggers();
   setPressureTriggers();
   setBrightnessTriggers();
+  setDoorTriggers();
+  setWindowTriggers();
   setRoomClickListeners();
 
   // Get full state initially - one time

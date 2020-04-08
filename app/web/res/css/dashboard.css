@@ -19,7 +19,7 @@ body {
 .map .room {
   position: absolute;
   align-items: center;
-  transition: all 500ms ease-out;
+  transition: all 250ms ease-out;
 }
 .map .roomContainer {
   display: flex;
@@ -46,7 +46,7 @@ body {
   height: 0px;
   width: 0px;
   opacity: 0;
-  transition: all 500ms ease-out;
+  transition: all 250ms ease-out;
 }
 .map .room .details>span.visible {
   display: block;
@@ -59,11 +59,16 @@ body {
   font-weight: normal;
   font-size: .75em;
 }
-.map .room .door {
-  background: #FFF;
-}
-.map .room .door.opened {
+.map .room .door,
+.map .room .window {
+  position: absolute;
   background: #000;
+  opacity: 0;
+  transition: all 250ms ease-out;
+}
+.map .room .door.opened,
+.map .room .window.opened {
+  opacity: .85;
 }
 .map .room .dimLayer {
   position: absolute;
@@ -71,7 +76,7 @@ body {
   height: 100%;
   background: #000;
   opacity: 0.6;
-  transition: all 500ms ease-out;
+  transition: all 250ms ease-out;
 }
 .map .room .dimLayer.on {
   opacity: 0;
