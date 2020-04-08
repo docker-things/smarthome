@@ -107,6 +107,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <title>' . $this->title . '</title>
             <link href="/res/css/dashboard.css" rel="stylesheet" type="text/css" media="all">
+            <link href="/res/css/jquery.toast.min.css" rel="stylesheet" type="text/css" media="all">
             <style>
             .mapContainer {
                 min-width: ' . $this->map['size'][0] . 'px;
@@ -120,6 +121,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
             ' . $this->createRoomsCSS() . '
             </style>
             <script src="/res/js/jquery.min.js"></script>
+            <script src="/res/js/jquery.toast.min.js"></script>
             <script src="/res/js/paho-mqtt-min.js"></script>
             <script src="/res/js/dashboard.js"></script>
             </head><body>';

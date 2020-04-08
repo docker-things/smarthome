@@ -5,6 +5,26 @@ var TRIGGERS = {}
 
 var SERVER_CONNECTED_ONCE = false;
 
+function showNotification(message) {
+  $.toast({
+    text: message,
+    icon: 'info',
+    position: 'top-right',
+    showHideTransition: 'slide',
+    loader: false
+  })
+}
+
+function showWarn(message) {
+  $.toast({
+    text: message,
+    icon: 'warning',
+    position: 'top-center',
+    showHideTransition: 'slide',
+    loader: false
+  })
+}
+
 /**
  * Set state
  */
@@ -249,6 +269,15 @@ function setWindowTriggers() {
   });
 }
 
+function setNotificationTriggers() {
+  setTrigger('SystemNotify', 'message', function(props) {
+    showNotification(props.value);
+  });
+  setTrigger('SystemWarn', 'message', function(props) {
+    showWarn(props.value);
+  });
+}
+
 function clickedRoom(roomName, roomObject) {
   // // Local cleaning
   // const status = getStateValue('Roborock', 'status');
@@ -302,6 +331,7 @@ $(document).ready(function() {
   setBrightnessTriggers();
   setDoorTriggers();
   setWindowTriggers();
+  setNotificationTriggers();
 
   // Set click listeners
   setRoomClickListeners();
