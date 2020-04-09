@@ -1,27 +1,70 @@
 var MQTT_CLIENT = undefined;
 
+var MENU_BUTTONS_OPENED = false;
+var MENU_BUTTONS_OPENED_HANDLE = undefined;
+
 var HOUSE_STATE = {}
 var TRIGGERS = {}
 
 var SERVER_CONNECTED_ONCE = false;
 
-function showNotification(message) {
+/**
+ * Show toast notifications
+ */
+function showToast(message, type) {
   $.toast({
     text: message,
-    icon: 'info',
-    position: 'top-right',
+    icon: type,
+    position: 'bottom-center',
     showHideTransition: 'slide',
     loader: false
   })
 }
 
+function showNotification(message) {
+  showToast(message, 'info');
+}
+
 function showWarn(message) {
-  $.toast({
-    text: message,
-    icon: 'warning',
-    position: 'top-center',
-    showHideTransition: 'slide',
-    loader: false
+  showToast(message, 'warning');
+}
+
+function showError(message) {
+  showToast(message, 'error');
+}
+
+/**
+ * Tab buttons actions
+ */
+
+function setTabButtonsActions() {
+  $('.tabButtons .primary .button').click(function() {
+    // Close buttons menu
+    if ($(this).hasClass('active')) {
+      clearTimeout(MENU_BUTTONS_OPENED_HANDLE);
+
+      $('.tabButtons .primary .button').removeClass('active').removeClass('inactive');
+      $('.tabButtons .secondary .group.active').removeClass('active');
+    }
+
+    // Open buttons menu
+    else {
+      // Self close after 1m
+      MENU_BUTTONS_OPENED_HANDLE = setTimeout(function() {
+        if ($('.tabButtons .primary .button.active').length != 0) {
+          $('.tabButtons .primary .button.active').click();
+        }
+      }, 60000);
+
+      $('.tabButtons .primary .button').addClass('inactive');
+      $(this).removeClass('inactive').addClass('active');
+      let group = $(this).attr('group');
+      $('.tabButtons .secondary .group.' + group).addClass('active');
+    }
+  });
+
+  $('.tabButtons .secondary .button').click(function() {
+    $('.tabButtons .primary .button.active').click();
   })
 }
 
@@ -278,6 +321,67 @@ function setNotificationTriggers() {
   });
 }
 
+function setHeatingTriggers() {
+  // New state from mqtt
+  setTrigger('Heating', 'status', function(props) {
+    $('.tabButtons .primary [group=heating] .status').html(props.value);
+    if (props.value == 'on') {
+      $('.tabButtons .primary [group=heating]').addClass('green');
+      $('.tabButtons .secondary .group.heating').addClass('green');
+    } else {
+      $('.tabButtons .primary [group=heating]').removeClass('green');
+      $('.tabButtons .secondary .group.heating').removeClass('green');
+    }
+  });
+
+  // New temperature from mqtt
+  setTrigger('Heating', 'presenceMinTemp', function(props) {
+    $('.tabButtons .secondary .group.heating input.temperature').val(props.value);
+  });
+
+  // On change set new value
+  $('.tabButtons .secondary .group.heating input.temperature').change(function() {
+    let newValue = parseFloat($(this).val());
+    if (newValue < 1) {
+      showError('Invalid value!');
+      $(this).val(1);
+      return;
+    }
+    setState('Heating', 'presenceMinTemp', $(this).val());
+    setState('Heating', 'presenceMaxTemp', parseFloat($(this).val()) + 0.25);
+  });
+}
+
+function setRoborockTriggers() {
+  setTrigger('Roborock', 'status', function(props) {
+    $('.tabButtons .primary [group=roborock] .status').html(props.value);
+    if (props.value == 'Charging') {
+      $('.tabButtons .primary [group=roborock]').removeClass('green');
+      $('.tabButtons .secondary .group.roborock').removeClass('green');
+    } else {
+      $('.tabButtons .primary [group=roborock]').addClass('green');
+      $('.tabButtons .secondary .group.roborock').addClass('green');
+    }
+  });
+}
+
+function heatingOn(forced) {
+  setState('Heating', 'forceOff', 'false');
+  runFunction('Heating.on()');
+  setState('Heating', 'forceOn', forced ? 'true' : 'false');
+}
+
+function heatingOff(forced) {
+  setState('Heating', 'forceOn', 'false');
+  runFunction('Heating.off()');
+  setState('Heating', 'forceOff', forced ? 'true' : 'false');
+}
+
+function heatingUnforceState(forced) {
+  setState('Heating', 'forceOn', 'false');
+  setState('Heating', 'forceOff', 'false');
+}
+
 function clickedRoom(roomName, roomObject) {
   // // Local cleaning
   // const status = getStateValue('Roborock', 'status');
@@ -332,8 +436,11 @@ $(document).ready(function() {
   setDoorTriggers();
   setWindowTriggers();
   setNotificationTriggers();
+  setHeatingTriggers();
+  setRoborockTriggers();
 
   // Set click listeners
+  setTabButtonsActions();
   setRoomClickListeners();
   goFullScreenOnAnyClick();
 

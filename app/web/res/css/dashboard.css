@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 html,
 body {
   padding: 0;
@@ -6,12 +9,111 @@ body {
   background: #000;
   color: #FFF;
 }
+.jq-toast-wrap {
+  width: 50%;
+}
+.tabs.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.tabButtons {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 5px 0;
+}
+.tabButtons>div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+.tabButtons .secondary {
+  flex-direction: column;
+}
+.tabButtons .secondary .group {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  transition: all 250ms ease-out;
+  height: 0px;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  width: 100%;
+  border: 0px solid #FE5F55;
+  opacity: 0;
+}
+.tabButtons .secondary .group.green {
+  border-color: #359e3c;
+}
+.tabButtons .secondary .group.active {
+  padding-top: 10px;
+  padding: 5px 0;
+  height: 60px;
+  border-width: 1px;
+  border-top-width: 0px;
+  opacity: 1;
+}
+.tabButtons input[type=number],
+.tabButtons .button {
+  margin: 0 5px;
+  transition: all 250ms ease-out;
+  display: inline-block;
+  width: 170px;
+  font-size: .9em;
+  font-family: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  padding: .8em 1em;
+  background: #FE2F22;
+  border: none;
+  color: white;
+  transition: .2s;
+  overflow: hidden;
+}
+.tabButtons .button.green,
+.tabButtons .green .button {
+  background: #2b9132;
+}
+.tabButtons .primary .button.inactive {
+  width: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+.tabButtons .primary .button.active {
+  background: #FE5F55;
+  width: 100%;
+  margin: 0;
+}
+.tabButtons .primary .button.active.green {
+  background: #359e3c;
+}
+.tabButtons input[type=number] {
+  background: #FFF;
+  border: 1px solid black;
+  color: #000;
+  width: 65px;
+}
+.tabButtons .secondary .button {
+  width: auto;
+  transition: none;
+}
+.tabs .tab {
+  transition: all 250ms ease-out;
+}
 .mapContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
 }
 .map {
   position: relative;

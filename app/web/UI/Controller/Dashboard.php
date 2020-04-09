@@ -106,9 +106,13 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
         echo '<html><head>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <title>' . $this->title . '</title>
-            <link href="/res/css/dashboard.css" rel="stylesheet" type="text/css" media="all">
             <link href="/res/css/jquery.toast.min.css" rel="stylesheet" type="text/css" media="all">
+            <link href="/res/css/dashboard.css" rel="stylesheet" type="text/css" media="all">
             <style>
+            .jq-toast-wrap,
+            .tabButtons {
+                min-width: ' . $this->map['size'][0] . 'px;
+            }
             .mapContainer {
                 min-width: ' . $this->map['size'][0] . 'px;
                 min-height: ' . $this->map['size'][1] . 'px;
@@ -125,7 +129,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
             <script src="/res/js/paho-mqtt-min.js"></script>
             <script src="/res/js/dashboard.js"></script>
             </head><body>';
-        echo '<div class="container">';
+        echo '<div class="container tabs">';
         echo $this->createButtons();
         echo $this->createMap();
         echo '</div>';
@@ -137,7 +141,34 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
      */
     private function createButtons() {
         $html = '';
+        $html .= '<div class="tabButtons">';
 
+        $html .= '<div class="primary">';
+        $html .= '<button group="heating" class="button">Heating [<span class="status"></span>]</button>';
+        $html .= '<button group="lights" class="button">Lights [<span class="status"></span>]</button>';
+        $html .= '<button group="roborock" class="button">Roborock [<span class="status"></span>]</button>';
+        $html .= '</div>';
+
+        $html .= '<div class="secondary">';
+        $html .= '<div class="group heating">';
+        $html .= 'Temperature <input type="number" value="" class="temperature">°C &nbsp; &nbsp; ';
+        $html .= '<button class="button" onclick="heatingOn(true)">ON</button>';
+        $html .= '<button class="button" onclick="heatingOff(true)">OFF</button>';
+        $html .= '<button class="button" onclick="heatingUnforceState()">Unforce state</button>';
+        $html .= '</div>';
+        $html .= '<div class="group roborock">';
+        $html .= '<button class="button" onclick="runFunction(\'Roborock.start()\')">Clean House</button>';
+        $html .= '<button class="button" onclick="runFunction(\'Roborock.pause()\')">Pause</button>';
+        $html .= '<button class="button" onclick="runFunction(\'Roborock.home()\')">Back to dock</button>';
+        $html .= '</div>';
+        $html .= '<div class="group lights">';
+        $html .= '<button class="button" onclick="runFunction(\'House.lightOn()\')">All ON</button>';
+        $html .= '<button class="button" onclick="runFunction(\'House.allLightsOff()\')">All OFF</button>';
+        $html .= '<button class="button">Unforce states</button>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '</div>';
         return $html;
     }
 
@@ -185,7 +216,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
      */
     private function createMap() {
         $html = '';
-        $html .= '<div class="mapContainer">';
+        $html .= '<div class="tab mapContainer">';
         $html .= '<div class="map">' . $this->createRoomsHTML() . '</div>';
         $html .= '</div>';
         return $html;
