@@ -494,7 +494,7 @@ ${Properties.button.object}.click:
     if:
       - this is double
       - ${Properties.light.secondary.object} is not NONE
-      - ${Properties.light.secondary.object}.status is on
+      - ${Properties.light.secondary.object}.status is not on
       - ${Properties.name} is bedroom
     run:
       - ${Properties.light.secondary.object}.brightness('100')
