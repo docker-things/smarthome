@@ -102,7 +102,7 @@ functions:
       fanspeed: ${ARGS.speed}
 
   goto(x,y):
-    run: ${cmd} fanspeed ${ARGS.x} ${ARGS.y}
+    run: ${cmd} goto ${ARGS.x} ${ARGS.y}
     set:
       status: goto
 
