@@ -21,7 +21,7 @@ function showToast(message, type) {
   })
 }
 
-function showNotification(message) {
+function showInfo(message) {
   showToast(message, 'info');
 }
 
@@ -158,7 +158,7 @@ function getFullState() {
 
   client.onConnectionLost = function(responseObject) {
     if (responseObject.errorCode !== 0) {
-      console.log("Lost connection while getting full state: " + responseObject.errorMessage);
+      showError('Lost MQTT connection: ' + responseObject.errorMessage);
     }
   };
 
@@ -188,7 +188,7 @@ function getFullState() {
     },
 
     onFailure: function() {
-      console.log("MQTT connection failed while getting full state!");
+      showError('Failed to connect to MQTT');
     },
   });
 }
@@ -202,7 +202,7 @@ function startStateListener() {
 
   MQTT_CLIENT.onConnectionLost = function(responseObject) {
     if (responseObject.errorCode !== 0) {
-      console.log("State listener lost MQTT connection: " + responseObject.errorMessage);
+      showError('Lost MQTT connection: ' + responseObject.errorMessage);
     }
   };
 
@@ -218,15 +218,18 @@ function startStateListener() {
     onSuccess: function() {
       // If server disconnected refresh just in case code changed
       if (SERVER_CONNECTED_ONCE) {
+        showInfo('Reconnected to MQTT');
         window.location.reload(true);
+      } else {
+        showInfo('Connected to MQTT');
+        SERVER_CONNECTED_ONCE = true;
       }
-      SERVER_CONNECTED_ONCE = true;
       // Subscribe to the state change topic
       MQTT_CLIENT.subscribe("core-state/change");
     },
 
     onFailure: function() {
-      console.log("State listener MQTT connection failed!");
+      showError('Failed to connect to MQTT');
     },
   });
 }
@@ -313,10 +316,21 @@ function setWindowTriggers() {
 }
 
 function setNotificationTriggers() {
+  let firstNotification = true;
   setTrigger('SystemNotify', 'message', function(props) {
-    showNotification(props.value);
+    if (firstNotification) {
+      firstNotification = false;
+      return;
+    }
+    showInfo(props.value);
   });
+
+  let firstWarn = true;
   setTrigger('SystemWarn', 'message', function(props) {
+    if (firstWarn) {
+      firstWarn = false;
+      return;
+    }
     showWarn(props.value);
   });
 }
