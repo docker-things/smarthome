@@ -21,22 +21,22 @@ class UI_Controller_ScreenDev_Roborock extends UI_Controller_ScreenDev_Base {
   protected function setHTML() {
     return [
       '<div class="top verticalStatusContainer">',
-      $this->verticalStatus('area', 'Area', '-', 'm²'),
-      $this->verticalSeparator(),
-      $this->verticalStatus('battery', 'Battery', '-', '%'),
-      $this->verticalSeparator(),
-      $this->verticalStatus('time', 'Time', '-', 'min'),
+      $this->create->verticalStatus('area', 'Area', '-', 'm²'),
+      $this->create->verticalSeparator(),
+      $this->create->verticalStatus('battery', 'Battery', '-', '%'),
+      $this->create->verticalSeparator(),
+      $this->create->verticalStatus('time', 'Time', '-', 'min'),
       '</div>',
-      $this->map([
+      $this->create->map([
         'all' => '<div class="poiIcon"></div>',
       ], []),
       '<div class="bottom">',
-      $this->horizontalButton('dockButton', 'Dock'),
-      $this->verticalSeparator(),
-      $this->horizontalButton('cleanHouseButton', 'Clean'),
-      $this->horizontalButton('cleanRoomButton', 'Clean Room'),
-      $this->horizontalButton('pauseButton', 'Pause'),
-      $this->horizontalButton('resumeButton', 'Resume'),
+      $this->create->horizontalButton('dockButton', 'Dock'),
+      $this->create->verticalSeparator(),
+      $this->create->horizontalButton('cleanHouseButton', 'Clean'),
+      $this->create->horizontalButton('cleanRoomButton', 'Clean Room'),
+      $this->create->horizontalButton('pauseButton', 'Pause'),
+      $this->create->horizontalButton('resumeButton', 'Resume'),
       '</div>',
     ];
   }

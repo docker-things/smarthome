@@ -8,10 +8,19 @@ abstract class UI_Controller_ScreenDev_Base {
   protected $class;
 
   /**
+   * @var mixed
+   */
+  protected $create;
+
+  /**
    * The display name of the page
    * @var string
    */
   protected $name;
+
+  public function __construct() {
+    $this->create = new UI_Controller_ScreenDev_Create;
+  }
 
   /**
    * Get the actual content of the page
@@ -61,60 +70,6 @@ abstract class UI_Controller_ScreenDev_Base {
     return $this->setStyle();
   }
 
-  /**
-   * @param $class
-   * @param $name
-   * @param $action
-   */
-  protected function horizontalButton($class, $name) {
-    return implode([
-      '<div class="horizontalButton ' . $class . '">',
-      '<div class="icon"></div>',
-      '<div class="name">' . $name . '</div>',
-      '</div>',
-    ]);
-  }
-
-  /**
-   * @param $info
-   * @param $actions
-   */
-  protected function map($info, $actions) {
-    $rooms = [
-      'Bathroom',
-      'Bedroom',
-      'Entrance',
-      'Hallway',
-      'Kitchen',
-      'Livingroom',
-    ];
-    $html   = [];
-    $html[] = '<div class="map">';
-    foreach ($rooms AS $room) {
-      $html[] = '<div class="room ' . $room . '" name="' . $room . '">';
-      $html[] = '<div class="name">' . $room . '</div>';
-      $html[] = '<div class="info">';
-      if (isset($info['all'])) {
-        $html[] = $info['all'];
-      }
-      if (isset($info[$room])) {
-        $html[] = $info[$room];
-      }
-      $html[] = '</div>';
-      $html[] = '<div class="actions">';
-      if (isset($actions['all'])) {
-        $html[] = $actions['all'];
-      }
-      if (isset($actions[$room])) {
-        $html[] = $actions[$room];
-      }
-      $html[] = '</div>';
-      $html[] = '</div>';
-    }
-    $html[] = '</div>';
-    return implode('', $html);
-  }
-
   protected function setCSS() {
     return [];
   }
@@ -129,28 +84,6 @@ abstract class UI_Controller_ScreenDev_Base {
 
   protected function setStyle() {
     return [];
-  }
-
-  protected function verticalSeparator() {
-    return '<div class="verticalSeparator"></div>';
-  }
-
-  /**
-   * @param $class
-   * @param $name
-   * @param $value
-   * @param $unit
-   */
-  protected function verticalStatus($class, $name, $value, $unit) {
-    return implode([
-      '<div class="verticalStatus ' . $class . '">',
-      '<div class="valueContainer">',
-      '<div class="value">' . $value . '</div>',
-      '<div class="unit">' . $unit . '</div>',
-      '</div>',
-      '<div class="name">' . $name . '</div>',
-      '</div>',
-    ]);
   }
 }
 ?>

@@ -39,6 +39,9 @@ function showScreen(screen, touch) {
     console.warn('showScreen(): Trying to show the same screen:', screen);
     return;
   }
+
+  hideMenu(touch);
+
   ACTIVE_SCREEN = screen;
   const prevScreen = getPrevScreen();
   const nextScreen = getNextScreen();
@@ -98,7 +101,7 @@ function showNextScreen() {
 }
 
 function showNextScreenSlide() {
-  touchDragScreensTo({
+  touchDragTo({
     active: false,
     prevScreen: getPrevScreenObject(),
     activeScreen: getActiveScreenObject(),
@@ -113,7 +116,7 @@ function showNextScreenSlide() {
 }
 
 function showPrevScreenSlide() {
-  touchDragScreensTo({
+  touchDragTo({
     active: false,
     prevScreen: getPrevScreenObject(),
     activeScreen: getActiveScreenObject(),
@@ -167,6 +170,18 @@ function resetScreenDrag(touch) {
   })
 }
 
+function resetMenuDrag(touch) {
+  if (!touch) {
+    touch = {
+      menu: $('.mainContainer .menuContainer')
+    }
+  }
+  touch.menu.css(SCREEN_TRANSITION_ENABLED)
+  touch.menu.css({
+    top: -touch.menu.height(),
+  })
+}
+
 /**
  * TOGGLE THEME
  */
@@ -187,7 +202,7 @@ function toggleDarkMode() {
   }
 }
 
-function touchDragScreensTo(touch) {
+function touchDragScreens(touch) {
   if (touch.event == 'start') {
     getPrevScreenObject().css(SCREEN_TRANSITION_DISABLED)
     getActiveScreenObject().css(SCREEN_TRANSITION_DISABLED)
@@ -235,6 +250,65 @@ function touchDragScreensTo(touch) {
   }
 }
 
+function showMenu() {
+  const menu = $('.mainContainer .menuContainer')
+  menu.css(SCREEN_TRANSITION_ENABLED)
+  menu.css({
+    top: 0,
+  })
+  $('.mainContainer > .overlay').addClass('visible')
+}
+
+function hideMenu() {
+  const menu = $('.mainContainer .menuContainer')
+  menu.css(SCREEN_TRANSITION_ENABLED)
+  menu.css({
+    top: -menu.height()
+  })
+  menu.removeClass('visible')
+  $('.mainContainer > .overlay').removeClass('visible')
+}
+
+function touchDragMenu(touch) {
+  if (touch.event == 'start') {
+    touch.menu.css(SCREEN_TRANSITION_DISABLED)
+  }
+  // console.log(touch.delta.y)
+  if (touch.delta.y > touch.menu.height()) {
+    touch.delta.y = touch.menu.height();
+  }
+  touch.menu.css({
+    top: touch.delta.y - touch.menu.height()
+  })
+  if (touch.direction == 'down') {
+    touch.menu.addClass('visible')
+  }
+
+  if (touch.event == 'end' && touch.delta.y != 0) {
+    console.log(touch.direction)
+    // End transition to the prev screen
+    if (touch.direction == 'up') {
+      hideMenu(touch)
+    }
+    // End transition to the next screen
+    else if (touch.direction == 'down') {
+      showMenu(touch)
+    }
+    // End abort transition
+    else {
+      resetMenuDrag(touch)
+    }
+  }
+}
+
+function touchDragTo(touch) {
+  if (touch.mode == 'vertical') {
+    touchDragMenu(touch);
+  } else if (touch.mode == 'horizontal') {
+    touchDragScreens(touch);
+  }
+}
+
 /**
  * Screen touch evetns
  */
@@ -247,6 +321,7 @@ function bindScreenTouchEvents() {
         event: 'start',
         active: true,
         step: 0,
+        menu: $('.mainContainer .menuContainer'),
         prevScreen: getPrevScreenObject(),
         activeScreen: getActiveScreenObject(),
         nextScreen: getNextScreenObject(),
@@ -259,8 +334,9 @@ function bindScreenTouchEvents() {
           y: 0,
         },
         direction: 'none',
+        mode: 'none',
       };
-      touchDragScreensTo(TOUCH);
+      touchDragTo(TOUCH);
       // e.preventDefault();
     })
     .bind('touchmove', function(e) {
@@ -269,14 +345,16 @@ function bindScreenTouchEvents() {
       const deltaY = e.originalEvent.changedTouches[0].clientY - TOUCH.start.y;
       if (Math.abs(deltaX) >= Math.abs(deltaY)) {
         TOUCH.direction = deltaX >= 0 ? 'right' : 'left'
+        TOUCH.mode = 'horizontal';
       } else {
         TOUCH.direction = deltaY >= 0 ? 'down' : 'up';
+        TOUCH.mode = 'vertical';
       }
       TOUCH.delta.x = deltaX;
       TOUCH.delta.y = deltaY;
       TOUCH.step++;
-      if (Math.abs(TOUCH.delta.x) > 15) {
-        touchDragScreensTo(TOUCH);
+      if (Math.abs(TOUCH.delta.x) > 15 || Math.abs(TOUCH.delta.y) > 15) {
+        touchDragTo(TOUCH);
       }
       // e.preventDefault();
     })
@@ -285,8 +363,8 @@ function bindScreenTouchEvents() {
       TOUCH.active = false;
       TOUCH.delta.x = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;
       TOUCH.delta.y = e.originalEvent.changedTouches[0].clientY - TOUCH.start.y;
-      if (Math.abs(TOUCH.delta.x) > 15) {
-        touchDragScreensTo(TOUCH);
+      if (Math.abs(TOUCH.delta.x) > 15 || Math.abs(TOUCH.delta.y) > 15) {
+        touchDragTo(TOUCH);
       }
       // e.preventDefault();
     })
@@ -295,11 +373,24 @@ function bindScreenTouchEvents() {
       TOUCH.active = false;
       TOUCH.delta.x = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;
       TOUCH.delta.y = e.originalEvent.changedTouches[0].clientY - TOUCH.start.y;
-      if (Math.abs(TOUCH.delta.x) > 15) {
-        touchDragScreensTo(TOUCH);
+      if (Math.abs(TOUCH.delta.x) > 15 || Math.abs(TOUCH.delta.y) > 15) {
+        touchDragTo(TOUCH);
       }
       // e.preventDefault();
     });
+}
+
+function bindOverlayClick() {
+  $('.mainContainer > .overlay').click(function() {
+    hideMenu()
+  })
+}
+
+function bindMenuButtons() {
+  $('.mainContainer > .menuContainer .screensSelector > div').click(function() {
+    const screen = $(this).attr('name');
+    showScreen(screen);
+  })
 }
 
 function bindPrevNextScreenButtons() {
@@ -441,6 +532,7 @@ function getFullState() {
       }
     }
     client.disconnect();
+    showDashboard();
   };
 
   client.connect({
@@ -491,7 +583,7 @@ function startStateListener() {
         showInfo('Reconnected to MQTT');
         window.location.reload(true);
       } else {
-        showInfo('Connected to MQTT');
+        // showInfo('Connected to MQTT');
         SERVER_CONNECTED_ONCE = true;
       }
       // Subscribe to the state change topic
@@ -550,8 +642,10 @@ $(document).ready(function() {
   // goFullScreenOnAnyClick();
 
   // Set touch listeners
+  bindMenuButtons();
   bindScreenTouchEvents();
   bindPrevNextScreenButtons();
+  bindOverlayClick();
 
   // Show the screen
   createScreenList();
@@ -566,6 +660,4 @@ $(document).ready(function() {
   // Start state listener
   startStateListener();
 
-  // Actually show dashboard
-  showDashboard();
 })
