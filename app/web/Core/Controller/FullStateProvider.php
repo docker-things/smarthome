@@ -47,10 +47,11 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
             //     }
             // }
 
-            $cmd = "mosquitto_pub -h localhost -t 'core-state/full-state-provider' -m '" . json_encode($state) . "'";
-            ob_start();
+            $cmd = "mosquitto_pub -h localhost -t 'core-state/full-state-provider' -m \"" . str_replace('"', '\"', json_encode($state)) . "\"";
+            file_put_contents('/app/data/dump', $cmd);
+            // ob_start();
             system($cmd . ' 2>&1 &', $retval);
-            ob_end_clean();
+            // ob_end_clean();
         }
 
         Core_Logger::info('Stopped listening to MQTT');

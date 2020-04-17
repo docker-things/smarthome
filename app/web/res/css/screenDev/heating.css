@@ -1,0 +1,56 @@
+.mainContainer>.overviewContainer>.screen.heating {
+  /*background-image: linear-gradient(to bottom right, #cfd9df 0%, #e2ebf0 75%)!important;*/
+}
+.screen.heating .container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+/* LEFT */
+
+.screen.heating .container>.left {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+}
+.screen.heating .container>.left>.actions {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 75%;
+  height: 75%;
+  display: block;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  background: rgba(255, 255, 255, .75);
+  border-radius: 6px;
+}
+/* RIGHT */
+
+.screen.heating .container>.right {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+}
+.screen.heating .container>.right .deviceImage {
+  background-image: url('/res/img/screen/heating/device.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: 75%;
+  height: 100%;
+  display: block;
+}

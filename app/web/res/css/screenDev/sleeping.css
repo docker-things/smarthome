@@ -1,0 +1,336 @@
+.mainContainer>.overviewContainer>.screen.sleeping {
+  background: #000!important;
+  /*background: #1b1e23!important;*/
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  font-family: sans-serif;
+  color: white;
+}
+.screen.sleeping p {
+  color: #f4eed7;
+  font-size: 0.8em;
+  opacity: 0.75;
+}
+.screen.sleeping .clock {
+  height: 200px;
+  width: 200px;
+  border-radius: 100px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  opacity: .75;
+}
+.screen.sleeping .clock__second,
+.screen.sleeping .clock__minute,
+.screen.sleeping .clock__hour,
+.screen.sleeping .clock__indicator {
+  position: absolute;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: #f4eed7;
+  -webkit-transform-origin: bottom center;
+  transform-origin: bottom center;
+  z-index: 2;
+  border-radius: 1px;
+}
+.screen.sleeping .clock__second {
+  height: 90px;
+  margin-top: 10px;
+  background: #4b9aaa;
+  -webkit-animation: time 60s infinite steps(60);
+  animation: time 60s infinite steps(60);
+  z-index: 3;
+}
+.screen.sleeping .clock__minute {
+  height: 80px;
+  margin-top: 20px;
+  opacity: 0.75;
+  -webkit-animation: time 3600s linear infinite;
+  animation: time 3600s linear infinite;
+}
+.screen.sleeping .clock__hour {
+  height: 60px;
+  margin-top: 40px;
+  -webkit-animation: time 43200s linear infinite;
+  animation: time 43200s linear infinite;
+}
+.screen.sleeping .clock__indicator {
+  height: 98px;
+  border-top: 2px solid #4b9aaa;
+  background: none;
+}
+.screen.sleeping .clock__indicator:nth-of-type(5n) {
+  opacity: 1;
+  height: 93px;
+  border-top: 7px solid #f4eed7;
+}
+.screen.sleeping .clock__axis {
+  background: #4b9aaa;
+  width: 5px;
+  height: 5px;
+  border-radius: 3px;
+  position: absolute;
+  z-index: 4;
+  top: 97px;
+}
+.screen.sleeping .clock section:nth-of-type(1) {
+  -webkit-transform: rotateZ(calc(6deg * 1));
+  transform: rotateZ(calc(6deg * 1));
+}
+.screen.sleeping .clock section:nth-of-type(2) {
+  -webkit-transform: rotateZ(calc(6deg * 2));
+  transform: rotateZ(calc(6deg * 2));
+}
+.screen.sleeping .clock section:nth-of-type(3) {
+  -webkit-transform: rotateZ(calc(6deg * 3));
+  transform: rotateZ(calc(6deg * 3));
+}
+.screen.sleeping .clock section:nth-of-type(4) {
+  -webkit-transform: rotateZ(calc(6deg * 4));
+  transform: rotateZ(calc(6deg * 4));
+}
+.screen.sleeping .clock section:nth-of-type(5) {
+  -webkit-transform: rotateZ(calc(6deg * 5));
+  transform: rotateZ(calc(6deg * 5));
+}
+.screen.sleeping .clock section:nth-of-type(6) {
+  -webkit-transform: rotateZ(calc(6deg * 6));
+  transform: rotateZ(calc(6deg * 6));
+}
+.screen.sleeping .clock section:nth-of-type(7) {
+  -webkit-transform: rotateZ(calc(6deg * 7));
+  transform: rotateZ(calc(6deg * 7));
+}
+.screen.sleeping .clock section:nth-of-type(8) {
+  -webkit-transform: rotateZ(calc(6deg * 8));
+  transform: rotateZ(calc(6deg * 8));
+}
+.screen.sleeping .clock section:nth-of-type(9) {
+  -webkit-transform: rotateZ(calc(6deg * 9));
+  transform: rotateZ(calc(6deg * 9));
+}
+.screen.sleeping .clock section:nth-of-type(10) {
+  -webkit-transform: rotateZ(calc(6deg * 10));
+  transform: rotateZ(calc(6deg * 10));
+}
+.screen.sleeping .clock section:nth-of-type(11) {
+  -webkit-transform: rotateZ(calc(6deg * 11));
+  transform: rotateZ(calc(6deg * 11));
+}
+.screen.sleeping .clock section:nth-of-type(12) {
+  -webkit-transform: rotateZ(calc(6deg * 12));
+  transform: rotateZ(calc(6deg * 12));
+}
+.screen.sleeping .clock section:nth-of-type(13) {
+  -webkit-transform: rotateZ(calc(6deg * 13));
+  transform: rotateZ(calc(6deg * 13));
+}
+.screen.sleeping .clock section:nth-of-type(14) {
+  -webkit-transform: rotateZ(calc(6deg * 14));
+  transform: rotateZ(calc(6deg * 14));
+}
+.screen.sleeping .clock section:nth-of-type(15) {
+  -webkit-transform: rotateZ(calc(6deg * 15));
+  transform: rotateZ(calc(6deg * 15));
+}
+.screen.sleeping .clock section:nth-of-type(16) {
+  -webkit-transform: rotateZ(calc(6deg * 16));
+  transform: rotateZ(calc(6deg * 16));
+}
+.screen.sleeping .clock section:nth-of-type(17) {
+  -webkit-transform: rotateZ(calc(6deg * 17));
+  transform: rotateZ(calc(6deg * 17));
+}
+.screen.sleeping .clock section:nth-of-type(18) {
+  -webkit-transform: rotateZ(calc(6deg * 18));
+  transform: rotateZ(calc(6deg * 18));
+}
+.screen.sleeping .clock section:nth-of-type(19) {
+  -webkit-transform: rotateZ(calc(6deg * 19));
+  transform: rotateZ(calc(6deg * 19));
+}
+.screen.sleeping .clock section:nth-of-type(20) {
+  -webkit-transform: rotateZ(calc(6deg * 20));
+  transform: rotateZ(calc(6deg * 20));
+}
+.screen.sleeping .clock section:nth-of-type(21) {
+  -webkit-transform: rotateZ(calc(6deg * 21));
+  transform: rotateZ(calc(6deg * 21));
+}
+.screen.sleeping .clock section:nth-of-type(22) {
+  -webkit-transform: rotateZ(calc(6deg * 22));
+  transform: rotateZ(calc(6deg * 22));
+}
+.screen.sleeping .clock section:nth-of-type(23) {
+  -webkit-transform: rotateZ(calc(6deg * 23));
+  transform: rotateZ(calc(6deg * 23));
+}
+.screen.sleeping .clock section:nth-of-type(24) {
+  -webkit-transform: rotateZ(calc(6deg * 24));
+  transform: rotateZ(calc(6deg * 24));
+}
+.screen.sleeping .clock section:nth-of-type(25) {
+  -webkit-transform: rotateZ(calc(6deg * 25));
+  transform: rotateZ(calc(6deg * 25));
+}
+.screen.sleeping .clock section:nth-of-type(26) {
+  -webkit-transform: rotateZ(calc(6deg * 26));
+  transform: rotateZ(calc(6deg * 26));
+}
+.screen.sleeping .clock section:nth-of-type(27) {
+  -webkit-transform: rotateZ(calc(6deg * 27));
+  transform: rotateZ(calc(6deg * 27));
+}
+.screen.sleeping .clock section:nth-of-type(28) {
+  -webkit-transform: rotateZ(calc(6deg * 28));
+  transform: rotateZ(calc(6deg * 28));
+}
+.screen.sleeping .clock section:nth-of-type(29) {
+  -webkit-transform: rotateZ(calc(6deg * 29));
+  transform: rotateZ(calc(6deg * 29));
+}
+.screen.sleeping .clock section:nth-of-type(30) {
+  -webkit-transform: rotateZ(calc(6deg * 30));
+  transform: rotateZ(calc(6deg * 30));
+}
+.screen.sleeping .clock section:nth-of-type(31) {
+  -webkit-transform: rotateZ(calc(6deg * 31));
+  transform: rotateZ(calc(6deg * 31));
+}
+.screen.sleeping .clock section:nth-of-type(32) {
+  -webkit-transform: rotateZ(calc(6deg * 32));
+  transform: rotateZ(calc(6deg * 32));
+}
+.screen.sleeping .clock section:nth-of-type(33) {
+  -webkit-transform: rotateZ(calc(6deg * 33));
+  transform: rotateZ(calc(6deg * 33));
+}
+.screen.sleeping .clock section:nth-of-type(34) {
+  -webkit-transform: rotateZ(calc(6deg * 34));
+  transform: rotateZ(calc(6deg * 34));
+}
+.screen.sleeping .clock section:nth-of-type(35) {
+  -webkit-transform: rotateZ(calc(6deg * 35));
+  transform: rotateZ(calc(6deg * 35));
+}
+.screen.sleeping .clock section:nth-of-type(36) {
+  -webkit-transform: rotateZ(calc(6deg * 36));
+  transform: rotateZ(calc(6deg * 36));
+}
+.screen.sleeping .clock section:nth-of-type(37) {
+  -webkit-transform: rotateZ(calc(6deg * 37));
+  transform: rotateZ(calc(6deg * 37));
+}
+.screen.sleeping .clock section:nth-of-type(38) {
+  -webkit-transform: rotateZ(calc(6deg * 38));
+  transform: rotateZ(calc(6deg * 38));
+}
+.screen.sleeping .clock section:nth-of-type(39) {
+  -webkit-transform: rotateZ(calc(6deg * 39));
+  transform: rotateZ(calc(6deg * 39));
+}
+.screen.sleeping .clock section:nth-of-type(40) {
+  -webkit-transform: rotateZ(calc(6deg * 40));
+  transform: rotateZ(calc(6deg * 40));
+}
+.screen.sleeping .clock section:nth-of-type(41) {
+  -webkit-transform: rotateZ(calc(6deg * 41));
+  transform: rotateZ(calc(6deg * 41));
+}
+.screen.sleeping .clock section:nth-of-type(42) {
+  -webkit-transform: rotateZ(calc(6deg * 42));
+  transform: rotateZ(calc(6deg * 42));
+}
+.screen.sleeping .clock section:nth-of-type(43) {
+  -webkit-transform: rotateZ(calc(6deg * 43));
+  transform: rotateZ(calc(6deg * 43));
+}
+.screen.sleeping .clock section:nth-of-type(44) {
+  -webkit-transform: rotateZ(calc(6deg * 44));
+  transform: rotateZ(calc(6deg * 44));
+}
+.screen.sleeping .clock section:nth-of-type(45) {
+  -webkit-transform: rotateZ(calc(6deg * 45));
+  transform: rotateZ(calc(6deg * 45));
+}
+.screen.sleeping .clock section:nth-of-type(46) {
+  -webkit-transform: rotateZ(calc(6deg * 46));
+  transform: rotateZ(calc(6deg * 46));
+}
+.screen.sleeping .clock section:nth-of-type(47) {
+  -webkit-transform: rotateZ(calc(6deg * 47));
+  transform: rotateZ(calc(6deg * 47));
+}
+.screen.sleeping .clock section:nth-of-type(48) {
+  -webkit-transform: rotateZ(calc(6deg * 48));
+  transform: rotateZ(calc(6deg * 48));
+}
+.screen.sleeping .clock section:nth-of-type(49) {
+  -webkit-transform: rotateZ(calc(6deg * 49));
+  transform: rotateZ(calc(6deg * 49));
+}
+.screen.sleeping .clock section:nth-of-type(50) {
+  -webkit-transform: rotateZ(calc(6deg * 50));
+  transform: rotateZ(calc(6deg * 50));
+}
+.screen.sleeping .clock section:nth-of-type(51) {
+  -webkit-transform: rotateZ(calc(6deg * 51));
+  transform: rotateZ(calc(6deg * 51));
+}
+.screen.sleeping .clock section:nth-of-type(52) {
+  -webkit-transform: rotateZ(calc(6deg * 52));
+  transform: rotateZ(calc(6deg * 52));
+}
+.screen.sleeping .clock section:nth-of-type(53) {
+  -webkit-transform: rotateZ(calc(6deg * 53));
+  transform: rotateZ(calc(6deg * 53));
+}
+.screen.sleeping .clock section:nth-of-type(54) {
+  -webkit-transform: rotateZ(calc(6deg * 54));
+  transform: rotateZ(calc(6deg * 54));
+}
+.screen.sleeping .clock section:nth-of-type(55) {
+  -webkit-transform: rotateZ(calc(6deg * 55));
+  transform: rotateZ(calc(6deg * 55));
+}
+.screen.sleeping .clock section:nth-of-type(56) {
+  -webkit-transform: rotateZ(calc(6deg * 56));
+  transform: rotateZ(calc(6deg * 56));
+}
+.screen.sleeping .clock section:nth-of-type(57) {
+  -webkit-transform: rotateZ(calc(6deg * 57));
+  transform: rotateZ(calc(6deg * 57));
+}
+.screen.sleeping .clock section:nth-of-type(58) {
+  -webkit-transform: rotateZ(calc(6deg * 58));
+  transform: rotateZ(calc(6deg * 58));
+}
+.screen.sleeping .clock section:nth-of-type(59) {
+  -webkit-transform: rotateZ(calc(6deg * 59));
+  transform: rotateZ(calc(6deg * 59));
+}
+.screen.sleeping .clock section:nth-of-type(60) {
+  -webkit-transform: rotateZ(calc(6deg * 60));
+  transform: rotateZ(calc(6deg * 60));
+}
+@-webkit-keyframes time {
+  to {
+    -webkit-transform: rotateZ(360deg);
+    transform: rotateZ(360deg);
+  }
+}
+@keyframes time {
+  to {
+    -webkit-transform: rotateZ(360deg);
+    transform: rotateZ(360deg);
+  }
+}

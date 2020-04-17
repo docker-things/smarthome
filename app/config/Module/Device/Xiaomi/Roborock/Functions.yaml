@@ -72,6 +72,13 @@ functions:
       status: 'Zoned_cleaning'
       zone: 'hallway'
 
+  cleanEntrance():
+    run: ${cmd} zoned-cleanup '${Properties.zone_entrance}'
+    if: ${RESPONSE.status} is ok
+    set:
+      status: 'Zoned_cleaning'
+      zone: 'entrance'
+
   cleanKitchen():
     run: ${cmd} zoned-cleanup '${Properties.zone_kitchen}'
     if: ${RESPONSE.status} is ok
@@ -88,7 +95,6 @@ functions:
 
   home():
     run: ${cmd} home
-    if: ${RESPONSE.Stop_cleaning} is ok
     set:
       status: 'Returning_home'
       zone: ''
