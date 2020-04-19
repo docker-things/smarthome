@@ -101,7 +101,7 @@ function showNextScreen() {
 }
 
 function showNextScreenSlide() {
-  touchDragTo({
+  touchDragScreens({
     active: false,
     prevScreen: getPrevScreenObject(),
     activeScreen: getActiveScreenObject(),
@@ -116,7 +116,7 @@ function showNextScreenSlide() {
 }
 
 function showPrevScreenSlide() {
-  touchDragTo({
+  touchDragScreens({
     active: false,
     prevScreen: getPrevScreenObject(),
     activeScreen: getActiveScreenObject(),
