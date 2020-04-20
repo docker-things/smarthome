@@ -428,7 +428,7 @@ function showToast(message, type) {
   $.toast({
     text: message,
     icon: type,
-    position: 'top-center',
+    position: 'bottom-center',
     showHideTransition: 'slide',
     loader: false
   })
@@ -652,11 +652,15 @@ function windowResizeHandler() {
  */
 $(document).ready(function() {
 
+  $('.toggleTheme').click(function(){
+    toggleDarkMode()
+  })
+
   // Do local setup
-  // setNotificationTriggers();
+  setNotificationTriggers();
 
   // Set click listeners
-  // goFullScreenOnAnyClick();
+  goFullScreenOnAnyClick();
 
   // Set touch listeners
   bindMenuButtons();
