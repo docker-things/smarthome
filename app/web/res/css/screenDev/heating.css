@@ -1,56 +1,46 @@
-.mainContainer>.overviewContainer>.screen.heating {
-  /*background-image: linear-gradient(to bottom right, #cfd9df 0%, #e2ebf0 75%)!important;*/
-}
-.screen.heating .container {
+/* CONTAINERS */
+
+.screen.heating .container>.top {
   position: relative;
   display: flex;
   justify-content: center;
   flex-direction: row;
   align-items: center;
   width: 100%;
-  height: 100%;
+  margin-bottom: 3rem;
 }
-/* LEFT */
+.screen.heating .container>.bottom {
+  height: 25%;
+}
+/* SLIDER */
 
-.screen.heating .container>.left {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 50%;
-  height: 100%;
+.screen.heating .temperatureSlider .rs-handle {
+  background-color: #fff;
+  border: 2px solid #C53A0D;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, .1), 0px 0px 4px 0px rgba(197, 58, 13, .25);
 }
-.screen.heating .container>.left>.actions {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-  width: 75%;
-  height: 75%;
-  display: block;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-  background: rgba(255, 255, 255, .75);
-  border-radius: 6px;
+.screen.heating .temperatureSlider .rs-handle:after {
+  border-color: #fff;
+  background-color: #fff;
 }
-/* RIGHT */
-
-.screen.heating .container>.right {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 50%;
-  height: 100%;
+.screen.heating .temperatureSlider .rs-border {
+  border-color: transparent;
 }
-.screen.heating .container>.right .deviceImage {
-  background-image: url('/res/img/screen/heating/device.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  width: 75%;
-  height: 100%;
-  display: block;
+.screen.heating .temperatureSlider .rs-tooltip-text {
+  font-size: 4rem;
+  color: #C53A0D;
+  font-weight: bold;
+}
+.screen.heating .temperatureSlider .rs-tooltip-text .value {
+  /*text-shadow: 0px 0px 100px rgba(197, 58, 13, 2);*/
+}
+.screen.heating .temperatureSlider .rs-tooltip-text .unit {
+  position: absolute;
+  top: 1rem;
+  right: -1.5rem;
+  width: 2rem;
+  font-size: 1.5rem;
+  font-weight: normal;
+  text-align: left;
+  color: rgba(197, 58, 13, .25);
 }

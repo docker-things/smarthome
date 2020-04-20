@@ -13,6 +13,18 @@ var SCREEN_TRANSITION_DISABLED = {
   transition: 'none'
 };
 
+var PREVENT_TOUCH_DRAG = false;
+
+function preventTouchDrag() {
+  PREVENT_TOUCH_DRAG = true;
+}
+
+function restoreTouchDrag() {
+  setTimeout(function() {
+    PREVENT_TOUCH_DRAG = false;
+  })
+}
+
 function showDashboard() {
   setTimeout(function() {
     $('.mainContainer').css({
@@ -317,6 +329,8 @@ function bindScreenTouchEvents() {
   var TOUCH = {};
   $('.mainContainer > .overviewContainer > .screen')
     .bind('touchstart', function(e) {
+      if (PREVENT_TOUCH_DRAG) return;
+
       TOUCH = {
         event: 'start',
         active: true,
@@ -340,6 +354,8 @@ function bindScreenTouchEvents() {
       // e.preventDefault();
     })
     .bind('touchmove', function(e) {
+      if (PREVENT_TOUCH_DRAG) return;
+
       TOUCH.event = 'move';
       const deltaX = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;
       const deltaY = e.originalEvent.changedTouches[0].clientY - TOUCH.start.y;
@@ -359,6 +375,8 @@ function bindScreenTouchEvents() {
       // e.preventDefault();
     })
     .bind('touchend', function(e) {
+      if (PREVENT_TOUCH_DRAG) return;
+
       TOUCH.event = 'end';
       TOUCH.active = false;
       TOUCH.delta.x = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;
@@ -369,6 +387,8 @@ function bindScreenTouchEvents() {
       // e.preventDefault();
     })
     .bind('touchcancel', function(e) {
+      if (PREVENT_TOUCH_DRAG) return;
+
       TOUCH.event = 'end';
       TOUCH.active = false;
       TOUCH.delta.x = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;

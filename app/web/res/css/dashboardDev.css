@@ -101,6 +101,10 @@ body {
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  background: #FFF;
+}
+.mainContainer.darkMode>.overviewContainer>.screen {
+  background: #000;
 }
 /* TITLE */
 
@@ -122,6 +126,7 @@ body {
   margin-top: .5rem;
   font-size: 1rem;
   color: grey;
+  text-transform: capitalize;
 }
 .mainContainer>.overviewContainer>.screen>.titleContainer .prevButton,
 .mainContainer>.overviewContainer>.screen>.titleContainer .nextButton {
@@ -155,7 +160,7 @@ body {
 }
 /* MAP */
 
-.screen.roborock .container>.map {
+.screen .container>.map {
   background: url('/res/img/map.png');
   position: relative;
   width: 413px;
@@ -164,7 +169,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
 }
-.screen.roborock .container>.map .room {
+.screen .container>.map .room {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -172,49 +177,49 @@ body {
   align-items: center;
   transition: all 150ms ease-out;
 }
-.screen.roborock .container>.map .room.darker {
+.screen .container>.map .room.darker {
   background: rgba(0, 0, 0, 0.25);
 }
-.screen.roborock .container>.map .room.lighter {
+.screen .container>.map .room.lighter {
   background: rgba(255, 255, 255, 0.25);
 }
-.screen.roborock .container>.map .room.Bedroom {
+.screen .container>.map .room.Bedroom {
   top: 0%;
   left: 0%;
   width: 51.5%;
   height: 65.5%;
 }
-.screen.roborock .container>.map .room.Livingroom {
+.screen .container>.map .room.Livingroom {
   top: 0%;
   left: 51.5%;
   width: 48.5%;
   height: 48%;
 }
-.screen.roborock .container>.map .room.Kitchen {
+.screen .container>.map .room.Kitchen {
   top: 65.5%;
   left: 0%;
   width: 51.5%;
   height: 34.5%;
 }
-.screen.roborock .container>.map .room.Bathroom {
+.screen .container>.map .room.Bathroom {
   top: 48%;
   left: 67.1%;
   width: 32.9%;
   height: 33.7%;
 }
-.screen.roborock .container>.map .room.Hallway {
+.screen .container>.map .room.Hallway {
   top: 48%;
   left: 51.5%;
   width: 15.6%;
   height: 52%;
 }
-.screen.roborock .container>.map .room.Entrance {
+.screen .container>.map .room.Entrance {
   top: 81.7%;
   left: 67.1%;
   width: 32.9%;
   height: 18.3%;
 }
-.screen.roborock .container>.map .room>div {
+.screen .container>.map .room>div {
   display: flex;
   justify-content: center;
   flex-direction: row;

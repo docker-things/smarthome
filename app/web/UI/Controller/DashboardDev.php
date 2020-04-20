@@ -6,7 +6,8 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
    * @var array
    */
   private $css = [
-    'jquery.toast.min.css',
+    'thirdparty/jquery.toast.min.css',
+    'thirdparty/roundslider.min.css',
     'dashboardDev.css',
   ];
 
@@ -21,11 +22,12 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
    * @var array
    */
   private $js = [
-    'jquery.min.js',
-    'jquery.toast.min.js',
-    // 'popper.min.js',
-    // 'bootstrap-material-design.min.js',
-    'paho-mqtt-min.js',
+    'thirdparty/jquery.min.js',
+    'thirdparty/jquery.toast.min.js',
+    'thirdparty/roundslider.min.js',
+    // 'thirdparty/popper.min.js',
+    // 'thirdparty/bootstrap-material-design.min.js',
+    'thirdparty/paho-mqtt-min.js',
     'dashboardDev.js',
   ];
 
@@ -39,9 +41,9 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
    * @var array
    */
   private $screens = [
+    'Main',
     'Heating',
     'Roborock',
-    'Main',
     // 'Sleeping',
     // 'Overview',
   ];

@@ -13,11 +13,6 @@ class UI_Controller_ScreenDev_Roborock extends UI_Controller_ScreenDev_Base {
    */
   protected $name = 'Roborock';
 
-  /**
-   * @var array
-   */
-  protected $style = [];
-
   protected function setHTML() {
     return [
       '<div class="top verticalStatusContainer">',
