@@ -14,10 +14,10 @@ if [ ! -f "$ZIGBEE2MQTT_PATH/data/configuration.yaml" ]; then
 fi
 
 # Remove old logs
-if [ -d "$ZIGBEE2MQTT_PATH/data/log" ]; then
-    echo "Removing previous logs..."
-    rm -rf $ZIGBEE2MQTT_PATH/data/log/*
-fi
+# if [ -d "$ZIGBEE2MQTT_PATH/data/log" ]; then
+#     echo "Removing previous logs..."
+#     rm -rf $ZIGBEE2MQTT_PATH/data/log/*
+# fi
 
 # Launch
 while [ 1 = 1 ]; do
