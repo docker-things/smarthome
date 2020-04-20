@@ -242,7 +242,6 @@ function touchDragScreens(touch) {
   // })
 
   if (touch.event == 'end' && touch.delta.x != 0) {
-    console.log(touch.direction)
     // End transition to the prev screen
     if (touch.direction == 'right') {
       getActiveScreenObject().css(SCREEN_TRANSITION_ENABLED)
@@ -285,7 +284,6 @@ function touchDragMenu(touch) {
   if (touch.event == 'start') {
     touch.menu.css(SCREEN_TRANSITION_DISABLED)
   }
-  // console.log(touch.delta.y)
   if (touch.delta.y > touch.menu.height()) {
     touch.delta.y = touch.menu.height();
   }
@@ -297,7 +295,6 @@ function touchDragMenu(touch) {
   }
 
   if (touch.event == 'end' && touch.delta.y != 0) {
-    console.log(touch.direction)
     // End transition to the prev screen
     if (touch.direction == 'up') {
       hideMenu(touch)
@@ -316,7 +313,7 @@ function touchDragMenu(touch) {
 function touchDragTo(touch) {
   if (touch.mode == 'vertical') {
     touchDragMenu(touch);
-  } else if (touch.mode == 'horizontal') {
+  } else {
     touchDragScreens(touch);
   }
 }
@@ -330,7 +327,6 @@ function bindScreenTouchEvents() {
   $('.mainContainer > .overviewContainer > .screen')
     .bind('touchstart', function(e) {
       if (PREVENT_TOUCH_DRAG) return;
-
       TOUCH = {
         event: 'start',
         active: true,
@@ -351,20 +347,26 @@ function bindScreenTouchEvents() {
         mode: 'none',
       };
       touchDragTo(TOUCH);
-      // e.preventDefault();
     })
     .bind('touchmove', function(e) {
       if (PREVENT_TOUCH_DRAG) return;
-
       TOUCH.event = 'move';
       const deltaX = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;
       const deltaY = e.originalEvent.changedTouches[0].clientY - TOUCH.start.y;
       if (Math.abs(deltaX) >= Math.abs(deltaY)) {
-        TOUCH.direction = deltaX >= 0 ? 'right' : 'left'
-        TOUCH.mode = 'horizontal';
+        if (TOUCH.mode == 'none') {
+          TOUCH.mode = 'horizontal';
+        }
+        if (TOUCH.mode == 'horizontal') {
+          TOUCH.direction = deltaX >= 0 ? 'right' : 'left'
+        }
       } else {
-        TOUCH.direction = deltaY >= 0 ? 'down' : 'up';
-        TOUCH.mode = 'vertical';
+        if (TOUCH.mode == 'none') {
+          TOUCH.mode = 'vertical';
+        }
+        if (TOUCH.mode == 'vertical') {
+          TOUCH.direction = deltaY >= 0 ? 'down' : 'up';
+        }
       }
       TOUCH.delta.x = deltaX;
       TOUCH.delta.y = deltaY;
@@ -372,11 +374,9 @@ function bindScreenTouchEvents() {
       if (Math.abs(TOUCH.delta.x) > 15 || Math.abs(TOUCH.delta.y) > 15) {
         touchDragTo(TOUCH);
       }
-      // e.preventDefault();
     })
     .bind('touchend', function(e) {
       if (PREVENT_TOUCH_DRAG) return;
-
       TOUCH.event = 'end';
       TOUCH.active = false;
       TOUCH.delta.x = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;
@@ -384,11 +384,9 @@ function bindScreenTouchEvents() {
       if (Math.abs(TOUCH.delta.x) > 15 || Math.abs(TOUCH.delta.y) > 15) {
         touchDragTo(TOUCH);
       }
-      // e.preventDefault();
     })
     .bind('touchcancel', function(e) {
       if (PREVENT_TOUCH_DRAG) return;
-
       TOUCH.event = 'end';
       TOUCH.active = false;
       TOUCH.delta.x = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;
@@ -396,7 +394,6 @@ function bindScreenTouchEvents() {
       if (Math.abs(TOUCH.delta.x) > 15 || Math.abs(TOUCH.delta.y) > 15) {
         touchDragTo(TOUCH);
       }
-      // e.preventDefault();
     });
 }
 
