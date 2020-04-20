@@ -119,8 +119,6 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
     }
     array_pop($html);
     $html[] = '</div>';
-    $html[] = $this->create->verticalSeparator();
-    $html[] = $this->create->verticalRoundButton('toggleTheme', 'Theme', 'toggleTheme');
     return implode("\n", $html);
   }
 

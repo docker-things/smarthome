@@ -613,7 +613,8 @@ function startStateListener() {
   });
 }
 
-function setNotificationTriggers() {
+function setTriggers() {
+  // Notification
   let firstNotification = true;
   setTrigger('SystemNotify', 'message', function(props) {
     if (firstNotification) {
@@ -623,6 +624,7 @@ function setNotificationTriggers() {
     showInfo(props.value);
   });
 
+  // Warn
   let firstWarn = true;
   setTrigger('SystemWarn', 'message', function(props) {
     if (firstWarn) {
@@ -630,6 +632,16 @@ function setNotificationTriggers() {
       return;
     }
     showWarn(props.value);
+  });
+
+  //  Toggle theme (Night/Day)
+  setTrigger('System', 'hour', function(props) {
+    const hour = parseInt(props.value);
+    if (hour >= 8 && hour < 20) {
+      setLightMode();
+    } else {
+      setDarkMode();
+    }
   });
 }
 
@@ -652,12 +664,8 @@ function windowResizeHandler() {
  */
 $(document).ready(function() {
 
-  $('.toggleTheme').click(function(){
-    toggleDarkMode()
-  })
-
   // Do local setup
-  setNotificationTriggers();
+  setTriggers();
 
   // Set click listeners
   goFullScreenOnAnyClick();
