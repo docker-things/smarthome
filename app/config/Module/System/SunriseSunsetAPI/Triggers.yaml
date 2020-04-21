@@ -2,11 +2,11 @@
 
 System.time:
   It's day:
-    if: this is this.sunrise
+    if: this is ${Properties.selfObjectName}.sunrise
     set:
-      state: day
+      ${Properties.selfObjectName}.state: day
 
   It's night:
-    if: this is this.sunset
+    if: this is ${Properties.selfObjectName}.sunset
     set:
-      state: night
+      ${Properties.selfObjectName}.state: night

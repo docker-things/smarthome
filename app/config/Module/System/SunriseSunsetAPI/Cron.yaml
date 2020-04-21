@@ -2,4 +2,4 @@
 
 jobs:
   - interval: 3600
-    run: getToday()
+    run: get()

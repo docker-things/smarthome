@@ -2,4 +2,3 @@
 
 latitude: !required
 longitude: !required
-timezone: !required
