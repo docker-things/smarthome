@@ -207,9 +207,32 @@ ${Properties.clapper.object}.time:
       House.lastMotionLocation: '${Properties.name}'
 
 
+# DAY / NIGHT
+
+Sun.state:
+  Mark missing natural light when night comes - ${Properties.selfObjectName}:
+    if:
+      - this is night
+    set:
+      ${Properties.selfObjectName}.gotNaturalLight: 'false'
+
 # ILLUMINANCE
 
 ${Properties.motion.object}.illuminance:
+  Mark illuminated room - ${Properties.selfObjectName}:
+    if:
+      - this > ${Properties.light.off-when-lux-over}
+      - ${Properties.light.object}.status is not on
+      - ${Properties.light.secondary.object}.status is not on
+    set:
+      ${Properties.selfObjectName}.gotNaturalLight: 'true'
+
+  Mark dark room - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.light.off-when-lux-over}
+    set:
+      ${Properties.selfObjectName}.gotNaturalLight: 'false'
+
   Lights OFF (Sunny) - ${Properties.selfObjectName}:
     if:
       - this > ${Properties.light.off-when-lux-over}

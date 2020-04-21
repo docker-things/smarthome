@@ -195,8 +195,36 @@ function resetMenuDrag(touch) {
 }
 
 /**
- * TOGGLE THEME
+ * THEME MANAGEMENT
  */
+
+function autoTheme() {
+  // If the dashboard room is set
+  if (DASHBOARD_ROOM != 'NONE') {
+    const lightIsOn = getStateValue(DASHBOARD_ROOM + '-Light', 'status') == 'on';
+    const gotNaturalLight = getStateValue(DASHBOARD_ROOM, 'gotNaturalLight') == 'true';
+    if (!lightIsOn && !gotNaturalLight) {
+      setDarkMode();
+    } else {
+      setLightMode();
+    }
+  }
+  // Fallback if the dashboard room is NOT set
+  else {
+    const isDay = getStateValue('Sun', 'state') == 'day';
+    if (isDay) {
+      setLightMode();
+    } else {
+      setDarkMode();
+    }
+  }
+}
+
+function setThemeTriggers() {
+  setTrigger('Sun', 'state', autoTheme);
+  setTrigger(DASHBOARD_ROOM + '-Light', 'status', autoTheme);
+  setTrigger(DASHBOARD_ROOM, 'gotNaturalLight', autoTheme);
+}
 
 function setDarkMode() {
   $('.mainContainer').addClass('darkMode')
@@ -204,14 +232,6 @@ function setDarkMode() {
 
 function setLightMode() {
   $('.mainContainer').removeClass('darkMode');
-}
-
-function toggleDarkMode() {
-  if ($('.mainContainer').hasClass('darkMode')) {
-    setLightMode()
-  } else {
-    setDarkMode()
-  }
 }
 
 function touchDragScreens(touch) {
@@ -634,15 +654,8 @@ function setTriggers() {
     showWarn(props.value);
   });
 
-  //  Toggle theme (Night/Day)
-  setTrigger('System', 'hour', function(props) {
-    const hour = parseInt(props.value);
-    if (hour >= 8 && hour < 20) {
-      setLightMode();
-    } else {
-      setDarkMode();
-    }
-  });
+  // Theme
+  setThemeTriggers();
 }
 
 function goFullScreenOnAnyClick() {

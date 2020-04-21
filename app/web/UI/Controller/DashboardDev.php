@@ -78,9 +78,10 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
     echo '<title>' . $this->title . '</title>';
     echo $this->getCSS();
     echo $this->getStyle();
+    echo $this->getVariables();
     echo $this->getJS();
     echo '</head><body>';
-    echo '<div class="mainContainer">';
+    echo '<div class="mainContainer darkMode">';
     echo '<div class="overviewContainer">' . $this->getHTML() . '</div>';
     echo '<div class="overlay"></div>';
     echo '<div class="menuContainer">' . $this->getMenuHTML() . '</div>';
@@ -91,19 +92,19 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
   private function getCSS() {
     $css = [];
     foreach ($this->css AS $path) {
-      $css[] = '<link href="/res/css/' . $path . '" rel="stylesheet" type="text/css" media="all">';
+      $css[] = '<link href="/res/css/' . $path . '?' . filemtime('res/css/' . $path) . '" rel="stylesheet" type="text/css" media="all">';
     }
     return implode("\n", $css);
   }
 
-  private function getHTMl() {
+  private function getHTML() {
     return implode("\n", $this->html);
   }
 
   private function getJS() {
     $js = [];
     foreach ($this->js AS $path) {
-      $js[] = '<script src="/res/js/' . $path . '"></script>';
+      $js[] = '<script src="/res/js/' . $path . '?' . filemtime('res/js/' . $path) . '"></script>';
     }
     return implode("\n", $js);
   }
@@ -113,7 +114,7 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
     // $html[] = '<div class="menuTitle">' . $this->title . '</div>';
     $html[] = '<div class="screensSelector">';
     foreach ($this->screens AS $screen) {
-      $class = strtolower($screen);
+      $class  = strtolower($screen);
       $html[] = $this->create->verticalRoundButton($class, $screen, $class);
       $html[] = $this->create->verticalSeparator();
     }
@@ -124,6 +125,18 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
 
   private function getStyle() {
     return '<style>' . implode("\n", $this->style) . '</style>';
+  }
+
+  private function getVariables() {
+    $variables = [
+      'DASHBOARD_ROOM' => isset($_GET['room']) ? $_GET['room'] : 'NONE',
+    ];
+
+    $vars = [];
+    foreach ($variables AS $name => $value) {
+      $vars[] = 'var ' . $name . ' = \'' . $value . '\';';
+    }
+    return '<script>' . implode("\n", $vars) . '</script>';
   }
 
   /**
