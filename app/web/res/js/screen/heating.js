@@ -57,10 +57,12 @@ function heatingSetTriggers() {
     }
   })
   setTrigger('Bedroom-Temperature', 'temperature', function(props) {
-    $('.screen.heating .top .bedroom .value').text(props.value);
+    const value = Math.round(parseFloat(props.value) * 10) / 10;
+    $('.screen.heating .top .bedroom .value').text(value);
   })
   setTrigger('Bathroom-Temperature', 'temperature', function(props) {
-    $('.screen.heating .top .bathroom .value').text(props.value);
+    const value = Math.round(parseFloat(props.value) * 10) / 10;
+    $('.screen.heating .top .bathroom .value').text(value);
   })
 }
 
