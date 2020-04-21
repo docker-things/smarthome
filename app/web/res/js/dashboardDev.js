@@ -198,16 +198,19 @@ function resetMenuDrag(touch) {
  * THEME MANAGEMENT
  */
 
-function setDarkMode() {
-  $('.mainContainer').addClass('darkMode')
-}
-
-function setLightMode() {
+function setLightTheme() {
   $('.mainContainer').removeClass('darkMode');
+  $(".mainContainer").css('opacity', 1);
 }
 
-function isDarkMode() {
-  return $('.mainContainer').hasClass('darkMode');
+function setBrightDarkTheme() {
+  $('.mainContainer').addClass('darkMode');
+  $(".mainContainer").css('opacity', 1);
+}
+
+function setDimDarkTheme() {
+  $('.mainContainer').addClass('darkMode');
+  $(".mainContainer").css('opacity', 0.25);
 }
 
 function autoTheme() {
@@ -216,33 +219,41 @@ function autoTheme() {
     // If sleeping
     const sleeping = getStateValue(DASHBOARD_ROOM, 'sleeping') == 'true';
     if (sleeping) {
-      setDarkMode();
+      setDimDarkTheme();
       return;
     }
 
     const lightIsOn = getStateValue(DASHBOARD_ROOM + '-Light', 'status') == 'on';
     const gotNaturalLight = getStateValue(DASHBOARD_ROOM, 'gotNaturalLight') == 'true';
+    const no_occupancy_since = parseInt(getStateValue(DASHBOARD_ROOM + '-Motion', 'no_occupancy_since'));
+
+    // If dark room
     if (!lightIsOn && !gotNaturalLight) {
-      setDarkMode();
-    } else {
-      setLightMode();
+
+      // And got recent movement
+      if (no_occupancy_since < 60) {
+        setBrightDarkTheme();
+      }
+
+      // Or got no recent movement
+      else {
+        setDimDarkTheme();
+      }
+    }
+
+    // If room is illuminated
+    else {
+      setLightTheme();
     }
   }
 
-  // Fallback if the dashboard room is NOT set
+  // Fallback if the dashboard room is NOT set (used for phones)
   else {
-    // If sleeping in a room
-    const sleeping = getStateValue('House', 'sleeping') == 'true';
-    if (sleeping) {
-      setDarkMode();
-      return;
-    }
-
     const isDay = getStateValue('Sun', 'state') == 'day';
     if (isDay) {
-      setLightMode();
+      setLightTheme();
     } else {
-      setDarkMode();
+      setBrightDarkTheme();
     }
   }
 }
@@ -252,24 +263,8 @@ function setThemeTriggers() {
   setTrigger(DASHBOARD_ROOM + '-Light', 'status', autoTheme);
   setTrigger(DASHBOARD_ROOM, 'gotNaturalLight', autoTheme);
   setTrigger(DASHBOARD_ROOM, 'sleeping', autoTheme);
-  setTrigger(DASHBOARD_ROOM, 'sleeping', function(props) {
-    if (props.value == 'true') {
-      $(".mainContainer").css('opacity', 0.25)
-    } else {
-      $(".mainContainer").css('opacity', 1)
-    }
-  });
-  setTrigger(DASHBOARD_ROOM + '-Motion', 'no_occupancy_since', function(props) {
-    const sleeping = getStateValue(DASHBOARD_ROOM, 'sleeping') == 'true';
-    const no_occupancy_since = parseInt(props.value);
-    if (isDarkMode()) {
-      if (props.value >= 60) {
-        $(".mainContainer").css('opacity', 0.25)
-      } else if (!sleeping) {
-        $(".mainContainer").css('opacity', 1)
-      }
-    }
-  });
+  setTrigger('House', 'sleeping', autoTheme);
+  setTrigger(DASHBOARD_ROOM + '-Motion', 'no_occupancy_since', autoTheme);
 }
 
 function touchDragScreens(touch) {
