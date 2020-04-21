@@ -380,11 +380,11 @@ function touchDragMenu(touch) {
 }
 
 function touchDragTo(touch) {
-  if (touch.mode == 'vertical') {
-    touchDragMenu(touch);
-  } else {
+  // if (touch.mode == 'vertical') {
+  //   touchDragMenu(touch);
+  // } else {
     touchDragScreens(touch);
-  }
+  // }
 }
 
 /**
