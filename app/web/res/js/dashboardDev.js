@@ -198,9 +198,28 @@ function resetMenuDrag(touch) {
  * THEME MANAGEMENT
  */
 
+function setDarkMode() {
+  $('.mainContainer').addClass('darkMode')
+}
+
+function setLightMode() {
+  $('.mainContainer').removeClass('darkMode');
+}
+
+function isDarkMode() {
+  return $('.mainContainer').hasClass('darkMode');
+}
+
 function autoTheme() {
   // If the dashboard room is set
   if (DASHBOARD_ROOM != 'NONE') {
+    // If sleeping
+    const sleeping = getStateValue(DASHBOARD_ROOM, 'sleeping') == 'true';
+    if (sleeping) {
+      setDarkMode();
+      return;
+    }
+
     const lightIsOn = getStateValue(DASHBOARD_ROOM + '-Light', 'status') == 'on';
     const gotNaturalLight = getStateValue(DASHBOARD_ROOM, 'gotNaturalLight') == 'true';
     if (!lightIsOn && !gotNaturalLight) {
@@ -209,8 +228,16 @@ function autoTheme() {
       setLightMode();
     }
   }
+
   // Fallback if the dashboard room is NOT set
   else {
+    // If sleeping in a room
+    const sleeping = getStateValue('House', 'sleeping') == 'true';
+    if (sleeping) {
+      setDarkMode();
+      return;
+    }
+
     const isDay = getStateValue('Sun', 'state') == 'day';
     if (isDay) {
       setLightMode();
@@ -224,14 +251,25 @@ function setThemeTriggers() {
   setTrigger('Sun', 'state', autoTheme);
   setTrigger(DASHBOARD_ROOM + '-Light', 'status', autoTheme);
   setTrigger(DASHBOARD_ROOM, 'gotNaturalLight', autoTheme);
-}
-
-function setDarkMode() {
-  $('.mainContainer').addClass('darkMode')
-}
-
-function setLightMode() {
-  $('.mainContainer').removeClass('darkMode');
+  setTrigger(DASHBOARD_ROOM, 'sleeping', autoTheme);
+  setTrigger(DASHBOARD_ROOM, 'sleeping', function(props) {
+    if (props.value == 'true') {
+      $(".mainContainer").css('opacity', 0.25)
+    } else {
+      $(".mainContainer").css('opacity', 1)
+    }
+  });
+  setTrigger(DASHBOARD_ROOM + '-Motion', 'no_occupancy_since', function(props) {
+    const sleeping = getStateValue(DASHBOARD_ROOM, 'sleeping') == 'true';
+    const no_occupancy_since = parseInt(props.value);
+    if (isDarkMode()) {
+      if (props.value >= 60) {
+        $(".mainContainer").css('opacity', 0.25)
+      } else if (!sleeping) {
+        $(".mainContainer").css('opacity', 1)
+      }
+    }
+  });
 }
 
 function touchDragScreens(touch) {
