@@ -34,7 +34,8 @@ function activateRoborockTriggers() {
     const status = props.value;
     $('.screen.roborock > .titleContainer .status').text(status.replace('_', ' '));
     setRoborockMode(status);
-    setZoneCleaningRoom()
+    setZoneCleaningRoom();
+    showScreen('roborock');
   });
 
   // ROOM SELECTION

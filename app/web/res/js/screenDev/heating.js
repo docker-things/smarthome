@@ -52,6 +52,7 @@ function heatingSetTriggers() {
   })
   setTrigger('Heating', 'status', function(props) {
     $('.screen.heating > .titleContainer .status').text(props.value);
+    showScreen('heating');
   })
   setTrigger('Bedroom-Temperature', 'temperature', function(props) {
     $('.screen.heating .top .bedroom .value').text(props.value);
