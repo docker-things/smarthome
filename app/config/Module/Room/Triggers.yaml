@@ -210,6 +210,18 @@ ${Properties.clapper.object}.time:
 # ILLUMINANCE
 
 ${Properties.motion.object}.illuminance:
+  Mark illuminated room - ${Properties.selfObjectName}:
+    if:
+      - this > ${Properties.light.off-when-lux-over}
+    set:
+      ${Properties.selfObjectName}.gotLight: 'true'
+
+  Mark dark room - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.light.off-when-lux-over}
+    set:
+      ${Properties.selfObjectName}.gotLight: 'false'
+
   Lights OFF (Sunny) - ${Properties.selfObjectName}:
     if:
       - this > ${Properties.light.off-when-lux-over}
