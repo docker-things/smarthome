@@ -92,16 +92,20 @@ function getNextScreen() {
   return SCREENS[index];
 }
 
+function getScreenObject(screen) {
+  return $('.mainContainer > .overviewContainer > .screen.' + screen);
+}
+
 function getPrevScreenObject() {
-  return $('.mainContainer > .overviewContainer > .screen.' + getPrevScreen());
+  return getScreenObject(getPrevScreen());
 }
 
 function getActiveScreenObject() {
-  return $('.mainContainer > .overviewContainer > .screen.' + getActiveScreen());
+  return getScreenObject(getActiveScreen());
 }
 
 function getNextScreenObject() {
-  return $('.mainContainer > .overviewContainer > .screen.' + getNextScreen());
+  return getScreenObject(getNextScreen());
 }
 
 function showPrevScreen() {
@@ -110,6 +114,18 @@ function showPrevScreen() {
 
 function showNextScreen() {
   showScreen(getNextScreen());
+}
+
+function showScreenSlide(screen) {
+  while(getActiveScreen() != screen) {
+    showNextScreenSlide();
+  }
+}
+
+function showScreenSlideForStaticDashboard(screen) {
+  if (screen != getActiveScreen() && DASHBOARD_ROOM != 'NONE') {
+    showScreenSlide(screen)
+  }
 }
 
 function showNextScreenSlide() {

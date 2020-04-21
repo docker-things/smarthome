@@ -35,7 +35,9 @@ function activateRoborockTriggers() {
     $('.screen.roborock > .titleContainer .status').text(status.replace('_', ' '));
     setRoborockMode(status);
     setZoneCleaningRoom();
-    showScreen('roborock');
+    if (status != 'Charging') {
+      showScreenSlideForStaticDashboard('roborock');
+    }
   });
 
   // ROOM SELECTION
