@@ -1,0 +1,5 @@
+---
+
+jobs:
+  - interval: 300
+    run: get()

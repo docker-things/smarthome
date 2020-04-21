@@ -617,7 +617,7 @@ function getFullState() {
         setLocalState(source, name, props['value'], props['prevValue'], props['timestamp']);
       }
     }
-    client.disconnect();
+    // client.disconnect();
     showDashboard();
   };
 
@@ -752,5 +752,4 @@ $(document).ready(function() {
 
   // Start state listener
   startStateListener();
-
 })

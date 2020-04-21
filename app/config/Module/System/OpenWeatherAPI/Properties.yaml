@@ -1,0 +1,7 @@
+---
+
+latitude: !required
+longitude: !required
+units: !required
+language: !required
+api_key: !required

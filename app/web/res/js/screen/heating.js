@@ -64,6 +64,10 @@ function heatingSetTriggers() {
     const value = Math.round(parseFloat(props.value) * 10) / 10;
     $('.screen.heating .top .bathroom .value').text(value);
   })
+  setTrigger('Weather', 'current.temp', function(props) {
+    const value = Math.round(parseFloat(props.value) * 10) / 10;
+    $('.screen.heating .top .outside .value').text(value);
+  })
 }
 
 $(document).ready(function() {
