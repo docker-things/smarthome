@@ -1,0 +1,55 @@
+.screen.roborock .container>.top,
+.screen.roborock .container>.bottom {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+/* MAP ICONS */
+
+.screen.roborock .map .poiIcon {
+  background-image: url('/res/img/screen/roborock/icon-poi.png');
+  width: 2em;
+  height: 2em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: none;
+}
+.screen.roborock .map .room.selected .poiIcon {
+  display: block;
+}
+.screen.roborock .map .room.selected .name {
+  display: none;
+}
+/* BUTTON ICONS */
+
+.screen.roborock .cleanHouseButton .icon,
+.screen.roborock .cleanRoomButton .icon {
+  background-image: url('/res/img/screen/roborock/icon-clean.png');
+}
+.screen.roborock .dockButton .icon {
+  background-image: url('/res/img/screen/roborock/icon-dock.png');
+}
+.screen.roborock .pauseButton .icon,
+.screen.roborock .resumeButton .icon {
+  background-image: url('/res/img/screen/roborock/icon-pause.png');
+}
+/* BUTTON VISIBILITY */
+
+.screen.roborock .bottom>div {
+  display: none;
+}
+.screen.roborock.Charging:not(.roomSelected) .cleanHouseButton,
+.screen.roborock.Charging.roomSelected .cleanRoomButton,
+.screen.roborock.Paused .dockButton,
+.screen.roborock.Paused .resumeButton,
+.screen.roborock.Zoned_cleaning .pauseButton,
+.screen.roborock.Cleaning .pauseButton {
+  display: flex;
+}
+.screen.roborock.Paused .bottom .verticalSeparator {
+  display: block;
+}

@@ -1,0 +1,46 @@
+/* CONTAINERS */
+
+.screen.heating .container>.top {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+.screen.heating .container>.bottom {
+  height: 25%;
+}
+/* SLIDER */
+
+.screen.heating .temperatureSlider .rs-handle {
+  background-color: #fff;
+  border: 2px solid #C53A0D;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, .1), 0px 0px 4px 0px rgba(197, 58, 13, .25);
+}
+.screen.heating .temperatureSlider .rs-handle:after {
+  border-color: #fff;
+  background-color: #fff;
+}
+.screen.heating .temperatureSlider .rs-border {
+  border-color: transparent;
+}
+.screen.heating .temperatureSlider .rs-tooltip-text {
+  font-size: 4rem;
+  color: #C53A0D;
+  font-weight: bold;
+}
+.screen.heating .temperatureSlider .rs-tooltip-text .value {
+  /*text-shadow: 0px 0px 100px rgba(197, 58, 13, 2);*/
+}
+.screen.heating .temperatureSlider .rs-tooltip-text .unit {
+  position: absolute;
+  top: 1rem;
+  right: -1.5rem;
+  width: 2rem;
+  font-size: 1.5rem;
+  font-weight: normal;
+  text-align: left;
+  color: rgba(197, 58, 13, .25);
+}

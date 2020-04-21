@@ -1,3 +1,7 @@
+@font-face {
+  font-family: 'DashboardFont';
+  src: url('/res/fonts/Manrope-VariableFont_wght.ttf') format('truetype');
+}
 * {
   box-sizing: border-box;
 }
@@ -7,182 +11,297 @@ body {
   margin: 0;
   border: 0;
   background: #000;
-  color: #FFF;
 }
 .jq-toast-wrap {
   width: 50%;
 }
-.tabs.container {
+.mainContainer {
+  position: absolute;
   display: flex;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   width: 100%;
   height: 100%;
-}
-.tabButtons {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
-  padding: 5px 0;
-}
-.tabButtons>div {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-}
-.tabButtons .secondary {
-  flex-direction: column;
-}
-.tabButtons .secondary .group {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-  transition: all 250ms ease-out;
-  height: 0px;
-  margin: 0px;
-  padding: 0px;
   overflow: hidden;
-  width: 100%;
-  border: 0px solid #FE5F55;
   opacity: 0;
-}
-.tabButtons .secondary .group.green {
-  border-color: #359e3c;
-}
-.tabButtons .secondary .group.active {
-  padding-top: 10px;
-  padding: 5px 0;
-  height: 60px;
-  border-width: 1px;
-  border-top-width: 0px;
-  opacity: 1;
-}
-.tabButtons input[type=number],
-.tabButtons .button {
-  margin: 0 5px;
   transition: all 250ms ease-out;
-  display: inline-block;
-  width: 170px;
-  font-size: .9em;
-  font-family: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  position: relative;
-  padding: .8em 1em;
-  background: #FE2F22;
-  border: none;
-  color: white;
-  transition: .2s;
-  overflow: hidden;
-}
-.tabButtons .button.green,
-.tabButtons .green .button {
-  background: #2b9132;
-}
-.tabButtons .primary .button.inactive {
-  width: 0px;
-  margin: 0px;
-  padding: 0px;
-}
-.tabButtons .primary .button.active {
-  background: #FE5F55;
-  width: 100%;
-  margin: 0;
-}
-.tabButtons .primary .button.active.green {
-  background: #359e3c;
-}
-.tabButtons input[type=number] {
+  font-family: 'DashboardFont';
   background: #FFF;
-  border: 1px solid black;
   color: #000;
-  width: 65px;
+  opacity: 0;
 }
-.tabButtons .secondary .button {
-  width: auto;
-  transition: none;
+.mainContainer.darkMode {
+  background: #000;
+  color: #FFF;
 }
-.tabs .tab {
-  transition: all 250ms ease-out;
+/* OVERLAY */
+
+.mainContainer>.overlay {
+  opacity: 0;
+  background: #000;
+  z-index: 8000;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: -100%;
+  left: 0;
+  transition: opacity 250ms ease-out;
 }
-.mapContainer {
+.mainContainer>.overlay.visible {
+  top: 0;
+  opacity: 0.25;
+}
+/* MENU */
+
+.mainContainer>.menuContainer {
+  position: absolute;
+  top: 0px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: inherit;
+  transition: all 150ms ease-out;
+  box-shadow: 0 0 0 0;
+  opacity: 1;
+  z-index: 9000;
+}
+.mainContainer>.menuContainer.visible {
+  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+}
+.mainContainer>.menuContainer .menuTitle {
+  font-size: 1.5rem;
+}
+.mainContainer>.menuContainer .screensSelector {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
   align-items: center;
 }
-.map {
+/* OVERVIEW */
+
+.mainContainer>.overviewContainer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.mainContainer>.overviewContainer>.screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: -100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  background: #FFF;
+}
+.mainContainer.darkMode>.overviewContainer>.screen {
+  background: #000;
+}
+/* TITLE */
+
+.mainContainer>.overviewContainer>.screen>.titleContainer {
+  position: relative;
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000;
+}
+.mainContainer>.overviewContainer>.screen>.titleContainer>.title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.mainContainer>.overviewContainer>.screen>.titleContainer>.status {
+  margin-top: .5rem;
+  font-size: 1rem;
+  color: grey;
+  text-transform: capitalize;
+}
+.mainContainer>.overviewContainer>.screen>.titleContainer .prevButton,
+.mainContainer>.overviewContainer>.screen>.titleContainer .nextButton {
+  position: absolute;
+  top: -0.75rem;
+  width: 4rem;
+  height: 4rem;
+  font-size: 2rem;
+  color: #999;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+.mainContainer>.overviewContainer>.screen>.titleContainer .prevButton {
+  left: 1rem;
+}
+.mainContainer>.overviewContainer>.screen>.titleContainer .nextButton {
+  right: 1rem;
+}
+/* CONTAINER */
+
+.screen .container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+/* MAP */
+
+.screen .container>.map {
+  background: url('/res/img/map.png');
+  position: relative;
+  width: 413px;
+  height: 400px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #000;
+}
+.screen .container>.map .room {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  transition: all 150ms ease-out;
+}
+.screen .container>.map .room.darker {
+  background: rgba(0, 0, 0, 0.25);
+}
+.screen .container>.map .room.lighter {
+  background: rgba(255, 255, 255, 0.25);
+}
+.screen .container>.map .room.Bedroom {
+  top: 0%;
+  left: 0%;
+  width: 51.5%;
+  height: 65.5%;
+}
+.screen .container>.map .room.Livingroom {
+  top: 0%;
+  left: 51.5%;
+  width: 48.5%;
+  height: 48%;
+}
+.screen .container>.map .room.Kitchen {
+  top: 65.5%;
+  left: 0%;
+  width: 51.5%;
+  height: 34.5%;
+}
+.screen .container>.map .room.Bathroom {
+  top: 48%;
+  left: 67.1%;
+  width: 32.9%;
+  height: 33.7%;
+}
+.screen .container>.map .room.Hallway {
+  top: 48%;
+  left: 51.5%;
+  width: 15.6%;
+  height: 52%;
+}
+.screen .container>.map .room.Entrance {
+  top: 81.7%;
+  left: 67.1%;
+  width: 32.9%;
+  height: 18.3%;
+}
+.screen .container>.map .room>div {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+/* SCREEN */
+
+.mainContainer.overview>.overviewContainer>.screen {
+  scale: .95;
+}
+/* VERTICAL SEPARATOR */
+
+.verticalSeparator {
+  display: block;
+  width: 1px;
+  height: 50%;
+  background: #EEE;
+}
+/* VERTICAL STATUS */
+
+.verticalStatusContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  padding: .5rem;
+}
+.verticalStatus {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+  min-width: 10rem;
+}
+.verticalStatus>.valueContainer {
   position: relative;
 }
-.map .room {
-  position: absolute;
-  align-items: center;
-  transition: all 250ms ease-out;
+.verticalStatus>.valueContainer>.value {
+  font-size: 1.5rem;
 }
-.map .roomContainer {
+.verticalStatus>.valueContainer>.unit {
+  position: absolute;
+  top: .5rem;
+  right: -1.6rem;
+  margin-left: 0.25rem;
+  font-size: .5rem;
+  color: grey;
+  width: 1.5rem;
+}
+.verticalStatus>.name {
+  margin-top: .5rem;
+  font-size: .75rem;
+  color: grey;
+}
+/* HORIZONTAL BUTTON */
+
+.horizontalButton {
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  flex-direction: row;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  font-size: 1.25rem;
+  margin: 1.5rem 3rem;
 }
-.map .room .details {
+.horizontalButton .icon {
+  width: 2rem;
+  height: 2rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: .75rem;
+}
+/* VERTICAL ROUND BUTTON */
+
+.verticalRoundButton {
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
-  width: 100%;
-  max-width: 100%;
-}
-.map .room .details>span {
-  margin: 3px 5px;
-  float: center;
-  left: 50%;
-  font-weight: bold;
-  overflow: none;
-  height: 0px;
-  width: 0px;
-  opacity: 0;
-  transition: all 250ms ease-out;
-}
-.map .room .details>span.visible {
-  display: block;
-  height: auto;
-  width: auto;
-  opacity: 1;
-}
-.map .room .details .unit {
-  margin-left: 2px;
-  font-weight: normal;
-  font-size: .75em;
-}
-.map .room .door,
-.map .room .window {
-  position: absolute;
-  background: #000;
-  opacity: 0;
-  transition: all 250ms ease-out;
-}
-.map .room .door.opened,
-.map .room .window.opened {
-  opacity: .85;
-}
-.map .room .dimLayer {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  opacity: 0.6;
-  transition: all 250ms ease-out;
-}
-.map .room .dimLayer.on {
-  opacity: 0;
-}
-.map .room .name {
-  display: none;
+  align-items: center;
+  font-size: 1.25rem;
+  margin: 1.5rem 3rem;
 }

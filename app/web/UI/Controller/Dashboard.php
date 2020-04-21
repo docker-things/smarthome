@@ -1,317 +1,167 @@
 <?php
 
 class UI_Controller_Dashboard extends Core_Controller_Base {
-    /**
-     * @var array
-     */
-    private $map = [
-        'url'        => '/res/img/house-plan.png',
-        'size'       => [556, 425], // width, height
-        'wall-width' => 7,
-        'rooms'      => [
-            'Bedroom'    => [
-                'position' => [6, 6],     // x, y
-                'size'     => [242, 282], // width, height
-                'door'     => [
-                    'Bedroom-Door' => [
-                        'wall'     => 'right',
-                        'distance' => 215,
-                        'width'    => 50,
-                    ],
-                ],
-                'window'   => [
-                    'Bedroom-Window-1' => [
-                        'wall'     => 'left',
-                        'distance' => 160,
-                        'width'    => 100,
-                    ],
-                    'Bedroom-Window-2' => [
-                        'wall'     => 'left',
-                        'distance' => 35,
-                        'width'    => 50,
-                    ],
-                ],
-            ],
-            'Livingroom' => [
-                'position' => [255, 6],   // x, y
-                'size'     => [295, 184], // width, height
-                'door'     => [
-                    'Livingroom-Door' => [
-                        'wall'     => 'down',
-                        'distance' => 17,
-                        'width'    => 50,
-                    ],
-                ],
-                'window'   => [
-                    'Livingroom-Window' => [
-                        'wall'     => 'up',
-                        'distance' => 60,
-                        'width'    => 110,
-                    ],
-                ],
-            ],
-            'Kitchen'    => [
-                'position' => [6, 295],   // x, y
-                'size'     => [242, 124], // width, height
-                'door'     => [
-                    'Kitchen-Door' => [
-                        'wall'     => 'right',
-                        'distance' => 38,
-                        'width'    => 50,
-                    ],
-                ],
-                'window'   => [
-                    'Kitchen-Window' => [
-                        'wall'     => 'left',
-                        'distance' => 20,
-                        'width'    => 80,
-                    ],
-                ],
-            ],
-            'Bathroom'   => [
-                'position' => [348, 197], // x, y
-                'size'     => [202, 135], // width, height
-                'door'     => [
-                    'Bathroom-Door' => [
-                        'wall'     => 'left',
-                        'distance' => 40,
-                        'width'    => 50,
-                    ],
-                ],
-            ],
-            'Hallway'    => [
-                'position' => [255, 197], // x, y
-                'size'     => [87, 222],  // width, height
-            ],
-            'Entrance'   => [
-                'position' => [342, 338], // x, y
-                'size'     => [209, 81],  // width, height
-                'door'     => [
-                    'Entrance-Door' => [
-                        'wall'     => 'down',
-                        'distance' => 120,
-                        'width'    => 60,
-                    ],
-                ],
-            ],
-        ],
+  /**
+   * CSS files
+   * @var array
+   */
+  private $css = [
+    'thirdparty/jquery.toast.min.css',
+    'thirdparty/roundslider.min.css',
+    'dashboardDev.css',
+  ];
+
+  /**
+   * Generated screens HTML
+   * @var array
+   */
+  private $html = [];
+
+  /**
+   * JS files
+   * @var array
+   */
+  private $js = [
+    'thirdparty/jquery.min.js',
+    'thirdparty/jquery.toast.min.js',
+    'thirdparty/roundslider.min.js',
+    'thirdparty/paho-mqtt-min.js',
+    'dashboardDev.js',
+  ];
+
+  /**
+   * @var array
+   */
+  private $screenObjects = [];
+
+  /**
+   * Screen classes
+   * @var array
+   */
+  private $screens = [
+    'Heating',
+    'Roborock',
+    'Main',
+    // 'Sleeping',
+    // 'Overview',
+  ];
+
+  /**
+   * TODO: When trigger on roborock switch on its screen
+   * When trigger on heating switch on its screen
+   * When light movement at entrance switch on house overview
+   * When sleeping switch on sleeping (check dashboard room where it's located)
+   */
+
+  /**
+   * Raw CSS styles to be included in <head>
+   * @var array
+   */
+  private $style = [];
+
+  /**
+   * @var string
+   */
+  private $title = 'SmartHome';
+
+  public function __construct() {
+    $this->create = new UI_Controller_Screen_Create;
+  }
+
+  public function run() {
+    $this->initScreens();
+    echo '<!doctype html>';
+    echo '<html><head>';
+    echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
+    echo '<title>' . $this->title . '</title>';
+    echo $this->getCSS();
+    echo $this->getStyle();
+    echo $this->getVariables();
+    echo $this->getJS();
+    echo '</head><body>';
+    echo '<div class="mainContainer darkMode">';
+    echo '<div class="overviewContainer">' . $this->getHTML() . '</div>';
+    echo '<div class="overlay"></div>';
+    echo '<div class="menuContainer">' . $this->getMenuHTML() . '</div>';
+    echo '</div>';
+    echo '</body></html>';
+  }
+
+  private function getCSS() {
+    $css = [];
+    foreach ($this->css AS $path) {
+      $css[] = '<link href="/res/css/' . $path . '?' . filemtime('res/css/' . $path) . '" rel="stylesheet" type="text/css" media="all">';
+    }
+    return implode("\n", $css);
+  }
+
+  private function getHTML() {
+    return implode("\n", $this->html);
+  }
+
+  private function getJS() {
+    $js = [];
+    foreach ($this->js AS $path) {
+      $js[] = '<script src="/res/js/' . $path . '?' . filemtime('res/js/' . $path) . '"></script>';
+    }
+    return implode("\n", $js);
+  }
+
+  private function getMenuHTML() {
+    $html = [];
+    // $html[] = '<div class="menuTitle">' . $this->title . '</div>';
+    $html[] = '<div class="screensSelector">';
+    foreach ($this->screens AS $screen) {
+      $class  = strtolower($screen);
+      $html[] = $this->create->verticalRoundButton($class, $screen, $class);
+      $html[] = $this->create->verticalSeparator();
+    }
+    array_pop($html);
+    $html[] = '</div>';
+    return implode("\n", $html);
+  }
+
+  private function getStyle() {
+    return '<style>' . implode("\n", $this->style) . '</style>';
+  }
+
+  private function getVariables() {
+    $variables = [
+      'DASHBOARD_ROOM' => isset($_GET['room']) ? $_GET['room'] : 'NONE',
     ];
 
-    /**
-     * @var string
-     */
-    private $title = 'SmartHome';
+    $vars = [];
+    foreach ($variables AS $name => $value) {
+      $vars[] = 'var ' . $name . ' = \'' . $value . '\';';
+    }
+    return '<script>' . implode("\n", $vars) . '</script>';
+  }
 
-    public function run() {
-        echo '<html><head>
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <title>' . $this->title . '</title>
-            <link href="/res/css/jquery.toast.min.css" rel="stylesheet" type="text/css" media="all">
-            <link href="/res/css/dashboard.css" rel="stylesheet" type="text/css" media="all">
-            <style>
-            .jq-toast-wrap,
-            .tabButtons {
-                min-width: ' . $this->map['size'][0] . 'px;
-            }
-            .mapContainer {
-                min-width: ' . $this->map['size'][0] . 'px;
-                min-height: ' . $this->map['size'][1] . 'px;
-            }
-            .map {
-                width: ' . $this->map['size'][0] . 'px;
-                height: ' . $this->map['size'][1] . 'px;
-                background-image: url("' . $this->map['url'] . '");
-            }
-            ' . $this->createRoomsCSS() . '
-            </style>
-            <script src="/res/js/jquery.min.js"></script>
-            <script src="/res/js/jquery.toast.min.js"></script>
-            <script src="/res/js/paho-mqtt-min.js"></script>
-            <script src="/res/js/dashboard.js"></script>
-            </head><body>';
-        echo '<div class="container tabs">';
-        echo $this->createButtons();
-        echo $this->createMap();
-        echo '</div>';
-        echo '</body></html>';
+  /**
+   * @return mixed
+   */
+  private function initScreens() {
+    if (get_class($this) == 'UI_Controller_DashboardDev') {
+      $dev = 'Dev';
+    } else {
+      $dev = '';
     }
 
-    /**
-     * @return mixed
-     */
-    private function createButtons() {
-        $html = '';
-        $html .= '<div class="tabButtons">';
+    foreach ($this->screens AS $name) {
+      $objectName = 'UI_Controller_Screen' . $dev . '_' . $name;
+      $screen     = new $objectName($this);
 
-        $html .= '<div class="primary">';
-        $html .= '<button group="heating" class="button">Heating [<span class="status"></span>]</button>';
-        $html .= '<button group="lights" class="button">Lights [<span class="status"></span>]</button>';
-        $html .= '<button group="roborock" class="button">Roborock [<span class="status"></span>]</button>';
-        $html .= '</div>';
+      $this->screenObjects[$name] = $screen;
 
-        $html .= '<div class="secondary">';
-        $html .= '<div class="group heating">';
-        $html .= 'Temperature <input type="number" value="" class="temperature">°C &nbsp; &nbsp; ';
-        $html .= '<button class="button" onclick="heatingOn(true)">ON</button>';
-        $html .= '<button class="button" onclick="heatingOff(true)">OFF</button>';
-        $html .= '<button class="button" onclick="heatingUnforceState()">Unforce state</button>';
-        $html .= '</div>';
-        $html .= '<div class="group roborock">';
-        $html .= '<button class="button" onclick="runFunction(\'Roborock.start()\')">Clean House</button>';
-        $html .= '<button class="button" onclick="runFunction(\'Roborock.pause()\')">Pause</button>';
-        $html .= '<button class="button" onclick="runFunction(\'Roborock.home()\')">Back to dock</button>';
-        $html .= '</div>';
-        $html .= '<div class="group lights">';
-        $html .= '<button class="button" onclick="runFunction(\'House.lightOn()\')">All ON</button>';
-        $html .= '<button class="button" onclick="runFunction(\'House.allLightsOff()\')">All OFF</button>';
-        $html .= '<button class="button">Unforce states</button>';
-        $html .= '</div>';
-        $html .= '</div>';
-
-        $html .= '</div>';
-        return $html;
+      foreach ($screen->getJS() AS $path) {
+        $this->js[] = 'screen' . $dev . '/' . $path;
+      }
+      foreach ($screen->getCSS() AS $path) {
+        $this->css[] = 'screen' . $dev . '/' . $path;
+      }
+      $this->style = array_merge($this->style, $screen->getStyle());
+      $this->html  = array_merge($this->html, $screen->getHTML());
     }
-
-    /**
-     * @param $door
-     */
-    private function createInWallCss($roomSize, $wall, $distance, $width) {
-        switch ($wall) {
-            case 'right':
-                return [
-                    'left'   => $roomSize[0] . 'px',
-                    'top'    => $distance . 'px',
-                    'width'  => $this->map['wall-width'] . 'px',
-                    'height' => $width . 'px',
-                ];
-            case 'left':
-                return [
-                    'left'   => -$this->map['wall-width'] . 'px',
-                    'top'    => $distance . 'px',
-                    'width'  => $this->map['wall-width'] . 'px',
-                    'height' => $width . 'px',
-                ];
-            case 'up':
-                return [
-                    'left'   => $distance . 'px',
-                    'top'    => -$this->map['wall-width'] . 'px',
-                    'width'  => $width . 'px',
-                    'height' => $this->map['wall-width'] . 'px',
-                ];
-            case 'down':
-                return [
-                    'left'   => $distance . 'px',
-                    'top'    => $roomSize[1] . 'px',
-                    'width'  => $width . 'px',
-                    'height' => $this->map['wall-width'] . 'px',
-                ];
-            default:
-                echo '[ERROR] Invalid door setting "wall" = "' . $door['wall'] . '"';
-                return [];
-        }
-    }
-
-    /**
-     * @return mixed
-     */
-    private function createMap() {
-        $html = '';
-        $html .= '<div class="tab mapContainer">';
-        $html .= '<div class="map">' . $this->createRoomsHTML() . '</div>';
-        $html .= '</div>';
-        return $html;
-    }
-
-    /**
-     * @return mixed
-     */
-    private function createRoomsCSS() {
-        $css = [];
-        foreach ($this->map['rooms'] AS $roomName => $room) {
-            $roomClass = '.room.room' . $roomName;
-
-            $css[$roomClass] = [
-                'left'   => $room['position'][0] . 'px',
-                'top'    => $room['position'][1] . 'px',
-                'width'  => $room['size'][0] . 'px',
-                'height' => $room['size'][1] . 'px',
-            ];
-
-            // DOORS
-            if (isset($room['door'])) {
-                foreach ($room['door'] AS $doorName => $door) {
-                    $doorClass = $roomClass . ' .door.door' . $doorName;
-
-                    $css[$doorClass] = $this->createInWallCss(
-                        $room['size'],
-                        $door['wall'],
-                        $door['distance'],
-                        $door['width']
-                    );
-                }
-            }
-
-            // WINDOWS
-            if (isset($room['window'])) {
-                foreach ($room['window'] AS $windowName => $window) {
-                    $windowClass = $roomClass . ' .window.window' . $windowName;
-
-                    $css[$windowClass] = $this->createInWallCss(
-                        $room['size'],
-                        $window['wall'],
-                        $window['distance'],
-                        $window['width']
-                    );
-                }
-            }
-        }
-        return $this->cssToString($css);
-    }
-
-    /**
-     * @return mixed
-     */
-    private function createRoomsHTML() {
-        $html = '';
-        foreach ($this->map['rooms'] AS $name => $room) {
-            $class = 'room' . $name;
-
-            $html .= '<div class="room ' . $class . '">';
-            $html .= '<div class="roomContainer">';
-            $html .= '<div class="name">' . $name . '</div>';
-            if (isset($room['door'])) {
-                foreach ($room['door'] AS $doorName => $door) {
-                    $html .= '<div class="door door' . $doorName . '" objectName="' . $doorName . '"></div>';
-                }
-            }
-            if (isset($room['window'])) {
-                foreach ($room['window'] AS $windowName => $window) {
-                    $html .= '<div class="window window' . $windowName . '" objectName="' . $windowName . '"></div>';
-                }
-            }
-            $html .= '<div class="details">';
-            $html .= '<span class="temperature"><span class="value"></span><span class="unit">°C</span></span>';
-            $html .= '<span class="humidity"><span class="value"></span><span class="unit">%</span></span>';
-            $html .= '<span class="pressure"><span class="value"></span><span class="unit">hPa</span></span>';
-            $html .= '</div>';
-            $html .= '<div class="dimLayer"></div>';
-            $html .= '</div>';
-            $html .= '</div>';
-        }
-        return $html;
-    }
-
-    /**
-     * @param $css
-     */
-    private function cssToString($css) {
-        foreach ($css AS $class => $props) {
-            foreach ($props AS $prop => $value) {
-                $props[$prop] = $prop . ':' . $value;
-            }
-            $css[$class] = $class . '{' . implode(';', $props) . '}';
-        }
-        return implode(' ', $css);
-    }
+  }
 }
 ?>

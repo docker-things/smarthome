@@ -1,12 +1,478 @@
 var MQTT_CLIENT = undefined;
 
-var MENU_BUTTONS_OPENED = false;
-var MENU_BUTTONS_OPENED_HANDLE = undefined;
-
 var HOUSE_STATE = {}
 var TRIGGERS = {}
 
 var SERVER_CONNECTED_ONCE = false;
+
+var SCREEN_TRANSITION_ENABLED = {
+  transition: 'all 250ms ease-out'
+};
+
+var SCREEN_TRANSITION_DISABLED = {
+  transition: 'none'
+};
+
+var PREVENT_TOUCH_DRAG = false;
+
+function preventTouchDrag() {
+  PREVENT_TOUCH_DRAG = true;
+}
+
+function restoreTouchDrag() {
+  setTimeout(function() {
+    PREVENT_TOUCH_DRAG = false;
+  })
+}
+
+function showDashboard() {
+  setTimeout(function() {
+    $('.mainContainer').css({
+      opacity: 1,
+    })
+  }, 500)
+}
+
+/**
+ * SCREENS
+ */
+
+var SCREENS = [];
+var ACTIVE_SCREEN = undefined;
+
+function createScreenList() {
+  $('.mainContainer > .overviewContainer > .screen').each(function() {
+    SCREENS.push($(this).attr('name'));
+  })
+}
+
+function showScreen(screen, touch) {
+  if (screen == ACTIVE_SCREEN) {
+    console.warn('showScreen(): Trying to show the same screen:', screen);
+    return;
+  }
+
+  hideMenu(touch);
+
+  ACTIVE_SCREEN = screen;
+  const prevScreen = getPrevScreen();
+  const nextScreen = getNextScreen();
+
+  $('.mainContainer > .overviewContainer > .screen')
+    .removeClass('prev')
+    .removeClass('next')
+    .removeClass('active');
+  $('.mainContainer > .overviewContainer > .screen.' + screen)
+    .removeClass('prev')
+    .removeClass('next')
+    .addClass('active');
+  $('.mainContainer > .overviewContainer > .screen.' + prevScreen).addClass('prev');
+  $('.mainContainer > .overviewContainer > .screen.' + nextScreen).addClass('next');
+
+  resetScreenDrag(touch);
+}
+
+function getPrevScreen() {
+  const index = SCREENS.indexOf(ACTIVE_SCREEN) - 1;
+  if (index == -1) {
+    return SCREENS[SCREENS.length - 1];
+  }
+  return SCREENS[index];
+}
+
+function getActiveScreen() {
+  return ACTIVE_SCREEN;
+}
+
+function getNextScreen() {
+  const index = SCREENS.indexOf(ACTIVE_SCREEN) + 1;
+  if (index == SCREENS.length) {
+    return SCREENS[0];
+  }
+  return SCREENS[index];
+}
+
+function getPrevScreenObject() {
+  return $('.mainContainer > .overviewContainer > .screen.' + getPrevScreen());
+}
+
+function getActiveScreenObject() {
+  return $('.mainContainer > .overviewContainer > .screen.' + getActiveScreen());
+}
+
+function getNextScreenObject() {
+  return $('.mainContainer > .overviewContainer > .screen.' + getNextScreen());
+}
+
+function showPrevScreen() {
+  showScreen(getPrevScreen());
+}
+
+function showNextScreen() {
+  showScreen(getNextScreen());
+}
+
+function showNextScreenSlide() {
+  touchDragScreens({
+    active: false,
+    prevScreen: getPrevScreenObject(),
+    activeScreen: getActiveScreenObject(),
+    nextScreen: getNextScreenObject(),
+    event: 'end',
+    direction: 'left',
+    delta: {
+      x: 1,
+      y: 0,
+    }
+  })
+}
+
+function showPrevScreenSlide() {
+  touchDragScreens({
+    active: false,
+    prevScreen: getPrevScreenObject(),
+    activeScreen: getActiveScreenObject(),
+    nextScreen: getNextScreenObject(),
+    event: 'end',
+    direction: 'right',
+    delta: {
+      x: -1,
+      y: 0,
+    }
+  })
+}
+
+function oppositeDirection(direction) {
+  switch (direction) {
+    case 'right':
+      return 'left';
+    case 'left':
+      return 'right';
+    case 'up':
+      return 'down';
+    case 'down':
+      return 'up';
+  }
+  return 'none';
+}
+
+function resetScreenDrag(touch) {
+  if (touch) {
+    getActiveScreenObject().css(SCREEN_TRANSITION_ENABLED)
+    if (touch.direction == 'right') {
+      getNextScreenObject().css(SCREEN_TRANSITION_ENABLED)
+    } else if (touch.direction == 'left') {
+      getPrevScreenObject().css(SCREEN_TRANSITION_ENABLED)
+    } else {
+      getNextScreenObject().css(SCREEN_TRANSITION_ENABLED)
+      getPrevScreenObject().css(SCREEN_TRANSITION_ENABLED)
+    }
+    // $('.mainContainer > .overviewContainer > .screen').css({
+    //   transform: 'scale(1)',
+    // })
+  }
+  getActiveScreenObject().css({
+    left: 0,
+  })
+  getPrevScreenObject().css({
+    left: -$(window).width(),
+  })
+  getNextScreenObject().css({
+    left: $(window).width(),
+  })
+}
+
+function resetMenuDrag(touch) {
+  if (!touch) {
+    touch = {
+      menu: $('.mainContainer .menuContainer')
+    }
+  }
+  touch.menu.css(SCREEN_TRANSITION_ENABLED)
+  touch.menu.css({
+    top: -touch.menu.height(),
+  })
+}
+
+/**
+ * THEME MANAGEMENT
+ */
+
+function setLightTheme() {
+  $('.mainContainer').removeClass('darkMode');
+  $(".mainContainer").css('opacity', 1);
+}
+
+function setBrightDarkTheme() {
+  $('.mainContainer').addClass('darkMode');
+  $(".mainContainer").css('opacity', 1);
+}
+
+function setDimDarkTheme() {
+  $('.mainContainer').addClass('darkMode');
+  $(".mainContainer").css('opacity', 0.25);
+}
+
+function autoTheme() {
+  // If the dashboard room is set
+  if (DASHBOARD_ROOM != 'NONE') {
+    // If sleeping
+    const sleeping = getStateValue(DASHBOARD_ROOM, 'sleeping') == 'true';
+    if (sleeping) {
+      setDimDarkTheme();
+      return;
+    }
+
+    const lightIsOn = getStateValue(DASHBOARD_ROOM + '-Light', 'status') == 'on';
+    const gotNaturalLight = getStateValue(DASHBOARD_ROOM, 'gotNaturalLight') == 'true';
+    const no_occupancy_since = parseInt(getStateValue(DASHBOARD_ROOM + '-Motion', 'no_occupancy_since'));
+
+    // If dark room
+    if (!lightIsOn && !gotNaturalLight) {
+
+      // And got recent movement
+      if (no_occupancy_since < 60) {
+        setBrightDarkTheme();
+      }
+
+      // Or got no recent movement
+      else {
+        setDimDarkTheme();
+      }
+    }
+
+    // If room is illuminated
+    else {
+      setLightTheme();
+    }
+  }
+
+  // Fallback if the dashboard room is NOT set (used for phones)
+  else {
+    const isDay = getStateValue('Sun', 'state') == 'day';
+    if (isDay) {
+      setLightTheme();
+    } else {
+      setBrightDarkTheme();
+    }
+  }
+}
+
+function setThemeTriggers() {
+  setTrigger('Sun', 'state', autoTheme);
+  setTrigger(DASHBOARD_ROOM + '-Light', 'status', autoTheme);
+  setTrigger(DASHBOARD_ROOM, 'gotNaturalLight', autoTheme);
+  setTrigger(DASHBOARD_ROOM, 'sleeping', autoTheme);
+  setTrigger('House', 'sleeping', autoTheme);
+  setTrigger(DASHBOARD_ROOM + '-Motion', 'no_occupancy_since', autoTheme);
+}
+
+function touchDragScreens(touch) {
+  if (touch.event == 'start') {
+    getPrevScreenObject().css(SCREEN_TRANSITION_DISABLED)
+    getActiveScreenObject().css(SCREEN_TRANSITION_DISABLED)
+    getNextScreenObject().css(SCREEN_TRANSITION_DISABLED)
+  }
+  touch.prevScreen.css({
+    left: touch.delta.x - $(window).width(),
+  });
+  touch.activeScreen.css({
+    left: touch.delta.x,
+  });
+  touch.nextScreen.css({
+    left: $(window).width() + touch.delta.x,
+  });
+
+  // let scale = 1 - Math.abs(touch.delta.x) / $(window).height()
+  // if (scale > 1) {
+  //   scale = 1;
+  // }
+  // if (scale < 0.95) {
+  //   scale = 0.95;
+  // }
+  // $('.mainContainer > .overviewContainer > .screen').css({
+  //   transform: 'scale(' + scale + ')',
+  // })
+
+  if (touch.event == 'end' && touch.delta.x != 0) {
+    // End transition to the prev screen
+    if (touch.direction == 'right') {
+      getActiveScreenObject().css(SCREEN_TRANSITION_ENABLED)
+      getPrevScreenObject().css(SCREEN_TRANSITION_ENABLED)
+      showScreen(getPrevScreen(), touch);
+    }
+    // End transition to the next screen
+    else if (touch.direction == 'left') {
+      getActiveScreenObject().css(SCREEN_TRANSITION_ENABLED)
+      getNextScreenObject().css(SCREEN_TRANSITION_ENABLED)
+      showScreen(getNextScreen(), touch);
+    }
+    // End abort transition
+    else {
+      resetScreenDrag(touch)
+    }
+  }
+}
+
+function showMenu() {
+  const menu = $('.mainContainer .menuContainer')
+  menu.css(SCREEN_TRANSITION_ENABLED)
+  menu.css({
+    top: 0,
+  })
+  $('.mainContainer > .overlay').addClass('visible')
+}
+
+function hideMenu() {
+  const menu = $('.mainContainer .menuContainer')
+  menu.css(SCREEN_TRANSITION_ENABLED)
+  menu.css({
+    top: -menu.height()
+  })
+  menu.removeClass('visible')
+  $('.mainContainer > .overlay').removeClass('visible')
+}
+
+function touchDragMenu(touch) {
+  if (touch.event == 'start') {
+    touch.menu.css(SCREEN_TRANSITION_DISABLED)
+  }
+  if (touch.delta.y > touch.menu.height()) {
+    touch.delta.y = touch.menu.height();
+  }
+  touch.menu.css({
+    top: touch.delta.y - touch.menu.height()
+  })
+  if (touch.direction == 'down') {
+    touch.menu.addClass('visible')
+  }
+
+  if (touch.event == 'end' && touch.delta.y != 0) {
+    // End transition to the prev screen
+    if (touch.direction == 'up') {
+      hideMenu(touch)
+    }
+    // End transition to the next screen
+    else if (touch.direction == 'down') {
+      showMenu(touch)
+    }
+    // End abort transition
+    else {
+      resetMenuDrag(touch)
+    }
+  }
+}
+
+function touchDragTo(touch) {
+  if (touch.mode == 'vertical') {
+    touchDragMenu(touch);
+  } else {
+    touchDragScreens(touch);
+  }
+}
+
+/**
+ * Screen touch evetns
+ */
+
+function bindScreenTouchEvents() {
+  var TOUCH = {};
+  $('.mainContainer > .overviewContainer > .screen')
+    .bind('touchstart', function(e) {
+      if (PREVENT_TOUCH_DRAG) return;
+      TOUCH = {
+        event: 'start',
+        active: true,
+        step: 0,
+        menu: $('.mainContainer .menuContainer'),
+        prevScreen: getPrevScreenObject(),
+        activeScreen: getActiveScreenObject(),
+        nextScreen: getNextScreenObject(),
+        start: {
+          x: e.originalEvent.changedTouches[0].clientX,
+          y: e.originalEvent.changedTouches[0].clientY,
+        },
+        delta: {
+          x: 0,
+          y: 0,
+        },
+        direction: 'none',
+        mode: 'none',
+      };
+      touchDragTo(TOUCH);
+    })
+    .bind('touchmove', function(e) {
+      if (PREVENT_TOUCH_DRAG) return;
+      TOUCH.event = 'move';
+      const deltaX = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;
+      const deltaY = e.originalEvent.changedTouches[0].clientY - TOUCH.start.y;
+      if (Math.abs(deltaX) >= Math.abs(deltaY)) {
+        if (TOUCH.mode == 'none') {
+          TOUCH.mode = 'horizontal';
+        }
+        if (TOUCH.mode == 'horizontal') {
+          TOUCH.direction = deltaX >= 0 ? 'right' : 'left'
+        }
+      } else {
+        if (TOUCH.mode == 'none') {
+          TOUCH.mode = 'vertical';
+        }
+        if (TOUCH.mode == 'vertical') {
+          TOUCH.direction = deltaY >= 0 ? 'down' : 'up';
+        }
+      }
+      TOUCH.delta.x = deltaX;
+      TOUCH.delta.y = deltaY;
+      TOUCH.step++;
+      if (Math.abs(TOUCH.delta.x) > 15 || Math.abs(TOUCH.delta.y) > 15) {
+        touchDragTo(TOUCH);
+      }
+    })
+    .bind('touchend', function(e) {
+      if (PREVENT_TOUCH_DRAG) return;
+      TOUCH.event = 'end';
+      TOUCH.active = false;
+      TOUCH.delta.x = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;
+      TOUCH.delta.y = e.originalEvent.changedTouches[0].clientY - TOUCH.start.y;
+      if (Math.abs(TOUCH.delta.x) > 15 || Math.abs(TOUCH.delta.y) > 15) {
+        touchDragTo(TOUCH);
+      }
+    })
+    .bind('touchcancel', function(e) {
+      if (PREVENT_TOUCH_DRAG) return;
+      TOUCH.event = 'end';
+      TOUCH.active = false;
+      TOUCH.delta.x = e.originalEvent.changedTouches[0].clientX - TOUCH.start.x;
+      TOUCH.delta.y = e.originalEvent.changedTouches[0].clientY - TOUCH.start.y;
+      if (Math.abs(TOUCH.delta.x) > 15 || Math.abs(TOUCH.delta.y) > 15) {
+        touchDragTo(TOUCH);
+      }
+    });
+}
+
+function bindOverlayClick() {
+  $('.mainContainer > .overlay').click(function() {
+    hideMenu()
+  })
+}
+
+function bindMenuButtons() {
+  $('.mainContainer > .menuContainer .screensSelector > div').click(function() {
+    const screen = $(this).attr('name');
+    showScreen(screen);
+  })
+}
+
+function bindPrevNextScreenButtons() {
+  $('.mainContainer > .overviewContainer > .screen > .titleContainer .prevButton')
+    .click(function() {
+      showPrevScreenSlide();
+    });
+  $('.mainContainer > .overviewContainer > .screen > .titleContainer .nextButton')
+    .click(function() {
+      showNextScreenSlide();
+    });
+}
 
 /**
  * Show toast notifications
@@ -31,41 +497,6 @@ function showWarn(message) {
 
 function showError(message) {
   showToast(message, 'error');
-}
-
-/**
- * Tab buttons actions
- */
-
-function setTabButtonsActions() {
-  $('.tabButtons .primary .button').click(function() {
-    // Close buttons menu
-    if ($(this).hasClass('active')) {
-      clearTimeout(MENU_BUTTONS_OPENED_HANDLE);
-
-      $('.tabButtons .primary .button').removeClass('active').removeClass('inactive');
-      $('.tabButtons .secondary .group.active').removeClass('active');
-    }
-
-    // Open buttons menu
-    else {
-      // Self close after 1m
-      MENU_BUTTONS_OPENED_HANDLE = setTimeout(function() {
-        if ($('.tabButtons .primary .button.active').length != 0) {
-          $('.tabButtons .primary .button.active').click();
-        }
-      }, 60000);
-
-      $('.tabButtons .primary .button').addClass('inactive');
-      $(this).removeClass('inactive').addClass('active');
-      let group = $(this).attr('group');
-      $('.tabButtons .secondary .group.' + group).addClass('active');
-    }
-  });
-
-  $('.tabButtons .secondary .button').click(function() {
-    $('.tabButtons .primary .button.active').click();
-  })
 }
 
 /**
@@ -171,6 +602,7 @@ function getFullState() {
       }
     }
     client.disconnect();
+    showDashboard();
   };
 
   client.connect({
@@ -221,7 +653,7 @@ function startStateListener() {
         showInfo('Reconnected to MQTT');
         window.location.reload(true);
       } else {
-        showInfo('Connected to MQTT');
+        // showInfo('Connected to MQTT');
         SERVER_CONNECTED_ONCE = true;
       }
       // Subscribe to the state change topic
@@ -234,88 +666,8 @@ function startStateListener() {
   });
 }
 
-function setTemperatureTriggers() {
-  $('.map .room').each(function() {
-    let roomObject = $(this);
-    let name = $(roomObject).find('.name').text();
-    setTrigger(name + '-Temperature', 'temperature', function(props) {
-      $(roomObject).find('.temperature .value').html(props['value']);
-      $(roomObject).find('.temperature').addClass('visible');
-    })
-  });
-}
-
-function setHumidityTriggers() {
-  $('.map .room').each(function() {
-    let roomObject = $(this);
-    let name = $(roomObject).find('.name').text();
-    setTrigger(name + '-Temperature', 'humidity', function(props) {
-      $(roomObject).find('.humidity .value').html(props['value']);
-      $(roomObject).find('.humidity').addClass('visible');
-    })
-  });
-}
-
-function setPressureTriggers() {
-  $('.map .room').each(function() {
-    let roomObject = $(this);
-    let name = $(roomObject).find('.name').text();
-    setTrigger(name + '-Temperature', 'pressure', function(props) {
-      $(roomObject).find('.pressure .value').html(props['value']);
-      $(roomObject).find('.pressure').addClass('visible');
-    })
-  });
-}
-
-function setBrightnessTriggers() {
-  $('.map .room').each(function() {
-    let roomObject = $(this);
-    let name = $(roomObject).find('.name').text();
-    setTrigger(name + '-Light', 'status', function(props) {
-      if (props.value == 'on') {
-        $(roomObject).find('.dimLayer').addClass('on');
-      } else {
-        $(roomObject).find('.dimLayer').removeClass('on');
-      }
-    })
-  });
-}
-
-function setDoorTriggers() {
-  $('.map .room').each(function() {
-    let roomObject = $(this);
-    $(roomObject).find('.door').each(function() {
-      let doorObject = $(this);
-      let objectName = $(doorObject).attr('objectName');
-      setTrigger(objectName, 'contact', function(props) {
-        if (props.value == 'true') {
-          $(doorObject).removeClass('opened');
-        } else {
-          $(doorObject).addClass('opened');
-        }
-      })
-    });
-  });
-}
-
-function setWindowTriggers() {
-  $('.map .room').each(function() {
-    let roomObject = $(this);
-    $(roomObject).find('.window').each(function() {
-      let windowObject = $(this);
-      let objectName = $(windowObject).attr('objectName');
-      setTrigger(objectName, 'contact', function(props) {
-        if (props.value == 'true') {
-          $(windowObject).removeClass('opened');
-        } else {
-          $(windowObject).addClass('opened');
-        }
-      })
-    });
-  });
-}
-
-function setNotificationTriggers() {
+function setTriggers() {
+  // Notification
   let firstNotification = true;
   setTrigger('SystemNotify', 'message', function(props) {
     if (firstNotification) {
@@ -325,6 +677,7 @@ function setNotificationTriggers() {
     showInfo(props.value);
   });
 
+  // Warn
   let firstWarn = true;
   setTrigger('SystemWarn', 'message', function(props) {
     if (firstWarn) {
@@ -333,100 +686,9 @@ function setNotificationTriggers() {
     }
     showWarn(props.value);
   });
-}
 
-function setHeatingTriggers() {
-  // New state from mqtt
-  setTrigger('Heating', 'status', function(props) {
-    $('.tabButtons .primary [group=heating] .status').html(props.value);
-    if (props.value == 'on') {
-      $('.tabButtons .primary [group=heating]').addClass('green');
-      $('.tabButtons .secondary .group.heating').addClass('green');
-    } else {
-      $('.tabButtons .primary [group=heating]').removeClass('green');
-      $('.tabButtons .secondary .group.heating').removeClass('green');
-    }
-  });
-
-  // New temperature from mqtt
-  setTrigger('Heating', 'presenceMinTemp', function(props) {
-    $('.tabButtons .secondary .group.heating input.temperature').val(props.value);
-  });
-
-  // On change set new value
-  $('.tabButtons .secondary .group.heating input.temperature').change(function() {
-    let newValue = parseFloat($(this).val());
-    if (newValue < 1) {
-      showError('Invalid value!');
-      $(this).val(1);
-      return;
-    }
-    setState('Heating', 'presenceMinTemp', $(this).val());
-    setState('Heating', 'presenceMaxTemp', parseFloat($(this).val()) + 0.25);
-  });
-}
-
-function setRoborockTriggers() {
-  setTrigger('Roborock', 'status', function(props) {
-    $('.tabButtons .primary [group=roborock] .status').html(props.value);
-    if (props.value == 'Charging') {
-      $('.tabButtons .primary [group=roborock]').removeClass('green');
-      $('.tabButtons .secondary .group.roborock').removeClass('green');
-    } else {
-      $('.tabButtons .primary [group=roborock]').addClass('green');
-      $('.tabButtons .secondary .group.roborock').addClass('green');
-    }
-  });
-}
-
-function heatingOn(forced) {
-  setState('Heating', 'forceOff', 'false');
-  runFunction('Heating.on()');
-  setState('Heating', 'forceOn', forced ? 'true' : 'false');
-}
-
-function heatingOff(forced) {
-  setState('Heating', 'forceOn', 'false');
-  runFunction('Heating.off()');
-  setState('Heating', 'forceOff', forced ? 'true' : 'false');
-}
-
-function heatingUnforceState(forced) {
-  setState('Heating', 'forceOn', 'false');
-  setState('Heating', 'forceOff', 'false');
-}
-
-function clickedRoom(roomName, roomObject) {
-  // // Local cleaning
-  // const status = getStateValue('Roborock', 'status');
-  // if (status == 'Charging') {
-  //   runFunction(roomName + '.cleanRoom()');
-  // } else
-  // if (status == 'Cleaning') {
-  //   runFunction(roomName + '.pauseCleaning()');
-  // } else if (status == 'Paused') {
-  //   runFunction(roomName + '.resumeCleaningRoom()');
-  // }
-
-  // Toggle light
-  if (getStateValue(roomName + '-Light', 'status') == 'on') {
-    setState(roomName, 'forceLightOn', 'false');
-    runFunction(roomName + '.lightOff()');
-    setState(roomName, 'forceLightOff', 'true');
-  } else {
-    setState(roomName, 'forceLightOff', 'false');
-    runFunction(roomName + '.lightOn()');
-    setState(roomName, 'forceLightOn', 'true');
-  }
-}
-
-function setRoomClickListeners() {
-  $('.map .room').each(function() {
-    let name = $(this).find('.name').text();
-    $(this).click(function() {
-      clickedRoom(name, this);
-    })
-  });
+  // Theme
+  setThemeTriggers();
 }
 
 function goFullScreenOnAnyClick() {
@@ -437,30 +699,40 @@ function goFullScreenOnAnyClick() {
   }
 }
 
+function windowResizeHandler() {
+  $(window).resize(function() {
+    resetScreenDrag()
+  })
+}
+
 /**
  * RUN STUFF!!!
  */
 $(document).ready(function() {
 
   // Do local setup
-  setTemperatureTriggers();
-  setHumidityTriggers();
-  setPressureTriggers();
-  setBrightnessTriggers();
-  setDoorTriggers();
-  setWindowTriggers();
-  setNotificationTriggers();
-  setHeatingTriggers();
-  setRoborockTriggers();
+  setTriggers();
 
   // Set click listeners
-  setTabButtonsActions();
-  setRoomClickListeners();
   goFullScreenOnAnyClick();
+
+  // Set touch listeners
+  bindMenuButtons();
+  bindScreenTouchEvents();
+  bindPrevNextScreenButtons();
+  bindOverlayClick();
+
+  // Show the screen
+  createScreenList();
+  showScreen(SCREENS[0]);
+
+  // Window related handlers
+  windowResizeHandler();
 
   // Get full state initially - one time
   getFullState();
 
   // Start state listener
   startStateListener();
+
 })
