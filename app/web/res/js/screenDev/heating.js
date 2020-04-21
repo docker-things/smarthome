@@ -12,9 +12,9 @@ function heatingInitSlider() {
     radius: 130,
     width: 5,
 
-    min: 5,
-    max: 35,
-    value: 5,
+    min: 15,
+    max: 30,
+    value: 15,
 
     handleSize: '+40',
     handleShape: 'dot',
