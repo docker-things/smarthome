@@ -25,8 +25,6 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
     'thirdparty/jquery.min.js',
     'thirdparty/jquery.toast.min.js',
     'thirdparty/roundslider.min.js',
-    // 'thirdparty/popper.min.js',
-    // 'thirdparty/bootstrap-material-design.min.js',
     'thirdparty/paho-mqtt-min.js',
     'dashboardDev.js',
   ];
@@ -41,9 +39,9 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
    * @var array
    */
   private $screens = [
-    'Main',
     'Heating',
     'Roborock',
+    'Main',
     // 'Sleeping',
     // 'Overview',
   ];
