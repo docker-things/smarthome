@@ -117,7 +117,7 @@ function showNextScreen() {
 }
 
 function showScreenSlide(screen) {
-  while(getActiveScreen() != screen) {
+  while (getActiveScreen() != screen) {
     showNextScreenSlide();
   }
 }
@@ -383,7 +383,7 @@ function touchDragTo(touch) {
   // if (touch.mode == 'vertical') {
   //   touchDragMenu(touch);
   // } else {
-    touchDragScreens(touch);
+  touchDragScreens(touch);
   // }
 }
 
@@ -708,10 +708,12 @@ function setTriggers() {
 }
 
 function goFullScreenOnAnyClick() {
-  var elem = $('body').get(0)
-  elem.onclick = function() {
-    req = elem.requestFullScreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
-    req.call(elem);
+  if (DASHBOARD_ROOM != 'NONE') {
+    var elem = $('body').get(0)
+    elem.onclick = function() {
+      req = elem.requestFullScreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
+      req.call(elem);
+    }
   }
 }
 
