@@ -235,7 +235,7 @@ ${Properties.motion.object}.illuminance:
 
   Lights OFF (Sunny) - ${Properties.selfObjectName}:
     if:
-      - this > ${Properties.light.off-when-lux-over}
+      - this >= ${Properties.light.off-when-lux-over}
       - Sun.state is day
       - ${Properties.light.object}.status is on
     run:
@@ -244,12 +244,21 @@ ${Properties.motion.object}.illuminance:
 
   Secondary lights OFF (Sunny) - ${Properties.selfObjectName}:
     if:
-      - this > ${Properties.light.secondary.off-when-lux-over}
+      - this >= ${Properties.light.secondary.off-when-lux-over}
       - Sun.state is day
       - ${Properties.light.secondary.object}.status is on
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (Sunny)')
+
+  Ledstrip lights OFF (Sunny) - ${Properties.selfObjectName}:
+    if:
+      - this >= ${Properties.light.off-when-lux-over}
+      - Sun.state is day
+      - ${Properties.ledstrip.object}.status is on
+    run:
+      - ${Properties.ledstrip.object}.off()
+      - SystemNotify.send('${Properties.ledstrip.object} OFF (Sunny)')
 
 # MOTION
 
