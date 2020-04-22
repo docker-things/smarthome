@@ -684,23 +684,11 @@ function startStateListener() {
 }
 
 function setTriggers() {
-  // Notification
-  let firstNotification = true;
+  // Notifications
   setTrigger('SystemNotify', 'message', function(props) {
-    if (firstNotification) {
-      firstNotification = false;
-      return;
-    }
     showInfo(props.value);
   });
-
-  // Warn
-  let firstWarn = true;
   setTrigger('SystemWarn', 'message', function(props) {
-    if (firstWarn) {
-      firstWarn = false;
-      return;
-    }
     showWarn(props.value);
   });
 
