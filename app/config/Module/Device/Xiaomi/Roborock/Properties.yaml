@@ -9,9 +9,7 @@ fanspeed: 60
 
 lidSensor: NONE
 
-clean-point:
-  x: '?'
-  y: '?'
+cleaning-point: '-'
 
 zone_bathroom: ''
 zone_bedroom: ''

@@ -110,7 +110,20 @@ functions:
   goto(x,y):
     run: ${cmd} goto ${ARGS.x} ${ARGS.y}
     set:
-      status: goto
+      status: Going_to_target
+      zone: ''
+      coords: ${ARGS.x} ${ARGS.y}
+
+  goto(xy):
+    run: ${cmd} goto ${ARGS.xy}
+    set:
+      status: Going_to_target
+      zone: ''
+      coords: ${ARGS.xy}
+
+  gotoCleaningPoint():
+    runFunctions:
+      - ${Properties.selfObjectName}.goto('${Properties.cleaning-point}')
 
   getStatus():
     run: ${cmd} status
