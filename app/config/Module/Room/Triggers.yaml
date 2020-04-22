@@ -221,7 +221,7 @@ Sun.state:
 ${Properties.motion.object}.illuminance:
   Mark illuminated room - ${Properties.selfObjectName}:
     if:
-      - this > ${Properties.light.off-when-lux-over}
+      - this > ${Properties.light.on-by-motion-when-lux-below}
       - ${Properties.light.object}.status is not on
       - ${Properties.light.secondary.object}.status is not on
     set:
@@ -229,7 +229,7 @@ ${Properties.motion.object}.illuminance:
 
   Mark dark room - ${Properties.selfObjectName}:
     if:
-      - this <= ${Properties.light.off-when-lux-over}
+      - this <= ${Properties.light.on-by-motion-when-lux-below}
     set:
       ${Properties.selfObjectName}.gotNaturalLight: 'false'
 
