@@ -612,6 +612,7 @@ function getFullState() {
   client.onMessageArrived = function(message) {
     state = jQuery.parseJSON(message.payloadString)
     for (source in state) {
+      if (source == 'SystemNotify' || source == 'SystemWarn') continue;
       for (name in state[source]) {
         let props = state[source][name];
         setLocalState(source, name, props['value'], props['prevValue'], props['timestamp']);
@@ -683,23 +684,11 @@ function startStateListener() {
 }
 
 function setTriggers() {
-  // Notification
-  let firstNotification = true;
+  // Notifications
   setTrigger('SystemNotify', 'message', function(props) {
-    if (firstNotification) {
-      firstNotification = false;
-      return;
-    }
     showInfo(props.value);
   });
-
-  // Warn
-  let firstWarn = true;
   setTrigger('SystemWarn', 'message', function(props) {
-    if (firstWarn) {
-      firstWarn = false;
-      return;
-    }
     showWarn(props.value);
   });
 
@@ -707,19 +696,32 @@ function setTriggers() {
   setThemeTriggers();
 }
 
-function goFullScreenOnAnyClick() {
-  if (DASHBOARD_ROOM != 'NONE') {
-    var elem = $('body').get(0)
-    elem.onclick = function() {
-      req = elem.requestFullScreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
-      req.call(elem);
-    }
+function isFullScreen() {
+  return (window.fullScreen) ||
+    (window.innerWidth == screen.width && window.innerHeight == screen.height);
+}
+
+function bindFullScreenAction() {
+  var elem = $('.mainContainer > .fullScreenButton').get(0)
+  elem.onclick = function() {
+    req = elem.requestFullScreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
+    req.call(elem);
+  }
+  showHideFullScreenButton();
+}
+
+function showHideFullScreenButton() {
+  if (isFullScreen()) {
+    $('.mainContainer > .fullScreenButton').addClass('hidden')
+  } else if (DASHBOARD_ROOM != 'NONE') {
+    $('.mainContainer > .fullScreenButton').removeClass('hidden')
   }
 }
 
 function windowResizeHandler() {
   $(window).resize(function() {
-    resetScreenDrag()
+    resetScreenDrag();
+    showHideFullScreenButton();
   })
 }
 
@@ -731,14 +733,12 @@ $(document).ready(function() {
   // Do local setup
   setTriggers();
 
-  // Set click listeners
-  goFullScreenOnAnyClick();
-
   // Set touch listeners
   bindMenuButtons();
   bindScreenTouchEvents();
   bindPrevNextScreenButtons();
   bindOverlayClick();
+  bindFullScreenAction();
 
   // Show the screen
   createScreenList();

@@ -8,6 +8,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
   private $css = [
     'thirdparty/jquery.toast.min.css',
     'thirdparty/roundslider.min.css',
+    'thirdparty/fontawesome.min.css',
     'dashboardDev.css',
   ];
 
@@ -83,6 +84,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
     echo '<div class="overviewContainer">' . $this->getHTML() . '</div>';
     echo '<div class="overlay"></div>';
     echo '<div class="menuContainer">' . $this->getMenuHTML() . '</div>';
+    echo '<div class="fullScreenButton hidden"><i class="fas fa-expand"></i></div>';
     echo '</div>';
     echo '</body></html>';
   }

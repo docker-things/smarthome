@@ -696,19 +696,32 @@ function setTriggers() {
   setThemeTriggers();
 }
 
-function goFullScreenOnAnyClick() {
-  if (DASHBOARD_ROOM != 'NONE') {
-    var elem = $('body').get(0)
-    elem.onclick = function() {
-      req = elem.requestFullScreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
-      req.call(elem);
-    }
+function isFullScreen() {
+  return (window.fullScreen) ||
+    (window.innerWidth == screen.width && window.innerHeight == screen.height);
+}
+
+function bindFullScreenAction() {
+  var elem = $('.mainContainer > .fullScreenButton').get(0)
+  elem.onclick = function() {
+    req = elem.requestFullScreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
+    req.call(elem);
+  }
+  showHideFullScreenButton();
+}
+
+function showHideFullScreenButton() {
+  if (isFullScreen()) {
+    $('.mainContainer > .fullScreenButton').addClass('hidden')
+  } else if (DASHBOARD_ROOM != 'NONE') {
+    $('.mainContainer > .fullScreenButton').removeClass('hidden')
   }
 }
 
 function windowResizeHandler() {
   $(window).resize(function() {
-    resetScreenDrag()
+    resetScreenDrag();
+    showHideFullScreenButton();
   })
 }
 
@@ -720,14 +733,12 @@ $(document).ready(function() {
   // Do local setup
   setTriggers();
 
-  // Set click listeners
-  goFullScreenOnAnyClick();
-
   // Set touch listeners
   bindMenuButtons();
   bindScreenTouchEvents();
   bindPrevNextScreenButtons();
   bindOverlayClick();
+  bindFullScreenAction();
 
   // Show the screen
   createScreenList();

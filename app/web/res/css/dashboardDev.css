@@ -12,6 +12,9 @@ body {
   border: 0;
   background: #000;
 }
+.hidden {
+  display: none;
+}
 .jq-toast-wrap {
   width: 50%;
 }
@@ -34,6 +37,18 @@ body {
 .mainContainer.darkMode {
   background: #000;
   color: #FFF;
+}
+/* FULLSCREEN BUTTON */
+
+.mainContainer>.fullScreenButton {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  opacity: .25;
+  z-index: 9999;
+}
+.mainContainer>.fullScreenButton>i {
+  font-size: 2rem;
 }
 /* OVERLAY */
 
