@@ -1,12 +1,21 @@
 ---
 
 System.time:
-  It's day:
-    if: this is ${Properties.selfObjectName}.sunrise
+  It's day - ${Properties.selfObjectName}:
+    if:
+      - this >= ${Properties.selfObjectName}.sunrise
+      - this < ${Properties.selfObjectName}.sunset
     set:
       ${Properties.selfObjectName}.state: day
 
-  It's night:
-    if: this is ${Properties.selfObjectName}.sunset
+  It's night after midnight - ${Properties.selfObjectName}:
+    if:
+      - this < ${Properties.selfObjectName}.sunrise
+    set:
+      ${Properties.selfObjectName}.state: night
+
+  It's night before midnight - ${Properties.selfObjectName}:
+    if:
+      - this >= ${Properties.selfObjectName}.sunset
     set:
       ${Properties.selfObjectName}.state: night
