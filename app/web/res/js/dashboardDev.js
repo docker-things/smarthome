@@ -702,11 +702,11 @@ function isFullScreen() {
 }
 
 function bindFullScreenAction() {
-  var elem = $('.mainContainer > .fullScreenButton').get(0)
-  elem.onclick = function() {
+  $('.mainContainer > .fullScreenButton').click(function() {
+    const elem = $('body').get(0);
     req = elem.requestFullScreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
     req.call(elem);
-  }
+  })
   showHideFullScreenButton();
 }
 

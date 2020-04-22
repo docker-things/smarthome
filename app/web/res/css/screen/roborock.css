@@ -51,6 +51,7 @@
 .screen.roborock.Paused .resumeButton,
 .screen.roborock.Zoned_cleaning .pauseButton,
 .screen.roborock.Spot_cleaning .pauseButton,
+.screen.roborock.Going_to_target .pauseButton,
 .screen.roborock.Cleaning .pauseButton {
   display: flex;
 }
