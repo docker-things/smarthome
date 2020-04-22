@@ -9,7 +9,9 @@ class SunriseSunsetAPI {
   private $_apiKey;
 
   /**
-   * @var mixed
+   * Language (ex: 'en')
+   *
+   * @var string
    */
   private $_lang;
 
@@ -28,32 +30,9 @@ class SunriseSunsetAPI {
   private $_lon;
 
   /**
-   * What keys to return from the API
-   *
-   * @var array
-   */
-  private $_results = [
-    'sunrise',
-    'sunset',
-    'solar_noon',
-    'day_length',
-    'civil_twilight_begin',
-    'civil_twilight_end',
-    'nautical_twilight_begin',
-    'nautical_twilight_end',
-    'astronomical_twilight_begin',
-    'astronomical_twilight_end',
-  ];
-
-  /**
-   * Timezone
+   * Units (metric|imperial)
    *
    * @var string
-   */
-  private $_timezone;
-
-  /**
-   * @var mixed
    */
   private $_units;
 
@@ -76,7 +55,6 @@ class SunriseSunsetAPI {
     $this->_units  = $units;
     $this->_lang   = $lang;
     $this->_apiKey = $apiKey;
-    // $this->_timezone = getenv('TZ');
   }
 
   /**
@@ -95,21 +73,6 @@ class SunriseSunsetAPI {
     );
   }
 
-  // private function _flatJson($json) {
-  //   $tmp = [];
-  //   foreach ($json AS $key => $value) {
-  //     if (is_array($value)) {
-  //       $value = $this->_flatJson($value);
-  //       foreach ($value AS $subkey => $subvalue) {
-  //         $tmp[$key . '.' . $subkey] = $subvalue;
-  //       }
-  //     } else {
-  //       $tmp[$key] = $value;
-  //     }
-  //   }
-  //   return $tmp;
-  // }
-
   /**
    * @param $lat
    * @param $lon
@@ -125,14 +88,8 @@ class SunriseSunsetAPI {
     $url = str_replace('[LANG]', $lang, $url);
     $url = str_replace('[API_KEY]', $apiKey, $url);
 
-    $cachePath = '/app/data/weather.json';
-    if (file_exists($cachePath)) {
-      $jsonString = file_get_contents($cachePath);
-    } else {
-      // Make API request
-      $jsonString = file_get_contents($url);
-      file_put_contents($cachePath, $jsonString);
-    }
+    // Make API request
+    $jsonString = file_get_contents($url);
 
     // Decode JSON
     $json = json_decode($jsonString, true);
