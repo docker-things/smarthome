@@ -34,7 +34,7 @@ function activateRoborockTriggers() {
   // STATUS
   setTrigger('Roborock', 'status', function(props) {
     const status = props.value;
-    $('.screen.roborock > .titleContainer .status').text(status.replace('_', ' '));
+    $('.screen.roborock > .titleContainer .status').text(status.replace(/_/g, ' '));
     setRoborockMode(status);
     setZoneCleaningRoom();
     if (status != 'Charging') {
