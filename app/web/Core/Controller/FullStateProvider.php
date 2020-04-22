@@ -42,15 +42,45 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
       $state = $this->getState()->getFullState();
 
       // Batch data
-      $batches = [
-        $state,
-      ];
-      if (isset($state['Weather'])) {
-        unset($batches[0]['Weather']);
-        $batches[] = [
-          'Weather' => $state['Weather'],
-        ];
+      $batches = [];
+      $bigBatches = [];
+
+      // While we've got state objects
+      while (count($state) != 0) {
+
+        // Init batch
+        $batch = [];
+
+        // For each object
+        foreach (array_keys($state) AS $key) {
+
+          // If object has more than 30 props set as individual big batch
+          if (count($state[$key]) > 30) {
+            $bigBatches[] = [$key => $state[$key]];
+          }
+          // Otherwise add data to batch
+          else {
+            $batch[$key] = $state[$key];
+          }
+
+          // Remove data from state
+          unset($state[$key]);
+
+          // Append batch every 30 objects
+          if (count($batch) == 30) {
+            $batches[] = $batch;
+            break;
+          }
+        }
       }
+
+      // If we've got an unappended batch
+      if (count($batch) != 0) {
+        $batches[] = $batch;
+      }
+
+      // Append big fuckers (made this way to make sure the big ones are sent last)
+      $batches = array_merge($batches, $bigBatches);
 
       // Send batches
       foreach ($batches AS $batch) {
@@ -68,6 +98,7 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
    * @param $state
    */
   private function _send($state) {
+    Core_Logger::info('Sending batch [' . count($state) . ']: ' . implode(', ', array_keys($state)));
     $cmd = "mosquitto_pub -h localhost -t 'core-state/full-state-provider' -m \"" . str_replace('"', '\"', json_encode($state)) . "\"";
     // file_put_contents('/app/data/dump', $cmd);
     // ob_start();
