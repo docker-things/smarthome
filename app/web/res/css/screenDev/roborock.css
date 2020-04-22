@@ -44,9 +44,13 @@
 }
 .screen.roborock.Charging:not(.roomSelected) .cleanHouseButton,
 .screen.roborock.Charging.roomSelected .cleanRoomButton,
+.screen.roborock.Idle:not(.roomSelected) .cleanHouseButton,
+.screen.roborock.Idle.roomSelected .cleanRoomButton,
+.screen.roborock.Idle .dockButton,
 .screen.roborock.Paused .dockButton,
 .screen.roborock.Paused .resumeButton,
 .screen.roborock.Zoned_cleaning .pauseButton,
+.screen.roborock.Spot_cleaning .pauseButton,
 .screen.roborock.Cleaning .pauseButton {
   display: flex;
 }

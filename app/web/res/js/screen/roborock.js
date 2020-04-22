@@ -2,7 +2,9 @@ function setRoborockMode(mode) {
   $('.screen.roborock')
     .removeClass('Cleaning')
     .removeClass('Zoned_cleaning')
+    .removeClass('Spot_cleaning')
     .removeClass('Paused')
+    .removeClass('Idle')
     .removeClass('Charging')
     .removeClass('Charger_disconnected');
   $('.screen.roborock')
