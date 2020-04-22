@@ -612,6 +612,7 @@ function getFullState() {
   client.onMessageArrived = function(message) {
     state = jQuery.parseJSON(message.payloadString)
     for (source in state) {
+      if (source == 'SystemNotify' || source == 'SystemWarn') continue;
       for (name in state[source]) {
         let props = state[source][name];
         setLocalState(source, name, props['value'], props['prevValue'], props['timestamp']);
