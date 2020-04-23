@@ -695,8 +695,7 @@ ${Properties.door.object}.contact:
   Stop cleaning on close - ${Properties.selfObjectName}:
     if:
       - this is true
-      - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
-      - ${Properties.roborock.object}.zone is ['none','${Properties.name}']
+      - ${Properties.roborock.object}.status in ['Cleaning','Segment_cleaning','Spot_cleaning','Zoned_cleaning']
     run:
       - ${Properties.roborock.object}.pause()
       - SystemNotify.send('Paused cleaning (${Properties.door.object} closed)')
@@ -705,19 +704,9 @@ ${Properties.door.object}.contact:
     if:
       - this is false
       - ${Properties.roborock.object}.status is Paused
-      - ${Properties.roborock.object}.zone is none
     run:
       - ${Properties.roborock.object}.resume()
       - SystemNotify.send('Resumed cleaning (${Properties.door.object} opened)')
-
-  Restart local cleaning on open - ${Properties.selfObjectName}:
-    if:
-      - this is false
-      - ${Properties.roborock.object}.status is Paused
-      - ${Properties.roborock.object}.zone is ${Properties.name}
-    run:
-      - ${Properties.roborock.object}.cleanZone('${Properties.roborock.local-zone}','${Properties.name}')
-      - SystemNotify.send('Restart cleaning (${Properties.door.object} opened)')
 
 ${Properties.selfObjectName}.closedDoor:
   Mark house doors status - ${Properties.selfObjectName}:
