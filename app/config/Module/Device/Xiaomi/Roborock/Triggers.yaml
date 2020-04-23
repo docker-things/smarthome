@@ -13,7 +13,7 @@ ${Properties.lidSensor}.contact:
   When opening lid - MOVING - ${Properties.selfObjectName}:
     if:
       - this is false
-      - ${Properties.selfObjectName}.status is in ['Cleaning','Segment_cleaning','Spot_cleaning','Zoned_cleaning','Going_to_target']
+      - ${Properties.selfObjectName}.status in ['Cleaning','Segment_cleaning','Spot_cleaning','Zoned_cleaning','Going_to_target']
     run:
       - ${Properties.selfObjectName}.pause()
       - SystemNotify.send('${Properties.selfObjectName} paused (lid opened)')
@@ -31,7 +31,7 @@ ${Properties.lidSensor}.contact:
   When closing lid - IDLE - DOCK - ${Properties.selfObjectName}:
     if:
       - this is true
-      - ${Properties.selfObjectName}.status is in ['Idle','Charger_disconnected']
+      - ${Properties.selfObjectName}.status in ['Idle','Charger_disconnected']
       - ${Properties.selfObjectName}.last_start_date is System.date
     run:
       - ${Properties.selfObjectName}.home()
@@ -40,7 +40,7 @@ ${Properties.lidSensor}.contact:
   When closing lid - IDLE - Clean - ${Properties.selfObjectName}:
     if:
       - this is true
-      - ${Properties.selfObjectName}.status is in ['Idle','Charger_disconnected']
+      - ${Properties.selfObjectName}.status in ['Idle','Charger_disconnected']
       - ${Properties.selfObjectName}.last_start_date is not System.date
       - House.closedDoors is false
       - House.sleeping is false
