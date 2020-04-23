@@ -14,11 +14,25 @@ ${Properties.lidSensor}.contact:
     if:
       - this is true
     run:
-      - ${Properties.selfObjectName}.home()
       - SystemNotify.send('Closed ${Properties.selfObjectName} lid')
-      - SystemWarn.send('Closed ${Properties.selfObjectName} lid')
     set:
       ${Properties.selfObjectName}.lidOpened: 'false'
+
+  When closing lid - IDLE - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.roborock.object}.status is Paused
+    run:
+      - ${Properties.selfObjectName}.home()
+      - SystemNotify.send('${Properties.selfObjectName} going to the dock')
+
+  When closing lid - PAUSED - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.roborock.object}.status is Paused
+    run:
+      - ${Properties.selfObjectName}.resume()
+      - SystemNotify.send('${Properties.selfObjectName} resuming cleaning')
 
 System.time:
 
