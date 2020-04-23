@@ -42,19 +42,37 @@
 .screen.roborock .bottom>div {
   display: none;
 }
-.screen.roborock.Charging:not(.roomSelected) .cleanHouseButton,
-.screen.roborock.Charging.roomSelected .cleanRoomButton,
+/* Cleaning: */
+
+.screen.roborock.Cleaning .pauseButton,
+.screen.roborock.Segment_cleaning .pauseButton,
+.screen.roborock.Spot_cleaning .pauseButton,
+.screen.roborock.Zoned_cleaning .pauseButton,
+/* GoTo: */
+
+.screen.roborock.Going_to_target .pauseButton,
+/* Idle: */
+
+.screen.roborock.Idle .dockButton,
 .screen.roborock.Idle:not(.roomSelected) .cleanHouseButton,
 .screen.roborock.Idle.roomSelected .cleanRoomButton,
-.screen.roborock.Idle .dockButton,
+.screen.roborock.Charger_disconnected .dockButton,
+.screen.roborock.Charger_disconnected:not(.roomSelected) .cleanHouseButton,
+.screen.roborock.Charger_disconnected.roomSelected .cleanRoomButton,
+/* Paused: */
+
 .screen.roborock.Paused .dockButton,
 .screen.roborock.Paused .resumeButton,
-.screen.roborock.Zoned_cleaning .pauseButton,
-.screen.roborock.Spot_cleaning .pauseButton,
-.screen.roborock.Going_to_target .pauseButton,
-.screen.roborock.Cleaning .pauseButton {
+/* Charging: */
+
+.screen.roborock.Charging:not(.roomSelected) .cleanHouseButton,
+.screen.roborock.Charging.roomSelected .cleanRoomButton {
   display: flex;
 }
+/* VERTICAL SEPARATOR*/
+
+.screen.roborock.Charger_disconnected .bottom .verticalSeparator,
+.screen.roborock.Idle .bottom .verticalSeparator,
 .screen.roborock.Paused .bottom .verticalSeparator {
   display: block;
 }

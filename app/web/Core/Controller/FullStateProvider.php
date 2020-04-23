@@ -42,11 +42,12 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
       $state = $this->getState()->getFullState();
 
       // Batch data
-      $batches = [];
+      $batches    = [];
       $bigBatches = [];
+      $batchSize  = 30;
 
       // While we've got state objects
-      while (count($state) != 0) {
+      while (!empty($state)) {
 
         // Init batch
         $batch = [];
@@ -54,8 +55,8 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
         // For each object
         foreach (array_keys($state) AS $key) {
 
-          // If object has more than 30 props set as individual big batch
-          if (count($state[$key]) > 30) {
+          // If object has more than $batchSize props set as individual big batch
+          if (count($state[$key]) > $batchSize) {
             $bigBatches[] = [$key => $state[$key]];
           }
           // Otherwise add data to batch
@@ -66,8 +67,8 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
           // Remove data from state
           unset($state[$key]);
 
-          // Append batch every 30 objects
-          if (count($batch) == 30) {
+          // Append batch every $batchSize objects
+          if (count($batch) == $batchSize) {
             $batches[] = $batch;
             break;
           }
@@ -75,7 +76,7 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
       }
 
       // If we've got an unappended batch
-      if (count($batch) != 0) {
+      if (!empty($batch)) {
         $batches[] = $batch;
       }
 
@@ -98,6 +99,9 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
    * @param $state
    */
   private function _send($state) {
+    if (empty($state)) {
+      return;
+    }
     Core_Logger::info('Sending batch [' . count($state) . ']: ' . implode(', ', array_keys($state)));
     $cmd = "mosquitto_pub -h localhost -t 'core-state/full-state-provider' -m \"" . str_replace('"', '\"', json_encode($state)) . "\"";
     // file_put_contents('/app/data/dump', $cmd);
