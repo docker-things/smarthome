@@ -42,9 +42,9 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
       $state = $this->getState()->getFullState();
 
       // Batch data
-      $batches    = [];
-      $bigBatches = [];
-      $batchSize  = 30;
+      $batches   = [];
+      $batchSize = 30;
+      $paramsBatchSize = 500;
 
       // While we've got state objects
       while (!empty($state)) {
@@ -55,9 +55,22 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
         // For each object
         foreach (array_keys($state) AS $key) {
 
-          // If object has more than $batchSize props set as individual big batch
+          // If object has more than $batchSize props split it
           if (count($state[$key]) > $batchSize) {
-            $bigBatches[] = [$key => $state[$key]];
+            $subBatch = [];
+            foreach (array_keys($state[$key]) AS $subKey) {
+              $subBatch[$subKey] = $state[$key][$subKey];
+              unset($state[$key][$subKey]);
+
+              if (count($subBatch) == $paramsBatchSize) {
+                $batches[] = [$key => $subBatch];
+                $subBatch  = [];
+              }
+            }
+
+            if (count($subBatch) != 0) {
+              $batches[] = [$key => $subBatch];
+            }
           }
           // Otherwise add data to batch
           else {
@@ -79,9 +92,6 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
       if (!empty($batch)) {
         $batches[] = $batch;
       }
-
-      // Append big fuckers (made this way to make sure the big ones are sent last)
-      $batches = array_merge($batches, $bigBatches);
 
       // Send batches
       foreach ($batches AS $batch) {
