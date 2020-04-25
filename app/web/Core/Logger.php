@@ -13,7 +13,7 @@ class Core_Logger {
      * @param $message
      */
     public static function info($message) {
-        Core_Logger::_message($message, 'INFO');
+        // Core_Logger::_message($message, 'INFO');
     }
 
     /**
