@@ -86,8 +86,11 @@ $(document).ready(() => {
   // TRIGGERS
 
   function setStatus(status) {
-    if (STATUS_CLEANING.indexOf(status) == -1) {
-      setState('SystemWarn', 'message', 'Roborock dashboard got unknown status: ' + status);
+    // Set titlebar status
+    $('.screen.roborock > .titleContainer .status').text(status.replace(/_/g, ' '));
+
+    if (STATUS_KNOWN.indexOf(status) == -1) {
+      showError('Roborock dashboard got unknown status: ' + status);
       return;
     }
 
@@ -119,9 +122,9 @@ $(document).ready(() => {
     if (shouldShowRoomSelection(status) && isZoneSet(zone)) {
       const room = $('.screen.roborock .map .room.' + ucfirst(zone));
       if (room.length > 1) {
-        setState('SystemWarn', 'message', 'Roborock dashboard got multiple rooms for zone: ' + zone);
+        showError('Roborock dashboard got multiple rooms for zone: ' + zone);
       } else if (room.length == 0) {
-        setState('SystemWarn', 'message', 'Roborock dashboard got no room for zone: ' + zone);
+        showError('Roborock dashboard got no room for zone: ' + zone);
       } else if (!room.hasClass('selected')) {
         room.click()
       }
@@ -136,9 +139,7 @@ $(document).ready(() => {
 
     // STATUS
     setTrigger('Roborock', 'status', (props) => {
-      const status = props.value;
-      $('.screen.roborock > .titleContainer .status').text(status.replace(/_/g, ' '));
-      setStatus(status);
+      setStatus(props.value);
       manageRoomSelections();
     });
 
