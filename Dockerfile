@@ -363,6 +363,7 @@ COPY app/modules/bluetooth-scan /app/modules/bluetooth-scan
 COPY app/modules/roborock /app/modules/roborock
 COPY app/modules/airpurifier-miot /app/modules/airpurifier-miot
 COPY app/modules/sunrise_sunset /app/modules/sunrise_sunset
+COPY app/modules/openweather /app/modules/openweather
 COPY app/services /app/services
 COPY app/web /app/web
 COPY app/run.sh /app/run.sh
