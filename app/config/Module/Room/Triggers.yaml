@@ -692,22 +692,6 @@ ${Properties.door.object}.contact:
     set:
       ${Properties.selfObjectName}.forceLightOn: 'false'
 
-  Stop cleaning on close - ${Properties.selfObjectName}:
-    if:
-      - this is true
-      - ${Properties.roborock.object}.status in ['Cleaning','Segment_cleaning','Spot_cleaning','Zoned_cleaning']
-    run:
-      - ${Properties.roborock.object}.pause()
-      - SystemNotify.send('Paused cleaning (${Properties.door.object} closed)')
-
-  Resume cleaning on open - ${Properties.selfObjectName}:
-    if:
-      - this is false
-      - ${Properties.roborock.object}.status is Paused
-    run:
-      - ${Properties.roborock.object}.resume()
-      - SystemNotify.send('Resumed cleaning (${Properties.door.object} opened)')
-
 ${Properties.selfObjectName}.closedDoor:
   Mark house doors status - ${Properties.selfObjectName}:
     run: House.updateDoorsStatus()
