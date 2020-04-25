@@ -1,4 +1,4 @@
-$(document).ready(() => {
+$(document).ready(function() {
 
   const STATUS_CLEANING = [
     'Cleaning',
@@ -170,7 +170,7 @@ $(document).ready(() => {
   }
 
   function activateRoomClick() {
-    $('.screen.roborock .map .room').click(() => {
+    $('.screen.roborock .map .room').click(function() {
       if ($(this).hasClass('selected')) {
         $(this).removeClass('selected').removeClass('darker');
         $('.screen.roborock').removeClass('roomSelected');
@@ -183,20 +183,20 @@ $(document).ready(() => {
   }
 
   function activateButtons() {
-    $('.screen.roborock .cleanHouseButton').click(() => {
+    $('.screen.roborock .cleanHouseButton').click(function() {
       runFunction('Roborock.start()');
     })
-    $('.screen.roborock .cleanRoomButton').click(() => {
+    $('.screen.roborock .cleanRoomButton').click(function() {
       const roomName = $('.screen.roborock .room.selected').attr('name');
       runFunction('Roborock.clean' + roomName + '()');
     })
-    $('.screen.roborock .dockButton').click(() => {
+    $('.screen.roborock .dockButton').click(function() {
       runFunction('Roborock.home()');
     })
-    $('.screen.roborock .pauseButton').click(() => {
+    $('.screen.roborock .pauseButton').click(function() {
       runFunction('Roborock.pause()');
     })
-    $('.screen.roborock .resumeButton').click(() => {
+    $('.screen.roborock .resumeButton').click(function() {
       runFunction('Roborock.resume()');
     })
   }
