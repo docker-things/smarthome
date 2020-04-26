@@ -9,6 +9,7 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
     'thirdparty/jquery.toast.min.css',
     'thirdparty/roundslider.min.css',
     'thirdparty/fontawesome.min.css',
+    'thirdparty/weather-icons.min.css',
     'dashboardDev.css',
   ];
 
