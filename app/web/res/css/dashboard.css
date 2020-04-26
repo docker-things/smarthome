@@ -11,6 +11,7 @@ body {
   margin: 0;
   border: 0;
   background-color: #000;
+  text-rendering: optimizeLegibility;
 }
 .hidden {
   display: none;
@@ -35,7 +36,7 @@ body {
   opacity: 0;
 }
 .mainContainer.darkMode {
-  background: #000;
+  background-color: #000;
   color: #FFF;
 }
 /* FULLSCREEN BUTTON */
@@ -120,7 +121,7 @@ body {
   background-color: #FFF;
 }
 .mainContainer.darkMode>.overviewContainer>.screen {
-  background: #000;
+  background-color: #000;
 }
 /* TITLE */
 
