@@ -7,6 +7,22 @@ $(document).ready(function() {
   const CURRENT_DESC_PROVIDER = 'current.weather.0.description';
   const CURRENT_DESC_ICON_PROVIDER = 'current.weather.0.id';
 
+  /**
+   * Need to add the following weather backgrounds:
+   *
+   *  - ash-day.jpg
+   *  - ash-night.jpg
+   *
+   *  - dust-night.jpg
+   *
+   *  - sand-day.jpg
+   *  - sand-night.jpg
+   *
+   *  - smoke-day.jpg
+   *  - smoke-night.jpg
+   *
+   *  - squall-night.jpg
+   */
   const BACKGROUND_PROVIDER = 'current.weather.0.main';
 
   const MIN_MAX_PROVIDERS = [
@@ -186,10 +202,22 @@ $(document).ready(function() {
     const name = getStateValue('Weather', BACKGROUND_PROVIDER).toLowerCase();
     const dayNight = getDayNight();
 
-    $('.screen.main').css(
-      'background-image',
-      'url("/res/img/screen/main/background/' + name + '-' + dayNight + '.jpg")'
-    );
+    const type = name + '-' + dayNight;
+
+    // If there's at least an image for the current weather type
+    if (type in WEATHER_BACKGROUNDS && WEATHER_BACKGROUNDS[type].length != 0) {
+
+      // Get random index
+      const imageIndex = Math.floor(Math.random() * WEATHER_BACKGROUNDS[type].length);
+
+      // Actual image path
+      const imagePath = WEATHER_BACKGROUNDS[type][imageIndex];
+
+      // Set it
+      $('.screen.main').css('background-image', 'url("' + imagePath + '")');
+    } else {
+      $('.screen.main').css('background-image', 'inherit');
+    }
   }
 
   function activateTriggers() {

@@ -23,12 +23,14 @@ class UI_Controller_Screen_Main extends UI_Controller_Screen_Base {
       '</div>',
 
       '<div class="minMaxLine">',
-      '<div class="max"><div class="icon">',
-      $this->create->arrowUp(),
-      '</div><div class="value"></div><div class="unit">°</div></div>',
-      '<div class="min"><div class="icon">',
-      $this->create->arrowDown(),
-      '</div><div class="value"></div><div class="unit">°</div></div>',
+      '<div class="max">',
+      '<div class="icon"><i class="fa fa-long-arrow-alt-up"></i></div>',
+      '<div class="value"></div><div class="unit">°</div>',
+      '</div>',
+      '<div class="min">',
+      '<div class="icon"><i class="fa fa-long-arrow-alt-down"></i></div>',
+      '<div class="value"></div><div class="unit">°</div>',
+      '</div>',
       '</div>',
 
       '<div class="bigTemp">',
@@ -38,6 +40,29 @@ class UI_Controller_Screen_Main extends UI_Controller_Screen_Base {
 
       '</div>',
       // $this->dumpWeatherIcons(),
+    ];
+  }
+
+  protected function setScript() {
+    $backgrounds = [];
+
+    $path = 'res/img/screen/main/background/';
+    foreach (glob($path . '*/*/*') AS $file) {
+
+      // Ignore dirs
+      if (!is_file($file)) {
+        continue;
+      }
+
+      $tmp = explode('/', str_replace($path, '', $file), 3);
+
+      $type     = $tmp[0];
+      $dayNight = $tmp[1];
+
+      $backgrounds[$type . '-' . $dayNight][] = '/' . $file . '?' . filemtime($file);
+    }
+    return [
+      'const WEATHER_BACKGROUNDS = ' . str_replace('\/', '/', json_encode($backgrounds)) . ';',
     ];
   }
 

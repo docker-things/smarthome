@@ -49,6 +49,12 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
   ];
 
   /**
+   * Raw JS script to be included in <head>
+   * @var array
+   */
+  private $script = [];
+
+  /**
    * TODO: When trigger on roborock switch on its screen
    * When trigger on heating switch on its screen
    * When light movement at entrance switch on house overview
@@ -76,10 +82,11 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
     echo '<html><head>';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
     echo '<title>' . $this->title . '</title>';
-    echo $this->getCSS();
-    echo $this->getStyle();
-    echo $this->getVariables();
-    echo $this->getJS();
+    echo "\n" . $this->getCSS();
+    echo "\n" . $this->getStyle();
+    echo "\n" . $this->getJS();
+    echo "\n" . $this->getVariables();
+    echo "\n" . $this->getScript();
     echo '</head><body>';
     echo '<div class="mainContainer darkMode">';
     echo '<div class="overviewContainer">' . $this->getHTML() . '</div>';
@@ -124,6 +131,10 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
     return implode("\n", $html);
   }
 
+  private function getScript() {
+    return '<script>' . implode("\n", $this->script) . '</script>';
+  }
+
   private function getStyle() {
     return '<style>' . implode("\n", $this->style) . '</style>';
   }
@@ -162,8 +173,9 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
       foreach ($screen->getCSS() AS $path) {
         $this->css[] = 'screen' . $dev . '/' . $path;
       }
-      $this->style = array_merge($this->style, $screen->getStyle());
-      $this->html  = array_merge($this->html, $screen->getHTML());
+      $this->style  = array_merge($this->style, $screen->getStyle());
+      $this->script = array_merge($this->script, $screen->getScript());
+      $this->html   = array_merge($this->html, $screen->getHTML());
     }
   }
 }

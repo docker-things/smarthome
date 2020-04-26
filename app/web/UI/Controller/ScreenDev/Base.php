@@ -64,6 +64,13 @@ abstract class UI_Controller_ScreenDev_Base {
   }
 
   /**
+   * @return mixed
+   */
+  public function getScript() {
+    return $this->setScript();
+  }
+
+  /**
    * @return array
    */
   public function getStyle() {
@@ -79,6 +86,10 @@ abstract class UI_Controller_ScreenDev_Base {
   }
 
   protected function setJS() {
+    return [];
+  }
+
+  protected function setScript() {
     return [];
   }
 
