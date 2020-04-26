@@ -7,6 +7,22 @@ $(document).ready(function() {
   const CURRENT_DESC_PROVIDER = 'current.weather.0.description';
   const CURRENT_DESC_ICON_PROVIDER = 'current.weather.0.id';
 
+  /**
+   * Need to implement the following weather backgrounds:
+   *
+   *  - ash-day.jpg
+   *  - ash-night.jpg
+   *
+   *  - dust-night.jpg
+   *
+   *  - sand-day.jpg
+   *  - sand-night.jpg
+   *
+   *  - smoke-day.jpg
+   *  - smoke-night.jpg
+   *
+   *  - squall-night.jpg
+   */
   const BACKGROUND_PROVIDER = 'current.weather.0.main';
 
   const MIN_MAX_PROVIDERS = [
