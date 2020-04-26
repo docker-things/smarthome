@@ -40,9 +40,9 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
    * @var array
    */
   private $screens = [
+    'Main',
     'Roborock',
     'Heating',
-    'Main',
     // 'Sleeping',
     // 'Overview',
   ];

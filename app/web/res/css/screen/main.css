@@ -1,3 +1,8 @@
-.mainContainer>.overviewContainer>.screen.main {
-  /*background-image: linear-gradient(to bottom right, #cfd9df 0%, #e2ebf0 75%)!important;*/
+.screen.main {
+  color: #FFF;
+  /*background-color: #000!important;*/
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('/res/img/screen/main/background/clear_n_portrait.jpg');
 }
