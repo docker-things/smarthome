@@ -88,6 +88,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
     echo "\n" . $this->getVariables();
     echo "\n" . $this->getScript();
     echo '</head><body>';
+    echo '<div class="imagePreload"></div>';
     echo '<div class="mainContainer darkMode">';
     echo '<div class="overviewContainer">' . $this->getHTML() . '</div>';
     echo '<div class="overlay"></div>';

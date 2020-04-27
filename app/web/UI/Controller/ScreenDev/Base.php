@@ -43,6 +43,7 @@ abstract class UI_Controller_ScreenDev_Base {
   public function getHTML() {
     $html   = [];
     $html[] = '<div class="screen ' . $this->class . '" name="' . $this->class . '">';
+    $html[] = '<div class="backgroundImage"></div>';
     $html[] = '<div class="titleContainer">';
     $html[] = '<div class="prevButton">&lt;</div>';
     $html[] = '<div class="title">' . $this->name . '</div>';

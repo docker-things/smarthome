@@ -207,16 +207,34 @@ $(document).ready(function() {
     // If there's at least an image for the current weather type
     if (type in WEATHER_BACKGROUNDS && WEATHER_BACKGROUNDS[type].length != 0) {
 
-      // Get random index
-      const imageIndex = Math.floor(Math.random() * WEATHER_BACKGROUNDS[type].length);
+      let imagePath;
 
-      // Actual image path
-      const imagePath = WEATHER_BACKGROUNDS[type][imageIndex];
+      // Try to get a different image each time
+      for (let i = 0; i < 5; i++) {
+
+        // Get random index
+        const imageIndex = Math.floor(Math.random() * WEATHER_BACKGROUNDS[type].length);
+
+        // Actual image path
+        imagePath = WEATHER_BACKGROUNDS[type][imageIndex];
+
+        // If there's a single image stop here
+        if (WEATHER_BACKGROUNDS[type].length == 1) {
+          break;
+        }
+
+        // If it's not the same image
+        if (imagePath != $('.screen.main > .backgroundImage > img').attr('src')) {
+          break;
+        }
+      }
 
       // Set it
-      $('.screen.main').css('background-image', 'url("' + imagePath + '")');
-    } else {
-      $('.screen.main').css('background-image', 'inherit');
+      setScreenBackground('main', imagePath);
+    }
+    // Otherwise remove the background
+    else {
+      hideScreenBackground('main');
     }
   }
 

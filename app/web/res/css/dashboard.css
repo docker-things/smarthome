@@ -39,6 +39,14 @@ body {
   background-color: #000;
   color: #FFF;
 }
+.mainContainer>.imagePreload {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 /* FULLSCREEN BUTTON */
 
 .mainContainer>.fullScreenButton {
@@ -123,6 +131,33 @@ body {
 }
 .mainContainer.darkMode>.overviewContainer>.screen {
   background-color: #000;
+}
+/* BACKGROUND */
+
+.mainContainer>.overviewContainer>.screen>.backgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+.mainContainer>.overviewContainer>.screen>.backgroundImage> img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0.01;
+  display: none;
+  transition: opacity 1s ease-out;
+}
+.mainContainer>.overviewContainer>.screen>.backgroundImage> img.visible {
+  display: block;
+  opacity: 1;
 }
 /* TITLE */
 

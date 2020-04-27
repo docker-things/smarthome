@@ -15,6 +15,8 @@ class UI_Controller_ScreenDev_Main extends UI_Controller_ScreenDev_Base {
 
   protected function setHTML() {
     return [
+      '<img class="weatherSummaryBackground" src="/res/img/screen/main/main-temp-bkg.png">',
+
       '<div class="weatherSummary">',
 
       '<div class="textLine">',

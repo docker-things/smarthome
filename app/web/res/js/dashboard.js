@@ -211,6 +211,74 @@ function resetMenuDrag(touch) {
 }
 
 /**
+ * BACKGROUND IMAGES
+ */
+
+function setScreenBackground(screenClass, imagePath) {
+  const background = $('.screen.' + screenClass + ' > .backgroundImage');
+  const fromImage = background.find('> img');
+  const toImage = $('<img>');
+  toImage
+    .appendTo(background)
+    .show()
+    .bind('load', function() {
+      setTimeout(function() {
+        resizeScreenBackground(toImage);
+        toImage.addClass('visible');
+        setTimeout(function() {
+          fromImage.remove();
+        }, 1100);
+      }, 250);
+    })
+  toImage.attr('src', imagePath);
+}
+
+function resizeScreenBackground(image) {
+  if (!image) {
+    image = $('.screen > .backgroundImage > img');
+  }
+
+  image.each(function() {
+    const windowWidth = $(window).width();
+    const windowHeight = $(window).height();
+
+    const imgWidth = $(this).get(0).naturalWidth;
+    const imgHeight = $(this).get(0).naturalHeight;
+
+    let width, height;
+
+    if (imgWidth / imgHeight < windowWidth / windowHeight) {
+      height = Math.round(imgHeight * (windowWidth / imgWidth));
+      width = windowWidth;
+      $(this).css({
+        height: height,
+        width: width,
+        left: 0,
+        top: ((windowHeight - height) / 2) + 'px',
+      });
+    } else {
+      width = Math.round(imgWidth * (windowHeight / imgHeight));
+      height = windowHeight;
+      $(this).css({
+        height: height,
+        width: width,
+        top: 0,
+        left: ((windowWidth - width) / 2) + 'px',
+      });
+    }
+  })
+}
+
+function hideScreenBackground(screenClass) {
+  const background = $('.screen.' + screenClass + ' > .backgroundImage');
+  const fromImage = background.find('> img');
+  fromImage.removeClass('visible');
+  setTimeout(function() {
+    fromImage.remove();
+  }, 1100);
+}
+
+/**
  * THEME MANAGEMENT
  */
 
@@ -576,11 +644,13 @@ function setLocalState(source, name, value, prevValue, timestamp) {
     HOUSE_STATE[source][name]['timestamp'] = 0;
   }
   if (HOUSE_STATE[source][name]['timestamp'] <= timestamp) {
-    HOUSE_STATE[source][name]['value'] = value;
-    HOUSE_STATE[source][name]['prevValue'] = prevValue;
-    HOUSE_STATE[source][name]['timestamp'] = timestamp;
+    if (HOUSE_STATE[source][name]['value'] != value) {
+      HOUSE_STATE[source][name]['value'] = value;
+      HOUSE_STATE[source][name]['prevValue'] = prevValue;
+      HOUSE_STATE[source][name]['timestamp'] = timestamp;
 
-    launchTriggers(source, name, value, prevValue, timestamp);
+      launchTriggers(source, name, value, prevValue, timestamp);
+    }
   }
 }
 
@@ -722,6 +792,7 @@ function windowResizeHandler() {
   $(window).resize(function() {
     resetScreenDrag();
     showHideFullScreenButton();
+    resizeScreenBackground();
   })
 }
 
