@@ -241,6 +241,25 @@ $(document).ready(function() {
     }
   }
 
+  function activateImageChangerWhenFullScreen() {
+
+    function showImageChanger() {
+      if (isFullScreen() || DASHBOARD_ROOM == 'NONE') {
+        $('.screen.main>.container>.changeImageButton').removeClass('hidden')
+      } else {
+        $('.screen.main>.container>.changeImageButton').addClass('hidden')
+      }
+    }
+
+    showImageChanger();
+    $(window).resize(showImageChanger);
+
+    $('.screen.main>.container>.changeImageButton')
+      .click(setBackground)
+      .bind(setBackground);
+  }
+
   // Actually do something
   activateTriggers();
+  activateImageChangerWhenFullScreen();
 })

@@ -67,3 +67,18 @@
 .weatherIcons i {
   margin-right: 1em;
 }
+.screen.main .changeImageButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 1rem;
+  opacity: .25;
+  z-index: 9999;
+  color: #FFF;
+}
+.screen.main.day .changeImageButton {
+  color: #000;
+}
+.screen.main .changeImageButton>i {
+  font-size: 2rem;
+}

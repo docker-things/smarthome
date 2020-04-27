@@ -39,6 +39,7 @@ class UI_Controller_ScreenDev_Main extends UI_Controller_ScreenDev_Base {
       '</div>',
 
       '</div>',
+      '<div class="changeImageButton hidden"><i class="fa fa-sync-alt"></i></div>',
       // $this->dumpWeatherIcons(),
     ];
   }

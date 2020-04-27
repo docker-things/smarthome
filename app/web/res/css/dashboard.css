@@ -43,8 +43,9 @@ body {
 
 .mainContainer>.fullScreenButton {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 0;
+  right: 0;
+  padding: 1rem;
   opacity: .25;
   z-index: 9999;
 }
