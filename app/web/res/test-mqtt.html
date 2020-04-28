@@ -49,6 +49,20 @@
 		      message.destinationName = $('#topicTo').val();
 		      MQTT_CLIENT.send(message);
 	      })
+
+        $('#topic').change(function(){
+          window.localStorage.setItem('topic', $(this).val());
+        })
+        $('#topicTo').change(function(){
+          window.localStorage.setItem('topicTo', $(this).val());
+        })
+        $('#payload').change(function(){
+          window.localStorage.setItem('payload', $(this).val());
+        })
+
+        $('#topic').val(window.localStorage.getItem('topic'));
+        $('#topicTo').val(window.localStorage.getItem('topicTo'));
+        $('#payload').val(window.localStorage.getItem('payload'));
     	})
     </script>
   </head>
