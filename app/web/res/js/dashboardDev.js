@@ -241,8 +241,8 @@ function resizeScreenBackground(image) {
   }
 
   image.each(function() {
-    const windowWidth = $(window).width()+20;
-    const windowHeight = $(window).height()+20;
+    const windowWidth = $(window).width() + 20;
+    const windowHeight = $(window).height() + 20;
 
     const imgWidth = $(this).get(0).naturalWidth;
     const imgHeight = $(this).get(0).naturalHeight;
@@ -703,6 +703,18 @@ function getStateValue(source, name) {
   return HOUSE_STATE[source][name]['value'];
 }
 
+function setConnectedMode() {
+  $('body > .disconnectedOverlay').addClass('connected');
+  setTimeout(function() {
+    $('body > .disconnectedOverlay').hide();
+  }, 250)
+}
+
+function setDisconnectedMode() {
+  $('body > .disconnectedOverlay').show();
+  $('body > .disconnectedOverlay').removeClass('connected');
+}
+
 /**
  * Launch state listener
  */
@@ -713,6 +725,7 @@ function getFullState() {
   client.onConnectionLost = function(responseObject) {
     if (responseObject.errorCode !== 0) {
       showError('Lost MQTT connection: ' + responseObject.errorMessage);
+      setDisconnectedMode();
     }
   };
 
@@ -741,10 +754,12 @@ function getFullState() {
       message = new Paho.MQTT.Message("get");
       message.destinationName = "core-state/full-state-request";
       client.send(message);
+      setConnectedMode();
     },
 
     onFailure: function() {
       showError('Failed to connect to MQTT');
+      setDisconnectedMode();
     },
   });
 }
@@ -759,6 +774,7 @@ function startStateListener() {
   MQTT_CLIENT.onConnectionLost = function(responseObject) {
     if (responseObject.errorCode !== 0) {
       showError('Lost MQTT connection: ' + responseObject.errorMessage);
+      setDisconnectedMode();
     }
   };
 
@@ -782,10 +798,13 @@ function startStateListener() {
       }
       // Subscribe to the state change topic
       MQTT_CLIENT.subscribe("core-state/change");
+
+      setConnectedMode();
     },
 
     onFailure: function() {
       showError('Failed to connect to MQTT');
+      setDisconnectedMode();
     },
   });
 }

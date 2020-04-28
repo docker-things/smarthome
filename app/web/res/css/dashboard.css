@@ -12,6 +12,7 @@ body {
   border: 0;
   background-color: #000;
   text-rendering: optimizeLegibility;
+  font-family: 'DashboardFont';
 }
 .hidden {
   display: none;
@@ -19,6 +20,32 @@ body {
 .jq-toast-wrap {
   width: 50%;
 }
+/* DISCONNECTED OVERLAY */
+
+.disconnectedOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 4rem;
+  color: #FF0000;
+  font-weight: bold;
+  text-shadow: 0px 0px 0.5em #000, 1px 1px 1px rgba(0, 0, 0, .54);
+  transition: opacity 250ms ease-out;
+  opacity: 1;
+}
+.mainContainer>.disconnectedOverlay.connected {
+  opacity: 0;
+}
+/* MAIN CONTAINER */
+
 .mainContainer {
   position: absolute;
   display: flex;
@@ -30,7 +57,6 @@ body {
   overflow: hidden;
   opacity: 0;
   transition: all 250ms ease-out;
-  font-family: 'DashboardFont';
   background: #FFF;
   color: #000;
   opacity: 0;
@@ -146,7 +172,7 @@ body {
   align-items: center;
   overflow: hidden;
 }
-.mainContainer>.overviewContainer>.screen>.backgroundImage> img {
+.mainContainer>.overviewContainer>.screen>.backgroundImage>img {
   position: absolute;
   top: 0;
   left: 0;
@@ -155,7 +181,7 @@ body {
   display: none;
   transition: opacity 1s ease-out;
 }
-.mainContainer>.overviewContainer>.screen>.backgroundImage> img.visible {
+.mainContainer>.overviewContainer>.screen>.backgroundImage>img.visible {
   display: block;
   opacity: 1;
 }

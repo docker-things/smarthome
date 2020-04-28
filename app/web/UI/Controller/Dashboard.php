@@ -95,6 +95,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
     echo '<div class="menuContainer">' . $this->getMenuHTML() . '</div>';
     echo '<div class="fullScreenButton hidden"><i class="fas fa-expand"></i></div>';
     echo '</div>';
+    echo '<div class="disconnectedOverlay"><img src="/res/img/disconnected.png"></div>';
     echo '</body></html>';
   }
 
