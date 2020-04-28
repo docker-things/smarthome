@@ -241,8 +241,8 @@ function resizeScreenBackground(image) {
   }
 
   image.each(function() {
-    const windowWidth = $(window).width();
-    const windowHeight = $(window).height();
+    const windowWidth = $(window).width()+20;
+    const windowHeight = $(window).height()+20;
 
     const imgWidth = $(this).get(0).naturalWidth;
     const imgHeight = $(this).get(0).naturalHeight;
@@ -255,7 +255,7 @@ function resizeScreenBackground(image) {
       $(this).css({
         height: height,
         width: width,
-        left: 0,
+        left: -10,
         top: ((windowHeight - height) / 2) + 'px',
       });
     } else {
@@ -264,7 +264,7 @@ function resizeScreenBackground(image) {
       $(this).css({
         height: height,
         width: width,
-        top: 0,
+        top: -10,
         left: ((windowWidth - width) / 2) + 'px',
       });
     }
