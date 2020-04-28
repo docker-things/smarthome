@@ -28,6 +28,7 @@ $(document).ready(function() {
     ...STATUS_CLEANING,
     ...STATUS_GOTO,
     ...STATUS_IDLE,
+    ...STATUS_PAUSED,
     ...STATUS_CHARGING,
   ];
 
@@ -201,8 +202,20 @@ $(document).ready(function() {
     })
   }
 
+  function devGoThroughAllKnownStatuses(interval) {
+    showScreenSlideForStaticDashboard('roborock');
+
+    for (let i = 0; i < STATUS_KNOWN.length; i++) {
+      setTimeout(function() {
+        setStatus(STATUS_KNOWN[i]);
+      }, interval * (i + 1));
+    }
+  }
+
   // Actually do something
   activateTriggers();
   activateRoomClick();
   activateButtons();
+
+  // devGoThroughAllKnownStatuses(5000)
 })
