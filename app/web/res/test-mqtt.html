@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      MQTT TESTER
+    </title>
+    <script src="/res/js/thirdparty/jquery.min.js">
+    </script>
+    <script src="/res/js/thirdparty/paho-mqtt-min.js">
+    </script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+		    MQTT_CLIENT = new Paho.MQTT.Client('192.168.0.100', 1884, "mqtt-tester" + new Date().getTime());
+
+	      MQTT_CLIENT.onConnectionLost = function(responseObject) {
+	        if (responseObject.errorCode !== 0) {
+			      $('#connection').text('CONNECTION LOST: '+ responseObject.errorMessage);
+	        }
+	      };
+
+	      MQTT_CLIENT.onMessageArrived = function(message) {
+					const datetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+	      	const text = '['+datetime+'] '+message.payloadString;
+	      	$('<div>'+text+'</div>').prependTo($("#messages"))
+	      };
+
+	      $('#connection').text('Connecting...');
+	      MQTT_CLIENT.connect({
+	        useSSL: false,
+	        reconnect: true,
+
+	        onSuccess: function() {
+			      $('#connection').text('Connected');
+	        },
+
+	        onFailure: function() {
+	          $('#connection').text('Failed to connect to MQTT');
+	        },
+	      });
+
+	      $('#subscribe').click(function(){
+          $('#connection').text('Subscribed to '+$('#topic').val());
+          MQTT_CLIENT.subscribe($('#topic').val());
+          $('#subscribe').attr('disabled','disabled')
+	      })
+
+	      $('#publish').click(function(){
+		      message = new Paho.MQTT.Message($('#payload').val());
+		      message.destinationName = $('#topicTo').val();
+		      MQTT_CLIENT.send(message);
+	      })
+    	})
+    </script>
+  </head>
+  <body>
+    <div style="text-align:center;">
+      <span id="connection">
+        ?
+      </span>
+    </div>
+    <br/>
+    <div style="text-align:center;">
+      <input id="topic" placeholder="Topic" type="text"/>
+      <button id="subscribe">
+        Subscribe
+      </button>
+    </div>
+    <br/>
+    <div style="text-align:center;">
+      <input id="topicTo" placeholder="Topic" type="text"/>
+      <input id="payload" placeholder="Payload" style="width: 700px" type="text"/>
+      <button id="publish">
+        Publish
+      </button>
+    </div>
+    <br/>
+    <div id="messages" style="height:550px; overflow: auto; border: 1px solid grey;">
+    </div>
+  </body>
+</html>
