@@ -570,19 +570,16 @@ var ACTIVITY_HANDLE = false;
 var INACTIVITY_TRIGGERS = [];
 
 function setInactivityTrigger(trigger) {
-  console.log('setInactivityTrigger')
   INACTIVITY_TRIGGERS.push(trigger);
 }
 
 function callInactivityTriggers() {
-  console.log('callInactivityTriggers')
   for (var i = 0; i < INACTIVITY_TRIGGERS.length; i++) {
     INACTIVITY_TRIGGERS[i]()
   }
 }
 
 function markActivity() {
-  console.log('markActivity')
   if (ACTIVITY_HANDLE) {
     clearTimeout(ACTIVITY_HANDLE);
     ACTIVITY_HANDLE = false;
