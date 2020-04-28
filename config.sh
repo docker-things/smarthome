@@ -45,6 +45,7 @@ RUN_ARGS=(
     -v $(pwd)/db:/var/lib/mysql
 
     # TODO: remove mounts - used for development
+    -v $(pwd)/app/modules/core/src:/app/modules/core/src
     -v $(pwd)/app/web/Core:/app/web/Core
     -v $(pwd)/app/web/UI:/app/web/UI
     -v $(pwd)/app/web/res:/app/web/res

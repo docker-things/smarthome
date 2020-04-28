@@ -56,6 +56,8 @@ SERVICES='
     evdev2mqtt
     broadlink2mqtt
     cron
+    core/config
+    core/state
     '
     # bluetooth-scan
 

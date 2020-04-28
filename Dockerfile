@@ -357,6 +357,14 @@ RUN echo -e "\n > INSTALL PYTHON-MIIO\n" \
     /var/tmp/*
 
 
+# TODO: REMOVE!
+RUN echo -e "\n > INSTALL GO BUILD ENV\n" \
+ && apk add --no-cache --virtual=build-dependencies \
+    go \
+    git \
+    musl-dev \
+    linux-headers
+
 # COPY APP FILES
 COPY app/config /app/config
 COPY app/modules/bluetooth-scan /app/modules/bluetooth-scan
@@ -367,6 +375,7 @@ COPY app/modules/openweather /app/modules/openweather
 COPY app/services /app/services
 COPY app/web /app/web
 COPY app/run.sh /app/run.sh
+COPY app/modules/core /app/modules/core
 
 
 # CLEANUP ROOT
