@@ -257,6 +257,10 @@ $(document).ready(function() {
     for (var i = MIN_MAX_PROVIDERS.length - 1; i >= 0; i--) {
       setTrigger('Weather', MIN_MAX_PROVIDERS[i], setMinMaxTemp);
     }
+
+    setInactivityTrigger(function() {
+      showScreenSlideForStaticDashboard('main');
+    })
   }
 
   function activateImageChangerWhenFullScreen() {

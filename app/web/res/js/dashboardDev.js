@@ -52,6 +52,8 @@ function showScreen(screen, touch) {
     return;
   }
 
+  markActivity();
+
   hideMenu(touch);
 
   ACTIVE_SCREEN = screen;
@@ -399,6 +401,7 @@ function touchDragScreens(touch) {
 }
 
 function showMenu() {
+  markActivity();
   const menu = $('.mainContainer .menuContainer')
   menu.css(SCREEN_TRANSITION_ENABLED)
   menu.css({
@@ -408,6 +411,7 @@ function showMenu() {
 }
 
 function hideMenu() {
+  markActivity();
   const menu = $('.mainContainer .menuContainer')
   menu.css(SCREEN_TRANSITION_ENABLED)
   menu.css({
@@ -556,6 +560,42 @@ function bindPrevNextScreenButtons() {
     .click(function() {
       showNextScreenSlide();
     });
+}
+
+/**
+ * ACTIVITY
+ */
+
+var ACTIVITY_HANDLE = false;
+var INACTIVITY_TRIGGERS = [];
+
+function setInactivityTrigger(trigger) {
+  console.log('setInactivityTrigger')
+  INACTIVITY_TRIGGERS.push(trigger);
+}
+
+function callInactivityTriggers() {
+  console.log('callInactivityTriggers')
+  for (var i = 0; i < INACTIVITY_TRIGGERS.length; i++) {
+    INACTIVITY_TRIGGERS[i]()
+  }
+}
+
+function markActivity() {
+  console.log('markActivity')
+  if (ACTIVITY_HANDLE) {
+    clearTimeout(ACTIVITY_HANDLE);
+    ACTIVITY_HANDLE = false;
+  }
+  // 5 minutes
+  ACTIVITY_HANDLE = setTimeout(callInactivityTriggers, 300000);
+}
+
+function bindActivityMonitor() {
+  $('body')
+    .click(markActivity)
+    .bind('touchstart', markActivity)
+    .bind('touchcancel', markActivity)
 }
 
 /**
@@ -762,6 +802,11 @@ function setTriggers() {
     showWarn(props.value);
   });
 
+  // Activity
+  setTrigger(DASHBOARD_ROOM != 'NONE' ? DASHBOARD_ROOM : 'House', 'lastMotion', function(props) {
+    markActivity();
+  })
+
   // Theme
   setThemeTriggers();
 }
@@ -818,6 +863,7 @@ $(document).ready(function() {
   bindPrevNextScreenButtons();
   bindOverlayClick();
   bindFullScreenAction();
+  bindActivityMonitor();
 
   // Show the screen
   createScreenList();
