@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 
 	mqtt "./helpers/mqtt"
 	db "./helpers/mysql"
@@ -19,6 +22,8 @@ var topicChange = strings.Join([]string{serviceName, "change"}, "/")
 var topicProvideFullState = strings.Join([]string{serviceName, "full-state"}, "/")
 
 func main() {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
 	mqtt.Connect(serviceName)
 	db.Connect()
@@ -34,14 +39,12 @@ func main() {
 
 	mqtt.Subscribe(topicGetFullstate, func(msg string) {
 		fmt.Printf("%s: %s\n", topicGetFullstate, msg)
-		// mqtt.PublishOn(topicProvideFullState, msg)
+		result := db.GetCurrentState()
+		json := db.ResultToJSON(result)
+		mqtt.PublishOn(topicProvideFullState, json)
 	})
 
-	db.Connect()
-
-	result := db.GetCurrentState()
-	json := db.ResultToJSON(result)
-	fmt.Println(json)
+	<-c
 }
 
 /*func testConnection() {
