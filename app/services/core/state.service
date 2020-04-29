@@ -2,7 +2,9 @@
 
 while [ 1 = 1 ]; do
   # TODO: REMOVE BUILD @ RUNTIME
+	echo " > Hit ENTER!"
 	read
+	echo " > Building..."
   cd /app/modules/core
   go get -d ./... && \
   go build -ldflags "-s -w" src/state.go && \
