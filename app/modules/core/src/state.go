@@ -22,21 +22,22 @@ var topicChange = strings.Join([]string{serviceName, "change"}, "/")
 var topicProvideFullState = strings.Join([]string{serviceName, "full-state"}, "/")
 
 func main() {
+	// Create channel to monitor interrupt signals
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
+	// Connect to stuff
 	mqtt.Connect(serviceName)
 	db.Connect()
 	defer db.Disconnect()
 
-	// Set default publish topic
-	// publishTopic = strings.Join([]string{serviceName, "read"}, "/")
-
-	mqtt.Subscribe(topicSet, func(msg string) {
+	// TODO: State setter & notifier
+	/*mqtt.Subscribe(topicSet, func(msg string) {
 		fmt.Printf("%s: %s\n", topicSet, msg)
 		// mqtt.PublishOn(topicChange, msg)
-	})
+	})*/
 
+	// Full state provider
 	mqtt.Subscribe(topicGetFullstate, func(msg string) {
 		fmt.Printf("%s: %s\n", topicGetFullstate, msg)
 		result := db.GetCurrentState()
@@ -44,6 +45,7 @@ func main() {
 		mqtt.PublishOn(topicProvideFullState, json)
 	})
 
+	// Keep alive until interrupt is received
 	<-c
 }
 
