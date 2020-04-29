@@ -39,7 +39,7 @@ func main() {
 
 	// Full state provider
 	mqtt.Subscribe(topicGetFullstate, func(msg string) {
-		fmt.Printf("%s: %s\n", topicGetFullstate, msg)
+		fmt.Println("RECEIVED: " + topicGetFullstate + ": " + msg)
 		result := db.GetCurrentState()
 		json := db.ResultToJSON(result)
 		mqtt.PublishOn(topicProvideFullState, json)

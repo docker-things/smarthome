@@ -13,7 +13,7 @@ var serviceName string
 var connection mqtt.Client
 
 func Connect(newServiceName string) {
-  fmt.Printf("\nMQTT: Connect(%s)\n", newServiceName)
+  fmt.Println("mqtt.Connect(): " + newServiceName)
 
   // Set service name locally
   serviceName = newServiceName
@@ -25,26 +25,25 @@ func Connect(newServiceName string) {
   // Connect
   connection = mqtt.NewClient(opts)
   if token := connection.Connect(); token.Wait() && token.Error() != nil {
-    panic(token.Error())
+    panic("mqtt.Connect(): " + token.Error().Error())
   }
 }
 
 func Subscribe(topic string, callback func(string)) {
-  fmt.Printf("\nMQTT: Subscribe(%s)\n", topic)
-
+  fmt.Println("mqtt.Subscribe(): " + topic)
   if token := connection.Subscribe(topic, 0, func(client mqtt.Client, msg mqtt.Message) {
     callback(string(msg.Payload()))
   }); token.Wait() && token.Error() != nil {
-    panic(token.Error())
+    panic("mqtt.Subscribe(): " + token.Error().Error())
   }
 }
 
 func Publish(msg string) {
+  fmt.Println("mqtt.Publish(): " + msg)
   PublishOn(strings.Join([]string{serviceName, "read"}, "/"), msg)
 }
 
 func PublishOn(topic string, msg string) {
-  // fmt.Printf("\nMQTT: PublishOn(%s, %s)\n", topic, msg)
-
+  fmt.Println("mqtt.PublishOn(): " + topic)
   connection.Publish(topic, 0, false, msg)
 }
