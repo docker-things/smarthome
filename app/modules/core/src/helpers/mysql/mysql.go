@@ -36,6 +36,7 @@ func Connect() {
     if err != nil {
       fmt.Println("mysql.Connect(): " + err.Error())
       fmt.Println("mysql.Connect(): Waiting 5 seconds...")
+      time.Sleep(5 * time.Second)
     }
     break
   }
