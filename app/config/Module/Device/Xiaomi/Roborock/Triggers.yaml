@@ -6,7 +6,6 @@ ${Properties.lidSensor}.contact:
       - this is false
     run:
       - SystemNotify.send('Opened ${Properties.selfObjectName} lid')
-      - SystemWarn.send('Opened ${Properties.selfObjectName} lid')
     set:
       ${Properties.selfObjectName}.lidOpened: 'true'
 
