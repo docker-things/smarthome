@@ -3,7 +3,7 @@ package config
 import (
   "errors"
   "fmt"
-  // "os"
+  "os"
   "reflect"
   "regexp"
   "strconv"
@@ -19,38 +19,111 @@ import (
 var regex map[string]*regexp.Regexp
 
 func processConfig(config map[string]interface{}) {
-  preProcessVariablesIn(config, make([]string, 0), config)
+  preProcessVariablesIn(config, []string{}, config, []string{ /* EXCEPT FOR */
+    "PARAMS",
+    "RESPONSE",
+    "ARGS",
+    "Properties",
+  })
+  preProcessObjectsIn(config)
+  // preProcessVariablesIn(config, []string{}, config, []string{ /* EXCEPT FOR */
+  //   "PARAMS",
+  //   "RESPONSE",
+  //   "ARGS",
+  // })
 
   // TODO: Do the rest of the processing!!!
 
   // TODO: Remove debug stuff
-  // where := []string{"Module","Device","CEC","Functions","cmd"}
-  where := []string{"Module", "Device", "CEC", "Functions", "functions", "on()", "run"}
+  // where := []string{"Module", "Device", "CEC", "Functions", "functions", "on()", "run"}
+  where := []string{"Objects", "SystemNotify"}
   value, _ := getAbsoluteTreeValue(where, config)
   fmt.Printf("\n>>>>>\n")
-  fmt.Printf("\n%s = %s\n", strings.Join(where, "."), value)
+  fmt.Printf("\n%s = %s\n", strings.Join(where, "."), json.Encode(value))
   fmt.Printf("\n<<<<<\n")
-
+  os.Exit(1)
 }
 
-func preProcessVariablesIn(config interface{}, path []string, fullConfig map[string]interface{}) {
+func preProcessObjectsIn(fullConfig map[string]interface{}) {
+
+  // Get objects
+  result, wtfErr := getAbsoluteTreeValue([]string{"Objects"}, fullConfig)
+  if wtfErr != nil {
+    fmt.Println("config:processor:preProcessObjectsIn(): " + wtfErr.Error())
+    panic("config:processor:preProcessObjectsIn(): WTF! This should... like... NEVER HAPPEN!!!")
+  }
+  objects := result.(map[string]interface{})
+
+  // For each object
+  for objectName, objectInterface := range objects {
+    // fmt.Println("\nObject = " + objectName)
+
+    object := objectInterface.(map[string]interface{})
+
+    // Skip if there's no base
+    if _, ok := object["base"]; !ok {
+      panic("config.processor.preProcessObjectsIn(): Object " + objectName + " has no base!")
+    }
+
+    // Get base config
+    // fmt.Println(" > Base = " + json.Encode(object["base"]))
+    baseConfig, err := getAbsoluteTreeValue(strings.Split(object["base"].(string), "."), fullConfig)
+    if err != nil {
+      fmt.Println("config.processor.preProcessObjectsIn(): Couldn't find the base config for object '" + objectName + "'")
+      panic("config:processor:preProcessObjectsIn(): " + err.Error())
+    }
+
+    // Set base config
+    delete(object, "base")
+    object["base"] = baseConfig.(map[string]interface{})
+    base := object["base"].(map[string]interface{})
+
+    // Get current properties
+    var properties map[string]interface{}
+    if _, ok := base["Properties"]; ok {
+      properties = base["Properties"].(map[string]interface{})
+    } else {
+      properties = make(map[string]interface{}, 0)
+      base["Properties"] = properties
+    }
+    // fmt.Println(" > Properties = " + json.Encode(properties))
+
+    // If there are properties to set
+    if _, ok := object["with"]; ok {
+
+      // For each property
+      for key, value := range object["with"].(map[string]interface{}) {
+        // fmt.Println("   > SET: " + json.Encode(key) + " = " + json.Encode(value))
+        if _, ok := properties[key]; ok {
+          properties[key] = value
+        }
+      }
+    }
+
+    // Replace object definition with the newly built one
+    delete(objects, objectName)
+    objects[objectName] = base
+  }
+}
+
+func preProcessVariablesIn(config interface{}, path []string, fullConfig map[string]interface{}, except []string) {
   switch reflect.ValueOf(config).Kind().String() {
   case "map":
     for k, v := range config.(map[string]interface{}) {
       subPath := append(path, k)
       if reflect.ValueOf(v).Kind().String() == "string" {
-        config.(map[string]interface{})[k] = preProcessString(v.(string), subPath, fullConfig)
+        config.(map[string]interface{})[k] = preProcessString(v.(string), subPath, fullConfig, except)
       } else {
-        preProcessVariablesIn(v, subPath, fullConfig)
+        preProcessVariablesIn(v, subPath, fullConfig, except)
       }
     }
   case "slice":
     for k, v := range config.([]interface{}) {
       subPath := append(path, strconv.Itoa(k))
       if reflect.ValueOf(v).Kind().String() == "string" {
-        config.([]interface{})[k] = preProcessString(v.(string), subPath, fullConfig)
+        config.([]interface{})[k] = preProcessString(v.(string), subPath, fullConfig, except)
       } else {
-        preProcessVariablesIn(v, subPath, fullConfig)
+        preProcessVariablesIn(v, subPath, fullConfig, except)
       }
     }
   default: // TODO: REMOVE
@@ -65,7 +138,16 @@ func preProcessRegexp() {
   regex["variable"] = regexp.MustCompile("\\${([a-zA-Z0-9.-]+)}")
 }
 
-func preProcessString(str string, path []string, fullConfig map[string]interface{}) string {
+func contains(searchTerm string, list []string) bool {
+  for _, value := range list {
+    if value == searchTerm {
+      return true
+    }
+  }
+  return false
+}
+
+func preProcessString(str string, path []string, fullConfig map[string]interface{}, except []string) string {
   matches := regex["variable"].FindAllStringSubmatch(str, -1)
   if len(matches) == 0 || matches[0][1] == "" {
     return str
@@ -76,9 +158,8 @@ func preProcessString(str string, path []string, fullConfig map[string]interface
   for _, match := range matches {
     param := strings.Split(match[1], ".")
 
-    // Skip runtime params
-    switch param[0] {
-    case "PARAMS", "RESPONSE", "ARGS", "Properties":
+    // Skip excluded params
+    if contains(param[0], except) {
       continue
     }
 
@@ -111,8 +192,8 @@ func getClosestTreeValue(requiredPath []string, currentPath []string, fullConfig
     // Get current path in which we should search
     currentPathConfig, wtfErr := getAbsoluteTreeValue(currentPath, fullConfig)
     if wtfErr != nil {
-      // fmt.Println("config:processor:getClosestTreeValue(): " + wtfErr.Error())
-      panic("config:processor:getClosestTreeValue(): This should... like... NEVER HAPPEN!!!")
+      fmt.Println("config:processor:getClosestTreeValue(): " + wtfErr.Error())
+      panic("config:processor:getClosestTreeValue(): WTF! This should... like... NEVER HAPPEN!!!")
     }
 
     // Search for the required path
