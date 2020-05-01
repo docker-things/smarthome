@@ -7,6 +7,7 @@ import (
 	"strings"
 	"syscall"
 
+	json "./helpers/json"
 	mqtt "./helpers/mqtt"
 	db "./helpers/mysql"
 )
@@ -41,7 +42,7 @@ func main() {
 	mqtt.Subscribe(topicGetFullstate, func(msg string) {
 		fmt.Println("RECEIVED: " + topicGetFullstate + ": " + msg)
 		result := db.GetCurrentState()
-		json := db.ResultToJSON(result)
+		json := json.Encode(result)
 		mqtt.PublishOn(topicProvideFullState, json)
 	})
 

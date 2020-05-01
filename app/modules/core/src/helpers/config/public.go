@@ -1,10 +1,10 @@
 package config
 
 import (
-  "encoding/json"
   "fmt"
-  "log"
   "time"
+
+  json "../json"
 )
 
 func CompileRegexp() {
@@ -26,8 +26,15 @@ func ReloadOnChange(interval int) {
   }
 }
 
+func GetJSON() string {
+  config.mutex.Lock()
+  configJsonString := json.Encode(config.value)
+  config.mutex.Unlock()
+  return configJsonString
+}
+
 func Load() {
-  fmt.Printf("\nloadConfig()\n")
+  fmt.Println("loadConfig()")
 
   // Get current files with modified time
   newConfigFiles := getConfigFilesIn(configPath)
@@ -54,19 +61,10 @@ func Load() {
   }
 }
 
-func configToJsonString(config map[string]interface{}) string {
-  configJson, err := json.Marshal(config)
-  if err != nil {
-    log.Fatal("ERROR: setNewConfig(): Cannot encode to JSON ", err)
-  }
-  return string(configJson)
-}
-
 func setNewConfig(newConfig map[string]interface{}) {
   config.mutex.Lock()
   config.value = newConfig
-  configJsonString := configToJsonString(config.value)
+  configJsonString := json.Encode(config.value)
   config.mutex.Unlock()
-
   onChangeCallback(configJsonString)
 }

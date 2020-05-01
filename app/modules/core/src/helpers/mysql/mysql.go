@@ -2,7 +2,6 @@ package mysql
 
 import (
   "database/sql"
-  "encoding/json"
   "fmt"
   _ "github.com/go-sql-driver/mysql"
   "strings"
@@ -107,13 +106,6 @@ func getRows(query string) []map[string]interface{} {
   return tableData
 }
 
-func ResultToJSON(result []map[string]interface{}) string {
-  jsonData, err := json.Marshal(result)
-  if err != nil {
-    panic("mysql.ResultToJSON(): " + err.Error())
-  }
-  return string(jsonData)
-}
 
 func tableExists(table string) bool {
   fmt.Println("mysql.tableExists(): " + table)

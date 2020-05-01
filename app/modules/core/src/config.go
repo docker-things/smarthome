@@ -12,6 +12,12 @@ const serviceName = "core/config"
 
 const configPath = "/app/data/config"
 
+// IN
+var topicRequest = strings.Join([]string{serviceName, "request"}, "/")
+
+// OUT
+var topicPublish = strings.Join([]string{serviceName, "get"}, "/")
+
 // var publishTopic string
 
 func main() {
@@ -24,23 +30,22 @@ func main() {
 
   // Set publish method
   config.SetOnChangeCallback(func(configJson string) {
-    mqtt.Publish(configJson)
+    mqtt.PublishOn(topicPublish, configJson)
   })
 
   // Connect to MQTT
   mqtt.Connect(serviceName)
 
-  // Set publish topic
-  // publishTopic = strings.Join([]string{serviceName, "read"}, "/")
-
   // Get config
   config.Load()
 
   // Listen to incoming MQTT requests
-  mqtt.Subscribe(strings.Join([]string{serviceName, "write"}, "/"), func(msg string) {
-    fmt.Printf("\nGOT THIS: %s\n", msg)
+  mqtt.Subscribe(topicRequest, func(msg string) {
+    fmt.Println("RECEIVED: " + msg)
+    configJson := config.GetJSON()
+    mqtt.PublishOn(topicPublish, configJson)
   })
 
   // Check for config changes every 5 seconds
-  config.ReloadOnChange(1)
+  config.ReloadOnChange(5)
 }

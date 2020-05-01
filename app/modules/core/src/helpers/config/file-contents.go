@@ -1,12 +1,12 @@
 package config
 
 import (
-  "fmt"
+  // "fmt"
   // "path"
   "encoding/json"
   "io/ioutil"
-  "path/filepath"
-  "strings"
+  // "path/filepath"
+  // "strings"
 
   "github.com/ghodss/yaml"
 )
@@ -14,18 +14,20 @@ import (
 func loadFileIntoConfig(absolutePath string, config map[string]interface{}) {
 
   // TODO: REMOVE: FILTER BY DIR
-  filenameWithExt := filepath.Base(absolutePath)
-  filedir := strings.TrimSuffix(absolutePath, filenameWithExt)
-  if filedir != "/app/data/config/Module/Device/CEC/" {
-    return
-  }
-
-  // TODO: REMOVE: FILTER BY FILE
-  // if(absolutePath != "/app/data/config/Module/Device/CEC/Functions.yaml") {
-  //     return
+  // filenameWithExt := filepath.Base(absolutePath)
+  // filedir := strings.TrimSuffix(absolutePath, filenameWithExt)
+  // if filedir != "/app/data/config/Module/Device/CEC/" {
+  //   return
   // }
 
-  fmt.Printf("READING: %s\n", absolutePath)
+  // TODO: REMOVE: FILTER BY FILE
+  // if absolutePath != "/app/data/config/Module/Device/WakeOnLan/Functions.yaml" &&
+  //   absolutePath != "/app/data/config/Module/Device/WakeOnLan/Properties.yaml" &&
+  //   absolutePath != "/app/data/config/Base.yaml" {
+  //   return
+  // }
+
+  // fmt.Printf("READING: %s\n", absolutePath)
 
   // // Get config type (file name)
   // filenameWithExt := filepath.Base(absolutePath)
