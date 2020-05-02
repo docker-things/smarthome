@@ -41,11 +41,11 @@ func processConfig(config map[string]interface{}) {
     "Properties",
   })
   preProcessObjectsIn(config)
-  // preProcessVariablesIn(config, []string{}, config, []string{ /* EXCEPT FOR */
-  // "PARAMS",
-  // "RESPONSE",
-  // "ARGS",
-  // })
+  preProcessVariablesIn(config, []string{}, config, []string{ /* EXCEPT FOR */
+    "PARAMS",
+    "RESPONSE",
+    "ARGS",
+  })
 
   // TODO: Do the rest of the processing!!!
 
@@ -152,6 +152,8 @@ func contains(searchTerm string, list []string) bool {
 }
 
 func preProcessString(str string, path []string, fullConfig map[string]interface{}, except []string) string {
+  // strings.Join(path, ".") == "Module.Heating.Cron.jobs.0.run.0"
+  fmt.Println("preProcessString(): " + str + " in " + json.Encode(path))
   matches := regex["variable"].FindAllStringSubmatch(str, -1)
   if len(matches) == 0 || matches[0][1] == "" {
     return str
@@ -171,8 +173,9 @@ func preProcessString(str string, path []string, fullConfig map[string]interface
     if err != nil {
       panic("config:processor:preProcessString(): VARIABLE NOT FOUND!\nSEARCH = " + match[1] + "\nPATH = " + strings.Join(path, "."))
     }
-
-    if reflect.ValueOf(value).Kind().String() != "string" {
+    if reflect.ValueOf(value).Kind().String() == "float64" {
+      value = fmt.Sprintf("%g", value)
+    } else if reflect.ValueOf(value).Kind().String() != "string" {
       panic("config:processor:preProcessString(): Variable found is not a string! It's '" + reflect.ValueOf(value).String() + "'\nSEARCH = " + match[1] + "\nPATH = " + strings.Join(path, "."))
     }
 
@@ -201,7 +204,7 @@ func getClosestTreeValue(requiredPath []string, currentPath []string, fullConfig
     }
 
     // Search for the required path
-    requiredPathValue, err := getAbsoluteTreeValue(requiredPath, currentPathConfig.(map[string]interface{}))
+    requiredPathValue, err := getAbsoluteTreeValue(requiredPath, currentPathConfig)
 
     // If value found return it
     if err == nil {
@@ -217,33 +220,66 @@ func getClosestTreeValue(requiredPath []string, currentPath []string, fullConfig
   return nil, err
 }
 
-func getAbsoluteTreeValue(requiredPath []string, config map[string]interface{}) (interface{}, error) {
+func getAbsoluteTreeValue(requiredPath []string, config interface{}) (interface{}, error) {
   // fmt.Printf("\nconfig:processor:getAbsoluteTreeValue(): %s\n%s\n", json.Encode(requiredPath), json.Encode(config))
+  fmt.Printf("\nconfig:processor:getAbsoluteTreeValue(): %s\n", json.Encode(requiredPath))
   if len(requiredPath) == 0 {
-    // fmt.Printf("len(requiredPath) == 0\n")
+    fmt.Printf("len(requiredPath) == 0\n")
     return config, nil
   }
+
   for true {
-    // fmt.Println("requiredPath = " + json.Encode(requiredPath))
-    // Break if next key doesn't exist
-    if _, ok := config[requiredPath[0]]; !ok {
-      // fmt.Println(" > not found")
-      break
+    fmt.Printf("requiredPath = [%s] %s\n", reflect.ValueOf(config).Kind().String(), strings.Join(requiredPath, "."))
+    switch reflect.ValueOf(config).Kind().String() {
+    case "map":
+      mapConfig := config.(map[string]interface{})
+
+      // Break if next key doesn't exist
+      if _, ok := mapConfig[requiredPath[0]]; !ok {
+        return nil, errors.New("config:processor:getAbsoluteTreeValue(): Path not found: " + json.Encode(requiredPath))
+        break
+      }
+
+      // If there's a single key left
+      if len(requiredPath) == 1 {
+        fmt.Println(" > FOUND!")
+        return mapConfig[requiredPath[0]], nil
+      }
+
+      // Otherwise go deeper
+      config = mapConfig[requiredPath[0]]
+
+    case "slice":
+      sliceConfig := config.([]interface{})
+
+      // Make int key
+      fmt.Println(requiredPath[0])
+      key, err := strconv.Atoi(requiredPath[0])
+      if err != nil {
+        return nil, errors.New("config:processor:getAbsoluteTreeValue(): Couldn't make int out of string from '" + requiredPath[0] + "'")
+      }
+
+      // Break if next key doesn't exist
+      if len(sliceConfig) < key {
+        fmt.Println(" > not found")
+        return nil, errors.New("config:processor:getAbsoluteTreeValue(): Path not found: " + json.Encode(requiredPath))
+      }
+
+      // If there's a single key left
+      if len(requiredPath) == 1 {
+        fmt.Println(" > FOUND!")
+        return sliceConfig[key], nil
+      }
+
+      // Otherwise go deeper
+      config = sliceConfig[key]
+    default:
+      return nil, errors.New("config:processor:getAbsoluteTreeValue(): Got type [" + reflect.ValueOf(config).Kind().String() + "]")
     }
 
-    // If there's a single key left
-    if len(requiredPath) == 1 {
-      // fmt.Println(" > FOUND!")
-      return config[requiredPath[0]], nil
-    }
-
-    // Otherwise go deeper
-    config = config[requiredPath[0]].(map[string]interface{})
+    // Shift required path
     requiredPath = requiredPath[1:]
   }
 
-  // fmt.Println("requiredPath = " + json.Encode(requiredPath))
-
-  err := errors.New("config:processor:getAbsoluteTreeValue(): Path not found: " + json.Encode(requiredPath))
-  return nil, err
+  return nil, errors.New("config:processor:getAbsoluteTreeValue(): Path not found: " + json.Encode(requiredPath))
 }
