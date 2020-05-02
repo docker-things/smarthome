@@ -7,16 +7,31 @@ import (
   "reflect"
   "regexp"
   "strconv"
-  //     // "path"
-  //     // "path/filepath"
+  // "path"
+  // "path/filepath"
+  // "github.com/ghodss/yaml"
+  // "io/ioutil"
   "strings"
-  //     "io/ioutil"
-  //     "github.com/ghodss/yaml"
 
+  deepcopy "../deepcopy"
   json "../json"
 )
 
 var regex map[string]*regexp.Regexp
+
+func dumpPath(path string, tree map[string]interface{}) {
+  where := strings.Split(path, ".")
+  value, err := getAbsoluteTreeValue(where, tree)
+  if err != nil {
+    fmt.Printf("\n[DUMP] %s: %s\n", path, err.Error())
+  } else {
+    fmt.Printf("\n[DUMP][%p] %s:\n%s\n", value, path, json.Encode(value))
+  }
+}
+
+func getPointer(value interface{}) string {
+  return fmt.Sprintf("%p", value)
+}
 
 func processConfig(config map[string]interface{}) {
   preProcessVariablesIn(config, []string{}, config, []string{ /* EXCEPT FOR */
@@ -27,19 +42,18 @@ func processConfig(config map[string]interface{}) {
   })
   preProcessObjectsIn(config)
   // preProcessVariablesIn(config, []string{}, config, []string{ /* EXCEPT FOR */
-  //   "PARAMS",
-  //   "RESPONSE",
-  //   "ARGS",
+  // "PARAMS",
+  // "RESPONSE",
+  // "ARGS",
   // })
 
   // TODO: Do the rest of the processing!!!
 
   // TODO: Remove debug stuff
   // where := []string{"Module", "Device", "CEC", "Functions", "functions", "on()", "run"}
-  where := []string{"Objects", "SystemNotify"}
-  value, _ := getAbsoluteTreeValue(where, config)
   fmt.Printf("\n>>>>>\n")
-  fmt.Printf("\n%s = %s\n", strings.Join(where, "."), json.Encode(value))
+  dumpPath("Objects.SystemNotify", config)
+  dumpPath("Objects.SystemWarn", config)
   fmt.Printf("\n<<<<<\n")
   os.Exit(1)
 }
@@ -47,26 +61,23 @@ func processConfig(config map[string]interface{}) {
 func preProcessObjectsIn(fullConfig map[string]interface{}) {
 
   // Get objects
-  result, wtfErr := getAbsoluteTreeValue([]string{"Objects"}, fullConfig)
+  objectsInterface, wtfErr := getAbsoluteTreeValue([]string{"Objects"}, fullConfig)
   if wtfErr != nil {
     fmt.Println("config:processor:preProcessObjectsIn(): " + wtfErr.Error())
     panic("config:processor:preProcessObjectsIn(): WTF! This should... like... NEVER HAPPEN!!!")
   }
-  objects := result.(map[string]interface{})
+  objects := objectsInterface.(map[string]interface{})
 
   // For each object
   for objectName, objectInterface := range objects {
-    // fmt.Println("\nObject = " + objectName)
-
     object := objectInterface.(map[string]interface{})
 
-    // Skip if there's no base
+    // Why no base?
     if _, ok := object["base"]; !ok {
       panic("config.processor.preProcessObjectsIn(): Object " + objectName + " has no base!")
     }
 
     // Get base config
-    // fmt.Println(" > Base = " + json.Encode(object["base"]))
     baseConfig, err := getAbsoluteTreeValue(strings.Split(object["base"].(string), "."), fullConfig)
     if err != nil {
       fmt.Println("config.processor.preProcessObjectsIn(): Couldn't find the base config for object '" + objectName + "'")
@@ -74,34 +85,27 @@ func preProcessObjectsIn(fullConfig map[string]interface{}) {
     }
 
     // Set base config
-    delete(object, "base")
-    object["base"] = baseConfig.(map[string]interface{})
+    object["base"] = make(map[string]interface{}, 0)
+    deepcopy.Map(baseConfig.(map[string]interface{}), object["base"].(map[string]interface{}))
     base := object["base"].(map[string]interface{})
 
     // Get current properties
-    var properties map[string]interface{}
-    if _, ok := base["Properties"]; ok {
-      properties = base["Properties"].(map[string]interface{})
-    } else {
-      properties = make(map[string]interface{}, 0)
-      base["Properties"] = properties
+    if _, ok := base["Properties"]; !ok {
+      base["Properties"] = make(map[string]interface{}, 0)
     }
-    // fmt.Println(" > Properties = " + json.Encode(properties))
+    properties := base["Properties"].(map[string]interface{})
 
     // If there are properties to set
     if _, ok := object["with"]; ok {
-
-      // For each property
       for key, value := range object["with"].(map[string]interface{}) {
-        // fmt.Println("   > SET: " + json.Encode(key) + " = " + json.Encode(value))
-        if _, ok := properties[key]; ok {
-          properties[key] = value
-        }
+        properties[key] = value
       }
     }
 
+    // Set object name in properties
+    properties["selfObjectName"] = objectName
+
     // Replace object definition with the newly built one
-    delete(objects, objectName)
     objects[objectName] = base
   }
 }

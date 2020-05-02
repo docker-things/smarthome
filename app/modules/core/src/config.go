@@ -1,11 +1,11 @@
 package main
 
 import (
-  "fmt"
+  // "fmt"
   "strings"
 
   config "./helpers/config"
-  mqtt "./helpers/mqtt"
+  // mqtt "./helpers/mqtt"
 )
 
 const serviceName = "core/config"
@@ -30,21 +30,21 @@ func main() {
 
   // Set publish method
   config.SetOnChangeCallback(func(configJson string) {
-    mqtt.PublishOn(topicPublish, configJson)
+    // mqtt.PublishOn(topicPublish, configJson)
   })
 
   // Connect to MQTT
-  mqtt.Connect(serviceName)
+  // mqtt.Connect(serviceName)
 
   // Get config
   config.Load()
 
   // Listen to incoming MQTT requests
-  mqtt.Subscribe(topicRequest, func(msg string) {
-    fmt.Println("RECEIVED: " + msg)
-    configJson := config.GetJSON()
-    mqtt.PublishOn(topicPublish, configJson)
-  })
+  // mqtt.Subscribe(topicRequest, func(msg string) {
+  //   fmt.Println("RECEIVED: " + msg)
+  //   configJson := config.GetJSON()
+  //   mqtt.PublishOn(topicPublish, configJson)
+  // })
 
   // Check for config changes every 5 seconds
   config.ReloadOnChange(5)
