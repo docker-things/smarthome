@@ -52,6 +52,7 @@ RUN_ARGS=(
 
     # zigbee2mqtt device
     --device=/dev/ttyACM0
+    --device=/dev/ttyACM1
 
     # TODO: remove port forwarding if we stick with host network
 
