@@ -238,6 +238,25 @@ RUN echo -e "\n > INSTALL PYTHON-MIIO\n" \
     /tmp/* \
     /var/tmp/*
 
+
+# PYTHON-MIIO LATEST!
+RUN echo -e "\n > INSTALL PYTHON-MIIO LATEST\n" \
+ && apk add --no-cache --virtual build-dependencies \
+    git \
+ \
+ && git clone https://github.com/foxel/python-miio.git /tmp/python-miio \
+ && cd /tmp/python-miio \
+ && git checkout air-purifier-3h-support \
+ && python3 setup.py install -f \
+ \
+ && echo -e "\n > CLEANUP\n" \
+ && apk del --purge \
+    build-dependencies \
+ && rm -rf \
+    /tmp/* \
+    /var/tmp/*
+
+
 # INSTALL CEC SUPPORT
 RUN echo -e "\n > INSTALL CEC SUPPORT\n" \
  && apk add --no-cache \
@@ -245,53 +264,6 @@ RUN echo -e "\n > INSTALL CEC SUPPORT\n" \
  \
  && echo -e "\n > CLEANUP\n" \
  && rm -rf \
-    /tmp/* \
-    /var/tmp/*
-
-
-# INSTALL GO COMPILED MODULES:
-# - CEC-CLIENT TO MQTT BRIDGE
-# - EVDEV2MQTT
-# - YEELIGHT
-# - WAKEONLAN
-COPY app/modules/cec-client-mqtt-bridge /app/modules/cec-client-mqtt-bridge
-COPY app/modules/evdev2mqtt /app/modules/evdev2mqtt
-COPY app/modules/yeelight /app/modules/yeelight
-RUN echo -e "\n > INSTALL GO BUILD ENV\n" \
- && apk add --no-cache --virtual=build-dependencies \
-    go \
-    git \
-    musl-dev \
-    linux-headers \
-    \
- && echo -e "\n > BUILD MODULE: CEC-CLIENT TO MQTT BRIDGE\n" \
- && cd /app/modules/cec-client-mqtt-bridge \
- && go get github.com/eclipse/paho.mqtt.golang \
- && go build -ldflags "-s -w" src/cec-client-mqtt-bridge.go \
- \
- && echo -e "\n > BUILD MODULE: EVDEV2MQTT\n" \
- && cd /app/modules/evdev2mqtt \
- && go get github.com/eclipse/paho.mqtt.golang \
- && go get github.com/gvalkov/golang-evdev \
- && go build -ldflags "-s -w" src/evdev2mqtt.go \
- \
- && echo -e "\n > BUILD MODULE: YEELIGHT\n" \
- && cd /app/modules/yeelight \
- && go build -ldflags "-s -w" src/yeelight.go \
- \
- && echo -e "\n > BUILD MODULE: WAKEONLAN\n" \
- && go get github.com/blchinezu/go-wol/cmd/wol \
- && mv /root/go/bin/wol /app/modules/wakeonlan \
- \
- && echo -e "\n > CLEANUP\n" \
- && apk del --purge \
-    build-dependencies \
- && rm -rf \
-    /app/modules/cec-client-mqtt-bridge/src \
-    /app/modules/evdev2mqtt/src \
-    /app/modules/yeelight/src \
-    /root/.cache \
-    /root/go \
     /tmp/* \
     /var/tmp/*
 
@@ -339,31 +311,85 @@ RUN echo -e "\n > INSTALL BROADLINK IN $BROADLINK_PATH\n" \
     /tmp/* \
     /var/tmp/*
 
-# PYTHON-MIIO
-RUN echo -e "\n > INSTALL PYTHON-MIIO\n" \
- && apk add --no-cache --virtual build-dependencies \
-    git \
- \
- && git clone https://github.com/foxel/python-miio.git /tmp/python-miio \
- && cd /tmp/python-miio \
- && git checkout air-purifier-3h-support \
- && python3 setup.py install -f \
- \
- && echo -e "\n > CLEANUP\n" \
- && apk del --purge \
-    build-dependencies \
- && rm -rf \
-    /tmp/* \
-    /var/tmp/*
+
+# # INSTALL GO COMPILED MODULES:
+# # - CEC-CLIENT TO MQTT BRIDGE
+# # - EVDEV2MQTT
+# # - YEELIGHT
+# # - WAKEONLAN
+# COPY app/modules/cec-client-mqtt-bridge /app/modules/cec-client-mqtt-bridge
+# COPY app/modules/evdev2mqtt /app/modules/evdev2mqtt
+# COPY app/modules/yeelight /app/modules/yeelight
+# RUN echo -e "\n > INSTALL GO BUILD ENV\n" \
+#  && apk add --no-cache --virtual=build-dependencies \
+#     go \
+#     git \
+#     musl-dev \
+#     linux-headers \
+#     \
+#  && echo -e "\n > BUILD MODULE: CEC-CLIENT TO MQTT BRIDGE\n" \
+#  && cd /app/modules/cec-client-mqtt-bridge \
+#  && go get github.com/eclipse/paho.mqtt.golang \
+#  && go build -ldflags "-s -w" src/cec-client-mqtt-bridge.go \
+#  \
+#  && echo -e "\n > BUILD MODULE: EVDEV2MQTT\n" \
+#  && cd /app/modules/evdev2mqtt \
+#  && go get github.com/eclipse/paho.mqtt.golang \
+#  && go get github.com/gvalkov/golang-evdev \
+#  && go build -ldflags "-s -w" src/evdev2mqtt.go \
+#  \
+#  && echo -e "\n > BUILD MODULE: YEELIGHT\n" \
+#  && cd /app/modules/yeelight \
+#  && go build -ldflags "-s -w" src/yeelight.go \
+#  \
+#  && echo -e "\n > BUILD MODULE: WAKEONLAN\n" \
+#  && go get github.com/blchinezu/go-wol/cmd/wol \
+#  && mv /root/go/bin/wol /app/modules/wakeonlan \
+#  \
+#  && echo -e "\n > CLEANUP\n" \
+#  && apk del --purge \
+#     build-dependencies \
+#  && rm -rf \
+#     /app/modules/cec-client-mqtt-bridge/src \
+#     /app/modules/evdev2mqtt/src \
+#     /app/modules/yeelight/src \
+#     /root/.cache \
+#     /root/go \
+#     /tmp/* \
+#     /var/tmp/*
 
 
-# TODO: REMOVE!
+# INSTALL GO COMPILED MODULES:
 RUN echo -e "\n > INSTALL GO BUILD ENV\n" \
  && apk add --no-cache --virtual=build-dependencies \
     go \
     git \
     musl-dev \
     linux-headers
+
+COPY app/modules/cec-client-mqtt-bridge /app/modules/cec-client-mqtt-bridge
+COPY app/modules/evdev2mqtt /app/modules/evdev2mqtt
+COPY app/modules/yeelight /app/modules/yeelight
+
+RUN echo -e "\n > BUILD MODULE: CEC-CLIENT TO MQTT BRIDGE\n" \
+ && cd /app/modules/cec-client-mqtt-bridge \
+ && go get github.com/eclipse/paho.mqtt.golang \
+ && go build -ldflags "-s -w" src/cec-client-mqtt-bridge.go \
+ \
+ && echo -e "\n > BUILD MODULE: EVDEV2MQTT\n" \
+ && cd /app/modules/evdev2mqtt \
+ && go get github.com/eclipse/paho.mqtt.golang \
+ && go get github.com/gvalkov/golang-evdev \
+ && go build -ldflags "-s -w" src/evdev2mqtt.go \
+ \
+ && echo -e "\n > BUILD MODULE: YEELIGHT\n" \
+ && cd /app/modules/yeelight \
+ && go build -ldflags "-s -w" src/yeelight.go \
+ \
+ && echo -e "\n > BUILD MODULE: WAKEONLAN\n" \
+ && go get github.com/blchinezu/go-wol/cmd/wol \
+ && mv /root/go/bin/wol /app/modules/wakeonlan
+
 
 # COPY APP FILES
 COPY app/config /app/config
