@@ -31,21 +31,9 @@ ${Properties.lidSensor}.contact:
     if:
       - this is true
       - ${Properties.selfObjectName}.status in ['Idle','Charger_disconnected']
-      - ${Properties.selfObjectName}.last_start_date is System.date
     run:
       - ${Properties.selfObjectName}.home()
       - SystemNotify.send('${Properties.selfObjectName} going to the dock (lid closed)')
-
-  When closing lid - IDLE - Clean - ${Properties.selfObjectName}:
-    if:
-      - this is true
-      - ${Properties.selfObjectName}.status in ['Idle','Charger_disconnected']
-      - ${Properties.selfObjectName}.last_start_date is not System.date
-      - House.closedDoors is false
-      - House.sleeping is false
-    run:
-      - ${Properties.selfObjectName}.start()
-      - SystemNotify.send('${Properties.selfObjectName} start cleaning (lid closed)')
 
   When closing lid - PAUSED - RESUME - ${Properties.selfObjectName}:
     if:
