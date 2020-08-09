@@ -13,21 +13,21 @@ class Core_Logger {
      * @param $message
      */
     public static function info($message) {
-        Core_Logger::_message($message, 'INFO');
+        // Core_Logger::_message($message, 'INFO');
     }
 
     /**
      * @param $message
      */
     public static function debug($message) {
-        Core_Logger::_message($message, 'DEBUG');
+        // Core_Logger::_message($message, 'DEBUG');
     }
 
     /**
      * @param $message
      */
     public static function warn($message) {
-        Core_Logger::_message($message . "\n", 'WARN');
+        // Core_Logger::_message($message . "\n", 'WARN');
     }
 
     /**
