@@ -39,11 +39,13 @@ func processEvent(ev *EVDEV.InputEvent, mqttClient MQTT.Client, topic string) {
         }
     }
 
-    message := fmt.Sprintf(
-        "{\"timestamp\":\"%d\",\"timestamp.usec\":\"%d\",\"type_code\":\"%d\",\"type_name\":\"%s\",\"event_code\":\"%d\",\"event_name\":\"%s\",\"value\":\"%d\"}",
-        ev.Time.Sec, ev.Time.Usec, etype, EVDEV.EV[int(ev.Type)], ev.Code, code_name, ev.Value)
+    if ev.Code == 316 {
+        message := fmt.Sprintf(
+            "{\"timestamp\":\"%d\",\"timestamp.usec\":\"%d\",\"type_code\":\"%d\",\"type_name\":\"%s\",\"event_code\":\"%d\",\"event_name\":\"%s\",\"value\":\"%d\"}",
+            ev.Time.Sec, ev.Time.Usec, etype, EVDEV.EV[int(ev.Type)], ev.Code, code_name, ev.Value)
 
-    mqttClient.Publish(topic, 0, false, message)
+        mqttClient.Publish(topic, 0, false, message)
+    }
 }
 
 
@@ -53,7 +55,8 @@ func listenDevice(dev *EVDEV.InputDevice, mqttClient MQTT.Client, wg *sync.WaitG
     var events []EVDEV.InputEvent
     var err error
 
-    topic := "gamepad"+dev.Fn+"/rx"
+    // topic := "gamepad"+dev.Fn+"/rx"
+    topic := "gamepad/rx"
 
     fmt.Printf("Listening to "+dev.Fn+" ("+dev.Name+")...\n")
     for {
