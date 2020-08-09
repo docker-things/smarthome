@@ -1,6 +1,6 @@
 ---
 
-mqtt-topic: !required
+# mqtt-topic: !required
 room: NONE
 tv: NONE
 motion: NONE

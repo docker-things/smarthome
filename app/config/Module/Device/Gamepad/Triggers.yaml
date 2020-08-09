@@ -30,40 +30,49 @@ event_name:
       - ${Properties.room}.lightOff()
       - SystemNotify.send('${Properties.tv} switched to gaming (${Properties.selfObjectName})')
 
-  LIGHT ON WHEN TV OFF - ${Properties.selfObjectName}:
-    if:
-      - this is BTN_MODE
-      - ${Properties.tv}.status is on
-      - ${Properties.tv}.source is smarthome
-      - ${Properties.light}.status not in ['on','offline']
-      - ${Properties.motion}.illuminance < ${Properties.light-on-by-motion-when-lux-below}
-    run:
-      - ${Properties.room}.lightOn()
-      - SystemNotify.send('${Properties.light} ON (${Properties.selfObjectName} TV OFF)')
+  # LIGHT ON WHEN TV OFF - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is BTN_MODE
+  #     - ${Properties.selfObjectName}.lastModePress is System.timestamp
+  #     - ${Properties.tv}.status is on
+  #     - ${Properties.tv}.source is smarthome
+  #     - ${Properties.light}.status not in ['on','offline']
+  #     - ${Properties.motion}.illuminance < ${Properties.light-on-by-motion-when-lux-below}
+  #   run:
+  #     - ${Properties.room}.lightOn()
+  #     - SystemNotify.send('${Properties.light} ON (${Properties.selfObjectName} TV OFF)')
 
-  TV OFF - ${Properties.selfObjectName}:
-    if:
-      - this is BTN_MODE
-      - ${Properties.tv}.status is on
-      - ${Properties.tv}.source is smarthome
-    run:
-      - ${Properties.tv}.off()
-      - SystemNotify.send('${Properties.tv} OFF (${Properties.selfObjectName})')
+  # TV OFF - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is BTN_MODE
+  #     - ${Properties.selfObjectName}.lastModePress is System.timestamp
+  #     - ${Properties.tv}.status is on
+  #     - ${Properties.tv}.source is smarthome
+  #   run:
+  #     - ${Properties.tv}.off()
+  #     - SystemNotify.send('${Properties.tv} OFF (${Properties.selfObjectName})')
 
-  MANUAL LIGHT OFF - ${Properties.selfObjectName}:
-    if:
-      - this in ['BTN_TL','BTN_TR']
-      - this.value is 1
-      - ${Properties.light}.status not in ['off','offline']
-    run:
-      - ${Properties.room}.lightOff()
-      - SystemNotify.send('${Properties.light} OFF (${Properties.selfObjectName})')
+  # MANUAL LIGHT OFF - ${Properties.selfObjectName}:
+  #   if:
+  #     - this in ['BTN_TL','BTN_TR']
+  #     - this.value is 1
+  #     - ${Properties.light}.status not in ['off','offline']
+  #   run:
+  #     - ${Properties.room}.lightOff()
+  #     - SystemNotify.send('${Properties.light} OFF (${Properties.selfObjectName})')
 
-  MANUAL LIGHT ON - ${Properties.selfObjectName}:
-    if:
-      - this in ['BTN_TL','BTN_TR']
-      - this.value is 1
-      - ${Properties.light}.status not in ['on','offline']
-    run:
-      - ${Properties.room}.lightOn()
-      - SystemNotify.send('${Properties.light} ON (${Properties.selfObjectName})')
+  # MANUAL LIGHT ON - ${Properties.selfObjectName}:
+  #   if:
+  #     - this in ['BTN_TL','BTN_TR']
+  #     - this.value is 1
+  #     - ${Properties.light}.status not in ['on','offline']
+  #   run:
+  #     - ${Properties.room}.lightOn()
+  #     - SystemNotify.send('${Properties.light} ON (${Properties.selfObjectName})')
+
+  # MARK DOUBLE PRESS - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is BTN_MODE
+  #     - ${Properties.selfObjectName}.lastModePress is not System.timestamp
+  #   set:
+  #     ${Properties.selfObjectName}.lastModePress: System.timestamp
