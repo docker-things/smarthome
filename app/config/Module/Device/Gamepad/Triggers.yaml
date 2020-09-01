@@ -15,7 +15,7 @@ event_name:
       - ${Properties.tv}.status is off
     run:
       - ${Properties.tv}.switchToSmarthome()
-      - ${Properties.room}.lightOff()
+      # - ${Properties.room}.lightOff()
       - System.sleep("1")
       - ${Properties.tv}.switchToSmarthome()
       - SystemNotify.send('${Properties.tv} ON in gaming (${Properties.selfObjectName})')
@@ -27,7 +27,7 @@ event_name:
       - ${Properties.tv}.source is not smarthome
     run:
       - ${Properties.tv}.switchToSmarthome()
-      - ${Properties.room}.lightOff()
+      # - ${Properties.room}.lightOff()
       - SystemNotify.send('${Properties.tv} switched to gaming (${Properties.selfObjectName})')
 
   # LIGHT ON WHEN TV OFF - ${Properties.selfObjectName}:
