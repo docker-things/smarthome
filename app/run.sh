@@ -43,24 +43,31 @@ chmod 775 -R \
 SCREEN_NAME="`hostname`"
 
 # Services to launch
-SERVICES='
-    mosquitto
-    mariadb
-    apache
-    mqtt-listener
-    full-state-provider
-    state-setter
-    function-run-listener
-    zigbee2mqtt
-    cec-client-mqtt-bridge
-    evdev2mqtt
-    broadlink2mqtt
-    cron
-    core/mqtt-forward
-    core/config
-    core/state
-    '
-    # bluetooth-scan
+if [ "`cat /app/data/.env`" == "prod" ]; then
+    SERVICES='
+        mosquitto
+        mariadb
+        apache
+        mqtt-listener
+        full-state-provider
+        state-setter
+        function-run-listener
+        zigbee2mqtt
+        cec-client-mqtt-bridge
+        evdev2mqtt
+        broadlink2mqtt
+        cron
+        core/mqtt-forward
+        '
+        # bluetooth-scan
+else
+    SERVICES='
+        mosquitto
+        mariadb
+        core/config
+        core/state
+        '
+fi
 
 # Launch daemon
 echo " > Launch screen daemon"

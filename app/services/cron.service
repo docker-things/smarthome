@@ -1,9 +1,5 @@
 #!/bin/ash
 
-if [ "`cat /app/data/.env`" != "prod" ]; then
-  exit 0
-fi
-
 while [ 1 = 1 ]; do
 	sudo -u apache php /app/web/cron.php
 

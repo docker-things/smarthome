@@ -1,7 +1,16 @@
 #!/bin/ash
 
+if [ ! -f /app/data/mosquitto.conf ]; then
+  echo " > Creating initial config"
+  echo "listener 1883" > /app/data/mosquitto.conf
+  echo "protocol mqtt" >> /app/data/mosquitto.conf
+  echo "" >> /app/data/mosquitto.conf
+  echo "listener 1884" >> /app/data/mosquitto.conf
+  echo "protocol websockets" >> /app/data/mosquitto.conf
+fi
+
 while [ 1 = 1 ]; do
-	mosquitto -c /app/data/mosquitto.conf
+  	mosquitto -c /app/data/mosquitto.conf
 
     echo " > Service stopped, restarting in 5 seconds..."
     sleep 5s
