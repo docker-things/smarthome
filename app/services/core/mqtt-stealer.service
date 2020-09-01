@@ -2,16 +2,16 @@
 
 while [ 1 = 1 ]; do
   # TODO: REMOVE BUILD @ RUNTIME
-	clear
-	echo " > Building..."
+  clear
+  echo " > Building..."
   cd /app/modules/core
   go get -d ./... && \
   go build -ldflags "-s -w" src/mqtt-stealer.go && \
-	/app/modules/core/mqtt-stealer
+  /app/modules/core/mqtt-stealer
 
-	echo " > Service stopped, restarting in 5 seconds..."
+  echo " > Service stopped, restarting in 5 seconds..."
   # TODO: RESTORE SLEEP!
-	sleep 5s
+  sleep 5s
   # TODO: REMOVE PAUSE @ RUNTIME
   # echo " > Hit ENTER!"
   # read
