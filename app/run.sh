@@ -56,6 +56,7 @@ SERVICES='
     evdev2mqtt
     broadlink2mqtt
     cron
+    core/mqtt-forward
     core/config
     core/state
     '

@@ -7,13 +7,11 @@ import (
   mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
-const mqttBroker = "tcp://localhost:1883"
-
 var serviceName string
 var connection mqtt.Client
 
-func Connect(newServiceName string) {
-  fmt.Println("mqtt.Connect(): " + newServiceName)
+func Connect(newServiceName string, mqttBroker string) {
+  fmt.Println("mqtt.Connect(): " + newServiceName + " @ " + mqttBroker)
 
   // Set service name locally
   serviceName = newServiceName
@@ -29,13 +27,20 @@ func Connect(newServiceName string) {
   }
 }
 
-func Subscribe(topic string, callback func(string)) {
-  fmt.Println("mqtt.Subscribe(): " + topic)
+func SubscribeWithTopic(topic string, callback func(string, string)) {
+  fmt.Println("mqtt.SubscribeWithTopic(): " + topic)
   if token := connection.Subscribe(topic, 0, func(client mqtt.Client, msg mqtt.Message) {
-    callback(string(msg.Payload()))
+    callback(msg.Topic(), string(msg.Payload()))
   }); token.Wait() && token.Error() != nil {
     panic("mqtt.Subscribe(): " + token.Error().Error())
   }
+}
+
+func Subscribe(topic string, callback func(string)) {
+  fmt.Println("mqtt.Subscribe(): " + topic)
+  SubscribeWithTopic(topic, func(foo string, msg string) {
+    callback(msg)
+  })
 }
 
 func Publish(msg string) {
