@@ -57,16 +57,22 @@ if [ "`cat /app/data/.env`" == "prod" ]; then
         evdev2mqtt
         broadlink2mqtt
         cron
-        core/mqtt-forward
         '
         # bluetooth-scan
 else
     SERVICES='
         mosquitto
         mariadb
+        core/mqtt-stealer
         core/config
         core/state
         '
+
+    echo " > Fetching GO dependencies..."
+    HERE="`pwd`"
+    cd /app/modules/core
+    go get -d ./...
+    cd "$HERE"
 fi
 
 # Launch daemon

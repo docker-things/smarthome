@@ -13,6 +13,7 @@ import (
 )
 
 const serviceName = "core/state"
+const mqttBroker = "tcp://localhost:1883"
 
 // IN
 var topicSet = strings.Join([]string{serviceName, "set"}, "/")
@@ -28,7 +29,7 @@ func main() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
 	// Connect to stuff
-	mqtt.Connect(serviceName)
+	mqtt.Connect(serviceName, mqttBroker)
 	db.Connect()
 	defer db.Disconnect()
 
