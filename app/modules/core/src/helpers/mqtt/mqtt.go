@@ -1,17 +1,27 @@
 package mqtt
 
 import (
-  "fmt"
+  // "fmt"
   "strings"
 
   mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
 var serviceName string
-var connection mqtt.Client
+var lastBroker string
+var connections map[string]mqtt.Client
+
+func debug(text string) {
+  // fmt.Println(text)
+}
 
 func Connect(newServiceName string, mqttBroker string) {
-  fmt.Println("mqtt.Connect(): " + newServiceName + " @ " + mqttBroker)
+  debug("mqtt.Connect(): " + newServiceName + " @ " + mqttBroker)
+
+  // Make sure the connections map is initialized
+  if connections == nil {
+    connections = make(map[string]mqtt.Client, 1)
+  }
 
   // Set service name locally
   serviceName = newServiceName
@@ -21,34 +31,55 @@ func Connect(newServiceName string, mqttBroker string) {
   opts.SetCleanSession(true)
 
   // Connect
-  connection = mqtt.NewClient(opts)
-  if token := connection.Connect(); token.Wait() && token.Error() != nil {
+  connections[mqttBroker] = mqtt.NewClient(opts)
+  lastBroker = mqttBroker
+  if token := connections[mqttBroker].Connect(); token.Wait() && token.Error() != nil {
     panic("mqtt.Connect(): " + token.Error().Error())
   }
 }
 
 func SubscribeWithTopic(topic string, callback func(string, string)) {
-  fmt.Println("mqtt.SubscribeWithTopic(): " + topic)
-  if token := connection.Subscribe(topic, 0, func(client mqtt.Client, msg mqtt.Message) {
+  debug("mqtt.SubscribeWithTopic(): " + topic)
+  BrokerSubscribeWithTopic(lastBroker, topic, callback)
+}
+
+func Subscribe(topic string, callback func(string)) {
+  debug("mqtt.Subscribe(): " + topic)
+  BrokerSubscribe(lastBroker, topic, callback)
+}
+
+func Publish(msg string) {
+  debug("mqtt.Publish(): " + msg)
+  BrokerPublish(lastBroker, msg)
+}
+
+func PublishOn(topic string, msg string) {
+  debug("mqtt.PublishOn(): " + topic)
+  BrokerPublishOn(lastBroker, topic, msg)
+}
+
+func BrokerSubscribeWithTopic(broker string, topic string, callback func(string, string)) {
+  debug("mqtt.BrokerSubscribeWithTopic(): [" + broker + "] " + topic)
+  if token := connections[broker].Subscribe(topic, 0, func(client mqtt.Client, msg mqtt.Message) {
     callback(msg.Topic(), string(msg.Payload()))
   }); token.Wait() && token.Error() != nil {
     panic("mqtt.Subscribe(): " + token.Error().Error())
   }
 }
 
-func Subscribe(topic string, callback func(string)) {
-  fmt.Println("mqtt.Subscribe(): " + topic)
-  SubscribeWithTopic(topic, func(foo string, msg string) {
+func BrokerSubscribe(broker string, topic string, callback func(string)) {
+  debug("mqtt.BrokerSubscribe(): [" + broker + "] " + topic)
+  BrokerSubscribeWithTopic(broker, topic, func(foo string, msg string) {
     callback(msg)
   })
 }
 
-func Publish(msg string) {
-  fmt.Println("mqtt.Publish(): " + msg)
-  PublishOn(strings.Join([]string{serviceName, "read"}, "/"), msg)
+func BrokerPublish(broker string, msg string) {
+  debug("mqtt.BrokerPublish(): [" + broker + "] " + msg)
+  BrokerPublishOn(broker, strings.Join([]string{serviceName, "read"}, "/"), msg)
 }
 
-func PublishOn(topic string, msg string) {
-  fmt.Println("mqtt.PublishOn(): " + topic)
-  connection.Publish(topic, 0, false, msg)
+func BrokerPublishOn(broker string, topic string, msg string) {
+  debug("mqtt.BrokerPublishOn(): [" + broker + "] " + topic)
+  connections[broker].Publish(topic, 0, false, msg)
 }
