@@ -1,15 +1,15 @@
 package main
 
 import (
-  // "fmt"
+  "fmt"
   "strings"
 
   config "./helpers/config"
-  // mqtt "./helpers/mqtt"
+  mqtt "./helpers/mqtt"
 )
 
+const broker = "tcp://192.168.0.100:1883"
 const serviceName = "core/config"
-
 const configPath = "/app/data/config"
 
 // IN
@@ -30,21 +30,26 @@ func main() {
 
   // Set publish method
   config.SetOnChangeCallback(func(configJson string) {
-    // mqtt.PublishOn(topicPublish, configJson)
+    fmt.Println("Sending config")
+    mqtt.PublishOn(topicPublish, configJson)
   })
 
   // Connect to MQTT
-  // mqtt.Connect(serviceName)
+  mqtt.Connect(serviceName, broker)
 
   // Get config
   config.Load()
 
   // Listen to incoming MQTT requests
-  // mqtt.Subscribe(topicRequest, func(msg string) {
-  //   fmt.Println("RECEIVED: " + msg)
-  //   configJson := config.GetJSON()
-  //   mqtt.PublishOn(topicPublish, configJson)
-  // })
+  mqtt.Subscribe(topicRequest, func(msg string) {
+    fmt.Println("RECEIVED: " + msg)
+    // TODO: Send config per service channel with custom restricted format
+    // NEVER expose the actual config format in order to be able to later change it
+    //
+    // configJson := config.GetJSON()
+    // fmt.Println("Sending config per service in custom restricted format")
+    // mqtt.PublishOn(topicPublish, configJson)
+  })
 
   // Check for config changes every 5 seconds
   config.ReloadOnChange(5)
