@@ -6,8 +6,7 @@ import (
   "os/signal"
   "syscall"
 
-  mqttDestination "./helpers/mqtt"
-  mqttSource "./helpers/mqtt"
+  mqtt "./helpers/mqtt"
 )
 
 const serviceName = "core/mqtt-stealer"
@@ -21,13 +20,13 @@ func main() {
   signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
   // Connect
-  mqttSource.Connect(serviceName, sourceBroker)
-  mqttDestination.Connect(serviceName, destinationBroker)
+  mqtt.Connect(serviceName, sourceBroker)
+  mqtt.Connect(serviceName, destinationBroker)
 
   // Steal
-  mqttSource.SubscribeWithTopic("#", func(topic string, msg string) {
+  mqtt.BrokerSubscribeWithTopic(sourceBroker, "#", func(topic string, msg string) {
     fmt.Println(topic + ": " + msg)
-    mqttDestination.PublishOn(topic, msg)
+    mqtt.BrokerPublishOn(destinationBroker, topic, msg)
   })
 
   // Keep alive until interrupt is received
