@@ -506,7 +506,7 @@ ${Properties.button.object}.click:
       - ${Properties.light.secondary.object}.status not in ['on','offline','NONE.status']
     run:
       - ${Properties.light.secondary.object}.on()
-      - ${Properties.light.secondary.object}.brightness('50')
+      - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.mid-brightness}')
       - ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
       - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
@@ -516,7 +516,7 @@ ${Properties.button.object}.click:
       - this is double
       - ${Properties.light.secondary.object} is not NONE
       - ${Properties.light.secondary.object}.status is on
-      - ${Properties.light.secondary.object}.brightness is 50
+      - ${Properties.light.secondary.object}.brightness is ${Properties.light.secondary.mid-brightness}
     run:
       - ${Properties.light.secondary.object}.brightness('100')
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
@@ -536,6 +536,22 @@ ${Properties.button.object}.click:
     run:
       - ${Properties.tv.audio-system.object}.on()
       - SystemNotify.send('${Properties.tv.audio-system.object} ON (${Properties.button.object})')
+
+  Triple click - Custom Defined Toggle OFF - ${Properties.selfObjectName}:
+    if:
+      - this is triple
+      - ${Properties.button.toggle.triple-click}.status is on
+    run:
+      - ${Properties.button.toggle.triple-click}.off()
+      - SystemNotify.send('${Properties.button.toggle.triple-click} OFF (${Properties.button.object})')
+
+  Triple click - Custom Defined Toggle ON - ${Properties.selfObjectName}:
+    if:
+      - this is triple
+      - ${Properties.button.toggle.triple-click}.status not in ['on','NONE.status']
+    run:
+      - ${Properties.button.toggle.triple-click}.on()
+      - SystemNotify.send('${Properties.button.toggle.triple-click} ON (${Properties.button.object})')
 
   Triple click - Heating OFF - ${Properties.selfObjectName}:
     if:
