@@ -91,7 +91,7 @@ func preProcessObjectsIn(fullConfig map[string]interface{}) {
 
     // If there are properties to set
     if _, ok := object["with"]; ok {
-      log.Info("deepOverwrite properties for " + objectName)
+      // log.Info("deepOverwrite properties for " + objectName)
       deepOverwrite(properties, object["with"].(map[string]interface{}))
     }
 
@@ -127,7 +127,7 @@ func preProcessVariablesIn(config interface{}, path []string, fullConfig map[str
   log.PushPath("preProcessVariablesIn")
   defer log.PopPath()
 
-  log.Info(strings.Join(path, "."))
+  // log.Info(strings.Join(path, "."))
 
   switch reflect.ValueOf(config).Kind().String() {
   case "map":
@@ -160,7 +160,7 @@ func preProcessString(str string, path []string, fullConfig map[string]interface
   defer log.PopPath()
 
   // strings.Join(path, ".") == "Module.Heating.Cron.jobs.0.run.0"
-  log.Info("\"" + str + "\" in " + json.Encode(path))
+  // log.Info("\"" + str + "\" in " + json.Encode(path))
   matches := regex["variable"].FindAllStringSubmatch(str, -1)
   if len(matches) == 0 || matches[0][1] == "" {
     return str
@@ -195,14 +195,14 @@ func preProcessString(str string, path []string, fullConfig map[string]interface
 func getClosestTreeValue(requiredPath []string, currentPath []string, fullConfig map[string]interface{}) (interface{}, error) {
   log.PushPath("getClosestTreeValue")
   defer log.PopPath()
-  log.Info("Search for \"" + strings.Join(requiredPath, ".") + "\"")
+  // log.Info("Search for \"" + strings.Join(requiredPath, ".") + "\"")
 
   log.Deactivate()
 
   for len(currentPath) != 0 {
     // Go up a level
     currentPath = currentPath[:len(currentPath)-1]
-    log.Info("In: " + strings.Join(currentPath, "."))
+    // log.Info("In: " + strings.Join(currentPath, "."))
 
     // Get current path in which we should search
     log.IgnoreFrom()
@@ -217,7 +217,7 @@ func getClosestTreeValue(requiredPath []string, currentPath []string, fullConfig
 
     // If value found return it
     if err == nil {
-      log.Info("FOUND " + json.Encode(currentPath) + "." + json.Encode(requiredPath) + " = " + json.Encode(requiredPathValue))
+      // log.Info("FOUND " + json.Encode(currentPath) + "." + json.Encode(requiredPath) + " = " + json.Encode(requiredPathValue))
       log.Activate()
       return requiredPathValue, nil
     }
@@ -228,36 +228,36 @@ func getClosestTreeValue(requiredPath []string, currentPath []string, fullConfig
   log.Activate()
 
   // Shit happens
-  log.Warn("Path not found: " + strings.Join(requiredPath, "."))
+  log.Error("Path not found: " + strings.Join(requiredPath, "."))
   err := errors.New("Path not found: " + strings.Join(requiredPath, "."))
   return nil, err
 }
 
 func getAbsoluteTreeValue(requiredPath []string, config interface{}) (interface{}, error) {
-  log.PushPath("getAbsoluteTreeValue")
-  defer log.PopPath()
+  // log.PushPath("getAbsoluteTreeValue")
+  // defer log.PopPath()
 
   if len(requiredPath) == 0 {
-    log.Info("len(requiredPath) == 0")
+    // log.Info("len(requiredPath) == 0")
     return config, nil
   }
 
   for true {
-    log.Info("[" + reflect.ValueOf(config).Kind().String() + "] " + strings.Join(requiredPath, "."))
+    // log.Info("[" + reflect.ValueOf(config).Kind().String() + "] " + strings.Join(requiredPath, "."))
     switch reflect.ValueOf(config).Kind().String() {
     case "map":
       mapConfig := config.(map[string]interface{})
 
       // Break if next key doesn't exist
       if _, ok := mapConfig[requiredPath[0]]; !ok {
-        log.Warn("Path not found: " + strings.Join(requiredPath, "."))
+        // log.Warn("Path not found: " + strings.Join(requiredPath, "."))
         return nil, errors.New("Path not found: " + strings.Join(requiredPath, "."))
         break
       }
 
       // If there's a single key left
       if len(requiredPath) == 1 {
-        log.Info("FOUND!")
+        // log.Info("FOUND!")
         return mapConfig[requiredPath[0]], nil
       }
 
@@ -270,26 +270,26 @@ func getAbsoluteTreeValue(requiredPath []string, config interface{}) (interface{
       // Make int key
       key, err := strconv.Atoi(requiredPath[0])
       if err != nil {
-        log.Error("Couldn't make int out of string from '" + requiredPath[0] + "'")
+        // log.Error("Couldn't make int out of string from '" + requiredPath[0] + "'")
         return nil, errors.New("Couldn't make int out of string from '" + requiredPath[0] + "'")
       }
 
       // Break if next key doesn't exist
       if len(sliceConfig) < key {
-        log.Warn("Path not found: " + strings.Join(requiredPath, "."))
+        // log.Warn("Path not found: " + strings.Join(requiredPath, "."))
         return nil, errors.New("Path not found: " + strings.Join(requiredPath, "."))
       }
 
       // If there's a single key left
       if len(requiredPath) == 1 {
-        log.Info("FOUND!")
+        // log.Info("FOUND!")
         return sliceConfig[key], nil
       }
 
       // Otherwise go deeper
       config = sliceConfig[key]
     default:
-      log.Warn("Got type [" + reflect.ValueOf(config).Kind().String() + "]")
+      // log.Warn("Got type [" + reflect.ValueOf(config).Kind().String() + "]")
       return nil, errors.New("Got type [" + reflect.ValueOf(config).Kind().String() + "]")
     }
 
@@ -297,7 +297,7 @@ func getAbsoluteTreeValue(requiredPath []string, config interface{}) (interface{
     requiredPath = requiredPath[1:]
   }
 
-  log.Warn("Path not found: " + strings.Join(requiredPath, "."))
+  // log.Warn("Path not found: " + strings.Join(requiredPath, "."))
   return nil, errors.New("Path not found: " + strings.Join(requiredPath, "."))
 }
 
