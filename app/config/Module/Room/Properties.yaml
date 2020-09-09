@@ -43,16 +43,19 @@ light:
     object: NONE
     brightness: 50
     temperature: 2700
-    off-when-no-motion-for-X-seconds: 3600
+    off-when-no-motion-for-X-seconds-current-location: 7200
+    off-when-no-motion-for-X-seconds-prev-location: 240
+    off-when-no-motion-for-X-seconds-old-location: 10
     off-when-lux-over: 200
 
-    ledstrip:
-      object: NONE
-      off-when-no-motion-for-X-seconds-current-location: 3600
-      off-when-no-motion-for-X-seconds-prev-location: 120
-      off-when-no-motion-for-X-seconds-old-location: 5
+ledstrip:
+  object: NONE
+  off-when-no-motion-for-X-seconds-current-location: 3600
+  off-when-no-motion-for-X-seconds-prev-location: 120
+  off-when-no-motion-for-X-seconds-old-location: 5
 
-      motion: NONE
+  motion:
+    object: NONE
 
 door:
   object: NONE

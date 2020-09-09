@@ -12,3 +12,9 @@ room-6: NONE
 room-7: NONE
 room-8: NONE
 room-9: NONE
+
+heating: NONE
+
+roborock:
+  object: NONE
+  local-zone: NONE

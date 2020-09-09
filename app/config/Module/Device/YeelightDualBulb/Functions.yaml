@@ -1,7 +1,5 @@
 ---
 
-cmd: '${Base.paths.modules}/yeelight/yeelight ${Properties.ip}'
-
 functions:
 
   on():

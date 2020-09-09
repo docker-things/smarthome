@@ -67,7 +67,7 @@ ${Properties.plex.object}.status:
     run:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
-      - ${Properties.light.object}.brightness('${Properties.level.dim-duration-when-plex-paused}','${Properties.light.dim-duration-when-plex-paused}')
+      - ${Properties.light.object}.brightness('${Properties.light.dim-level-when-plex-paused}','${Properties.light.dim-duration-when-plex-paused}')
       - SystemNotify.send('${Properties.light.object} DIMMED (${Properties.plex.object} is ${Properties.plex.object}.status)')
 
   # STOPPED

@@ -9,13 +9,13 @@ jobs:
 
   - interval: 60
     if:
-      - ${Properties.roborock.object}.status is Charging
+      - ${Properties.selfObjectName}.status is Charging
     run:
       - getStatus()
 
   - interval: 30
     if:
-      - ${Properties.roborock.object}.status is not Charging
+      - ${Properties.selfObjectName}.status is not Charging
     run:
       - getStatus()
 
