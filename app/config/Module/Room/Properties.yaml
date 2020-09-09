@@ -13,6 +13,8 @@ motion:
 
 button:
   object: NONE
+  toggle:
+    triple-click: NONE
 
 clapper:
   object: NONE
