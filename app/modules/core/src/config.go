@@ -8,8 +8,8 @@ import (
   mqtt "./helpers/mqtt"
 )
 
-const broker = "tcp://192.168.0.100:1883"
 const serviceName = "core/config"
+const broker = "tcp://localhost:1883"
 const configPath = "/app/data/config"
 
 // IN
