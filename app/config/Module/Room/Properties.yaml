@@ -42,6 +42,7 @@ light:
   secondary:
     object: NONE
     brightness: 50
+    mid-brightness: 50
     temperature: 2700
     off-when-no-motion-for-X-seconds-current-location: 7200
     off-when-no-motion-for-X-seconds-prev-location: 240
