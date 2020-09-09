@@ -19,13 +19,15 @@ func main() {
   c := make(chan os.Signal, 1)
   signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
-  // Connect
+  fmt.Println("Connecting to source: " + sourceBroker)
   mqtt.Connect(serviceName, sourceBroker)
+
+  fmt.Println("Connecting to destination: " + destinationBroker)
   mqtt.Connect(serviceName, destinationBroker)
 
-  // Steal
+  fmt.Println("Forwarding...")
   mqtt.BrokerSubscribeWithTopic(sourceBroker, "#", func(topic string, msg string) {
-    fmt.Println(topic + ": " + msg)
+    // fmt.Println(topic + ": " + msg)
     mqtt.BrokerPublishOn(destinationBroker, topic, msg)
   })
 
