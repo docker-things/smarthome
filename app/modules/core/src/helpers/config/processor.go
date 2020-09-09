@@ -3,7 +3,7 @@ package config
 import (
   "errors"
   "fmt"
-  "os"
+  // "os"
   "reflect"
   "regexp"
   "strconv"
@@ -45,11 +45,11 @@ func processConfig(config map[string]interface{}) {
 
   // TODO: Remove debug stuff
   // where := []string{"Module", "Device", "CEC", "Functions", "functions", "on()", "run"}
-  fmt.Printf("\n>>>>>\n")
-  dumpPath("Objects.SystemNotify", config)
-  dumpPath("Objects.SystemWarn", config)
-  fmt.Printf("\n<<<<<\n")
-  os.Exit(1)
+  // fmt.Printf("\n>>>>>\n")
+  // dumpPath("Objects.SystemNotify", config)
+  // dumpPath("Objects.SystemWarn", config)
+  // fmt.Printf("\n<<<<<\n")
+  // os.Exit(1)
 }
 
 func preProcessObjectsIn(fullConfig map[string]interface{}) {
@@ -77,9 +77,11 @@ func preProcessObjectsIn(fullConfig map[string]interface{}) {
     }
 
     // Set base config
-    object["base"] = make(map[string]interface{}, 0)
-    deepcopy.Map(baseConfig.(map[string]interface{}), object["base"].(map[string]interface{}))
-    base := object["base"].(map[string]interface{})
+    // object["base"] = make(map[string]interface{}, 0)
+    // deepcopy.Map(baseConfig.(map[string]interface{}), object["base"].(map[string]interface{}))
+    // base := object["base"].(map[string]interface{})
+    base := make(map[string]interface{}, 0)
+    deepcopy.Map(baseConfig.(map[string]interface{}), base)
 
     // Get current properties
     if _, ok := base["Properties"]; !ok {
@@ -89,9 +91,8 @@ func preProcessObjectsIn(fullConfig map[string]interface{}) {
 
     // If there are properties to set
     if _, ok := object["with"]; ok {
-      for key, value := range object["with"].(map[string]interface{}) {
-        properties[key] = value
-      }
+      log.Info("deepOverwrite properties for " + objectName)
+      deepOverwrite(properties, object["with"].(map[string]interface{}))
     }
 
     // Set object name in properties
@@ -105,6 +106,20 @@ func preProcessObjectsIn(fullConfig map[string]interface{}) {
       "RESPONSE",
       "ARGS",
     })
+  }
+}
+
+func deepOverwrite(to map[string]interface{}, from map[string]interface{}) {
+  for key, value := range from {
+    switch reflect.ValueOf(value).Kind().String() {
+    case "map":
+      if _, ok := to[key]; !ok {
+        log.Panic("deepOverwrite(): key = \"" + key + "\"")
+      }
+      deepOverwrite(to[key].(map[string]interface{}), from[key].(map[string]interface{}))
+    default:
+      to[key] = value
+    }
   }
 }
 
