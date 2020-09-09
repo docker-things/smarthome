@@ -64,6 +64,7 @@ else
     mosquitto
     mariadb
     core/mqtt-stealer
+    core/mqtt-listener
     core/config
     core/state
     '
