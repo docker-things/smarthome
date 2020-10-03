@@ -49,6 +49,8 @@ RUN_ARGS=(
     -v $(pwd)/app/web/Core:/app/web/Core
     -v $(pwd)/app/web/UI:/app/web/UI
     -v $(pwd)/app/web/res:/app/web/res
+    -v $(pwd)/dev/go:/root/go
+    -v $(pwd)/dev/go-build:/root/.cache/go-build
 
     # zigbee2mqtt device
     --device=/dev/ttyACM0
