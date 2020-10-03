@@ -301,21 +301,21 @@ class Core_State {
             )
             ");
 
-        // Add history entry
-        $this->_db->exec("
-            INSERT INTO `history` (
-                `source`,
-                `name`,
-                `value`,
-                `timestamp`
-            )
-            VALUES (
-                '" . $this->_db->escape($source) . "',
-                '" . $this->_db->escape($name) . "',
-                '" . $this->_db->escape($value) . "',
-                " . $this->_db->escape($timestamp) . "
-            )
-            ");
+        // // Add history entry
+        // $this->_db->exec("
+        //     INSERT INTO `history` (
+        //         `source`,
+        //         `name`,
+        //         `value`,
+        //         `timestamp`
+        //     )
+        //     VALUES (
+        //         '" . $this->_db->escape($source) . "',
+        //         '" . $this->_db->escape($name) . "',
+        //         '" . $this->_db->escape($value) . "',
+        //         " . $this->_db->escape($timestamp) . "
+        //     )
+        //     ");
 
         // Notify state change
         $this->notifyChange($source, $name, $value, $prevValue, $timestamp);
