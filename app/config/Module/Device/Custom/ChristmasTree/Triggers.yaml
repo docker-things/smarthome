@@ -1,0 +1,20 @@
+--- # Do stuff when certain variables are changed
+
+${Properties.sync-with}.status:
+  turned on - ${Properties.selfObjectName}:
+    if:
+      - this is on
+    run:
+      - ${Properties.selfObjectName}.on()
+      - SystemNotify.send('Turned ${Properties.selfObjectName} on (synced ${Properties.sync-with})')
+    set:
+      status: 'on'
+
+  turned off - ${Properties.selfObjectName}:
+    if:
+      - this is off
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('Turned ${Properties.selfObjectName} off (synced ${Properties.sync-with})')
+    set:
+      status: 'off'
