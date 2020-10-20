@@ -1,0 +1,58 @@
+--- # Do stuff when certain variables are changed
+
+device:
+
+  MARK MOTION - ${Properties.selfObjectName}:
+    if: ${Properties.room}.lastMotion is not System.timestamp
+    set:
+      House.lastMotion: System.timestamp
+      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.room}.lastMotion: System.timestamp
+
+  TV ON IN RETRO-GAMING - ${Properties.selfObjectName}:
+    if:
+      - this is retro-gaming
+      - ${Properties.tv}.status is off
+    run:
+      - ${Properties.tv}.switchToSmarthome()
+      # - ${Properties.room}.lightOff()
+      - System.sleep("1")
+      - ${Properties.tv}.switchToSmarthome()
+      - SystemNotify.send('${Properties.tv} ON in retro-gaming (${Properties.selfObjectName})')
+
+  TV ON IN GAMING - ${Properties.selfObjectName}:
+    if:
+      - this is gaming
+      - ${Properties.tv}.status is off
+    run:
+      - ${Properties.tv}.switchToGaming()
+      # - ${Properties.room}.lightOff()
+      - System.sleep("1")
+      - ${Properties.tv}.switchToGaming()
+      - SystemNotify.send('${Properties.tv} ON in gaming (${Properties.selfObjectName})')
+
+  TV - IN RETRO-GAMING - ${Properties.selfObjectName}:
+    if:
+      - this is retro-gaming
+    run:
+      - ${Properties.tv}.switchToSmarthome()
+      - System.sleep("1")
+      - ${Properties.tv}.switchToSmarthome()
+      - SystemNotify.send('${Properties.tv} switch to retro-gaming (${Properties.selfObjectName})')
+
+  TV - IN GAMING - ${Properties.selfObjectName}:
+    if:
+      - this is gaming
+    run:
+      - ${Properties.tv}.switchToGaming()
+      - System.sleep("1")
+      - ${Properties.tv}.switchToGaming()
+      - SystemNotify.send('${Properties.tv} switch to gaming (${Properties.selfObjectName})')
+
+  TV OFF - ${Properties.selfObjectName}:
+    if:
+      - this is off
+      - ${Properties.tv}.status is on
+    run:
+      - ${Properties.tv}.off()
+      - SystemNotify.send('${Properties.tv} OFF (${Properties.selfObjectName})')

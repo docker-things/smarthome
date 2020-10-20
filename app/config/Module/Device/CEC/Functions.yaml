@@ -11,7 +11,10 @@ functions:
     run: ${cmd} 'standby 0'
 
   switchToSmarthome():
-    run: ${cmd} 'as'
+    run: ${cmd} 'as';${cmd} 'p 0 3'
+
+  switchToGaming():
+    run: ${cmd} 'on';${cmd} 'p 0 1'
 
   sendRaw(command):
     run: ${cmd} '${ARGS.command}''

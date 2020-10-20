@@ -1,0 +1,8 @@
+---
+
+mqtt-topic: !required
+name: NONE
+room: NONE
+tv: NONE
+motion: NONE
+light: NONE
