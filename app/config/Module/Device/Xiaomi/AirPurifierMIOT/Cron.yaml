@@ -5,4 +5,4 @@ jobs:
     run: getStatus()
 
   - interval: 31
-    run: auto()
+    run: checkIfShouldTurnOff()

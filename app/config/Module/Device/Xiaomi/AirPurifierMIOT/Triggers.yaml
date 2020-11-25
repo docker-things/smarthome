@@ -1,22 +1,69 @@
 --- # Do stuff when certain variables are changed
 
-${Properties.selfObjectName}.aqi:
-  Do them checks - ${Properties.selfObjectName}:
-    run:
-      - ${Properties.selfObjectName}.auto()
-
 House.openWindows:
-  Do them checks - ${Properties.selfObjectName}:
-    run:
-      - ${Properties.selfObjectName}.auto()
+  Opened window - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.selfObjectName}.status is on
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('silent')
+      - ${Properties.selfObjectName}.set_led_brightness('off')
+      - SystemNotify.send('${Properties.selfObjectName} SILENT (Opened Window)')
+      - SystemWarn.send('${Properties.selfObjectName} SILENT (Opened Window)')
+
+  Closed windows - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - House.sleeping is false
+      - House.presence is true
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('auto')
+      - ${Properties.selfObjectName}.set_led_brightness('bright')
+      - SystemNotify.send('${Properties.selfObjectName} AUTO (Closed Windows)')
+      - SystemWarn.send('${Properties.selfObjectName} AUTO (Closed Windows)')
 
 House.sleeping:
-  Do them checks - ${Properties.selfObjectName}:
-    run:
-      - ${Properties.selfObjectName}.auto()
+  Sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.selfObjectName}.status is on
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('silent')
+      - ${Properties.selfObjectName}.set_led_brightness('off')
+      - SystemNotify.send('${Properties.selfObjectName} SILENT (Sleeping)')
+      - SystemWarn.send('${Properties.selfObjectName} SILENT (Sleeping)')
+
+  Awake - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - House.openWindows is false
+      - House.presence is true
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('auto')
+      - ${Properties.selfObjectName}.set_led_brightness('bright')
+      - SystemNotify.send('${Properties.selfObjectName} AUTO (Awake)')
+      - SystemWarn.send('${Properties.selfObjectName} AUTO (Awake)')
 
 House.presence:
-  Do them checks - ${Properties.selfObjectName}:
-    run:
-      - ${Properties.selfObjectName}.auto()
+  Empty house - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.selfObjectName}.status is on
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('silent')
+      - ${Properties.selfObjectName}.set_led_brightness('off')
+      - SystemNotify.send('${Properties.selfObjectName} SILENT (Empty house)')
+      - SystemWarn.send('${Properties.selfObjectName} SILENT (Empty house)')
+
+  Presence detected - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - House.openWindows is false
+      - House.sleeping is false
+      - ${Properties.selfObjectName}.status is on
+    runFunctions:
+      - ${Properties.selfObjectName}.set_mode('auto')
+      - ${Properties.selfObjectName}.set_led_brightness('bright')
+      - SystemNotify.send('${Properties.selfObjectName} AUTO (Presence detected)')
+      - SystemWarn.send('${Properties.selfObjectName} AUTO (Presence detected)')
 
