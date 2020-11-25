@@ -5,8 +5,9 @@ House.openWindows:
     if:
       - this is true
       - ${Properties.selfObjectName}.status is on
-    runFunctions:
+    run:
       - ${Properties.selfObjectName}.set_mode('silent')
+      - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('off')
       - SystemNotify.send('${Properties.selfObjectName} SILENT (Opened Window)')
       - SystemWarn.send('${Properties.selfObjectName} SILENT (Opened Window)')
@@ -16,9 +17,10 @@ House.openWindows:
       - this is false
       - House.sleeping is false
       - House.presence is true
-    runFunctions:
+    run:
       - ${Properties.selfObjectName}.set_mode('auto')
-      - ${Properties.selfObjectName}.set_led_brightness('bright')
+      - System.sleep('1')
+      - ${Properties.selfObjectName}.set_led_brightness('dim')
       - SystemNotify.send('${Properties.selfObjectName} AUTO (Closed Windows)')
       - SystemWarn.send('${Properties.selfObjectName} AUTO (Closed Windows)')
 
@@ -27,8 +29,9 @@ House.sleeping:
     if:
       - this is true
       - ${Properties.selfObjectName}.status is on
-    runFunctions:
+    run:
       - ${Properties.selfObjectName}.set_mode('silent')
+      - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('off')
       - SystemNotify.send('${Properties.selfObjectName} SILENT (Sleeping)')
       - SystemWarn.send('${Properties.selfObjectName} SILENT (Sleeping)')
@@ -38,9 +41,10 @@ House.sleeping:
       - this is false
       - House.openWindows is false
       - House.presence is true
-    runFunctions:
+    run:
       - ${Properties.selfObjectName}.set_mode('auto')
-      - ${Properties.selfObjectName}.set_led_brightness('bright')
+      - System.sleep('1')
+      - ${Properties.selfObjectName}.set_led_brightness('dim')
       - SystemNotify.send('${Properties.selfObjectName} AUTO (Awake)')
       - SystemWarn.send('${Properties.selfObjectName} AUTO (Awake)')
 
@@ -49,8 +53,9 @@ House.presence:
     if:
       - this is false
       - ${Properties.selfObjectName}.status is on
-    runFunctions:
+    run:
       - ${Properties.selfObjectName}.set_mode('silent')
+      - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('off')
       - SystemNotify.send('${Properties.selfObjectName} SILENT (Empty house)')
       - SystemWarn.send('${Properties.selfObjectName} SILENT (Empty house)')
@@ -61,9 +66,10 @@ House.presence:
       - House.openWindows is false
       - House.sleeping is false
       - ${Properties.selfObjectName}.status is on
-    runFunctions:
+    run:
       - ${Properties.selfObjectName}.set_mode('auto')
-      - ${Properties.selfObjectName}.set_led_brightness('bright')
+      - System.sleep('1')
+      - ${Properties.selfObjectName}.set_led_brightness('dim')
       - SystemNotify.send('${Properties.selfObjectName} AUTO (Presence detected)')
       - SystemWarn.send('${Properties.selfObjectName} AUTO (Presence detected)')
 
