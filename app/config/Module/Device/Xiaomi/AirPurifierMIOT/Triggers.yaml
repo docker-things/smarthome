@@ -65,7 +65,6 @@ House.presence:
       - this is true
       - House.openWindows is false
       - House.sleeping is false
-      - ${Properties.selfObjectName}.status is on
     run:
       - ${Properties.selfObjectName}.set_mode('auto')
       - System.sleep('1')
