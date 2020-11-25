@@ -20,6 +20,8 @@ class UI_Controller_ScreenDev_Heating extends UI_Controller_ScreenDev_Base {
       $this->create->verticalSeparator(),
       $this->create->verticalStatus('bathroom', 'Bathroom', '-', '°C'),
       $this->create->verticalSeparator(),
+      $this->create->verticalStatus('purifier', 'Purifier', '-', '°C'),
+      $this->create->verticalSeparator(),
       $this->create->verticalStatus('outside', 'Outside', '-', '°C'),
       '</div>',
       '<div class="temperatureSlider"></div>',

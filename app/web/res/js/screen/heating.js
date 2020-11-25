@@ -65,6 +65,10 @@ $(document).ready(function() {
       const value = Math.round(parseFloat(props.value) * 10) / 10;
       $('.screen.heating .top .bathroom .value').text(value);
     })
+    setTrigger('AirPurifier', 'temperature', function(props) {
+      const value = Math.round(parseFloat(props.value) * 10) / 10;
+      $('.screen.heating .top .purifier .value').text(value);
+    })
     setTrigger('Weather', /*'current.temp'*/ 'current.feels_like', function(props) {
       const value = Math.round(parseFloat(props.value) * 10) / 10;
       $('.screen.heating .top .outside .value').text(value);
