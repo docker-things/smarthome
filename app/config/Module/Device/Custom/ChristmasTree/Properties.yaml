@@ -1,4 +1,4 @@
 ---
 
-mqtt-topic: !required
-sync-with: !required
+mqtt-topic: NONE
+sync-with: NONE

@@ -1,0 +1,5 @@
+---
+
+jobs:
+  - interval: 29
+    run: checkSleeping()
