@@ -18,6 +18,7 @@ class Core_Controller_Status extends Core_Controller_Base {
         foreach ($state AS $object => $variables) {
             foreach ($variables AS $variable => $values) {
                 $tmp = $this->getState()->getVariable($object, $variable);
+                $state[$object][$variable] .= ' <span style="color:lightgrey;">(' . date('Y-m-d H:i:s', $tmp['timestamp']) . ')</span>';
                 if ('' !== $tmp['tmpValue']) {
                     $state[$object][$variable] .= ' (Detected "' . $tmp['tmpValue'] . '" ' . $tmp['tmpTimes'] . ' time' . (1 == $tmp['tmpTimes'] ? '' : 's') . ')';
                 }
