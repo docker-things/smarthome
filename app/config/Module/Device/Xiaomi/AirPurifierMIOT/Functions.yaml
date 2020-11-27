@@ -24,7 +24,6 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (Opened windows)')
 
   checkSleeping():
     runIf:
@@ -34,7 +33,6 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Sleeping)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (Sleeping)')
 
   checkEmptyHouse():
     runIf:
@@ -44,7 +42,6 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Empty house for 10m)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (Empty house for 10m)')
 
   checkIfShouldTurnOff():
     runFunctions:

@@ -10,7 +10,6 @@ House.openWindows:
       - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('off')
       - SystemNotify.send('${Properties.selfObjectName} SILENT (Opened Window)')
-      - SystemWarn.send('${Properties.selfObjectName} SILENT (Opened Window)')
 
   Closed windows - ${Properties.selfObjectName}:
     if:
@@ -22,7 +21,6 @@ House.openWindows:
       - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('dim')
       - SystemNotify.send('${Properties.selfObjectName} AUTO (Closed Windows)')
-      - SystemWarn.send('${Properties.selfObjectName} AUTO (Closed Windows)')
 
 House.sleeping:
   Sleeping - ${Properties.selfObjectName}:
@@ -34,7 +32,6 @@ House.sleeping:
       - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('off')
       - SystemNotify.send('${Properties.selfObjectName} SILENT (Sleeping)')
-      - SystemWarn.send('${Properties.selfObjectName} SILENT (Sleeping)')
 
   Awake - ${Properties.selfObjectName}:
     if:
@@ -46,7 +43,6 @@ House.sleeping:
       - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('dim')
       - SystemNotify.send('${Properties.selfObjectName} AUTO (Awake)')
-      - SystemWarn.send('${Properties.selfObjectName} AUTO (Awake)')
 
 House.presence:
   Empty house - ${Properties.selfObjectName}:
@@ -58,7 +54,6 @@ House.presence:
       - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('off')
       - SystemNotify.send('${Properties.selfObjectName} SILENT (Empty house)')
-      - SystemWarn.send('${Properties.selfObjectName} SILENT (Empty house)')
 
   Presence detected - ${Properties.selfObjectName}:
     if:
@@ -70,5 +65,4 @@ House.presence:
       - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('dim')
       - SystemNotify.send('${Properties.selfObjectName} AUTO (Presence detected)')
-      - SystemWarn.send('${Properties.selfObjectName} AUTO (Presence detected)')
 
