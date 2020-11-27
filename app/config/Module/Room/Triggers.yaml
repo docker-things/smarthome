@@ -37,18 +37,6 @@ ${Properties.selfObjectName}.sleeping:
 
 ${Properties.plex.object}.status:
 
-  # PLAYING
-
-  # If Plex is playing or resumed, stop cleaning - ${Properties.selfObjectName}:
-  #   if:
-  #     - this in ['playing','resumed']
-  #     - ${Properties.plex.object}.mediaType in ['episode','movie']
-  #     - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
-  #     - ${Properties.roborock.object}.zone is none
-  #   run:
-  #     - ${Properties.roborock.object}.pause()
-  #     - SystemNotify.send('Paused cleaning (${Properties.plex.object} playing)')
-
   If Plex is playing or resumed, turn lights OFF - ${Properties.selfObjectName}:
     if:
       - this in ['playing','resumed']
@@ -56,8 +44,6 @@ ${Properties.plex.object}.status:
     run:
       - House.allLightsOff()
       - SystemNotify.send('All lights OFF (${Properties.plex.object} playing)')
-
-  # PAUSED
 
   If Plex is paused - ${Properties.selfObjectName}:
     if:
@@ -69,17 +55,6 @@ ${Properties.plex.object}.status:
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
       - ${Properties.light.object}.brightness('${Properties.light.dim-level-when-plex-paused}','${Properties.light.dim-duration-when-plex-paused}')
       - SystemNotify.send('${Properties.light.object} DIMMED (${Properties.plex.object} is ${Properties.plex.object}.status)')
-
-  # STOPPED
-
-  # If Plex is stopped, resume cleaning - ${Properties.selfObjectName}:
-  #   if:
-  #     - this is stopped
-  #     - ${Properties.plex.object}.mediaType in ['episode','movie']
-  #     - ${Properties.roborock.object}.status is Paused
-  #   run:
-  #     - ${Properties.roborock.object}.resume()
-  #     - SystemNotify.send('Resumed cleaning (${Properties.plex.object} is ${Properties.plex.object}.status)')
 
   If Plex is stopped - ${Properties.selfObjectName}:
     if:
@@ -381,7 +356,8 @@ ${Properties.tv.object}.status:
   Audio system ON when TV ON - ${Properties.selfObjectName}:
     if:
       - this is on
-      - ${Properties.selfObjectName}.ignoreMotion is not true
+      - System.hour >= 8
+      - System.hour < 22
     run:
       - ${Properties.tv.audio-system.object}.on()
       - SystemNotify.send('${Properties.tv.audio-system.object} ON (${Properties.tv.object} ON)')
