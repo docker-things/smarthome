@@ -10,6 +10,7 @@ functions:
     set:
       status: 'Cleaning'
       zone: 'none'
+      delayedCleanup: 'false'
 
   pause():
     run: ${cmd} pause
@@ -22,6 +23,7 @@ functions:
     if: ${RESPONSE.Starting_cleaning} is ok
     set:
       status: 'Cleaning'
+      delayedCleanup: 'false'
 
   stop():
     run: ${cmd} stop
@@ -34,6 +36,7 @@ functions:
     if: ${RESPONSE.Starting_cleaning} is ok
     set:
       status: 'Cleaning'
+      delayedCleanup: 'false'
     elseSet:
       status: 'Paused'
 

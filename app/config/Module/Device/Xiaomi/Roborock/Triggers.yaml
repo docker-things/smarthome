@@ -81,6 +81,8 @@ System.time:
       - ${Properties.selfObjectName}.setFanSpeed('${Properties.fanspeed}')
       - ${Properties.selfObjectName}.start()
       - SystemNotify.send('Start cleaning (Weekday @ ${Properties.weekdays-cleaning-hour})')
+    set:
+      ${Properties.selfObjectName}.delayedCleanup: 'false'
 
   Start cleaning on weekends - ${Properties.selfObjectName}:
     if:
@@ -96,6 +98,8 @@ System.time:
       - ${Properties.selfObjectName}.setFanSpeed('${Properties.fanspeed}')
       - ${Properties.selfObjectName}.start()
       - SystemNotify.send('Start cleaning (Weekend @ ${Properties.weekends-cleaning-hour})')
+    set:
+      ${Properties.selfObjectName}.delayedCleanup: 'false'
 
   # DELAYED CLEANING - CLOSED DOORS
 
