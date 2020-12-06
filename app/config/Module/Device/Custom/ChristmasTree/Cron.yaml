@@ -1,5 +1,8 @@
 ---
 
 jobs:
-  - interval: 29
+  - interval: 59
     run: checkSleeping()
+
+  - interval: 32
+    run: checkAway()

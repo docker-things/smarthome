@@ -17,6 +17,18 @@ House.presence:
       - ${Properties.selfObjectName}.on()
       - SystemNotify.send('Turned ${Properties.selfObjectName} ON (Presence detected)')
 
+${Properties.room}.lastMotion:
+  Turn on when motion detected - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.selfObjectName}.status is not on
+      - House.sleeping is false
+      - House.presence is true
+    run:
+      - ${Properties.selfObjectName}.on()
+      - SystemNotify.send('Turned ${Properties.selfObjectName} ON (Motion in ${Properties.room})')
+    set:
+      status: 'on'
+
 House.sleeping:
   Awake - ${Properties.selfObjectName}:
     if:

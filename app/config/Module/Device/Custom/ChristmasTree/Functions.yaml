@@ -16,6 +16,16 @@ functions:
   brightness(value):
     run: '${cmd} "brightness ${ARGS.value}"'
 
+  checkAway():
+    runIf:
+      - ${Properties.room}.lastMotion.timeSince >= 600
+      - House.lastMotion.timeSince < 600
+      - ${Properties.selfObjectName}.status is not off
+    runFunctions:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Away)')
+      - SystemWarn.send('${Properties.selfObjectName} OFF (Away)')
+
   checkSleeping():
     runIf:
       - House.sleeping is true
