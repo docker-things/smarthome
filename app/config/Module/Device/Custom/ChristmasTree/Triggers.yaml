@@ -18,21 +18,21 @@ House.presence:
       - SystemNotify.send('Turned ${Properties.selfObjectName} ON (Presence detected)')
 
 House.sleeping:
-  Sleeping - ${Properties.selfObjectName}:
+  Awake - ${Properties.selfObjectName}:
     if:
       - this is false
       - ${Properties.sync-with} is NONE
     run:
-      - ${Properties.selfObjectName}.off()
-      - SystemNotify.send('Turned ${Properties.selfObjectName} OFF (Empty house)')
+      - ${Properties.selfObjectName}.on()
+      - SystemNotify.send('Turned ${Properties.selfObjectName} ON (Awake)')
 
-  Presence detected - ${Properties.selfObjectName}:
+  Sleeping - ${Properties.selfObjectName}:
     if:
       - this is true
       - ${Properties.sync-with} is NONE
     run:
-      - ${Properties.selfObjectName}.on()
-      - SystemNotify.send('Turned ${Properties.selfObjectName} ON (Presence detected)')
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('Turned ${Properties.selfObjectName} OFF (Sleeping)')
 
 ${Properties.sync-with}.status:
   turned on - ${Properties.selfObjectName}:
