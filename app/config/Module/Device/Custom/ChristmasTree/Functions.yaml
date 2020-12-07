@@ -18,9 +18,9 @@ functions:
 
   checkAway():
     runIf:
-      - ${Properties.room}.lastMotion.timeSince >= 600
-      - House.lastMotion.timeSince < 600
       - ${Properties.selfObjectName}.status is not off
+      - ${Properties.room}.lastMotion.timeSince >= 600
+      - House.lastMotion.timeSince > ${Properties.room}.lastMotion.timeSince
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Away)')
