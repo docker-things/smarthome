@@ -24,7 +24,6 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Away)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (Away)')
 
   checkSleeping():
     runIf:
@@ -34,4 +33,3 @@ functions:
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Sleeping)')
-      - SystemWarn.send('${Properties.selfObjectName} OFF (Sleeping)')

@@ -1,6 +1,8 @@
 <?php
 
 class Core_Logger {
+    static $logFile = '/app/data/log';
+
     /**
      * @param $message
      */
@@ -35,6 +37,8 @@ class Core_Logger {
      * @param $type
      */
     private static function _message($message, $type) {
-        echo "\n[" . date('Y-m-d H:i:s') . '] ' . $type . ': ' . $message;
+        $finalMessage = "\n[" . date('Y-m-d H:i:s') . '] ' . $type . ' ' . exec('whoami') . ': ' . $message;
+        echo $finalMessage;
+        // file_put_contents(Core_Logger::$logFile, $finalMessage, FILE_APPEND);
     }
 }

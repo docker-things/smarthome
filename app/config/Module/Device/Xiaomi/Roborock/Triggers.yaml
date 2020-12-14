@@ -61,7 +61,6 @@ System.time:
     run:
       - ${Properties.selfObjectName}.gotoCleaningPoint()
       - SystemNotify.send('${Properties.selfObjectName} not cleaned for more than 48 hours. Going to cleaning point')
-      - SystemWarn.send('${Properties.selfObjectName} not cleaned for more than 48 hours. Going to cleaning point')
     set:
       ${Properties.selfObjectName}.announced: System.time
 
@@ -113,7 +112,6 @@ System.time:
       ${Properties.selfObjectName}.delayedCleanup: 'true'
     run:
       - SystemNotify.send('Mark delayed cleaning - Closed doors (Weekday @ ${Properties.weekdays-cleaning-hour})')
-      - SystemWarn.send('Mark delayed cleaning - Closed doors (Weekday @ ${Properties.weekdays-cleaning-hour})')
 
   Mark delayed cleanup on weekends - Closed doors - ${Properties.selfObjectName}:
     if:
@@ -125,7 +123,6 @@ System.time:
       ${Properties.selfObjectName}.delayedCleanup: 'true'
     run:
       - SystemNotify.send('Mark delayed cleaning - Closed doors (Weekend @ ${Properties.weekends-cleaning-hour})')
-      - SystemWarn.send('Mark delayed cleaning - Closed doors (Weekend @ ${Properties.weekends-cleaning-hour})')
 
   # DELAYED CLEANING - SLEEPING
 
@@ -139,7 +136,6 @@ System.time:
       ${Properties.selfObjectName}.delayedCleanup: 'true'
     run:
       - SystemNotify.send('Mark delayed cleaning - Sleeping (Weekday @ ${Properties.weekdays-cleaning-hour})')
-      - SystemWarn.send('Mark delayed cleaning - Sleeping (Weekday @ ${Properties.weekdays-cleaning-hour})')
 
   Mark delayed cleanup on weekends - Sleeping - ${Properties.selfObjectName}:
     if:
@@ -151,7 +147,6 @@ System.time:
       ${Properties.selfObjectName}.delayedCleanup: 'true'
     run:
       - SystemNotify.send('Mark delayed cleaning - Sleeping (Weekend @ ${Properties.weekends-cleaning-hour})')
-      - SystemWarn.send('Mark delayed cleaning - Sleeping (Weekend @ ${Properties.weekends-cleaning-hour})')
 
   # DELAYED CLEANING - OPENED LID
 
@@ -165,7 +160,6 @@ System.time:
       ${Properties.selfObjectName}.delayedCleanup: 'true'
     run:
       - SystemNotify.send('Mark delayed cleaning - Opened lid (Weekday @ ${Properties.weekdays-cleaning-hour})')
-      - SystemWarn.send('Mark delayed cleaning - Opened lid (Weekday @ ${Properties.weekdays-cleaning-hour})')
 
   Mark delayed cleanup on weekends - Opened lid - ${Properties.selfObjectName}:
     if:
@@ -177,4 +171,3 @@ System.time:
       ${Properties.selfObjectName}.delayedCleanup: 'true'
     run:
       - SystemNotify.send('Mark delayed cleaning - Opened lid (Weekend @ ${Properties.weekends-cleaning-hour})')
-      - SystemWarn.send('Mark delayed cleaning - Opened lid (Weekend @ ${Properties.weekends-cleaning-hour})')

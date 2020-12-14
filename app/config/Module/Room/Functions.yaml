@@ -187,5 +187,4 @@ functions:
       forceLightOff: 'true'
       forceLightOn: 'false'
     runFunctions:
-      - SystemWarn.send('Awake (${Properties.selfObjectName})')
       - SystemNotify.send('Awake (${Properties.selfObjectName})')

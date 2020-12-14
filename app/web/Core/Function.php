@@ -217,7 +217,7 @@ class Core_Function {
         system($function['run'] . ' 2>&1', $retval);
         $output = ob_get_clean();
 
-        // Core_Logger::info('Core_Function::_runFunction(): Output: ' . $output);
+        Core_Logger::info('Core_Function::_runFunction(): Output: ' . $output);
 
         return $output;
     }
@@ -242,6 +242,11 @@ class Core_Function {
 
                 // Run function in another process
                 exec("php web/runFunctions.php '" . urlencode($function) . "' > /dev/null 2>&1 &");
+
+                // ob_start();
+                // system("php web/runFunctions.php '" . urlencode($function) . "' > /dev/null 2>&1", $retval);
+                // $output = ob_get_clean();
+                // Core_Logger::info('Core_Function::_runYamlFunctions(): Output: ' . $output);
             }
         }
 

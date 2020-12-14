@@ -22,6 +22,9 @@ clapper:
 diffuser:
   object: NONE
 
+purifier:
+  object: NONE
+
 airpurifier:
   object: NONE
 
@@ -71,8 +74,6 @@ window-2:
 
 plex:
   object: NONE
-  user: NONE
-  device: NONE
 
 roborock:
   object: NONE
