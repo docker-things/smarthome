@@ -43,6 +43,7 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
   private $screens = [
     'Main',
     'Roborock',
+    'Audio',
     'Heating',
     // 'Sleeping',
     // 'Overview',
@@ -168,12 +169,17 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
       $screen     = new $objectName($this);
 
       $this->screenObjects[$name] = $screen;
-
       foreach ($screen->getJS() AS $path) {
-        $this->js[] = 'screen' . $dev . '/' . $path;
+        $js = 'screen' . $dev . '/' . $path;
+        if (file_exists(WEB_DIR . '/res/js/' . $js)) {
+          $this->js[] = $js;
+        }
       }
       foreach ($screen->getCSS() AS $path) {
-        $this->css[] = 'screen' . $dev . '/' . $path;
+        $css = 'screen' . $dev . '/' . $path;
+        if (file_exists(WEB_DIR . '/res/css/' . $css)) {
+          $this->css[] = $css;
+        }
       }
       $this->style  = array_merge($this->style, $screen->getStyle());
       $this->script = array_merge($this->script, $screen->getScript());

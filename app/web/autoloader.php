@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 // Define paths
 define('MAIN_DIR', '/app');
+define('WEB_DIR', MAIN_DIR . '/web');
 define('DB_DIR', MAIN_DIR . '/data/db');
 define('WEB_DIR', MAIN_DIR . '/web');
 define('CONFIG_DIR', MAIN_DIR . '/data/config');

@@ -538,6 +538,22 @@ function bindScreenTouchEvents() {
     });
 }
 
+var lastScrollTime = 0;
+
+function bindScreenScrollEvents() {
+  $(document)
+    .bind('DOMMouseScroll', function(e) {
+      if (e.originalEvent.axis == 1 && Date.now() - lastScrollTime > 500) {
+        lastScrollTime = Date.now()
+        if (e.originalEvent.detail == -1) {
+          showPrevScreenSlide()
+        } else {
+          showNextScreenSlide()
+        }
+      }
+    });
+}
+
 function bindOverlayClick() {
   $('.mainContainer > .overlay').click(function() {
     hideMenu()
@@ -876,6 +892,7 @@ $(document).ready(function() {
   // Set touch listeners
   bindMenuButtons();
   bindScreenTouchEvents();
+  bindScreenScrollEvents();
   bindPrevNextScreenButtons();
   bindOverlayClick();
   bindFullScreenAction();

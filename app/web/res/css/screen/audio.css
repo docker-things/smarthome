@@ -1,0 +1,294 @@
+.screen.audio #showSnapControl {
+  width: 80%;
+  /*background-color: rgb(246, 246, 246);*/
+  /*color: rgb(255, 255, 255);*/
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  font-size: 20px;
+  overscroll-behavior: contain;
+}
+/* width */
+
+.screen.audio #showSnapControl ::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+
+.screen.audio #showSnapControl ::-webkit-scrollbar-track {
+  background: #1f1f1f;
+}
+/* Handle */
+
+.screen.audio #showSnapControl ::-webkit-scrollbar-thumb {
+  background: #333;
+}
+/* Handle on hover */
+
+.screen.audio #showSnapControl ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.screen.audio #showSnapControl .navbar {
+  display: none;
+  overflow: hidden;
+  background-color: #607d8b;
+  z-index: 1;
+  /* Sit on top */
+  padding: 13px;
+  color: white;
+  /*position: fixed;*/
+  /* Set the navbar to fixed position */
+  top: 0;
+  /* Position the navbar at the top of the page */
+  width: 100%;
+  /* Full width */
+  font-size: 21px;
+  font-weight: 500;
+  user-select: none;
+}
+.screen.audio #showSnapControl .play-button {
+  display: block;
+  position: absolute;
+  right: 34px;
+  top: 5px;
+  height: 40px;
+  width: 40px;
+}
+.screen.audio #showSnapControl .content {
+  margin-top: 15px margin-bottom: 15px
+}
+.screen.audio #showSnapControl .group {
+  float: none;
+  background-color: white;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+  clear: both;
+  padding: 15px;
+  margin: 10px 15px 10px 15px;
+  overflow: auto;
+  width: auto;
+  border-radius: 3px;
+  user-select: none;
+}
+.darkMode .screen.audio #showSnapControl .group {
+  background-color: black;
+  box-shadow: none;
+}
+.screen.audio #showSnapControl .group.muted {
+  opacity: 0.27;
+}
+.screen.audio #showSnapControl .groupheader {
+  /* margin: 10px; */
+  width: auto;
+  height: fit-content;
+  /* padding: 10px; */
+  padding-bottom: 0px;
+  display: grid;
+  grid-template-columns: min-content auto min-content;
+  grid-template-rows: min-content min-content;
+  grid-gap: 0px;
+}
+.screen.audio #showSnapControl .groupheader-separator {
+  height: 1px;
+  margin: 8px 0px;
+  border-width: 0px;
+  color: lightgray;
+  background-color: lightgray;
+}
+.screen.audio #showSnapControl .stream {
+  color: #686868;
+  grid-row: 1;
+  grid-column: 1/3;
+  width: fit-content;
+}
+.darkMode .screen.audio #showSnapControl .stream {
+  color: #FFFFFF;
+}
+.screen.audio #showSnapControl select {
+  background-color: transparent;
+  border: 0px;
+  width: 150px;
+  font-size: 20px;
+  color: #e3e3e3;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.screen.audio #showSnapControl .slidergroupdiv {
+  /* background: greenyellow; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-row: 2;
+  grid-column: 2;
+}
+.screen.audio #showSnapControl .client {
+  /* text-align: left; */
+  /* margin: 10px; */
+  width: auto;
+  height: fit-content;
+  /* padding: 10px; */
+  display: grid;
+  grid-template-columns: min-content auto min-content;
+  grid-template-rows: min-content min-content;
+  grid-gap: 0px;
+}
+.screen.audio
+/* .client:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+} */
+
+.screen.audio #showSnapControl .client.disconnected {
+  opacity: 0.27;
+}
+.screen.audio #showSnapControl .name {
+  color: #686868;
+  user-select: none;
+  /* background: red; */
+  padding: 10px 0 10px 7%;
+  grid-row: 1;
+  grid-column: 1/3;
+  text-decoration: none;
+}
+.darkMode .screen.audio #showSnapControl .name {
+  color: #FFFFFF;
+}
+.screen.audio #showSnapControl .editdiv {
+  background: violet;
+  grid-row: 0/4;
+  grid-column: 3;
+}
+.screen.audio #showSnapControl .edit-icon {
+  color: #686868;
+  text-decoration: none;
+  font-size: 1.7em;
+}
+.screen.audio #showSnapControl .delete-icon {
+  color: #ff4081;
+  text-decoration: none;
+}
+.screen.audio #showSnapControl .edit-icons {
+  align-items: center;
+  display: flex;
+  grid-row: 1/3;
+  grid-column: 3;
+}
+.screen.audio #showSnapControl .edit-group-icon {
+  display: flex;
+  color: transparent;
+  align-items: center;
+  grid-row: 1/3;
+  grid-column: 3;
+  text-decoration: none;
+}
+.screen.audio #showSnapControl .mute-button {
+  color: #686868;
+  grid-row: 2;
+  grid-column: 1;
+  margin-left: 10px;
+  text-decoration: none;
+}
+.screen.audio #showSnapControl .mute-button img {
+  height: 25px;
+  width: 25px;
+}
+.screen.audio #showSnapControl .sliderdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-row: 2;
+  grid-column: 2;
+  /* padding-left: 40px; */
+  /* display: inline-block;
+    text-align: left;
+    width: 250px; */
+}
+.screen.audio #showSnapControl .slider {
+  writing-mode: bt-lr;
+  -webkit-appearance: none;
+  background: #dbdbdb;
+  outline: none;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  height: 2px;
+  width: 90%;
+}
+.screen.audio #showSnapControl .slider::-moz-range-track {
+  padding: 6px;
+  background-color: transparent;
+  border: none;
+}
+.screen.audio #showSnapControl .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: #ff4081;
+  cursor: pointer;
+}
+.screen.audio #showSnapControl .slider::-moz-range-thumb {
+  height: 1.5em;
+  width: 1.5em;
+  border-radius: 50%;
+  background: #ff4081;
+  cursor: pointer;
+}
+.screen.audio #showSnapControl .slider.muted {
+  opacity: 0.27;
+}
+.screen.audio #showSnapControl .client-settings {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+.screen.audio #showSnapControl .client-setting-content {
+  background-color: #fefefe;
+  color: #686868;
+  margin: 15% auto;
+  /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  /* Could be more or less, depending on screen size */
+}
+.screen.audio #showSnapControl .client-input {
+  color: #686868;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.screen.audio #showSnapControl input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.screen.audio #showSnapControl input[type=submit]:hover {
+  background-color: #45a049;
+}
+.screen.audio #showSnapControl div.container {
+  border-radius: 5px;
+  padding: 20px;
+}
