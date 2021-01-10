@@ -5,7 +5,7 @@ function setAudioStreamStatus(stream, status) {
     prevAudioStreamStatus[stream] = 'unknown'
   }
   if (status != prevAudioStreamStatus[stream] && status == 'playing') {
-    showScreenSlideForStaticDashboard('roborock');
+    showScreenSlideForStaticDashboard('audio');
   }
   prevAudioStreamStatus[stream] = status
 
