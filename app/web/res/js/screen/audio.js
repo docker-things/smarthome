@@ -23,3 +23,13 @@ function audioUpdateStatus() {
   }
   $('.screen.audio > .titleContainer .status').text(status);
 }
+
+$(document).ready(function() {
+
+  // TURNTABLE STATUS
+  setTrigger('Turntable', 'status', (props) => {
+    if (props.value == 'playing' || props.value == 'on') {
+      showScreenSlideForStaticDashboard('audio');
+    }
+  });
+})
