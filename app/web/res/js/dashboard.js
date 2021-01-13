@@ -72,6 +72,16 @@ function showScreen(screen, touch) {
   $('.mainContainer > .overviewContainer > .screen.' + nextScreen).addClass('next');
 
   resetScreenDrag(touch);
+
+  prepareScreenReturn();
+}
+
+function prepareScreenReturn() {
+  if (KEEP_RETURNING_TO != 'NONE') {
+    setTimeout(function() {
+      showScreenSlide(KEEP_RETURNING_TO)
+    }, 5000)
+  }
 }
 
 function getPrevScreen() {

@@ -28,7 +28,9 @@ $(document).ready(function() {
 
   // TURNTABLE STATUS
   setTrigger('Turntable', 'status', (props) => {
-    if (props.value == 'playing' || props.value == 'on') {
+    if (props.value == 'on') {
+      showScreenSlideForStaticDashboard('audio');
+    } else if (props.value == 'playing' && KEEP_RETURNING_TO != 'nowplaying') {
       showScreenSlideForStaticDashboard('audio');
     }
   });

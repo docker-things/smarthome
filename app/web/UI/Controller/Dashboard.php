@@ -44,6 +44,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
     'Main',
     'Roborock',
     'Audio',
+    'NowPlaying',
     'Heating',
     // 'Sleeping',
     // 'Overview',
@@ -145,6 +146,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
   private function getVariables() {
     $variables = [
       'DASHBOARD_ROOM' => isset($_GET['room']) ? $_GET['room'] : 'NONE',
+      'KEEP_RETURNING_TO' => isset($_GET['keepReturningTo']) ? $_GET['keepReturningTo'] : 'NONE',
     ];
 
     $vars = [];
