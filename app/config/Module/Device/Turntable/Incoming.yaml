@@ -3,6 +3,7 @@
 # How to recognize the request
 recognize-by-comparing:
   - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/status
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/shazam
 
 actionParam: ${PARAMS.mqtt-topic}
 
@@ -12,3 +13,12 @@ actions:
   ${Properties.mqtt-topic}/status:
     status: ${PARAMS.status}
     volume: ${PARAMS.volume}
+
+  ${Properties.mqtt-topic}/shazam:
+    raw: ${PARAMS.RAW}
+    artist: ${PARAMS.track.subtitle}
+    title: ${PARAMS.track.title}
+    genre: ${PARAMS.track.genres.primary}
+    img_background: ${PARAMS.track.images.background}
+    img_cover: ${PARAMS.track.images.coverart}
+    img_cover_hq: ${PARAMS.track.images.coverarthq}
