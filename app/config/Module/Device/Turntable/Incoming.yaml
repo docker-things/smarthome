@@ -15,7 +15,6 @@ actions:
     volume: ${PARAMS.volume}
 
   ${Properties.mqtt-topic}/shazam:
-    raw: ${PARAMS.RAW}
     artist: ${PARAMS.track.subtitle}
     title: ${PARAMS.track.title}
     genre: ${PARAMS.track.genres.primary}
