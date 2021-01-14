@@ -49,3 +49,13 @@ ${Properties.selfObjectName}.status:
     if: this is paused
     run:
       - SystemNotify.send('${Properties.selfObjectName} is PAUSED')
+
+  RESET SHAZAM DATA WHEN NOT PLAYING - ${Properties.selfObjectName}:
+    if: this is not playing
+    set:
+      img_background: '-'
+      img_cover: '-'
+      img_cover_hq: '-'
+      artist: '-'
+      title: '-'
+      genre: '-'

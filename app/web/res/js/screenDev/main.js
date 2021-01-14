@@ -258,9 +258,11 @@ $(document).ready(function() {
       setTrigger('Weather', MIN_MAX_PROVIDERS[i], setMinMaxTemp);
     }
 
-    setInactivityTrigger(function() {
-      showScreenSlideForStaticDashboard('main');
-    })
+    if (KEEP_RETURNING_TO == 'NONE') {
+      setInactivityTrigger(function() {
+        showScreenSlideForStaticDashboard('main');
+      })
+    }
   }
 
   function activateImageChangerWhenFullScreen() {

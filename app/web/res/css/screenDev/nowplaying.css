@@ -2,8 +2,8 @@
   display: none;
 }
 .mainContainer>.overviewContainer>.screen.nowplaying>.backgroundImage {
-  filter: blur(40px);
-  -webkit-filter: blur(40px);
+  filter: blur(20px);
+  -webkit-filter: blur(20px);
 }
 .screen.nowplaying {
   color: #FFF;
@@ -43,28 +43,20 @@
   z-index: 5;
   transition: left 500ms ease-in-out;
 }
-.screen.nowplaying .flip-hide {
-  animation-name: flip-hide;
-  animation-timing-function: ease-in-out;
-  animation-duration: 1s;
-  animation-direction: normal;
-  animation-iteration-count: 1;
-}
-.screen.nowplaying .flip-show {
-  animation-name: flip-show;
-  animation-timing-function: ease-in-out;
-  animation-duration: 1s;
-  animation-direction: normal;
-  animation-iteration-count: 1;
-}
 .screen.nowplaying.playing.turntable .cover .record {
   left: 25%;
 }
-.screen.nowplaying .cover .unknownAlbum img,
-.screen.nowplaying .cover .image img {
+.screen.nowplaying .cover img {
   width: 100%;
   height: 100%;
-  border: 1px solid black;
+  border: 1px solid #222;
+}
+.screen.nowplaying .cover .image img {
+  opacity: 0;
+  transition: opacity 500ms ease-in-out;
+}
+.screen.nowplaying .cover .image.show img {
+  opacity: 1;
 }
 .screen.nowplaying .cover .record img {
   width: 98%;
@@ -77,7 +69,9 @@
   font-weight: bold;
   text-shadow: 0px 0px 0.5em #000, 1px 1px 1px #000;
   z-index: 10;
-  transition: opacity 500ms ease-in-out;
+  position: relative;
+  width: 100%;
+  text-align: center;
 }
 .screen.nowplaying .title {
   font-size: 3em;
@@ -87,19 +81,50 @@
   font-size: 2em;
   margin-top: 0.5em;
 }
+.screen.nowplaying .title>div,
+.screen.nowplaying .artist>div {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
+.screen.nowplaying .title>div.show,
+.screen.nowplaying .artist>div.show {
+  opacity: 1;
+}
+/*
+.screen.nowplaying .flip-hide,
+.screen.nowplaying .flip-show {
+  animation-timing-function: ease-in-out;
+  animation-duration: 1s;
+  animation-direction: normal;
+  animation-iteration-count: 1;
+}
+.screen.nowplaying .flip-hide {
+  animation-name: flip-hide;
+}
+.screen.nowplaying .flip-show {
+  animation-name: flip-show;
+}
 @keyframes flip-hide {
   0% {
     transform: perspective(100vh) rotateY(0);
+    opacity: 1;
   }
   100% {
     transform: perspective(75vh) rotateY(90deg);
+    opacity: 0;
   }
 }
 @keyframes flip-show {
   0% {
     transform: perspective(75vh) rotateY(-90deg);
+    opacity: 0;
   }
   100% {
     transform: perspective(100vh) rotateY(0);
+    opacity: 1;
   }
-}
+}*/

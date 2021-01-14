@@ -741,10 +741,19 @@ function setDisconnectedMode() {
   $('body > .disconnectedOverlay').removeClass('connected');
 }
 
+function getFullState(client) {
+  if (!client) {
+    client = MQTT_CLIENT
+  }
+  message = new Paho.MQTT.Message("get");
+  message.destinationName = "core-state/full-state-request";
+  client.send(message);
+}
+
 /**
  * Launch state listener
  */
-function getFullState() {
+function getInitialState() {
 
   let client = new Paho.MQTT.Client('192.168.0.100', 1884, "dashboard" + new Date().getTime());
 
@@ -777,9 +786,8 @@ function getFullState() {
       client.subscribe("core-state/full-state-provider");
 
       // Request full state
-      message = new Paho.MQTT.Message("get");
-      message.destinationName = "core-state/full-state-request";
-      client.send(message);
+      getFullState(client)
+
       setConnectedMode();
     },
 
@@ -891,6 +899,12 @@ function ucfirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function preloadImage(url, callback) {
+  var img = new Image();
+  img.src = url;
+  img.onload = callback;
+}
+
 /**
  * RUN STUFF!!!
  */
@@ -916,7 +930,7 @@ $(document).ready(function() {
   windowResizeHandler();
 
   // Get full state initially - one time
-  getFullState();
+  getInitialState();
 
   // Start state listener
   startStateListener();

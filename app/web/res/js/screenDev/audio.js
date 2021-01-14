@@ -4,7 +4,7 @@ function setAudioStreamStatus(stream, status) {
   if (stream in prevAudioStreamStatus) {
     prevAudioStreamStatus[stream] = 'unknown'
   }
-  if (status != prevAudioStreamStatus[stream] && status == 'playing') {
+  if ((status != prevAudioStreamStatus[stream] && status == 'playing') && KEEP_RETURNING_TO != 'nowplaying') {
     showScreenSlideForStaticDashboard('audio');
   }
   prevAudioStreamStatus[stream] = status
@@ -28,9 +28,7 @@ $(document).ready(function() {
 
   // TURNTABLE STATUS
   setTrigger('Turntable', 'status', (props) => {
-    if (props.value == 'on') {
-      showScreenSlideForStaticDashboard('audio');
-    } else if (props.value == 'playing' && KEEP_RETURNING_TO != 'nowplaying') {
+    if ((props.value == 'on' || props.value == 'playing') && KEEP_RETURNING_TO != 'nowplaying') {
       showScreenSlideForStaticDashboard('audio');
     }
   });

@@ -41,10 +41,26 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
    * @var array
    */
   private $screens = [
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    'NowPlaying',
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
+    // TODO: RESTORE!!!!!!!!
     'Main',
     'Roborock',
     'Audio',
-    'NowPlaying',
     'Heating',
     // 'Sleeping',
     // 'Overview',
