@@ -42,8 +42,8 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
       $state = $this->getState()->getFullState();
 
       // Batch data
-      $batches   = [];
-      $batchSize = 30;
+      $batches         = [];
+      $batchSize       = 30;
       $paramsBatchSize = 500;
 
       // While we've got state objects
@@ -113,7 +113,10 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
       return;
     }
     Core_Logger::info('Sending batch [' . count($state) . ']: ' . implode(', ', array_keys($state)));
-    $cmd = "mosquitto_pub -h localhost -t 'core-state/full-state-provider' -m \"" . str_replace('"', '\"', json_encode($state)) . "\"";
+    $state = json_encode($state);
+    $state = str_replace('"', '\"', $state);
+    $state = str_replace('\\\\"', '\\\\\\"', $state);
+    $cmd   = "mosquitto_pub -h localhost -t 'core-state/full-state-provider' -m \"" . $state . "\"";
     // file_put_contents('/app/data/dump', $cmd);
     // ob_start();
     system($cmd . ' 2>&1 &', $retval);
