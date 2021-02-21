@@ -123,6 +123,19 @@ ${Properties.light.object}.status:
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'false'
 
+  Turn on night light - ${Properties.selfObjectName}:
+    if:
+      - this is on
+    run:
+      - ${Properties.selfObjectName}.nightLightOn()
+
+  Turn off night light - ${Properties.selfObjectName}:
+    if:
+      - this is off
+      - ${Properties.light.secondary.object}.status is off
+    run:
+      - ${Properties.selfObjectName}.nightLightOff()
+
   Disconnect notification - ${Properties.selfObjectName}:
     if:
       - this.status is 'offline'
@@ -202,6 +215,19 @@ ${Properties.light.secondary.object}.status:
       House.presence: 'true'
       House.lastMotion: System.timestamp
       House.lastMotionLocation: '${Properties.name}'
+
+  Turn on night light - ${Properties.selfObjectName}:
+    if:
+      - this is on
+    run:
+      - ${Properties.selfObjectName}.nightLightOn()
+
+  Turn off night light - ${Properties.selfObjectName}:
+    if:
+      - this is off
+      - ${Properties.light.object}.status is off
+    run:
+      - ${Properties.selfObjectName}.nightLightOff()
 
 
 # CLAPPER

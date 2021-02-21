@@ -4,7 +4,7 @@ functions:
 
   lightOn():
     runIf:
-      - ${Properties.light.object}.status not in ['on','offline']
+      - ${Properties.light.object}.status is not 'on'
     runFunctions:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.temperature('${Properties.light.temperature}')
@@ -14,15 +14,22 @@ functions:
 
   secondaryLightOn():
     runIf:
-      - ${Properties.light.secondary.object}.status not in ['on','offline']
+      - ${Properties.light.secondary.object}.status is not 'on'
     runFunctions:
       - ${Properties.light.secondary.object}.on()
       - ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
       - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')
 
+  nightLightOn():
+    runIf:
+      - ${Properties.light.night.object}.status is not 'on'
+      - ${Properties.selfObjectName}.gotNaturalLight is false
+    runFunctions:
+      - ${Properties.light.night.object}.on()
+
   lightOff():
     runIf:
-      - ${Properties.light.object}.status is 'on'
+      - ${Properties.light.object}.status is not 'off'
     runFunctions:
       - ${Properties.light.object}.off()
     set:
@@ -30,27 +37,32 @@ functions:
 
   secondaryLightOff():
     runIf:
-      - ${Properties.light.secondary.object}.status is 'on'
+      - ${Properties.light.secondary.object}.status is not 'off'
     runFunctions:
       - ${Properties.light.secondary.object}.off()
+
+  nightLightOff():
+    runIf:
+      - ${Properties.light.night.object}.status is not 'off'
+    runFunctions:
+      - ${Properties.light.night.object}.off()
 
   allLightsOff():
     runFunctionsAsync:
       - ${Properties.selfObjectName}.lightOff()
       - ${Properties.selfObjectName}.secondaryLightOff()
+      - ${Properties.selfObjectName}.nightLightOff()
       - ${Properties.ledstrip.object}.off()
 
   off():
     runFunctionsAsync:
-      - ${Properties.selfObjectName}.lightOff()
-      - ${Properties.selfObjectName}.secondaryLightOff()
-      - ${Properties.ledstrip.object}.off()
+      - ${Properties.selfObjectName}.allLightsOff()
       - ${Properties.tv.object}.off()
       - ${Properties.tv.audio-system.object}.off()
       - ${Properties.diffuser.object}.off()
 
   lightWarn():
-    runIf: ${Properties.light.object}.status in ['on','off']
+    runIf: ${Properties.light.object}.status is not 'offline'
     runFunctions:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.rgb('16748687')
@@ -71,7 +83,7 @@ functions:
       forceLightOn: 'true'
 
   lightWarnShort():
-    runIf: ${Properties.light.object}.status in ['on','off']
+    runIf: ${Properties.light.object}.status is not 'offline'
     runFunctions:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.rgb('16748687')
@@ -79,7 +91,7 @@ functions:
       - System.sleep('1')
 
   lightSuccess():
-    runIf: ${Properties.light.object}.status in ['on','off']
+    runIf: ${Properties.light.object}.status is not 'offline'
     runFunctions:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.rgb('4390713')
@@ -94,7 +106,7 @@ functions:
       - ${Properties.selfObjectName}.lightUnwarn()
 
   lightSuccessShort():
-    runIf: ${Properties.light.object}.status in ['on','off']
+    runIf: ${Properties.light.object}.status is not 'offline'
     runFunctions:
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.rgb('4390713')
@@ -111,7 +123,7 @@ functions:
       forceLightOn: 'false'
 
   secondaryLightWarn():
-    runIf: ${Properties.light.secondary.object}.status in ['on','off']
+    runIf: ${Properties.light.secondary.object}.status is not 'offline'
     runFunctions:
       - ${Properties.light.secondary.object}.on()
       - ${Properties.light.secondary.object}.rgb('16748687')
@@ -130,7 +142,7 @@ functions:
       - ${Properties.light.secondary.object}.on('0.2')
 
   secondaryLightWarnShort():
-    runIf: ${Properties.light.secondary.object}.status in ['on','off']
+    runIf: ${Properties.light.secondary.object}.status is not 'offline'
     runFunctions:
       - ${Properties.light.secondary.object}.on()
       - ${Properties.light.secondary.object}.rgb('16748687')
@@ -138,7 +150,7 @@ functions:
       - System.sleep('1')
 
   secondaryLightSuccess():
-    runIf: ${Properties.light.secondary.object}.status in ['on','off']
+    runIf: ${Properties.light.secondary.object}.status is not 'offline'
     runFunctions:
       - ${Properties.light.secondary.object}.on()
       - ${Properties.light.secondary.object}.rgb('4390713')
@@ -153,7 +165,7 @@ functions:
       - ${Properties.selfObjectName}.secondaryLightUnwarn()
 
   secondaryLightSuccessShort():
-    runIf: ${Properties.light.secondary.object}.status in ['on','off']
+    runIf: ${Properties.light.secondary.object}.status is not 'offline'
     runFunctions:
       - ${Properties.light.secondary.object}.on()
       - ${Properties.light.secondary.object}.rgb('4390713')
@@ -170,7 +182,7 @@ functions:
   forceLightOnIfWindowsAreOpened():
     runIf:
       - ${Properties.selfObjectName}.openWindows is true
-      - ${Properties.light.object}.status in ['on','off']
+      - ${Properties.light.object}.status is not 'offline'
     set:
       forceLightOn: 'true'
     runFunctions:
