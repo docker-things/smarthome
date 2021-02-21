@@ -255,7 +255,7 @@ class Core_State {
      * @param mixed  $value  Variable value
      */
     public function set($source, $name, $value) {
-        // Core_Logger::info(get_class($this) . '::set("' . $source . '", "' . $name . '", "' . $value . '");');
+        Core_Logger::info(get_class($this) . '::set("' . $source . '", "' . $name . '", "' . $value . '");');
 
         if (!$this->_shouldSet($source, $name, $value)) {
             return;
@@ -463,7 +463,7 @@ class Core_State {
             // If the variable should be set every time regardless of the value
             $alwaysSetWhenReceived = false !== $object &&
             isset($object['Incoming']['alwaysSetWhenReceived']) &&
-                $object['Incoming']['alwaysSetWhenReceived'];
+                in_array($name, $object['Incoming']['alwaysSetWhenReceived']);
 
             // Stop the method if needed
             if (!$alwaysSetWhenReceived) {
