@@ -1,0 +1,9 @@
+---
+
+functions:
+  send(message):
+    run: >
+      curl -X POST -H "Content-Type: application/json" -d '{"chat_id":"${Properties.chat_id}","text":"${ARGS.message}","parse_mode":"Markdown"}' "https://api.telegram.org/bot${Properties.bot_token}/sendMessage"
+    if: ${RESPONSE.output} is ok
+    set:
+      message: ${ARGS.message}
