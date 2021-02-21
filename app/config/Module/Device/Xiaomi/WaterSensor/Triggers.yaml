@@ -1,6 +1,6 @@
 ---
 
-battery:
+${Properties.selfObjectName}.battery:
   Low battery - ${Properties.selfObjectName}:
     if: this <= 40
     run:

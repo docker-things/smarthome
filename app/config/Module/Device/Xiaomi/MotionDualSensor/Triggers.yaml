@@ -2,30 +2,30 @@
 
 # SENSOR 1
 
-illuminance-1:
+${Properties.selfObjectName}.illuminance-1:
   Set main variable - ${Properties.selfObjectName}:
     if: this <= this.illuminance-2
     set:
       illuminance: this.illuminance-1
 
-occupancy-1:
+${Properties.selfObjectName}.occupancy-1:
   Set main variable:
     set:
       occupancy: this.occupancy-1
 
-no_occupancy_since-1:
+${Properties.selfObjectName}.no_occupancy_since-1:
   Set main variable - ${Properties.selfObjectName}:
     if: this <= this.no_occupancy_since-2
     set:
       no_occupancy_since: this.no_occupancy_since-1
 
-linkquality-1:
+${Properties.selfObjectName}.linkquality-1:
   Set main variable - ${Properties.selfObjectName}:
     if: this <= this.linkquality-2
     set:
       linkquality: this.linkquality-1
 
-battery-1:
+${Properties.selfObjectName}.battery-1:
   Set main variable - ${Properties.selfObjectName}:
     if: this <= this.battery-2
     set:
@@ -37,7 +37,7 @@ battery-1:
       - SystemWarn.send('${Properties.selfObjectName}-1 has this.battery-1% battery left!')
       - SystemNotify.send('${Properties.selfObjectName}-1 has this.battery-1% battery left!')
 
-voltage-1:
+${Properties.selfObjectName}.voltage-1:
   Set main variable - ${Properties.selfObjectName}:
     if: this <= this.voltage-2
     set:
@@ -45,30 +45,30 @@ voltage-1:
 
 # SENSOR 2
 
-illuminance-2:
+${Properties.selfObjectName}.illuminance-2:
   Set main variable - ${Properties.selfObjectName}:
     if: this <= this.illuminance-1
     set:
       illuminance: this.illuminance-2
 
-occupancy-2:
+${Properties.selfObjectName}.occupancy-2:
   Set main variable:
     set:
       occupancy: this.occupancy-2
 
-no_occupancy_since-2:
+${Properties.selfObjectName}.no_occupancy_since-2:
   Set main variable - ${Properties.selfObjectName}:
     if: this <= this.no_occupancy_since-1
     set:
       no_occupancy_since: this.no_occupancy_since-2
 
-linkquality-2:
+${Properties.selfObjectName}.linkquality-2:
   Set main variable - ${Properties.selfObjectName}:
     if: this <= this.linkquality-1
     set:
       linkquality: this.linkquality-2
 
-battery-2:
+${Properties.selfObjectName}.battery-2:
   Set main variable - ${Properties.selfObjectName}:
     if: this <= this.battery-1
     set:
@@ -80,7 +80,7 @@ battery-2:
       - SystemWarn.send('${Properties.selfObjectName}-2 has this.battery-2% battery left!')
       - SystemNotify.send('${Properties.selfObjectName}-2 has this.battery-2% battery left!')
 
-voltage-2:
+${Properties.selfObjectName}.voltage-2:
   Set main variable - ${Properties.selfObjectName}:
     if: this <= this.voltage-1
     set:
