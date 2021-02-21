@@ -11,8 +11,10 @@ actions:
     click: ${PARAMS.click}
     linkquality: ${PARAMS.linkquality}
     voltage: ${PARAMS.voltage}
+    last-input-time: foo
 
 # Params are not rewritten in the DB if the value isn't changed.
 # This allows them to be written anyway.
 alwaysSetWhenReceived:
   - click
+  - last-input-time

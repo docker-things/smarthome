@@ -1,6 +1,8 @@
 ---
 
 battery:
-  Low battery:
-    if: this <= 5
-    run: SystemWarn.send('this.objectName has this.battery% battery left!')
+  Low battery - ${Properties.selfObjectName}:
+    if: this <= 40
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} has this.battery% battery left!')
+      - SystemNotify.send('${Properties.selfObjectName} has this.battery% battery left!')

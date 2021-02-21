@@ -18,6 +18,7 @@ actions:
     linkquality-1: ${PARAMS.linkquality}
     battery-1: ${PARAMS.battery}
     voltage-1: ${PARAMS.voltage}
+    last-input-time-1: foo
 
   ${Properties.mqtt-topic-2}:
     illuminance-2: ${PARAMS.illuminance}
@@ -26,3 +27,4 @@ actions:
     linkquality-2: ${PARAMS.linkquality}
     battery-2: ${PARAMS.battery}
     voltage-2: ${PARAMS.voltage}
+    last-input-time-2: foo

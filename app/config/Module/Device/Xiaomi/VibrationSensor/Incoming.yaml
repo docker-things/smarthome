@@ -16,4 +16,10 @@ actions:
     battery: ${PARAMS.battery}
     voltage: ${PARAMS.voltage}
     unknown_data: ${PARAMS.unknown_data}
-    angle: ${PARAMS.angle}
+    angle: ${PARAMS.angle
+    last-input-time: foo
+
+# Params are not rewritten in the DB if the value isn't changed.
+# This allows them to be written anyway.
+alwaysSetWhenReceived:
+  - last-input-time
