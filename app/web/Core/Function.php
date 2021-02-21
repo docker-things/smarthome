@@ -202,7 +202,7 @@ class Core_Function {
      * @param $function
      */
     private function _runFunction($function) {
-        // Core_Logger::info('Core_Function::_runFunction("' . json_encode($function) . '");');
+        Core_Logger::info('Core_Function::_runFunction("' . json_encode($function) . '");');
 
         if (!isset($function['run'])) {
             if (!isset($function['runFunctions']) && !isset($function['runFunctionsAsync'])) {
@@ -226,7 +226,7 @@ class Core_Function {
      * @param $function
      */
     private function _runYamlFunctions($functions) {
-        // Core_Logger::info('Core_Function::_runYamlFunctions("' . json_encode($functions) . '");');
+        Core_Logger::info('Core_Function::_runYamlFunctions("' . json_encode($functions) . '");');
 
         if (!isset($functions['runFunctions']) && !isset($functions['runFunctionsAsync'])) {
             if (!isset($functions['run'])) {
