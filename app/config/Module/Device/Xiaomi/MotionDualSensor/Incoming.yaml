@@ -28,3 +28,9 @@ actions:
     battery-2: ${PARAMS.battery}
     voltage-2: ${PARAMS.voltage}
     last-input-time-2: foo
+
+# Params are not rewritten in the DB if the value isn't changed.
+# This allows them to be written anyway.
+alwaysSetWhenReceived:
+  - last-input-time-1
+  - last-input-time-2
