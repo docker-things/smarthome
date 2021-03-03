@@ -24,12 +24,17 @@ $(document).ready(function() {
     'Charging',
   ];
 
+  const STATUS_RETURNING = [
+    'Returning_home',
+  ];
+
   const STATUS_KNOWN = [
     ...STATUS_CLEANING,
     ...STATUS_GOTO,
     ...STATUS_IDLE,
     ...STATUS_PAUSED,
     ...STATUS_CHARGING,
+    ...STATUS_RETURNING,
   ];
 
   const SHOW_ROOM_SELECTION = [
@@ -40,6 +45,7 @@ $(document).ready(function() {
   const SHOW_SCREEN = [
     ...STATUS_CLEANING,
     ...STATUS_GOTO,
+    ...STATUS_RETURNING,
   ];
 
   const SCREEN = $('.screen.roborock')
