@@ -325,6 +325,7 @@ ${Properties.motion.object}.occupancy:
     if:
       - this is true
       - House.presence is true
+      - House.sleeping is not true
       - ${Properties.selfObjectName}.ignoreMotion is not true
       - ${Properties.selfObjectName}.forceLightOff is not true
       - ${Properties.light.object}.status not in ['on','offline']
@@ -466,6 +467,7 @@ ${Properties.button.object}.click:
   Mark house presence - ${Properties.selfObjectName}:
     set:
       House.presence: 'true'
+      ${Properties.selfObjectName}.sleeping: 'false'
 
   Mark motion - ${Properties.selfObjectName}:
     if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
