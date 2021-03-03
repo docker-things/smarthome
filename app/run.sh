@@ -54,10 +54,10 @@ if [ "`cat /app/data/.env`" == "prod" ]; then
     function-run-listener
     zigbee2mqtt
     cec-client-mqtt-bridge
-    evdev2mqtt
     broadlink2mqtt
     cron
     '
+    # evdev2mqtt
     # bluetooth-scan
 else
   SERVICES='
