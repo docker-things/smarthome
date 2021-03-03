@@ -1,0 +1,61 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/status
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/state
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/map_data
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/ConsumableStateAttribute_brush_main/state
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/ConsumableStateAttribute_brush_side_right/state
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/ConsumableStateAttribute_filter_main/state
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/ConsumableStateAttribute_sensor_all/state
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/ZoneCleaningCapability/presets
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/GoToLocationCapability/presets
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/WifiConfigurationCapability/state
+
+# Known actions and what variables are set by them
+actions:
+
+  ${Properties.mqtt-topic}/status:
+    state: ${PARAMS.RAW}
+
+  ${Properties.mqtt-topic}/state:
+    status: ${PARAMS.state}
+    battery: ${PARAMS.battery_level}
+    fanspeed: ${PARAMS.fan_speed}
+
+  ${Properties.mqtt-topic}/ConsumableStateAttribute_brush_main/state:
+    main_brush: ${PARAMS.RAW}
+
+  ${Properties.mqtt-topic}/ConsumableStateAttribute_brush_side_right/state:
+    side_brush: ${PARAMS.RAW}
+
+  ${Properties.mqtt-topic}/ConsumableStateAttribute_filter_main/state:
+    filter: ${PARAMS.RAW}
+
+  ${Properties.mqtt-topic}/ConsumableStateAttribute_sensor_all/state:
+    sensor_dirty: ${PARAMS.RAW}
+
+  ${Properties.mqtt-topic}/WifiConfigurationCapability/state:
+    wifi-state: ${PARAMS.state}
+    wifi-ssid: ${PARAMS.attributes.ssid}
+    wifi-upspeed: ${PARAMS.attributes.upspeed}
+    wifi-ip: ${PARAMS.attributes.ips.0}
+    wifi-frequency: ${PARAMS.attributes.frequency}
+
+# Params are not rewritten in the DB if the value isn't changed.
+# This allows them to be written anyway.
+alwaysSetWhenReceived:
+  - state
+
+# Normalize incoming params before writing to DB
+normalize-params:
+
+  ${Properties.mqtt-topic}/state:
+    status:
+      cleaning: 'Cleaning'
+      paused: 'Paused'
+      idle: 'Idle'
+      returning: 'Returning_home'
+      docked: 'Charging'
+      error: 'Error'

@@ -1,0 +1,20 @@
+---
+
+ip: !required
+token: !required
+mqtt-topic: !required
+
+weekdays-cleaning-hour: '11:00'
+weekends-cleaning-hour: '12:00'
+fanspeed: 60
+
+lidSensor: NONE
+
+cleaning-point: '-'
+
+zone_bathroom: ''
+zone_bedroom: ''
+zone_livingroom: ''
+zone_kitchen: ''
+zone_hallway: ''
+zone_house: ''

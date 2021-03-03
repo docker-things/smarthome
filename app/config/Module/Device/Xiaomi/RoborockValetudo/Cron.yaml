@@ -1,0 +1,36 @@
+---
+
+jobs:
+  - interval: 3600
+    run: getConsumablesStatus()
+
+  - interval: 300
+    run: getCleaningHistory()
+
+  - interval: 300
+    if:
+      - ${Properties.selfObjectName}.status is Charging
+    run:
+      - getStatus()
+
+  - interval: 30
+    if:
+      - ${Properties.selfObjectName}.status is not Charging
+    run:
+      - getStatus()
+
+  - interval: 5
+    if:
+      - ${Properties.selfObjectName}.delayedCleanup is true
+      - ${Properties.selfObjectName}.status is Charging
+      - House.closedDoors is false
+      - House.closedDoors.timeSince > 300
+      - House.sleeping is false
+      - House.sleeping.timeSince > 300
+      - ${Properties.selfObjectName}.lidOpened is false
+      - ${Properties.selfObjectName}.lidOpened.timeSince > 300
+    run:
+      - ${Properties.selfObjectName}.start()
+      - SystemNotify.send('Started delayed cleaning')
+    set:
+      ${Properties.selfObjectName}.delayedCleanup: 'false'
