@@ -10,6 +10,8 @@ define('DB_DIR', MAIN_DIR . '/data/db');
 define('WEB_DIR', MAIN_DIR . '/web');
 define('CONFIG_DIR', MAIN_DIR . '/data/config');
 
+date_default_timezone_set(getenv('TZ'));
+
 /**
  * @param $class
  */
