@@ -1,16 +1,10 @@
 ---
 
-cmd: >
-  ash ${Base.paths.modules}/roborock/roborock.sh ${Properties.ip} ${Properties.token}
+cmd: ash ${Base.paths.modules}/roborock/roborock.sh ${Properties.ip} ${Properties.token}
 
-command: >
-  mosquitto_pub -h localhost -t "${Properties.mqtt-topic}/command" -m
-
-custom_command: >
-  mosquitto_pub -h localhost -t "${Properties.mqtt-topic}/custom_command" -m
-
-set_fan_speed: >
-  mosquitto_pub -h localhost -t "${Properties.mqtt-topic}/set_fan_speed" -m
+command: mosquitto_pub -h localhost -t "${Properties.mqtt-topic}/command" -m
+custom_command: mosquitto_pub -h localhost -t "${Properties.mqtt-topic}/custom_command" -m
+set_fan_speed: mosquitto_pub -h localhost -t "${Properties.mqtt-topic}/set_fan_speed" -m
 
 functions:
 
@@ -35,7 +29,7 @@ functions:
     run: ${command} spot
 
   home():
-    run: ${command} “return_to_base”
+    run: ${command} return_to_base
     set:
       zone: ''
 
@@ -47,7 +41,7 @@ functions:
     run: ${set_fan_speed} ${ARGS.speed}
 
   cleanZone(id,name):
-    run: >
+    run: |
       ${custom_command} '{"command":"zoned_cleanup","zone_ids":["${ARGS.id}"]}'
     set:
       zone: ${ARGS.name}
@@ -81,7 +75,7 @@ functions:
       - ${Properties.selfObjectName}.cleanZone('${Properties.zone_house}','house')
 
   goto(id):
-    run: >
+    run: |
       ${custom_command} '{"command":"go_to","spot_id":"${ARGS.id}"}'
     set:
       zone: ''

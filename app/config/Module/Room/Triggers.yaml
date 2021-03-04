@@ -648,7 +648,7 @@ ${Properties.button.object}.click:
   Quadruple click - Resume cleaning - ${Properties.selfObjectName}:
     if:
       - this is quadruple
-      - ${Properties.roborock.object}.status is Paused
+      - ${Properties.roborock.object}.status in ['Paused','Idle']
       - ${Properties.roborock.object}.zone is none
     run:
       - ${Properties.roborock.object}.resume()
@@ -657,7 +657,7 @@ ${Properties.button.object}.click:
   Quadruple click - Restart local cleaning - ${Properties.selfObjectName}:
     if:
       - this is quadruple
-      - ${Properties.roborock.object}.status is Paused
+      - ${Properties.roborock.object}.status in ['Paused','Idle']
       - ${Properties.roborock.object}.zone is ${Properties.name}
     run:
       - ${Properties.roborock.object}.cleanZone('${Properties.roborock.local-zone}','${Properties.name}')
@@ -683,7 +683,6 @@ ${Properties.button.object}.click:
     if:
       - this is many
       - ${Properties.roborock.object}.status in ['Cleaning']
-      - ${Properties.roborock.object}.zone in ['none']
     run:
       - ${Properties.roborock.object}.pause()
       - SystemNotify.send('Paused cleaning (${Properties.button.object})')
