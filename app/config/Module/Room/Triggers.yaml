@@ -674,7 +674,7 @@ ${Properties.button.object}.click:
   Many click - Start House cleaning - ${Properties.selfObjectName}:
     if:
       - this is many
-      - ${Properties.roborock.object}.status is Charging
+      - ${Properties.roborock.object}.status in ['Paused','Idle','Charging']
     run:
       - ${Properties.roborock.object}.start()
       - SystemNotify.send('Clean house (${Properties.button.object})')
