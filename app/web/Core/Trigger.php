@@ -242,7 +242,7 @@ class Core_Trigger {
      * @param $triggers
      */
     private function _setNewStates($triggers) {
-        // Core_Logger::info('Core_Trigger::_setNewStates();');
+        // Core_Logger::info('Core_Trigger::_setNewStates(): '.print_r($triggers,1));
 
         foreach ($triggers AS $trigger) {
 
