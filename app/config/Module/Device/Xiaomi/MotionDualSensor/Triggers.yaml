@@ -32,7 +32,9 @@ ${Properties.selfObjectName}.battery-1:
       battery: this.battery-1
 
   Low battery - ${Properties.selfObjectName}:
-    if: this <= 40
+    if:
+      - this <= 40
+      - this < ${Properties.selfObjectName}.battery.previousValue
     run:
       - SystemWarn.send('${Properties.selfObjectName}-1 has this.battery-1% battery left!')
       - SystemNotify.send('${Properties.selfObjectName}-1 has this.battery-1% battery left!')
@@ -73,9 +75,13 @@ ${Properties.selfObjectName}.battery-2:
     if: this <= this.battery-1
     set:
       battery: this.battery-2
+---
 
+${Properties.selfObjectName}.battery:
   Low battery - ${Properties.selfObjectName}:
-    if: this <= 40
+    if:
+      - this <= 40
+      - this < ${Properties.selfObjectName}.battery.previousValue
     run:
       - SystemWarn.send('${Properties.selfObjectName}-2 has this.battery-2% battery left!')
       - SystemNotify.send('${Properties.selfObjectName}-2 has this.battery-2% battery left!')
