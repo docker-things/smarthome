@@ -8,6 +8,19 @@ jobs:
     run:
       - ${Properties.selfObjectName}.auto()
 
+  # SAFETY: DON'T RUN FOR MORE THAN 1 HOUR AT A TIME
+
+  - interval: 60
+    if:
+      - ${Properties.selfObjectName}.status is on
+      - ${Properties.selfObjectName}.status.timeSince >= 3600
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} was on for 1h. Stopped for safety reasons. Won't start for ${Properties.force-off-seconds}s.')
+    set:
+      ${Properties.selfObjectName}.forceOn: 'false'
+      ${Properties.selfObjectName}.forceOff: 'true'
+
   # STOP FORCED ON/OFF
 
   # Force OFF
