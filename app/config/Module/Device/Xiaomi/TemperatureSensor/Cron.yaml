@@ -6,6 +6,9 @@ jobs:
   - interval: 300
     if:
       - ${Properties.selfObjectName}.last-input-time.timeSince >= 14400
+      - ${Properties.selfObjectName}.last-input-time-warn != System.date
     run:
       - SystemWarn.send('${Properties.selfObjectName} sent nothing for 4 hours! Offline?')
       - SystemNotify.send('${Properties.selfObjectName} sent nothing for 4 hours! Offline?')
+    set:
+      last-input-time-warn: System.date
