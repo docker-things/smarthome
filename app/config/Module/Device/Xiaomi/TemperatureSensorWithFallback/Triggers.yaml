@@ -1,0 +1,80 @@
+---
+
+${Properties.sensor-1}.battery:
+  Set local value - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.battery: this.battery
+
+${Properties.sensor-1}.humidity:
+  Set local value - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.humidity: this.humidity
+
+${Properties.sensor-1}.linkquality:
+  Set local value - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.linkquality: this.linkquality
+
+${Properties.sensor-1}.pressure:
+  Set local value - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.pressure: this.pressure
+
+${Properties.sensor-1}.temperature:
+  Set local value - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.temperature: this.temperature
+
+${Properties.sensor-1}.voltage:
+  Set local value - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.voltage: this.voltage
+
+${Properties.sensor-1}.last-input-time:
+  Set local value - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last-input-time: this.last-input-time
+
+# ------------------------------------------------------------------------------
+
+${Properties.sensor-2}.battery:
+  Set local value - ${Properties.selfObjectName}:
+    if: ${Properties.sensor-1}.last-input-time.timeSince >= 3600
+    set:
+      ${Properties.selfObjectName}.battery: this.battery
+
+${Properties.sensor-2}.humidity:
+  Set local value - ${Properties.selfObjectName}:
+    if: ${Properties.sensor-1}.last-input-time.timeSince >= 3600
+    set:
+      ${Properties.selfObjectName}.humidity: this.humidity
+
+${Properties.sensor-2}.linkquality:
+  Set local value - ${Properties.selfObjectName}:
+    if: ${Properties.sensor-1}.last-input-time.timeSince >= 3600
+    set:
+      ${Properties.selfObjectName}.linkquality: this.linkquality
+
+${Properties.sensor-2}.pressure:
+  Set local value - ${Properties.selfObjectName}:
+    if: ${Properties.sensor-1}.last-input-time.timeSince >= 3600
+    set:
+      ${Properties.selfObjectName}.pressure: this.pressure
+
+${Properties.sensor-2}.temperature:
+  Set local value - ${Properties.selfObjectName}:
+    if: ${Properties.sensor-1}.last-input-time.timeSince >= 3600
+    set:
+      ${Properties.selfObjectName}.temperature: this.temperature
+
+${Properties.sensor-2}.voltage:
+  Set local value - ${Properties.selfObjectName}:
+    if: ${Properties.sensor-1}.last-input-time.timeSince >= 3600
+    set:
+      ${Properties.selfObjectName}.voltage: this.voltage
+
+${Properties.sensor-2}.last-input-time:
+  Set local value - ${Properties.selfObjectName}:
+    if: ${Properties.sensor-1}.last-input-time.timeSince >= 3600
+    set:
+      ${Properties.selfObjectName}.last-input-time: this.last-input-time

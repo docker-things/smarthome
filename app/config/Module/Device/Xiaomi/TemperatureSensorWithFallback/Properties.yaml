@@ -1,0 +1,4 @@
+---
+
+sensor-1: !required
+sensor-2: !required
