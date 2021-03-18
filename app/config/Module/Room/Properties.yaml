@@ -54,6 +54,9 @@ light:
     off-when-no-motion-for-X-seconds-old-location: 10
     off-when-lux-over: 200
 
+  night:
+    object: NONE
+
 ledstrip:
   object: NONE
   off-when-no-motion-for-X-seconds-current-location: 3600
