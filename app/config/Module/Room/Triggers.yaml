@@ -23,7 +23,7 @@ ${Properties.selfObjectName}.ignoreMotion:
 
   Mark awake - ${Properties.selfObjectName}:
     if:
-      - ${Properties.motion.ignored-motion-means-sleeping} is true
+      - ${Properties.motion.ignored-motion-means-sleeping} is false
       - this is false
     set:
       ${Properties.selfObjectName}.sleeping: 'false'
@@ -467,6 +467,11 @@ ${Properties.button.object}.click:
   Mark house presence - ${Properties.selfObjectName}:
     set:
       House.presence: 'true'
+
+  Mark awake - ${Properties.selfObjectName}:
+    if:
+      - this not in ['long','long_release']
+    set:
       ${Properties.selfObjectName}.sleeping: 'false'
 
   Mark motion - ${Properties.selfObjectName}:
