@@ -346,6 +346,7 @@ class Core_State {
         // Get variable with a default value if not found
         $variable = $this->getVariable($source, $name, [
             'value'        => '',
+            'prevValue'    => '',
             'timestamp'    => 0,
             'tmpValue'     => '',
             'tmpTimes'     => 0,
@@ -391,6 +392,7 @@ class Core_State {
                 `source`,
                 `name`,
                 `value`,
+                `prevValue`,
                 `timestamp`,
                 `tmpValue`,
                 `tmpTimes`,
@@ -400,6 +402,7 @@ class Core_State {
                 '" . $this->_db->escape($source) . "',
                 '" . $this->_db->escape($name) . "',
                 '" . $this->_db->escape($variable['value']) . "',
+                '" . $this->_db->escape($variable['prevValue']) . "',
                 " . $this->_db->escape($variable['timestamp']) . ",
                 '" . $this->_db->escape($variable['tmpValue']) . "',
                 " . $this->_db->escape($variable['tmpTimes']) . ",
