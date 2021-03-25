@@ -12,6 +12,12 @@ functions:
     set:
       forceLightOff: 'false'
 
+  forceLightOn():
+    runFunctions:
+      - ${Properties.selfObjectName}.lightOn()
+    set:
+      forceLightOn: 'true'
+
   secondaryLightOn():
     runIf:
       - ${Properties.light.secondary.object}.status is not 'on'
@@ -34,6 +40,12 @@ functions:
       - ${Properties.light.object}.off()
     set:
       forceLightOn: 'false'
+
+  forceLightOff():
+    runFunctions:
+      - ${Properties.selfObjectName}.lightOff()
+    set:
+      forceLightOff: 'true'
 
   secondaryLightOff():
     runIf:

@@ -1,7 +1,7 @@
 ---
 
 ${Properties.door}.contact:
-  Door is closed - send message:
+  Door is closed - send message - ${Properties.selfObjectName}:
     if: this is true
     run:
       - SystemWarn.send('${Properties.door} was closed!')
@@ -9,7 +9,7 @@ ${Properties.door}.contact:
     set:
       House.shouldCheckPresence: 'true'
 
-  Door is opened - someone arrived:
+  Door is opened - someone arrived - ${Properties.selfObjectName}:
     if:
       - this is false
       - House.presence is false
@@ -18,7 +18,7 @@ ${Properties.door}.contact:
       - SystemWarn.send('Someone entered the house')
       - SystemNotify.send('Someone entered the house')
 
-  Door is opened - send message:
+  Door is opened - send message - ${Properties.selfObjectName}:
     if: this is false
     run:
       - SystemWarn.send('${Properties.door} was opened!')
@@ -27,7 +27,7 @@ ${Properties.door}.contact:
       House.presence: 'true'
 
 House.openWindows:
-  When opening windows without presence:
+  When opening windows without presence - ${Properties.selfObjectName}:
     if:
       - this is true
       - House.presence is false
@@ -36,7 +36,7 @@ House.openWindows:
       - SystemNotify.send('Someone opened windows but house is empty!')
 
 House.presence:
-  When house is empty:
+  When house is empty - ${Properties.selfObjectName}:
     if:
       - this is false
     run:
@@ -44,7 +44,7 @@ House.presence:
       - SystemWarn.send('House is empty. Turned everything off.')
       - SystemNotify.send('House is empty. Turned everything off.')
 
-  When house is empty with opened windows:
+  When house is empty with opened windows - ${Properties.selfObjectName}:
     if:
       - this is false
       - House.openWindows is true
@@ -52,9 +52,73 @@ House.presence:
       - SystemWarn.send('Windows are opened!')
       - SystemNotify.send('Windows are opened!')
 
-  When house is populated:
+  When house is populated - ${Properties.selfObjectName}:
     if:
       - this is true
     run:
       - SystemWarn.send('Presence detected!')
       - SystemNotify.send('Presence detected!')
+
+House.lastActivity:
+  Check if house is active - ${Properties.selfObjectName}:
+    run:
+      - House.updateActiveStatus()
+
+House.active:
+  If house inactive during night assume sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - House.presence is true
+      - House.sleeping is not true
+      - Sun.state is night
+    run:
+      - House.off()
+    set:
+      House.sleeping: 'true'
+
+  Active - ${Properties.selfObjectName}:
+    if: this is true
+    run: SystemNotify.send('House active')
+
+  Inactive - ${Properties.selfObjectName}:
+    if: this is false
+    run: SystemNotify.send('House inactive')
+
+House.sleeping:
+  Sleeping - ${Properties.selfObjectName}:
+    if: this is true
+    run: SystemNotify.send('House sleeping')
+
+  Awake - ${Properties.selfObjectName}:
+    if: this is false
+    run: SystemNotify.send('House awake')
+
+House.presence:
+  Presence - ${Properties.selfObjectName}:
+    if: this is true
+    run: SystemNotify.send('House got presence')
+
+  No presence - ${Properties.selfObjectName}:
+    if: this is false
+    run: SystemNotify.send('House got no presence')
+
+House.shouldCheckPresence:
+  Should check - ${Properties.selfObjectName}:
+    if: this is true
+    run: SystemNotify.send('House should check presence')
+
+  Shouldn't check - ${Properties.selfObjectName}:
+    if: this is false
+    run: SystemNotify.send('House should not check presence')
+
+Sun.state:
+  House inactivity during night - assume sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is night
+      - House.active is false
+      - House.presence is true
+      - House.sleeping is not true
+    run:
+      - House.off()
+    set:
+      House.sleeping: 'true'

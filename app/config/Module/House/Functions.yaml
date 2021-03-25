@@ -98,6 +98,22 @@ functions:
     elseSet:
       sleeping: 'true'
 
+  updateActiveStatus():
+    if:
+      - ${Properties.room-1}.active != true
+      - ${Properties.room-2}.active != true
+      - ${Properties.room-3}.active != true
+      - ${Properties.room-4}.active != true
+      - ${Properties.room-5}.active != true
+      - ${Properties.room-6}.active != true
+      - ${Properties.room-7}.active != true
+      - ${Properties.room-8}.active != true
+      - ${Properties.room-9}.active != true
+    set:
+      active: 'false'
+    elseSet:
+      active: 'true'
+
   offWithoutVacuum():
     runFunctionsAsync:
       - ${Properties.room-1}.off()

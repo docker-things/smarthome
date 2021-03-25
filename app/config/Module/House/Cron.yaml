@@ -2,29 +2,29 @@
 
 jobs:
 
-  # No motion detected for 8 hours
-  - interval: 60
+  # No human action for 8 hours and not sleeping - assume no presence
+  - interval: 119
     if:
       - House.presence is true
-      - House.lastMotion.timeSince >= 28800
+      - House.lastHumanAction.timeSince >= 28800
     run:
-      - House.allLightsOff()
-      - SystemNotify.send('No presence (No house motion for 8 hours)')
-      - SystemWarn.send('No presence (No house motion for 8 hours)')
+      - House.off()
+      - SystemNotify.send('No presence (No human action for 8 hours)')
+      - SystemWarn.send('No presence (No human action for 8 hours)')
     set:
       House.shouldCheckPresence: 'false'
       House.presence: 'false'
       House.sleeping: 'false'
 
-  # No motion detected for 2 hours
+  # No human action for 2 hours - assume sleeping
   - interval: 60
     if:
       - House.presence is true
       - House.sleeping is not true
-      - House.lastMotion.timeSince >= 7200
+      - House.lastHumanAction.timeSince >= 7200
     run:
-      - SystemNotify.send('Sleeping (No house motion for 2 hours)')
-      - SystemWarn.send('Sleeping (No house motion for 2 hours)')
+      - SystemNotify.send('Sleeping (No human action for 2 hours)')
+      - SystemWarn.send('Sleeping (No human action for 2 hours)')
     set:
       House.sleeping: 'true'
 
@@ -34,7 +34,7 @@ jobs:
       - House.shouldCheckPresence is true
       - ${Properties.door}.contact is true
       - ${Properties.door}.contact.timeSince >= 60
-      - ${Properties.door}.contact.timeSince <= House.lastMotion.timeSince
+      - ${Properties.door}.contact.timeSince <= House.lastHumanAction.timeSince
     set:
       House.shouldCheckPresence: 'false'
       House.presence: 'false'
@@ -46,7 +46,7 @@ jobs:
       - House.shouldCheckPresence is true
       - ${Properties.door}.contact is true
       - ${Properties.door}.contact.timeSince >= 60
-      - ${Properties.door}.contact.timeSince > House.lastMotion.timeSince
+      - ${Properties.door}.contact.timeSince > House.lastHumanAction.timeSince
     set:
       House.shouldCheckPresence: 'false'
       House.presence: 'true'

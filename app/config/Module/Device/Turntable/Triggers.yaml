@@ -2,53 +2,21 @@
 
 ${Properties.selfObjectName}.status:
 
-  TURNED ON - TV OFF - ${Properties.selfObjectName}:
-    if:
-      - this is on
-      - Livingroom-TV.status is off
-    run:
-      - Livingroom-TV.switchToSmarthome()
-      - SystemNotify.send('TV ON (${Properties.selfObjectName} is ON)')
+  ON - ${Properties.selfObjectName}:
+    if: this is on
+    run: SystemNotify.send('${Properties.selfObjectName} is ON')
 
-  TURNED ON - TV SWITCH - ${Properties.selfObjectName}:
-    if:
-      - this is on
-      - Livingroom-TV.status is on
-      - Livingroom-TV.source is not smarthome
-    run:
-      - Livingroom-TV.switchToSmarthome()
-      - SystemNotify.send('TV switch to SMARTHOME (${Properties.selfObjectName} is ON)')
-
-  TURNED OFF - ${Properties.selfObjectName}:
-    if:
-      - this is off
-      - Livingroom-TV.status is on
-      - Livingroom-TV.source is smarthome
-    run:
-      - Livingroom-TV.off()
-      - SystemNotify.send('TV OFF (${Properties.selfObjectName} is OFF)')
-
-  PLAYING - TV OFF - ${Properties.selfObjectName}:
-    if:
-      - this is playing
-      - Livingroom-TV.status is off
-    run:
-      - Livingroom-TV.switchToSmarthome()
-      - SystemNotify.send('TV ON (${Properties.selfObjectName} is ON)')
-
-  PLAYING - TV SWITCH - ${Properties.selfObjectName}:
-    if:
-      - this is playing
-      - Livingroom-TV.status is on
-      - Livingroom-TV.source is not smarthome
-    run:
-      - Livingroom-TV.switchToSmarthome()
-      - SystemNotify.send('TV switch to SMARTHOME (${Properties.selfObjectName} is PLAYING)')
+  PLAYING - ${Properties.selfObjectName}:
+    if: this is playing
+    run: SystemNotify.send('${Properties.selfObjectName} is PLAYING')
 
   PAUSED - ${Properties.selfObjectName}:
     if: this is paused
-    run:
-      - SystemNotify.send('${Properties.selfObjectName} is PAUSED')
+    run: SystemNotify.send('${Properties.selfObjectName} is PAUSED')
+
+  OFF - ${Properties.selfObjectName}:
+    if: this is off
+    run: SystemNotify.send('${Properties.selfObjectName} is OFF')
 
   RESET SHAZAM DATA WHEN NOT PLAYING - ${Properties.selfObjectName}:
     if: this is not playing

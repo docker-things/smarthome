@@ -3,11 +3,11 @@
 device:
 
   MARK MOTION - ${Properties.selfObjectName}:
-    if: ${Properties.room}.lastMotion is not System.timestamp
+    if: ${Properties.room}.lastHumanAction is not System.timestamp
     set:
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
-      ${Properties.room}.lastMotion: System.timestamp
+      House.lastHumanAction: System.timestamp
+      House.lastHumanActionLocation: '${Properties.name}'
+      ${Properties.room}.lastHumanAction: System.timestamp
 
   TV ON IN RETRO-GAMING - ${Properties.selfObjectName}:
     if:

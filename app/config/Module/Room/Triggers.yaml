@@ -36,6 +36,9 @@ ${Properties.selfObjectName}.sleeping:
 # PLEX
 
 # ${Properties.plex.object}.status:
+#   Mark human action - ${Properties.selfObjectName}:
+#     set:
+#       ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
 #   # PLAY
 
@@ -118,6 +121,10 @@ ${Properties.selfObjectName}.sleeping:
 # LIGHT
 
 ${Properties.light.object}.status:
+  Mark room activity - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastActivity: System.timestamp
+
   Stop ignoring motion - ${Properties.selfObjectName}:
     if: this is on
     set:
@@ -174,10 +181,14 @@ ${Properties.light.object}.status:
       - this.status.previousValue is 'offline'
     set:
       House.presence: 'true'
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
+      House.lastHumanAction: System.timestamp
+      House.lastHumanActionLocation: '${Properties.name}'
 
 ${Properties.light.secondary.object}.status:
+  Mark room activity - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastActivity: System.timestamp
+
   Disconnect notification - ${Properties.selfObjectName}:
     if:
       - this.status is 'offline'
@@ -213,8 +224,8 @@ ${Properties.light.secondary.object}.status:
       - this.status.previousValue is 'offline'
     set:
       House.presence: 'true'
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
+      House.lastHumanAction: System.timestamp
+      House.lastHumanActionLocation: '${Properties.name}'
 
   Turn on night light - ${Properties.selfObjectName}:
     if:
@@ -241,8 +252,7 @@ ${Properties.clapper.object}.time:
       - SystemNotify.send('${Properties.selfObjectName} light ON (Clapped)!')
     set:
       House.presence: 'true'
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
   Light OFF when clapping - ${Properties.selfObjectName}:
     if:
@@ -252,9 +262,7 @@ ${Properties.clapper.object}.time:
       - SystemNotify.send('${Properties.selfObjectName} light OFF (Clapped)!')
     set:
       House.presence: 'true'
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
-
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
 # DAY / NIGHT
 
@@ -315,11 +323,8 @@ ${Properties.motion.object}.occupancy:
   Mark house motion - ${Properties.selfObjectName}:
     if:
       - this is true
-      - ${Properties.selfObjectName}.lastMotion is not System.timestamp
     set:
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
-      ${Properties.selfObjectName}.lastMotion: System.timestamp
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
   Motion detected - light on - ${Properties.selfObjectName}:
     if:
@@ -384,14 +389,12 @@ ${Properties.motion.object}.occupancy:
       - SystemNotify.send('Motion detected but nobody is home (${Properties.selfObjectName})!')
 
 ${Properties.motion.object}.no_occupancy_since:
-  Mark house motion - ${Properties.selfObjectName}:
+  Mark room action - ${Properties.selfObjectName}:
     if:
       - this is 0
-      - ${Properties.selfObjectName}.lastMotion is not System.timestamp
+      - ${Properties.selfObjectName}.lastHumanAction is not System.timestamp
     set:
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
-      ${Properties.selfObjectName}.lastMotion: System.timestamp
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
 # MOTION - LEDSTRIP
 
@@ -431,11 +434,8 @@ ${Properties.tv.object}.status:
       - SystemWarn.send('Detected TV ON while nobody home! Turned it off. (${Properties.selfObjectName})')
 
   Mark motion - ${Properties.selfObjectName}:
-    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
     set:
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
-      ${Properties.selfObjectName}.lastMotion: System.timestamp
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
   Audio system ON when TV ON - ${Properties.selfObjectName}:
     if:
@@ -461,11 +461,104 @@ ${Properties.tv.object}.status:
     set:
       ${Properties.plex.object}.status: stopped
 
+# TURNTABLE
+
+${Properties.turntable.object}.status:
+  Mark action - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+
+  ON or PLAYING - TV OFF - ${Properties.selfObjectName}:
+    if:
+      - this in ['on','playing']
+    run:
+      - ${Properties.tv.object}.switchToSmarthome()
+      - SystemNotify.send('Switch TV to Smarthome (${Properties.selfObjectName})')
+
+  TURNED OFF - ${Properties.selfObjectName}:
+    if:
+      - this is off
+      - ${Properties.tv.object}.status is on
+      - ${Properties.tv.object}.source is smarthome
+    run:
+      - ${Properties.tv.object}.off()
+      - SystemNotify.send('TV OFF (${Properties.selfObjectName} is OFF)')
+
+  # Paused
+
+  Paused - Primary light - ${Properties.selfObjectName}:
+    if:
+      - this is paused
+      - ${Properties.light.object}.status is on
+    set:
+      ${Properties.turntable.object}.shouldRestoreLightTo: primary
+
+  Paused - Secondary light - ${Properties.selfObjectName}:
+    if:
+      - this is paused
+      - ${Properties.light.secondary.object}.status is on
+    run:
+      - ${Properties.selfObjectName}.forceLightOn()
+      - ${Properties.light.secondary.object}.off()
+      - SystemNotify.send('Light ON (${Properties.turntable.object} paused)')
+    set:
+      ${Properties.turntable.object}.shouldRestoreLightTo: secondary
+
+  Paused - Natural light - ${Properties.selfObjectName}:
+    if:
+      - this is paused
+      - ${Properties.selfObjectName}.gotNaturalLight is true
+    set:
+      ${Properties.turntable.object}.shouldRestoreLightTo: natural
+
+  Paused - Darkness - ${Properties.selfObjectName}:
+    if:
+      - this is paused
+      - ${Properties.light.object}.status is off
+      - ${Properties.light.secondary.object}.status is off
+      - ${Properties.selfObjectName}.gotNaturalLight is false
+    run:
+      - ${Properties.selfObjectName}.forceLightOn()
+      - SystemNotify.send('Light ON (${Properties.turntable.object} paused)')
+    set:
+      ${Properties.turntable.object}.shouldRestoreLightTo: darkness
+
+  # Playing
+
+  Playing - Restore secondary light dimmed - ${Properties.selfObjectName}:
+    if:
+      - this is playing
+      - ${Properties.light.object}.status is on
+      - ${Properties.turntable.object}.shouldRestoreLightTo is secondary
+      - ${Properties.turntable.object}.shouldRestoreLightTo.timeSince <= 600
+    run:
+      - ${Properties.light.secondary.object}.on()
+      - ${Properties.selfObjectName}.lightOff()
+      - SystemNotify.send('Resume secondary light (${Properties.turntable.object} playing)')
+
+  Playing - Restore darkness - ${Properties.selfObjectName}:
+    if:
+      - this is playing
+      - ${Properties.turntable.object}.shouldRestoreLightTo is darkness
+      - ${Properties.turntable.object}.shouldRestoreLightTo.timeSince <= 600
+    run:
+      - ${Properties.selfObjectName}.forceLightOff()
+      - ${Properties.light.secondary.object}.off()
+      - SystemNotify.send('Resume darkness (${Properties.turntable.object} playing)')
+
+  # Off
+
+  Turned off - Cleanup - ${Properties.selfObjectName}:
+    if: this is off
+    set:
+      ${Properties.turntable.object}.shouldRestoreLightTo: '-'
+
 # BUTTON
 
 ${Properties.button.object}.click:
-  Mark house presence - ${Properties.selfObjectName}:
+  Mark action - ${Properties.selfObjectName}:
     set:
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
       House.presence: 'true'
 
   Mark awake - ${Properties.selfObjectName}:
@@ -473,13 +566,6 @@ ${Properties.button.object}.click:
       - this not in ['long','long_release']
     set:
       ${Properties.selfObjectName}.sleeping: 'false'
-
-  Mark motion - ${Properties.selfObjectName}:
-    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
-    set:
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
-      ${Properties.selfObjectName}.lastMotion: System.timestamp
 
   Turn diffuser on - ${Properties.selfObjectName}:
     if:
@@ -733,11 +819,8 @@ ${Properties.door.object}.contact:
       - SystemNotify.send('Presence detected (${Properties.door.object})')
 
   Mark motion - ${Properties.selfObjectName}:
-    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
     set:
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
-      ${Properties.selfObjectName}.lastMotion: System.timestamp
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
   Mark door status - ${Properties.selfObjectName}:
     set:
@@ -799,11 +882,8 @@ ${Properties.window.object}.contact:
       - SystemNotify.send('Window opened while sleeping (${Properties.window.object})')
 
   Mark motion - ${Properties.selfObjectName}:
-    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
     set:
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
-      ${Properties.selfObjectName}.lastMotion: System.timestamp
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
   Opened - Notification - ${Properties.selfObjectName}:
     if: this is false
@@ -837,11 +917,8 @@ ${Properties.window-2.object}.contact:
       - SystemNotify.send('Presence detected (${Properties.window-2.object})')
 
   Mark motion - ${Properties.selfObjectName}:
-    if: ${Properties.selfObjectName}.lastMotion is not System.timestamp
     set:
-      House.lastMotion: System.timestamp
-      House.lastMotionLocation: '${Properties.name}'
-      ${Properties.selfObjectName}.lastMotion: System.timestamp
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
   Mark status and alert if window opened - ${Properties.selfObjectName}:
     if: this is false
@@ -898,3 +975,60 @@ ${Properties.water-sensor.object}.water_leak:
       - SystemWarn.send('Water leak is gone in ${Properties.selfObjectName}')
     set:
       ${Properties.selfObjectName}.forceLightOn: 'false'
+
+# HUMAN ACTION
+
+${Properties.selfObjectName}.lastHumanAction:
+  Mark house action - ${Properties.selfObjectName}:
+    set:
+      House.lastHumanAction: System.timestamp
+      House.lastHumanActionLocation: '${Properties.name}'
+
+  Mark room activity - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastActivity: System.timestamp
+
+# ACTIVITY
+
+${Properties.selfObjectName}.lastActivity:
+  Mark house activity - ${Properties.selfObjectName}:
+    set:
+      House.lastActivity: System.timestamp
+      House.lastActivityLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.active: 'true'
+
+${Properties.selfObjectName}.active:
+  Is active - ${Properties.selfObjectName}:
+    if: this is true
+    run: SystemNotify.send('${Properties.selfObjectName} active')
+
+  Is inactive - ${Properties.selfObjectName}:
+    if: this is false
+    run: SystemNotify.send('${Properties.selfObjectName} inactive')
+
+# LAPTOP
+
+${Properties.laptop.object}.status:
+  Turn on/off - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+
+${Properties.laptop.object}.locked:
+  Lock/Unlock - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+
+${Properties.laptop.object}.charging:
+  Plug/Unplug - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+
+${Properties.laptop.object}.working:
+  Working or not - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+
+${Properties.laptop.object}.call:
+  Start/End call - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp

@@ -88,6 +88,12 @@ tv:
   audio-system:
     object: NONE
 
+turntable:
+  object: NONE
+
+laptop:
+  object: NONE
+
 water-sensor:
   object: NONE
 
