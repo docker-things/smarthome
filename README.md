@@ -30,6 +30,7 @@ A Docker image meant to connect and automate smart devices in a house.
 - CEC
 - Roborock vacuum cleaners
 - Xiaomi purifiers
+- Audio-Technica USB Turntables (AT-LP120XBT-USB)
 - Snapcast
 
 Probably more but that's what I thought of really quick.
