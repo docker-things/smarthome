@@ -26,11 +26,14 @@ function restoreTouchDrag() {
 }
 
 function showDashboard() {
-  setTimeout(function() {
-    $('.mainContainer').css({
-      opacity: 1,
-    })
-  }, 500)
+  if( $('.mainContainer').css('opacity') == 0 ) {
+    setTimeout(function() {
+      $('.mainContainer').css({
+        opacity: 1,
+      })
+      setTimeout(autoTheme, 500)
+    }, 500)
+  }
 }
 
 /**
@@ -327,7 +330,7 @@ function autoTheme() {
     if (!lightIsOn && !gotNaturalLight) {
 
       // And got recent movement
-      if (no_occupancy_since < 60) {
+      if (no_occupancy_since < 60 && KEEP_RETURNING_TO != 'nowplaying') {
         setBrightDarkTheme();
       }
 
