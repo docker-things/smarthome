@@ -1,0 +1,5 @@
+---
+
+jobs:
+  - interval: 9
+    run: checkStatus()

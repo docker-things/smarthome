@@ -1,0 +1,68 @@
+--- # Do stuff when certain variables are changed
+
+${Properties.selfObjectName}.battery:
+  Low battery warning - ${Properties.selfObjectName}:
+    if: this < 10
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} has low battery!')
+      - SystemNotify.send('${Properties.selfObjectName} has low battery!')
+
+${Properties.selfObjectName}.call:
+
+  Start - ${Properties.selfObjectName}:
+    if: this is on
+    run: SystemNotify.send('Starting call - ${Properties.selfObjectName}')
+
+  End - ${Properties.selfObjectName}:
+    if: this is off
+    run: SystemNotify.send('Call ended - ${Properties.selfObjectName}')
+
+  Pause roborock when call starts - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.roborock}.status in ['Cleaning','Segment_cleaning','Spot_cleaning','Zoned_cleaning']
+    run:
+      - ${Properties.roborock}.pause()
+      - SystemNotify.send('Pause Roborock - Call Starting (${Properties.selfObjectName})')
+
+  Resume roborock when call ends - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.roborock}.status is Paused
+    run:
+      - ${Properties.roborock}.resume()
+      - SystemNotify.send('Resume Roborock - Call Ended (${Properties.selfObjectName})')
+
+${Properties.selfObjectName}.status:
+
+  ON - ${Properties.selfObjectName}:
+    if: this is on
+    run: SystemNotify.send('${Properties.selfObjectName} ON')
+
+  OFF - ${Properties.selfObjectName}:
+    if: this is off
+    run: SystemNotify.send('${Properties.selfObjectName} OFF')
+    set:
+      ${Properties.selfObjectName}.locked: 'true'
+
+${Properties.selfObjectName}.locked:
+
+  Locked - ${Properties.selfObjectName}:
+    if: this is true
+    run: SystemNotify.send('${Properties.selfObjectName} is locked')
+
+  Unlocked - ${Properties.selfObjectName}:
+    if: this is false
+    run: SystemNotify.send('${Properties.selfObjectName} is unlocked')
+    set:
+      ${Properties.selfObjectName}.status: 'on'
+
+${Properties.selfObjectName}.charging:
+
+  Charging - ${Properties.selfObjectName}:
+    if: this is true
+    run: SystemNotify.send('${Properties.selfObjectName} is charging')
+
+  Discharging - ${Properties.selfObjectName}:
+    if: this is false
+    run: SystemNotify.send('${Properties.selfObjectName} is discharging')
