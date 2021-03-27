@@ -26,7 +26,7 @@ function restoreTouchDrag() {
 }
 
 function showDashboard() {
-  if( $('.mainContainer').css('opacity') == 0 ) {
+  if ($('.mainContainer').css('opacity') == 0) {
     setTimeout(function() {
       $('.mainContainer').css({
         opacity: 1,

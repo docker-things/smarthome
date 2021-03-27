@@ -1,80 +1,80 @@
 <?php
 
 class Core_State {
-    /**
-     * The main app controller
-     *
-     * @var Core_Controller_base
-     */
-    private $_app;
+  /**
+   * The main app controller
+   *
+   * @var Core_Controller_base
+   */
+  private $_app;
 
-    /**
-     * Array containing the current world state
-     *
-     * @var array
-     */
-    private $_currentState;
+  /**
+   * Array containing the current world state
+   *
+   * @var array
+   */
+  private $_currentState;
 
-    /**
-     * DB Object
-     *
-     * @var Core_DB
-     */
-    private $_db;
+  /**
+   * DB Object
+   *
+   * @var Core_DB
+   */
+  private $_db;
 
-    /**
-     * Init DB and get current state
-     */
-    public function __construct(Core_Controller_Base $app) {
+  /**
+   * Init DB and get current state
+   */
+  public function __construct(Core_Controller_Base $app) {
 
-        // Set app controller
-        $this->_app = $app;
+    // Set app controller
+    $this->_app = $app;
 
-        // Init DB
-        $this->_db = new Core_DB;
+    // Init DB
+    $this->_db = new Core_DB;
 
-        // Load current state
-        $this->_loadCurrentState();
-    }
+    // Load current state
+    $this->_loadCurrentState();
+  }
 
-    public function deleteAllData() {
-        $this->_db->exec("DELETE FROM `current`");
-        $this->_db->exec("DELETE FROM `history`");
-        $this->optimizeDB();
-    }
+  public function deleteAllData() {
+    $this->_db->exec("DELETE FROM `current`");
+    $this->_db->exec("DELETE FROM `history`");
+    $this->optimizeDB();
+  }
 
-    public function deleteHistory() {
-        $this->_db->exec("DELETE FROM `history`");
-        $this->optimizeDB();
-    }
+  public function deleteHistory() {
+    $this->_db->exec("DELETE FROM `history`");
+    $this->optimizeDB();
+  }
 
-    /**
-     * @param $object
-     */
-    public function deleteObjectData($object) {
-        $this->_db->exec("DELETE FROM `current` WHERE source = '" . $this->_db->escape($object) . "'");
-        $this->_db->exec("DELETE FROM `history` WHERE source = '" . $this->_db->escape($object) . "'");
-        $this->optimizeDB();
-    }
+  /**
+   * @param $object
+   */
+  public function deleteObjectData($object) {
+    $this->_db->exec("DELETE FROM `current` WHERE source = '" . $this->_db->escape($object) . "'");
+    $this->_db->exec("DELETE FROM `history` WHERE source = '" . $this->_db->escape($object) . "'");
+    $this->optimizeDB();
+  }
 
-    /**
-     * Check if a certain variable exists in the current world state
-     *
-     * @param  string $source Object name
-     * @param  string $name   Variable name
-     * @return int    Number of occurences
-     */
-    public function exists($source, $name) {
-        return isset($this->_currentState[$source]) && isset($this->_currentState[$source][$name]);
-    }
+  /**
+   * Check if a certain variable exists in the current world state
+   *
+   * @param  string $source Object name
+   * @param  string $name   Variable name
+   * @return int    Number of occurences
+   */
+  public function exists($source, $name) {
+    return isset($this->_currentState[$source]) && isset($this->_currentState[$source][$name]);
+  }
 
-    /**
-     * @param  array   $where
-     * @param  int     $limit
-     * @return mixed
-     */
-    public function getAllHistory(array $where = ['1'], int $limit = 100) {
-        return $this->_db->query("
+  /**
+   * @param  array   $where
+   * @param  int     $limit
+   * @return mixed
+   */
+  public function getAllHistory(array $where = ['1'], int $limit = 100) {
+    return $this->_db->query("
             SELECT
                 `timestamp`,
                 `source`,
@@ -90,24 +90,24 @@ class Core_State {
             LIMIT
                 " . $limit . "
             ");
-    }
+  }
 
-    /**
-     * Get current world state with all the details
-     *
-     * @return array World state
-     */
-    public function getFullState() {
-        return $this->_currentState;
-    }
+  /**
+   * Get current world state with all the details
+   *
+   * @return array World state
+   */
+  public function getFullState() {
+    return $this->_currentState;
+  }
 
-    /**
-     * @param  array   $where
-     * @param  int     $limit
-     * @return mixed
-     */
-    public function getLogs(int $limit = 100, array $where = ['1']) {
-        return $this->_db->query("
+  /**
+   * @param  array   $where
+   * @param  int     $limit
+   * @return mixed
+   */
+  public function getLogs(int $limit = 100, array $where = ['1']) {
+    return $this->_db->query("
             SELECT
                 FROM_UNIXTIME(`timestamp`) AS `Time`,
                 `source`                   AS `Object`,
@@ -123,165 +123,165 @@ class Core_State {
             LIMIT
                 " . $limit . "
             ");
-    }
+  }
 
-    /**
-     * @param  source  $source
-     * @param  int     $limit
-     * @return mixed
-     */
-    public function getSourceHistory(source $source, int $limit = 100) {
-        return $this->getAllHistory([
-            "`source` = '" . $this->_db->escape($source) . "'",
-        ], $limit);
-    }
+  /**
+   * @param  source  $source
+   * @param  int     $limit
+   * @return mixed
+   */
+  public function getSourceHistory(source $source, int $limit = 100) {
+    return $this->getAllHistory([
+      "`source` = '" . $this->_db->escape($source) . "'",
+    ], $limit);
+  }
 
-    /**
-     * Get current world state in a simplified version
-     *
-     * @return array World state
-     */
-    public function getState() {
-        $state = [];
-        if (!empty($this->_currentState)) {
-            foreach ($this->_currentState AS $object => $variables) {
-                foreach ($variables AS $variable => $values) {
-                    $state[$object][$variable] = $this->_currentState[$object][$variable]['value'];
-                }
-            }
+  /**
+   * Get current world state in a simplified version
+   *
+   * @return array World state
+   */
+  public function getState() {
+    $state = [];
+    if (!empty($this->_currentState)) {
+      foreach ($this->_currentState AS $object => $variables) {
+        foreach ($variables AS $variable => $values) {
+          $state[$object][$variable] = $this->_currentState[$object][$variable]['value'];
         }
-        return $state;
+      }
+    }
+    return $state;
+  }
+
+  /**
+   * Get a specific variable
+   *
+   * @param  string     $source  Object name
+   * @param  string     $name    Variable name
+   * @param  mixed      $default What to return if the variable doesn't exist
+   * @return array/bool False if not set or array if set
+   */
+  public function getVariable($source, $name, $default = false) {
+    if ($this->exists($source, $name)) {
+      return $this->_currentState[$source][$name];
+    }
+    return $default;
+  }
+
+  /**
+   * Get the history of a variable
+   *
+   * @param  string $source   Object name
+   * @param  string $name     Variable name
+   * @param  string $where    SQL conditions
+   * @param  int    $limit    Number of rows
+   * @return array  History
+   */
+  public function getVariableHistory(source $source, source $name, int $limit = 100) {
+    return $this->getAllHistory([
+      "`source` = '" . $this->_db->escape($source) . "'",
+      "`name`   = '" . $this->_db->escape($name) . "'",
+    ], $limit);
+  }
+
+  /**
+   * @param  $source
+   * @param  $name
+   * @param  $default
+   * @return mixed
+   */
+  public function getVariablePreviousValue($source, $name, $default = false) {
+    if ($this->exists($source, $name)) {
+      return $this->_currentState[$source][$name]['prevValue'];
+    }
+    return $default;
+  }
+
+  /**
+   * @param  $source
+   * @param  $name
+   * @param  $default
+   * @return mixed
+   */
+  public function getVariableTimeSince($source, $name, $default = 0) {
+    if ($this->exists($source, $name)) {
+      return time() - $this->_currentState[$source][$name]['timestamp'];
+    }
+    return $default;
+  }
+
+  /**
+   * @param  $source
+   * @param  $name
+   * @param  $default
+   * @return mixed
+   */
+  public function getVariableValue($source, $name, $default = false) {
+    if ($this->exists($source, $name)) {
+      return $this->_currentState[$source][$name]['value'];
+    }
+    return $default;
+  }
+
+  /**
+   * @param  $username
+   * @param  $password
+   * @return mixed
+   */
+  public function isUserValid($username, $password) {
+    return $this->_db->isUserValid($username, $password);
+  }
+
+  public function optimizeDB() {
+    $this->_db->exec("OPTIMIZE TABLE `current`");
+    $this->_db->exec("OPTIMIZE TABLE `history`");
+    $this->_db->exec("PURGE BINARY LOGS BEFORE DATE(NOW() - INTERVAL 1 DAY) + INTERVAL 0 SECOND");
+  }
+
+  public function reload() {
+
+    // Reset existing states
+    $this->_currentState = [];
+
+    // Load current state
+    $this->_loadCurrentState();
+  }
+
+  /**
+   * Set a certain variable in current and history
+   *
+   * @param string $source Variable value source
+   * @param string $name   Variable name
+   * @param mixed  $value  Variable value
+   */
+  public function set($source, $name, $value) {
+    Core_Logger::info(get_class($this) . '::set("' . $source . '", "' . $name . '", "' . $value . '");');
+
+    $hasTmpValue = $this->_hasTmpValue($source, $name);
+    $shouldSet   = $this->_shouldSet($source, $name, $value);
+
+    if (!$shouldSet && !$hasTmpValue) {
+      return;
     }
 
-    /**
-     * Get a specific variable
-     *
-     * @param  string     $source  Object name
-     * @param  string     $name    Variable name
-     * @param  mixed      $default What to return if the variable doesn't exist
-     * @return array/bool False if not set or array if set
-     */
-    public function getVariable($source, $name, $default = false) {
-        if ($this->exists($source, $name)) {
-            return $this->_currentState[$source][$name];
-        }
-        return $default;
-    }
+    // Current timestamp
+    $timestamp = time();
 
-    /**
-     * Get the history of a variable
-     *
-     * @param  string $source   Object name
-     * @param  string $name     Variable name
-     * @param  string $where    SQL conditions
-     * @param  int    $limit    Number of rows
-     * @return array  History
-     */
-    public function getVariableHistory(source $source, source $name, int $limit = 100) {
-        return $this->getAllHistory([
-            "`source` = '" . $this->_db->escape($source) . "'",
-            "`name`   = '" . $this->_db->escape($name) . "'",
-        ], $limit);
-    }
+    // Keep the previous value
+    $prevValue = $this->getVariableValue($source, $name, '');
 
-    /**
-     * @param  $source
-     * @param  $name
-     * @param  $default
-     * @return mixed
-     */
-    public function getVariablePreviousValue($source, $name, $default = false) {
-        if ($this->exists($source, $name)) {
-            return $this->_currentState[$source][$name]['prevValue'];
-        }
-        return $default;
-    }
+    // Set locally
+    $this->_currentState[$source][$name] = [
+      'value'        => $value,
+      'prevValue'    => $prevValue,
+      'timestamp'    => $timestamp,
+      'tmpValue'     => '',
+      'tmpTimes'     => 0,
+      'tmpTimestamp' => 0,
+    ];
 
-    /**
-     * @param  $source
-     * @param  $name
-     * @param  $default
-     * @return mixed
-     */
-    public function getVariableTimeSince($source, $name, $default = 0) {
-        if ($this->exists($source, $name)) {
-            return time() - $this->_currentState[$source][$name]['timestamp'];
-        }
-        return $default;
-    }
-
-    /**
-     * @param  $source
-     * @param  $name
-     * @param  $default
-     * @return mixed
-     */
-    public function getVariableValue($source, $name, $default = false) {
-        if ($this->exists($source, $name)) {
-            return $this->_currentState[$source][$name]['value'];
-        }
-        return $default;
-    }
-
-    /**
-     * @param  $username
-     * @param  $password
-     * @return mixed
-     */
-    public function isUserValid($username, $password) {
-        return $this->_db->isUserValid($username, $password);
-    }
-
-    public function optimizeDB() {
-        $this->_db->exec("OPTIMIZE TABLE `current`");
-        $this->_db->exec("OPTIMIZE TABLE `history`");
-        $this->_db->exec("PURGE BINARY LOGS BEFORE DATE(NOW() - INTERVAL 1 DAY) + INTERVAL 0 SECOND");
-    }
-
-    public function reload() {
-
-        // Reset existing states
-        $this->_currentState = [];
-
-        // Load current state
-        $this->_loadCurrentState();
-    }
-
-    /**
-     * Set a certain variable in current and history
-     *
-     * @param string $source Variable value source
-     * @param string $name   Variable name
-     * @param mixed  $value  Variable value
-     */
-    public function set($source, $name, $value) {
-        Core_Logger::info(get_class($this) . '::set("' . $source . '", "' . $name . '", "' . $value . '");');
-
-        $hasTmpValue = $this->_hasTmpValue($source, $name);
-        $shouldSet   = $this->_shouldSet($source, $name, $value);
-
-        if (!$shouldSet && !$hasTmpValue) {
-            return;
-        }
-
-        // Current timestamp
-        $timestamp = time();
-
-        // Keep the previous value
-        $prevValue = $this->getVariableValue($source, $name, '');
-
-        // Set locally
-        $this->_currentState[$source][$name] = [
-            'value'        => $value,
-            'prevValue'    => $prevValue,
-            'timestamp'    => $timestamp,
-            'tmpValue'     => '',
-            'tmpTimes'     => 0,
-            'tmpTimestamp' => 0,
-        ];
-
-        // Set current state
-        $this->_db->exec("
+    // Set current state
+    $this->_db->exec("
             REPLACE INTO `current` (
                 `source`,
                 `name`,
@@ -304,95 +304,95 @@ class Core_State {
             )
             ");
 
-        // // Add history entry
-        // $this->_db->exec("
-        //     INSERT INTO `history` (
-        //         `source`,
-        //         `name`,
-        //         `value`,
-        //         `timestamp`
-        //     )
-        //     VALUES (
-        //         '" . $this->_db->escape($source) . "',
-        //         '" . $this->_db->escape($name) . "',
-        //         '" . $this->_db->escape($value) . "',
-        //         " . $this->_db->escape($timestamp) . "
-        //     )
-        //     ");
+    // // Add history entry
+    // $this->_db->exec("
+    //     INSERT INTO `history` (
+    //         `source`,
+    //         `name`,
+    //         `value`,
+    //         `timestamp`
+    //     )
+    //     VALUES (
+    //         '" . $this->_db->escape($source) . "',
+    //         '" . $this->_db->escape($name) . "',
+    //         '" . $this->_db->escape($value) . "',
+    //         " . $this->_db->escape($timestamp) . "
+    //     )
+    //     ");
 
-        if ($shouldSet || !$hasTmpValue) {
-            // Notify state change
-            $this->notifyChange($source, $name, $value, $prevValue, $timestamp);
+    if ($shouldSet || !$hasTmpValue) {
+      // Notify state change
+      $this->notifyChange($source, $name, $value, $prevValue, $timestamp);
 
-            // Initialize trigger
-            $triggers = new Core_Trigger($this->_app, $source, $name, $value);
+      // Initialize trigger
+      $triggers = new Core_Trigger($this->_app, $source, $name, $value);
 
-            // Process it
-            $triggers->process();
-        }
+      // Process it
+      $triggers->process();
+    }
+  }
+
+  /**
+   * @param $source
+   * @param $name
+   * @param $value
+   * @param $tries
+   */
+  public function setNthTime($source, $name, $value, $nthTime) {
+    // Core_Logger::info(get_class($this) . '::setNthTime("' . $source . '", "' . $name . '", "' . $value . '", "' . $nthTime . '");');
+
+    if (!$this->_shouldSet($source, $name, $value)) {
+      return;
     }
 
-    /**
-     * @param $source
-     * @param $name
-     * @param $value
-     * @param $tries
-     */
-    public function setNthTime($source, $name, $value, $nthTime) {
-        // Core_Logger::info(get_class($this) . '::setNthTime("' . $source . '", "' . $name . '", "' . $value . '", "' . $nthTime . '");');
+    // Current timestamp
+    $timestamp = time();
 
-        if (!$this->_shouldSet($source, $name, $value)) {
-            return;
-        }
+    // Get variable with a default value if not found
+    $variable = $this->getVariable($source, $name, [
+      'value'        => '',
+      'prevValue'    => '',
+      'timestamp'    => 0,
+      'tmpValue'     => '',
+      'tmpTimes'     => 0,
+      'tmpTimestamp' => 0,
+    ]);
 
-        // Current timestamp
-        $timestamp = time();
+    // If the tmp value has changed reset counter
+    if ($variable['tmpValue'] != $value) {
+      // Core_Logger::debug(get_class($this) . '::setNthTime(): If the tmp value has changed reset counter');
+      $variable['tmpValue']     = $value;
+      $variable['tmpTimes']     = 1;
+      $variable['tmpTimestamp'] = $timestamp;
+    }
 
-        // Get variable with a default value if not found
-        $variable = $this->getVariable($source, $name, [
-            'value'        => '',
-            'prevValue'    => '',
-            'timestamp'    => 0,
-            'tmpValue'     => '',
-            'tmpTimes'     => 0,
-            'tmpTimestamp' => 0,
-        ]);
+    // If it's the same value but we didn't reach the number of times
+    elseif (++$variable['tmpTimes'] < $nthTime) {
+      // Core_Logger::debug(get_class($this) . '::setNthTime(): If it\'s the same value but we didn\'t reach the number of times');
+      $variable['tmpValue']     = $value;
+      $variable['tmpTimestamp'] = $timestamp;
+    }
 
-        // If the tmp value has changed reset counter
-        if ($variable['tmpValue'] != $value) {
-            // Core_Logger::debug(get_class($this) . '::setNthTime(): If the tmp value has changed reset counter');
-            $variable['tmpValue']     = $value;
-            $variable['tmpTimes']     = 1;
-            $variable['tmpTimestamp'] = $timestamp;
-        }
+    // If the value should be set now
+    elseif ($variable['tmpTimes'] >= $nthTime) {
+      // Core_Logger::debug(get_class($this) . '::setNthTime(): If the value should be set now');
+      $variable['tmpValue']     = '';
+      $variable['tmpTimes']     = 0;
+      $variable['tmpTimestamp'] = 0;
+    }
 
-        // If it's the same value but we didn't reach the number of times
-        elseif (++$variable['tmpTimes'] < $nthTime) {
-            // Core_Logger::debug(get_class($this) . '::setNthTime(): If it\'s the same value but we didn\'t reach the number of times');
-            $variable['tmpValue']     = $value;
-            $variable['tmpTimestamp'] = $timestamp;
-        }
+    // Something went very wrong
+    else {
+      Core_Logger::error(get_class($this) . '::setNthTime("' . $source . '", "' . $name . '", "' . $value . '", "' . $nthTime . '");');
+      Core_Logger::error(get_class($this) . '::setNthTime(): This should never happen!');
+      return;
+    }
 
-        // If the value should be set now
-        elseif ($variable['tmpTimes'] >= $nthTime) {
-            // Core_Logger::debug(get_class($this) . '::setNthTime(): If the value should be set now');
-            $variable['tmpValue']     = '';
-            $variable['tmpTimes']     = 0;
-            $variable['tmpTimestamp'] = 0;
-        }
+    // Set locally
+    $this->_currentState[$source][$name] = $variable;
 
-        // Something went very wrong
-        else {
-            Core_Logger::error(get_class($this) . '::setNthTime("' . $source . '", "' . $name . '", "' . $value . '", "' . $nthTime . '");');
-            Core_Logger::error(get_class($this) . '::setNthTime(): This should never happen!');
-            return;
-        }
-
-        // Set locally
-        $this->_currentState[$source][$name] = $variable;
-
-        // Set current state
-        $this->_db->exec("
+    // Set current state
+    $this->_db->exec("
             REPLACE INTO `current` (
                 `source`,
                 `name`,
@@ -415,98 +415,98 @@ class Core_State {
             )
             ");
 
-        // Actually set the value and launch the triggers
-        if (0 == $variable['tmpTimes']) {
-            $this->set($source, $name, $value);
-        }
+    // Actually set the value and launch the triggers
+    if (0 == $variable['tmpTimes']) {
+      $this->set($source, $name, $value);
+    }
+  }
+
+  /**
+   * @param  $username
+   * @param  $password
+   * @return mixed
+   */
+  public function setPassword($username, $password) {
+    return $this->_db->setPassword($username, $password);
+  }
+
+  private function _hasTmpValue($source, $name) {
+    return $this->exists($source, $name) &&
+    isset($this->_currentState[$source][$name]['tmpTimes']) &&
+    $this->_currentState[$source][$name]['tmpTimes'] > 0;
+  }
+
+  /**
+   * Load current world state
+   */
+  private function _loadCurrentState() {
+    $result = $this->_db->query("SELECT *  FROM `current` ORDER BY `source`, `name`");
+    if (!empty($result)) {
+      foreach ($result AS $row) {
+        $this->_currentState[$row['source']][$row['name']] = [
+          'value'        => $row['value'],
+          'prevValue'    => $row['prevValue'],
+          'timestamp'    => $row['timestamp'],
+          'tmpValue'     => $row['tmpValue'],
+          'tmpTimes'     => $row['tmpTimes'],
+          'tmpTimestamp' => $row['tmpTimestamp'],
+        ];
+      }
+    }
+  }
+
+  /**
+   * @param $source
+   * @param $name
+   * @param $value
+   */
+  private function _shouldSet($source, $name, $value) {
+
+    // Don't set value if any of the params is empty
+    if (empty($source) || empty($name) || '' === $value) {
+      return false;
     }
 
-    /**
-     * @param  $username
-     * @param  $password
-     * @return mixed
-     */
-    public function setPassword($username, $password) {
-        return $this->_db->setPassword($username, $password);
+    // Got same value as in the DB
+    $currentValue = $this->getVariableValue($source, $name);
+    if (false !== $currentValue && $currentValue == $value) {
+
+      // Get the object involved
+      $object = $this->_app->getConfig()->getObjectByName($source);
+
+      // If the variable should be set every time regardless of the value
+      $alwaysSetWhenReceived = false !== $object &&
+      isset($object['Incoming']['alwaysSetWhenReceived']) &&
+      in_array($name, $object['Incoming']['alwaysSetWhenReceived']);
+
+      // Stop the method if needed
+      if (!$alwaysSetWhenReceived) {
+        return false;
+      }
     }
 
-    /**
-     * Load current world state
-     */
-    private function _loadCurrentState() {
-        $result = $this->_db->query("SELECT *  FROM `current` ORDER BY `source`, `name`");
-        if (!empty($result)) {
-            foreach ($result AS $row) {
-                $this->_currentState[$row['source']][$row['name']] = [
-                    'value'        => $row['value'],
-                    'prevValue'    => $row['prevValue'],
-                    'timestamp'    => $row['timestamp'],
-                    'tmpValue'     => $row['tmpValue'],
-                    'tmpTimes'     => $row['tmpTimes'],
-                    'tmpTimestamp' => $row['tmpTimestamp'],
-                ];
-            }
-        }
-    }
+    return true;
+  }
 
-    /**
-     * @param $source
-     * @param $name
-     * @param $value
-     */
-    private function _shouldSet($source, $name, $value) {
+  /**
+   * @param $source
+   * @param $name
+   * @param $value
+   * @param $prevValue
+   * @param $timestamp
+   */
+  private function notifyChange($source, $name, $value, $prevValue, $timestamp) {
+    $payload = json_encode([
+      'source'    => $source,
+      'name'      => $name,
+      'value'     => $value,
+      'prevValue' => $prevValue,
+      'timestamp' => $timestamp,
+    ]);
 
-        // Don't set value if any of the params is empty
-        if (empty($source) || empty($name) || '' === $value) {
-            return false;
-        }
-
-        // Got same value as in the DB
-        $currentValue = $this->getVariableValue($source, $name);
-        if (false !== $currentValue && $currentValue == $value) {
-
-            // Get the object involved
-            $object = $this->_app->getConfig()->getObjectByName($source);
-
-            // If the variable should be set every time regardless of the value
-            $alwaysSetWhenReceived = false !== $object &&
-            isset($object['Incoming']['alwaysSetWhenReceived']) &&
-                in_array($name, $object['Incoming']['alwaysSetWhenReceived']);
-
-            // Stop the method if needed
-            if (!$alwaysSetWhenReceived) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function _hasTmpValue($source, $name) {
-        return $this->exists($source, $name) &&
-            isset($this->_currentState[$source][$name]['tmpTimes']) &&
-            $this->_currentState[$source][$name]['tmpTimes'] > 0;
-    }
-
-    /**
-     * @param $source
-     * @param $name
-     * @param $value
-     * @param $prevValue
-     * @param $timestamp
-     */
-    private function notifyChange($source, $name, $value, $prevValue, $timestamp) {
-        $payload = json_encode([
-            'source'    => $source,
-            'name'      => $name,
-            'value'     => $value,
-            'prevValue' => $prevValue,
-            'timestamp' => $timestamp,
-        ]);
-
-        $cmd = "mosquitto_pub -h localhost -t 'core-state/change' -m '" . $payload . "'";
-        ob_start();
-        system($cmd . ' 2>&1 &', $retval);
-        ob_end_clean();
-    }
+    $cmd = "mosquitto_pub -h localhost -t 'core-state/change' -m '" . $payload . "'";
+    ob_start();
+    system($cmd . ' 2>&1 &', $retval);
+    ob_end_clean();
+  }
 }

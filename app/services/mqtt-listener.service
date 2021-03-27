@@ -1,8 +1,8 @@
 #!/bin/ash
 
 while [ 1 = 1 ]; do
-	sudo -u apache php /app/web/mqttListener.php
+  sudo -u apache php /app/web/mqttListener.php
 
-    echo " > Service stopped, restarting in 5 seconds..."
-    sleep 5s
+  echo " > Service stopped, restarting in 5 seconds..."
+  sleep 5s
 done

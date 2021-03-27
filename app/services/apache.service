@@ -1,10 +1,10 @@
 #!/bin/ash
 
 while [ 1 = 1 ]; do
-	rm -f /run/apache2/apache2.pid /run/apache2/httpd.pid
+  rm -f /run/apache2/apache2.pid /run/apache2/httpd.pid
 
-	httpd -D FOREGROUND
+  httpd -D FOREGROUND
 
-	echo " > Service stopped, restarting in 5 seconds..."
-	sleep 5s
+  echo " > Service stopped, restarting in 5 seconds..."
+  sleep 5s
 done

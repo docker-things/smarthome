@@ -12,20 +12,14 @@ define('CONFIG_DIR', MAIN_DIR . '/data/config');
 
 date_default_timezone_set(getenv('TZ'));
 
-/**
- * @param $class
- */
 function classExists($class): bool {
-    return file_exists(WEB_DIR . '/' . str_replace('_', '/', $class) . '.php');
+  return file_exists(WEB_DIR . '/' . str_replace('_', '/', $class) . '.php');
 }
 
-/**
- * @param $class
- */
 function defines__autoload($class): void {
-    if (classExists($class)) {
-        require_once WEB_DIR . '/' . str_replace('_', '/', $class) . '.php';
-    }
+  if (classExists($class)) {
+    require_once WEB_DIR . '/' . str_replace('_', '/', $class) . '.php';
+  }
 }
 
 // Register autoloader
