@@ -178,11 +178,16 @@ class Core_Controller_Status extends Core_Controller_Base {
    * @param $state
    */
   private function _drawHTML($state) {
+    if (count($state) > 5) {
+      $title = implode(', ', array_slice(array_keys($state), 0, 5)) . '...';
+    } else {
+      $title = implode(', ', array_keys($state)) . '...';
+    }
     return '
       <html>
         <head>
           <meta http-equiv="refresh" content="3" >
-          <title>World State: ' . implode(', ', array_keys($state)) . '</title>
+          <title>World State: ' . $title . '</title>
         </head>
         <body>
           <pre>' . preg_replace('/\n([a-zA-Z0-9\-\_]+):/', "\n\n<b>\\1</b>:", yaml_emit($state)) . '</pre>
