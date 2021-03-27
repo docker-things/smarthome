@@ -166,7 +166,11 @@ class Core_Controller_Cron extends Core_Controller_Base {
         }
 
         Core_Logger::info('Launching: ' . implode('; ', $functions));
-        exec("php web/runFunctions.php '" . implode("' '", $args) . "' > /dev/null 2>&1 &");
+        $cmd = "mosquitto_pub -h localhost -t 'core-function/run' -m '" . implode(";;", $args) . "'";
+        ob_start();
+        system($cmd . ' 2>&1 &', $retval);
+        ob_end_clean();
+        // exec("php web/runFunctions.php '" . implode("' '", $args) . "' > /dev/null 2>&1 &");
     }
 
     /**

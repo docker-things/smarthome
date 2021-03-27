@@ -241,12 +241,11 @@ class Core_Function {
                 Core_Logger::info('Core_Function::_runYamlFunctions(): Running async: ' . $function);
 
                 // Run function in another process
-                exec("php web/runFunctions.php '" . urlencode($function) . "' > /dev/null 2>&1 &");
-
-                // ob_start();
-                // system("php web/runFunctions.php '" . urlencode($function) . "' > /dev/null 2>&1", $retval);
-                // $output = ob_get_clean();
-                // Core_Logger::info('Core_Function::_runYamlFunctions(): Output: ' . $output);
+                $cmd = "mosquitto_pub -h localhost -t 'core-function/run' -m '" . urlencode($function) . "'";
+                ob_start();
+                system($cmd . ' 2>&1 &', $retval);
+                ob_end_clean();
+                // exec("php web/runFunctions.php '" . urlencode($function) . "' > /dev/null 2>&1 &");
             }
         }
 

@@ -162,8 +162,12 @@ class Core_Trigger {
      * @param $function
      */
     private function _runFunction($function) {
-        $function = new Core_Function($this->_app, $function);
-        $function->process();
+        $cmd = "mosquitto_pub -h localhost -t 'core-function/run' -m '" . urlencode($function) . "'";
+        ob_start();
+        system($cmd . ' 2>&1 &', $retval);
+        ob_end_clean();
+        // $function = new Core_Function($this->_app, $function);
+        // $function->process();
     }
 
     /**
@@ -215,7 +219,11 @@ class Core_Trigger {
         }
 
         // Core_Logger::info('Launching: ' . implode('; ', $functions));
-        exec("php web/runFunctions.php '" . implode("' '", $args) . "' > /dev/null 2>&1 &");
+        $cmd = "mosquitto_pub -h localhost -t 'core-function/run' -m '" . implode(";;", $args) . "'";
+        ob_start();
+        system($cmd . ' 2>&1 &', $retval);
+        ob_end_clean();
+        // exec("php web/runFunctions.php '" . implode("' '", $args) . "' > /dev/null 2>&1 &");
     }
 
     /**
