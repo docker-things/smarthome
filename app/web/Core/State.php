@@ -257,7 +257,10 @@ class Core_State {
     public function set($source, $name, $value) {
         Core_Logger::info(get_class($this) . '::set("' . $source . '", "' . $name . '", "' . $value . '");');
 
-        if (!$this->_shouldSet($source, $name, $value)) {
+        $hasTmpValue = $this->_hasTmpValue($source, $name);
+        $shouldSet   = $this->_shouldSet($source, $name, $value);
+
+        if (!$shouldSet && !$hasTmpValue) {
             return;
         }
 
@@ -317,14 +320,16 @@ class Core_State {
         //     )
         //     ");
 
-        // Notify state change
-        $this->notifyChange($source, $name, $value, $prevValue, $timestamp);
+        if ($shouldSet || !$hasTmpValue) {
+            // Notify state change
+            $this->notifyChange($source, $name, $value, $prevValue, $timestamp);
 
-        // Initialize trigger
-        $triggers = new Core_Trigger($this->_app, $source, $name, $value);
+            // Initialize trigger
+            $triggers = new Core_Trigger($this->_app, $source, $name, $value);
 
-        // Process it
-        $triggers->process();
+            // Process it
+            $triggers->process();
+        }
     }
 
     /**
@@ -475,6 +480,12 @@ class Core_State {
         }
 
         return true;
+    }
+
+    private function _hasTmpValue($source, $name) {
+        return $this->exists($source, $name) &&
+            isset($this->_currentState[$source][$name]['tmpTimes']) &&
+            $this->_currentState[$source][$name]['tmpTimes'] > 0;
     }
 
     /**

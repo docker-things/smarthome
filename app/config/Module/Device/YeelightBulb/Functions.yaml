@@ -158,5 +158,5 @@ functions:
       mode: ${RESPONSE.data.result.6}
       music: ${RESPONSE.data.result.7}
       name: ${RESPONSE.data.result.8}
-    elseSet 4th time:
+    elseSet 2nd time:
       status: offline
