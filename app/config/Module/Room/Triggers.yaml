@@ -35,88 +35,80 @@ ${Properties.selfObjectName}.sleeping:
 
 # PLEX
 
-# ${Properties.plex.object}.status:
-#   Mark human action - ${Properties.selfObjectName}:
-#     set:
-#       ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+${Properties.plex.object}.status:
+  Mark human action - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
-#   # PLAY
+  # PLAY
 
-#   If Plex is playing or resumed, turn lights OFF - ${Properties.selfObjectName}:
-#     if:
-#       - this in ['playing','resumed']
-#       - ${Properties.plex.object}.mediaType in ['episode','movie']
-#     run:
-#       # - House.allLightsOff()
-#       # - ${Properties.light.object}.off()
-#       - ${Properties.selfObjectName}.lightOff()
-#       - SystemNotify.send('All lights OFF (${Properties.plex.object} playing)')
-#     set:
-#       ${Properties.selfObjectName}.forceLightOn: 'false'
-#       ${Properties.selfObjectName}.forceLightOff: 'false'
-#       ${Properties.selfObjectName}.ignoreMotion: 'true'
+  If Plex is playing or resumed, turn lights OFF - ${Properties.selfObjectName}:
+    if:
+      - this in ['playing','resumed']
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+      - Sun.state is night
+    run:
+      - House.allLightsOff()
+      - SystemNotify.send('All lights OFF (${Properties.plex.object} playing)')
+    set:
+      ${Properties.selfObjectName}.ignoreMotion: 'true'
 
-#   If Plex is playing or resumed, turn purifier off - ${Properties.selfObjectName}:
-#     if:
-#       - this in ['playing','resumed']
-#       - ${Properties.plex.object}.mediaType in ['episode','movie']
-#       - ${Properties.purifier.object}.status is on
-#     run:
-#       - ${Properties.purifier.object}.set_mode('silent')
-#       - System.sleep('1')
-#       - ${Properties.purifier.object}.set_led_brightness('off')
-#       - SystemNotify.send('${Properties.purifier.object} SILENT (${Properties.plex.object} playing)')
+  If Plex is playing or resumed, turn purifier off - ${Properties.selfObjectName}:
+    if:
+      - this in ['playing','resumed']
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+      - ${Properties.purifier.object}.status is on
+    run:
+      - ${Properties.purifier.object}.set_mode('silent')
+      - System.sleep('1')
+      - ${Properties.purifier.object}.set_led_brightness('off')
+      - SystemNotify.send('${Properties.purifier.object} SILENT (${Properties.plex.object} ${Properties.plex.object}.status)')
 
-#   # PAUSE
+  # PAUSE
 
-#   If Plex is paused - ${Properties.selfObjectName}:
-#     if:
-#       - this is paused
-#       - ${Properties.plex.object}.mediaType in ['episode','movie']
-#       # - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
-#       - Sun.state is night
-#     run:
-#       # - ${Properties.light.object}.on()
-#       - ${Properties.selfObjectName}.lightOn()
-#       # - ${Properties.light.object}.temperature('${Properties.light.temperature}')
-#       - ${Properties.light.object}.brightness('${Properties.light.dim-level-when-plex-paused}','${Properties.light.dim-duration-when-plex-paused}')
-#       - SystemNotify.send('${Properties.light.object} DIMMED (${Properties.plex.object} ${Properties.plex.object}.status)')
-#     set:
-#       ${Properties.selfObjectName}.forceLightOff: 'false'
-#       ${Properties.selfObjectName}.forceLightOn: 'true'
-#       ${Properties.selfObjectName}.ignoreMotion: 'false'
-#       ${Properties.motion.object}.occupancy: 'true'
+  If Plex is paused - ${Properties.selfObjectName}:
+    if:
+      - this is paused
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+      - ${Properties.selfObjectName}.gotNaturalLight is false
+    run:
+      - ${Properties.selfObjectName}.secondaryLightOn()
+      - ${Properties.selfObjectName}.lightOff()
+      - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
+    set:
+      ${Properties.selfObjectName}.ignoreMotion: 'false'
 
-#   # STOP
+  # STOP
 
-#   If Plex is stopped - ${Properties.selfObjectName}:
-#     if:
-#       - this is stopped
-#       - ${Properties.plex.object}.mediaType in ['episode','movie']
-#       # - ${Properties.motion.object}.illuminance < ${Properties.light.on-by-motion-when-lux-below}
-#       - Sun.state is night
-#     run:
-#       # - ${Properties.light.object}.on()
-#       - ${Properties.selfObjectName}.lightOn()
-#       # - ${Properties.light.object}.temperature('${Properties.light.temperature}')
-#       - ${Properties.light.object}.brightness('${Properties.light.brightness}','${Properties.light.on-duration-when-plex-stopped}')
-#       - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
-#     set:
-#       ${Properties.selfObjectName}.forceLightOff: 'false'
-#       ${Properties.selfObjectName}.forceLightOn: 'true'
-#       ${Properties.selfObjectName}.ignoreMotion: 'false'
-#       ${Properties.motion.object}.occupancy: 'true'
+  If Plex is stopped - ${Properties.selfObjectName}:
+    if:
+      - this is stopped
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+      - ${Properties.selfObjectName}.gotNaturalLight is false
+    run:
+      - ${Properties.selfObjectName}.secondaryLightOff()
+      - ${Properties.light.object}.on()
+      - ${Properties.light.object}.brightness('1','250')
+      - ${Properties.light.object}.temperature('${Properties.light.temperature}','250')
+      - System.sleep('0.5')
+      - ${Properties.light.object}.brightness('${Properties.light.brightness}','${Properties.light.on-duration-when-plex-stopped}')
+      - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
+    set:
+      ${Properties.selfObjectName}.forceLightOff: 'false'
+      ${Properties.selfObjectName}.forceLightOn: 'true'
+      ${Properties.selfObjectName}.ignoreMotion: 'false'
+      ${Properties.motion.object}.occupancy: 'true'
 
-#   If Plex is stopped, turn purifier on - ${Properties.selfObjectName}:
-#     if:
-#       - this is stopped
-#       - ${Properties.plex.object}.mediaType in ['episode','movie']
-#       - ${Properties.purifier.object}.status is on
-#     run:
-#       - ${Properties.purifier.object}.set_mode('auto')
-#       - System.sleep('1')
-#       - ${Properties.purifier.object}.set_led_brightness('dim')
-#       - SystemNotify.send('${Properties.purifier.object} AUTO (${Properties.plex.object} paused/stopped)')
+  If Plex is stopped, turn purifier on - ${Properties.selfObjectName}:
+    if:
+      - this is stopped
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+      - ${Properties.purifier.object}.status is on
+    run:
+      - ${Properties.purifier.object}.set_mode('auto')
+      - System.sleep('1')
+      - ${Properties.purifier.object}.set_led_brightness('dim')
+      - SystemNotify.send('${Properties.purifier.object} AUTO (${Properties.plex.object} ${Properties.plex.object}.status)')
 
 # LIGHT
 
