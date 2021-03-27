@@ -16,7 +16,7 @@ event_name:
     run:
       - ${Properties.tv}.switchToSmarthome()
       # - ${Properties.room}.lightOff()
-      - System.sleep("1")
+      - System.sleep('1')
       - ${Properties.tv}.switchToSmarthome()
       - SystemNotify.send('${Properties.tv} ON in gaming (${Properties.selfObjectName})')
 

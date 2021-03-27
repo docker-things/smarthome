@@ -16,7 +16,7 @@ device:
     run:
       - ${Properties.tv}.switchToSmarthome()
       # - ${Properties.room}.lightOff()
-      - System.sleep("1")
+      - System.sleep('1')
       - ${Properties.tv}.switchToSmarthome()
       - SystemNotify.send('${Properties.tv} ON in retro-gaming (${Properties.selfObjectName})')
 
@@ -27,7 +27,7 @@ device:
     run:
       - ${Properties.tv}.switchToGaming()
       # - ${Properties.room}.lightOff()
-      - System.sleep("1")
+      - System.sleep('1')
       - ${Properties.tv}.switchToGaming()
       - SystemNotify.send('${Properties.tv} ON in gaming (${Properties.selfObjectName})')
 
@@ -36,7 +36,7 @@ device:
       - this is retro-gaming
     run:
       - ${Properties.tv}.switchToSmarthome()
-      - System.sleep("1")
+      - System.sleep('1')
       - ${Properties.tv}.switchToSmarthome()
       - SystemNotify.send('${Properties.tv} switch to retro-gaming (${Properties.selfObjectName})')
 
@@ -45,7 +45,7 @@ device:
       - this is gaming
     run:
       - ${Properties.tv}.switchToGaming()
-      - System.sleep("1")
+      - System.sleep('1')
       - ${Properties.tv}.switchToGaming()
       - SystemNotify.send('${Properties.tv} switch to gaming (${Properties.selfObjectName})')
 
