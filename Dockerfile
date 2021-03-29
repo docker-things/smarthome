@@ -1,6 +1,5 @@
-FROM alpine:3.8
+FROM alpine:3.13.3
 MAINTAINER Gabriel Ionescu <gabi.ionescu+docker@protonmail.com>
-
 
 # CREATE USER
 ARG DOCKER_USERID
@@ -128,6 +127,7 @@ RUN echo -e "\n > INSTALL MOSQUITTO\n" \
  && install -m644 /build/mosq/mosquitto.conf /etc/mosquitto/mosquitto.conf \
  && apk --no-cache add \
         ca-certificates \
+        libressl-dev \
  && apk del build-deps \
  && rm -rf \
       /build \
@@ -191,7 +191,7 @@ RUN echo -e "\n > INSTALL ZIGBEE2MQTT IN $ZIGBEE2MQTT_PATH\n" \
     make \
     gcc \
     g++ \
-    python \
+    python3 \
     linux-headers \
     udev \
     git \
@@ -201,6 +201,7 @@ RUN echo -e "\n > INSTALL ZIGBEE2MQTT IN $ZIGBEE2MQTT_PATH\n" \
  \
  && git clone https://github.com/koenkk/zigbee2mqtt $ZIGBEE2MQTT_PATH \
  && cd $ZIGBEE2MQTT_PATH \
+ && git checkout a43d1f3917fee5516429bf1bf80419f1d2e0e7f8 \
  && cp data/configuration.yaml ./ \
  \
  && npm install --unsafe-perm \
@@ -223,7 +224,10 @@ RUN echo -e "\n > INSTALL PYTHON-MIIO\n" \
     openssl \
  && apk add --no-cache --virtual build-dependencies \
     gcc \
+    rust \
+    cargo \
     python3-dev \
+    py3-pip \
     musl-dev \
     libffi-dev \
     linux-headers \
@@ -239,22 +243,29 @@ RUN echo -e "\n > INSTALL PYTHON-MIIO\n" \
     /var/tmp/*
 
 
-# PYTHON-MIIO LATEST!
-RUN echo -e "\n > INSTALL PYTHON-MIIO LATEST\n" \
- && apk add --no-cache --virtual build-dependencies \
-    git \
- \
- && git clone https://github.com/foxel/python-miio.git /tmp/python-miio \
- && cd /tmp/python-miio \
- && git checkout air-purifier-3h-support \
- && python3 setup.py install -f \
- \
- && echo -e "\n > CLEANUP\n" \
- && apk del --purge \
-    build-dependencies \
- && rm -rf \
-    /tmp/* \
-    /var/tmp/*
+# # PYTHON-MIIO LATEST!
+# RUN echo -e "\n > INSTALL PYTHON-MIIO LATEST\n" \
+#  && apk add --no-cache \
+#     python3 \
+#     openssl \
+#  && apk add --no-cache --virtual build-dependencies \
+#     git \
+#     py3-pip \
+#  \
+#  && pip3 install \
+#     setuptools
+# RUN echo 'shit' \
+#  && git clone https://github.com/rytilahti/python-miio.git /tmp/python-miio \
+#  && cd /tmp/python-miio \
+#  && git checkout e067279ae59d940f4ce8882f2f393d62e8ea2cce \
+#  && python3 setup.py install -f \
+#  \
+#  && echo -e "\n > CLEANUP\n" \
+#  && apk del --purge \
+#     build-dependencies \
+#  && rm -rf \
+#     /tmp/* \
+#     /var/tmp/*
 
 
 # INSTALL CEC SUPPORT
@@ -299,10 +310,13 @@ COPY app/modules/broadlink2mqtt /app/modules/broadlink2mqtt
 RUN echo -e "\n > INSTALL BROADLINK IN $BROADLINK_PATH\n" \
  && apk add --no-cache --virtual=build-dependencies \
     git \
- && pip3 install \
-    paho-mqtt \
+    py3-pip \
+ \
+ && pip3 install paho-mqtt \
  \
  && git clone https://github.com/mjg59/python-broadlink.git /app/modules/broadlink2mqtt/broadlink \
+ && cd /app/modules/broadlink2mqtt/broadlink \
+ && git checkout 9ff6b2d48e58f005765088cdf3dc5cc553cdb01a \
  \
  && echo -e "\n > CLEANUP\n" \
  && apk del --purge \
