@@ -56,6 +56,8 @@ if [ "`cat /app/data/.env`" == "prod" ]; then
     cec-client-mqtt-bridge
     broadlink2mqtt
     cron
+    core/telegram-bot
+    core/free-text-parser
     '
     # evdev2mqtt
     # bluetooth-scan
@@ -67,6 +69,8 @@ else
     core/mqtt-listener
     core/config
     core/state
+    core/telegram-bot
+    core/free-text-parser
     '
 
   echo " > Fetching GO dependencies..."
