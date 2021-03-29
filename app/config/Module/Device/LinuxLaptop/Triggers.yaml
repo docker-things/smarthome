@@ -28,7 +28,13 @@ ${Properties.selfObjectName}.call:
   Resume roborock when call ends - ${Properties.selfObjectName}:
     if:
       - this is false
-      - ${Properties.roborock}.status is Paused
+      - ${Properties.roborock}.status in ['Paused','Idle']
+      - House.closedDoors is false
+      - House.closedDoors.timeSince > 300
+      - House.sleeping is false
+      - House.sleeping.timeSince > 300
+      - ${Properties.roborock}.lidOpened is false
+      - ${Properties.roborock}.lidOpened.timeSince > 300
     run:
       - ${Properties.roborock}.resume()
       - SystemNotify.send('Resume Roborock - Call Ended (${Properties.selfObjectName})')
