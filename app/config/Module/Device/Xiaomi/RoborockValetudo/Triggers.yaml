@@ -75,7 +75,7 @@ System.time:
       - House.closedDoors is not true
       - House.sleeping is not true
       - ${Properties.selfObjectName}.lidOpened is not true
-      - ${Properties.selfObjectName}.lidOpened.timeSince < 259200
+      - ${Properties.selfObjectName}.lidOpened.timeSince < 172800
     run:
       - ${Properties.selfObjectName}.setFanSpeed('${Properties.fanspeed}')
       - ${Properties.selfObjectName}.start()
@@ -92,7 +92,7 @@ System.time:
       - House.closedDoors is not true
       - House.sleeping is not true
       - ${Properties.selfObjectName}.lidOpened is not true
-      - ${Properties.selfObjectName}.lidOpened.timeSince < 259200
+      - ${Properties.selfObjectName}.lidOpened.timeSince < 172800
     run:
       - ${Properties.selfObjectName}.setFanSpeed('${Properties.fanspeed}')
       - ${Properties.selfObjectName}.start()

@@ -27,8 +27,8 @@ jobs:
       - House.closedDoors.timeSince > 300
       - House.sleeping is false
       - House.sleeping.timeSince > 300
-      - ${Properties.selfObjectName}.lidOpened is false
       - ${Properties.selfObjectName}.lidOpened.timeSince > 300
+      - ${Properties.selfObjectName}.lidOpened.timeSince < 172800
     run:
       - ${Properties.selfObjectName}.start()
       - SystemNotify.send('Started delayed cleaning')
