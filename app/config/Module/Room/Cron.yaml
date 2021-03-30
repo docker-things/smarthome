@@ -216,6 +216,7 @@ jobs:
       - ${Properties.ledstrip.object}.status is not on
       - ${Properties.selfObjectName}.openWindows is not true
       - ${Properties.tv.object}.status is not on
+      - ${Properties.plex.object}.status not in ['playing','paused']
       - ${Properties.roborock.object}.status is not Cleaning
       - ${Properties.laptop.object}.locked is not false
     set:
