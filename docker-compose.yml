@@ -63,8 +63,8 @@ services:
       - ./app/app/web/Core:/app/web/Core
       - ./app/app/web/UI:/app/web/UI
       - ./app/app/web/res:/app/web/res
-      - ./app/dev/go:/root/go
-      - ./app/dev/go-build:/root/.cache/go-build
+      - ./tmp/app/go:/root/go
+      - ./tmp/app/go-build:/root/.cache/go-build
     environment:
       - MYSQL_PASSWORD=userpassword
       - MYSQL_DATABASE=smarthome
