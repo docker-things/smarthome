@@ -10,9 +10,5 @@ while [ 1 = 1 ]; do
   /app/modules/core/telegram-bot
 
   echo " > Service stopped, restarting in 5 seconds..."
-  # TODO: RESTORE SLEEP!
-  # sleep 5s
-  # TODO: REMOVE PAUSE @ RUNTIME
-  echo " > Hit ENTER!"
-  read
+  sleep 5s
 done
