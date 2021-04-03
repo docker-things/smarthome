@@ -57,7 +57,6 @@ services:
       - 1122:80
     volumes:
       - ./data/app:/app/data
-      - ./db:/var/lib/mysql
       # TODO: remove mounts - used for development
       - ./app/app/modules/core/src:/app/modules/core/src
       - ./app/app/web/Core:/app/web/Core
