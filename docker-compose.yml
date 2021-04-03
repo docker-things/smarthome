@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+
+  mqtt:
+    image: eclipse-mosquitto:1.6.9
+    container_name: smarthome-mqtt
+    restart: always
+    ports:
+      - 1883:1883
+      - 1884:1884
+
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt:1.18.1
+    container_name: smarthome-zigbee2mqtt
+    depends_on:
+      - mqtt
+    restart: always
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+    volumes:
+      - ./data/zigbee2mqtt:/app/data
+    environment:
+      - TZ=Europe/Bucharest
+
+  db:
+    image: mariadb:10.2.32
+    container_name: smarthome-db
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      # - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_PASSWORD=userpassword
+      - MYSQL_DATABASE=smarthome
+      - MYSQL_USER=smarthome
+
+  app:
+    image: smarthome:0.1.0
+    container_name: smarthome-app
+    build:
+      context: ./app
+      args:
+        DOCKER_TIMEZONE: Europe/Bucharest
+    depends_on:
+      - mqtt
+      - db
+    restart: always
+    # network_mode: host
+    ports:
+      - 1122:80
+    volumes:
+      - ./data:/app/data
+      - ./db:/var/lib/mysql
+      # TODO: remove mounts - used for development
+      - ./app/app/modules/core/src:/app/modules/core/src
+      - ./app/app/web/Core:/app/web/Core
+      - ./app/app/web/UI:/app/web/UI
+      - ./app/app/web/res:/app/web/res
+      - ./app/dev/go:/root/go
+      - ./app/dev/go-build:/root/.cache/go-build
+    environment:
+      - MYSQL_PASSWORD=userpassword
+      - MYSQL_DATABASE=smarthome
+      - MYSQL_USER=smarthome
+      - MYSQL_HOST=db
+
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.50'
+    #       memory: 50M
+    #     reservations:
+    #       cpus: '0.25'
+    #       memory: 20M

@@ -1,0 +1,122 @@
+---
+
+cmd: ash ${Base.paths.modules}/roborock/roborock.sh ${Properties.ip} ${Properties.token}
+
+command: mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/command" -m
+custom_command: mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/custom_command" -m
+set_fan_speed: mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/set_fan_speed" -m
+
+functions:
+
+  start():
+    run: ${command} start
+    set:
+      zone: 'none'
+      delayedCleanup: 'false'
+
+  pause():
+    run: ${command} pause
+
+  resume():
+    run: ${command} start
+    set:
+      delayedCleanup: 'false'
+
+  stop():
+    run: ${command} stop
+
+  cleanSpot():
+    run: ${command} spot
+
+  home():
+    run: ${command} return_to_base
+    set:
+      zone: ''
+
+  find():
+    run: ${command} locate
+
+  # off, min, low, medium, high, max, turbo
+  setFanSpeed(speed):
+    run: ${set_fan_speed} ${ARGS.speed}
+
+  cleanZone(id,name):
+    run: |
+      ${custom_command} '{"command":"zoned_cleanup","zone_ids":["${ARGS.id}"]}'
+    set:
+      zone: ${ARGS.name}
+
+  cleanBedroom():
+    runFunctions:
+      - ${Properties.selfObjectName}.cleanZone('${Properties.zone_bedroom}','bedroom')
+
+  cleanBathroom():
+    runFunctions:
+      - ${Properties.selfObjectName}.cleanZone('${Properties.zone_bathroom}','bathroom')
+
+  cleanLivingroom():
+    runFunctions:
+      - ${Properties.selfObjectName}.cleanZone('${Properties.zone_livingroom}','livingroom')
+
+  cleanHallway():
+    runFunctions:
+      - ${Properties.selfObjectName}.cleanZone('${Properties.zone_hallway}','hallway')
+
+  cleanEntrance():
+    runFunctions:
+      - ${Properties.selfObjectName}.cleanZone('${Properties.zone_entrance}','entrance')
+
+  cleanKitchen():
+    runFunctions:
+      - ${Properties.selfObjectName}.cleanZone('${Properties.zone_kitchen}','kitchen')
+
+  cleanHouse():
+    runFunctions:
+      - ${Properties.selfObjectName}.cleanZone('${Properties.zone_house}','house')
+
+  goto(id):
+    run: |
+      ${custom_command} '{"command":"go_to","spot_id":"${ARGS.id}"}'
+    set:
+      zone: ''
+      coords: ${ARGS.id}
+
+  gotoCleaningPoint():
+    runFunctions:
+      - ${Properties.selfObjectName}.goto('${Properties.cleaning-point}')
+
+  getStatus():
+    run: ${cmd} status
+    if: ${RESPONSE.Battery} > 0 and ${RESPONSE.Battery} is not array
+    set:
+      # status: ${RESPONSE.State}
+      # battery: ${RESPONSE.Battery}
+      # fanspeed: ${RESPONSE.Fanspeed}
+      cleaning_since: ${RESPONSE.Cleaning_since}
+      cleaned_area: ${RESPONSE.Cleaned_area}
+    elseSet 3rd time:
+      status: 'Offline'
+
+  getCleaningHistory():
+    run: ${cmd} cleaning-history
+    if: ${RESPONSE.total_clean_count} > 0 and ${RESPONSE.total_clean_count} is not array
+    set:
+      total_clean_count: ${RESPONSE.total_clean_count}
+      total_cleaned_for: ${RESPONSE.total_cleaned_for}
+      last_start_date: ${RESPONSE.last_start_date}
+      last_start_time: ${RESPONSE.last_start_time}
+      last_end_date: ${RESPONSE.last_end_date}
+      last_end_time: ${RESPONSE.last_end_time}
+      last_complete: ${RESPONSE.last_complete}
+      last_error: ${RESPONSE.last_error}
+      last_area_cleaned: ${RESPONSE.last_area_cleaned}
+      last_duration: ${RESPONSE.last_duration}
+
+  # getConsumablesStatus():
+  #   run: ${cmd} consumables
+  #   if: ${RESPONSE.Main_brush} is not array
+  #   set:
+  #     main_brush: ${RESPONSE.Main_brush}
+  #     side_brush: ${RESPONSE.Side_brush}
+  #     filter: ${RESPONSE.Filter}
+  #     sensor_dirty: ${RESPONSE.Sensor_dirty}

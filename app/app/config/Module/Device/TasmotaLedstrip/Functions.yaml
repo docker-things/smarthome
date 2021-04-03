@@ -1,0 +1,34 @@
+---
+
+cmdPower: 'mosquitto_pub -h mqtt -t "cmnd/${Properties.mqtt-topic}/power" -m'
+cmdDimmer: 'mosquitto_pub -h mqtt -t "cmnd/${Properties.mqtt-topic}/dimmer" -m'
+cmdColor: 'mosquitto_pub -h mqtt -t "cmnd/${Properties.mqtt-topic}/color" -m'
+cmdSpeed: 'mosquitto_pub -h mqtt -t "cmnd/${Properties.mqtt-topic}/speed" -m'
+cmdFade: 'mosquitto_pub -h mqtt -t "cmnd/${Properties.mqtt-topic}/fade" -m'
+cmdCT: 'mosquitto_pub -h mqtt -t "cmnd/${Properties.mqtt-topic}/ct" -m'
+
+functions:
+
+  on():
+    run: '${cmdPower} on'
+
+  off():
+    run: '${cmdPower} off'
+
+  brightness(brightness):
+    run: '${cmdDimmer} ${ARGS.brightness}'
+
+  rgb(rgb):
+    run: '${cmdColor} ${ARGS.rgb}'
+
+  speed(speed):
+    run: '${cmdSpeed} ${ARGS.speed}'
+
+  fade(fade):
+    run: '${cmdFade} ${ARGS.fade}'
+
+  temperature(temperature):
+    run: '${cmdCT} ${ARGS.temperature}'
+
+  toggle():
+    run: '${cmdPower} toggle'

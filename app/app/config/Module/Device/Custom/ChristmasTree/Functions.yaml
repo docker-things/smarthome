@@ -1,0 +1,35 @@
+---
+
+cmd: 'mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/rx" -m'
+
+functions:
+
+  on():
+    run: '${cmd} on'
+
+  off():
+    run: '${cmd} off'
+
+  toggle():
+    run: '${cmd} toggle'
+
+  brightness(value):
+    run: '${cmd} "brightness ${ARGS.value}"'
+
+  checkAway():
+    runIf:
+      - ${Properties.selfObjectName}.status is not off
+      - ${Properties.room}.lastHumanAction.timeSince >= 600
+      - House.lastHumanAction.timeSince > ${Properties.room}.lastHumanAction.timeSince
+    runFunctions:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Away)')
+
+  checkSleeping():
+    runIf:
+      - House.sleeping is true
+      - House.sleeping.timeSince >= 600
+      - ${Properties.selfObjectName}.status is not off
+    runFunctions:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Sleeping)')
