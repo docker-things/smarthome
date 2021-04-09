@@ -73,13 +73,13 @@ RUN echo -e "\n > INSTALL APACHE\n" \
 RUN echo -e "\n > INSTALL PYTHON-MIIO\n" \
  && apk add --no-cache \
     python3 \
+    py3-pip \
     openssl \
  && apk add --no-cache --virtual build-dependencies \
     gcc \
     rust \
     cargo \
     python3-dev \
-    py3-pip \
     musl-dev \
     libffi-dev \
     linux-headers \
