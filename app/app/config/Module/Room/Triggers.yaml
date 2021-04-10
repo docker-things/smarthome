@@ -35,7 +35,7 @@ ${Properties.selfObjectName}.sleeping:
 
 # PLEX
 
-${Properties.plex.object}.status:
+${Properties.plex.object}.statusDelayed:
   Mark human action - ${Properties.selfObjectName}:
     set:
       ${Properties.selfObjectName}.lastHumanAction: System.timestamp
@@ -89,8 +89,9 @@ ${Properties.plex.object}.status:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - ${Properties.light.object}.on()
       - ${Properties.light.object}.brightness('1','250')
-      - ${Properties.light.object}.temperature('${Properties.light.temperature}','250')
       - System.sleep('0.5')
+      - ${Properties.light.object}.temperature('${Properties.light.temperature}','250')
+      - System.sleep('1')
       - ${Properties.light.object}.brightness('${Properties.light.brightness}','${Properties.light.on-duration-when-plex-stopped}')
       - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
     set:
