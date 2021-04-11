@@ -64,7 +64,6 @@ else
     core/mqtt-listener
     core/config
     core/state
-    core/telegram-bot
     core/free-text-parser
     '
 
