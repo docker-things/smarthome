@@ -257,6 +257,8 @@ class Core_State {
   public function set($source, $name, $value) {
     Core_Logger::info(get_class($this) . '::set("' . $source . '", "' . $name . '", "' . $value . '");');
 
+    $value = $this->_preprocessValue($value);
+
     $hasTmpValue = $this->_hasTmpValue($source, $name);
     $shouldSet   = $this->_shouldSet($source, $name, $value);
 
@@ -322,7 +324,7 @@ class Core_State {
 
     if ($shouldSet || !$hasTmpValue) {
       // Notify state change
-      $this->notifyChange($source, $name, $value, $prevValue, $timestamp);
+      $this->_notifyChange($source, $name, $value, $prevValue, $timestamp);
 
       // Initialize trigger
       $triggers = new Core_Trigger($this->_app, $source, $name, $value);
@@ -455,6 +457,52 @@ class Core_State {
     }
   }
 
+  private function _preprocessValue($value) {
+    Core_Logger::debug('Core_State::_preprocessValue(' . $value . ')');
+
+    // Initialize new value
+    $newValue = $value;
+
+    // Remove quotes
+    $newValue = preg_replace('/^\'(.*)\'$/', '$1', $newValue);
+
+    // Check if it's a world state variable
+    if (strpos($newValue, '.') !== false) {
+
+      // Split source & name
+      $tmp = explode('.', $newValue, 2);
+
+      // .timeSince
+      $fieldName = preg_replace('/\.timeSince$/', '', $tmp[1]);
+      if ($fieldName != $tmp[1]) {
+        $newValue = $this->_app->getState()->getVariableTimeSince($tmp[0], $fieldName, $newValue);
+      }
+      // .previousValue
+      else {
+        $fieldName = preg_replace('/\.previousValue$/', '', $tmp[1]);
+        if ($fieldName != $tmp[1]) {
+          $newValue = $this->_app->getState()->getVariablePreviousValue($tmp[0], $fieldName, $newValue);
+        }
+        // .objectName
+        else {
+          $fieldName = preg_replace('/\.objectName$/', '', $tmp[1]);
+          if ($fieldName != $tmp[1]) {
+            $newValue = $tmp[0];
+          }
+          // Replace with value
+          else {
+            $newValue = $this->_app->getState()->getVariableValue($tmp[0], $fieldName, $newValue);
+          }
+        }
+      }
+    }
+
+    Core_Logger::debug('Core_State::_preprocessValue(' . $value . '): newValue = "' . $newValue . '"');
+
+    // Return
+    return $newValue;
+  }
+
   /**
    * @param $source
    * @param $name
@@ -495,7 +543,7 @@ class Core_State {
    * @param $prevValue
    * @param $timestamp
    */
-  private function notifyChange($source, $name, $value, $prevValue, $timestamp) {
+  private function _notifyChange($source, $name, $value, $prevValue, $timestamp) {
     $payload = json_encode([
       'source'    => $source,
       'name'      => $name,
