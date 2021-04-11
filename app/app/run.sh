@@ -43,7 +43,7 @@ chmod 775 -R \
 SCREEN_NAME="`hostname`"
 
 # Services to launch
-if [ "`cat /app/data/.env`" == "prod" ]; then
+if [ "$APP_ENV" == "prod" ]; then
   SERVICES='
     apache
     mqtt-listener
