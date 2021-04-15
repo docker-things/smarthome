@@ -39,6 +39,7 @@ ${Properties.plex.object}.statusDelayed:
   Mark human action - ${Properties.selfObjectName}:
     set:
       ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+      ${Properties.selfObjectName}.sleeping: 'false'
 
   # PLAY
 
@@ -88,13 +89,12 @@ ${Properties.plex.object}.statusDelayed:
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - ${Properties.selfObjectName}.lightOn()
-      - ${Properties.light.object}.brightness('${Properties.light.brightness}','${Properties.light.on-duration-when-plex-stopped}')
       - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
     set:
-      ${Properties.selfObjectName}.forceLightOff: 'false'
-      ${Properties.selfObjectName}.forceLightOn: 'true'
       ${Properties.selfObjectName}.ignoreMotion: 'false'
       ${Properties.motion.object}.occupancy: 'true'
+      ${Properties.selfObjectName}.forceLightOff: 'false'
+      ${Properties.selfObjectName}.forceLightOn: 'true'
 
   If Plex is stopped, turn purifier on - ${Properties.selfObjectName}:
     if:
