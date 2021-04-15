@@ -46,7 +46,7 @@ ${Properties.plex.object}.statusDelayed:
     if:
       - this in ['playing','resumed']
       - ${Properties.plex.object}.mediaType in ['episode','movie']
-      - Sun.state is night
+      - ${Properties.selfObjectName}.gotNaturalLight is false
     run:
       - House.allLightsOff()
       - SystemNotify.send('All lights OFF (${Properties.plex.object} playing)')
@@ -87,11 +87,7 @@ ${Properties.plex.object}.statusDelayed:
       - ${Properties.selfObjectName}.gotNaturalLight is false
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
-      - ${Properties.light.object}.on()
-      - ${Properties.light.object}.brightness('1','250')
-      - System.sleep('0.5')
-      - ${Properties.light.object}.temperature('${Properties.light.temperature}','250')
-      - System.sleep('1')
+      - ${Properties.selfObjectName}.lightOn()
       - ${Properties.light.object}.brightness('${Properties.light.brightness}','${Properties.light.on-duration-when-plex-stopped}')
       - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
     set:
