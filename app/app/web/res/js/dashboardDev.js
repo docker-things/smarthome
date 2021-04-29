@@ -326,23 +326,12 @@ function autoTheme() {
     const gotNaturalLight = getStateValue(DASHBOARD_ROOM, 'gotNaturalLight') == 'true';
     const no_occupancy_since = parseInt(getStateValue(DASHBOARD_ROOM + '-Motion', 'no_occupancy_since'));
 
-    // If dark room
-    if (!lightIsOn && !gotNaturalLight) {
-
-      // And got recent movement
-      if (no_occupancy_since < 60 && KEEP_RETURNING_TO != 'nowplaying') {
-        setBrightDarkTheme();
-      }
-
-      // Or got no recent movement
-      else {
-        setDimDarkTheme();
-      }
-    }
-
-    // If room is illuminated
-    else {
+    if (gotNaturalLight) {
       setLightTheme();
+    } else if (lightIsOn) {
+      setBrightDarkTheme();
+    } else {
+      setDimDarkTheme();
     }
   }
 
