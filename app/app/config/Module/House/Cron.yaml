@@ -22,6 +22,7 @@ jobs:
       - House.presence is true
       - House.sleeping is not true
       - House.lastHumanAction.timeSince >= 7200
+      - ${Properties.plex.object}.statusDelayed not in ['playing','paused','resumed']
     run:
       - SystemNotify.send('Sleeping (No human action for 2 hours)')
       - SystemWarn.send('Sleeping (No human action for 2 hours)')

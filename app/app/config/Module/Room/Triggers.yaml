@@ -170,8 +170,7 @@ ${Properties.light.object}.status:
       - this.status.previousValue is 'offline'
     set:
       House.presence: 'true'
-      House.lastHumanAction: System.timestamp
-      House.lastHumanActionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
 ${Properties.light.secondary.object}.status:
   Mark room activity - ${Properties.selfObjectName}:
@@ -213,8 +212,7 @@ ${Properties.light.secondary.object}.status:
       - this.status.previousValue is 'offline'
     set:
       House.presence: 'true'
-      House.lastHumanAction: System.timestamp
-      House.lastHumanActionLocation: '${Properties.name}'
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
 
   Turn on night light - ${Properties.selfObjectName}:
     if:
