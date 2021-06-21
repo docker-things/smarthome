@@ -93,15 +93,6 @@ House.sleeping:
     if: this is false
     run: SystemNotify.send('House awake')
 
-House.presence:
-  Presence - ${Properties.selfObjectName}:
-    if: this is true
-    run: SystemNotify.send('House got presence')
-
-  No presence - ${Properties.selfObjectName}:
-    if: this is false
-    run: SystemNotify.send('House got no presence')
-
 House.shouldCheckPresence:
   Should check - ${Properties.selfObjectName}:
     if: this is true
