@@ -12,6 +12,16 @@ services:
       - 1883:1883
       - 1884:1884
 
+  mqtt-gaming:
+    image: eclipse-mosquitto:1.6.9
+    container_name: smarthome-mqtt-gaming
+    restart: always
+    volumes:
+      - ./data/mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - 12345:1883
+      - 12346:1884
+
   zigbee2mqtt:
     image: koenkk/zigbee2mqtt:1.18.1
     container_name: smarthome-zigbee2mqtt
