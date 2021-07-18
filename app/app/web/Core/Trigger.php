@@ -92,12 +92,31 @@ class Core_Trigger {
     foreach ($triggers AS $trigger) {
 
       // If there's no condition assume we always trigger this
+      $valid = false;
       if (!isset($trigger['if'])) {
         $valid = true;
       }
       // Otherwise check if the conditions are valid
       else {
-        $valid = $conditions->check($trigger['if']);
+        $conditionsToCheck = [
+          $trigger['if'],
+        ];
+        if (isset($trigger['elseIf'])) {
+          $conditionsToCheck[] = $trigger['elseIf'];
+          for ($i = 2; $i < 10; $i++) {
+            if (isset($trigger['elseIf-' . $i])) {
+              $conditionsToCheck[] = $trigger['elseIf-' . $i];
+            } else {
+              break;
+            }
+          }
+        }
+        for ($i = 0; $i < count($conditionsToCheck); $i++) {
+          if ($conditions->check($conditionsToCheck[$i])) {
+            $valid = true;
+            break;
+          }
+        }
       }
 
       // Append trigger if valid

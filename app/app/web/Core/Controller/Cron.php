@@ -47,15 +47,29 @@ class Core_Controller_Cron extends Core_Controller_Base {
 
     // If there's no condition assume we always run this job
     if (!isset($job['if'])) {
-      $check = true;
+      return true;
     }
 
     // Otherwise check if the conditions are valid
-    else {
-      $check = $conditions->check($job['if']);
+    $conditionsToCheck = [
+      $job['if'],
+    ];
+    if (isset($job['elseIf'])) {
+      $conditionsToCheck[] = $job['elseIf'];
+      for ($i = 2; $i < 10; $i++) {
+        if (isset($job['elseIf-' . $i])) {
+          $conditionsToCheck[] = $job['elseIf-' . $i];
+        } else {
+          break;
+        }
+      }
     }
-
-    return $check;
+    for ($i = 0; $i < count($conditionsToCheck); $i++) {
+      if ($conditions->check($conditionsToCheck[$i])) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
