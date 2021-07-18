@@ -72,7 +72,7 @@ functions:
     runIf:
       - House.presence is true
       - House.sleeping is true
-      # - ${Properties.selfObjectName}.status is on
+      - ${Properties.selfObjectName}.status is on
       # - ${Properties.selfObjectName}.forceOn is not true
       # - ${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.sleepingMaxTemp
     runFunctions:
@@ -96,7 +96,7 @@ functions:
   offIfNoPresence():
     runIf:
       - House.presence is false
-      # - ${Properties.selfObjectName}.status is on
+      - ${Properties.selfObjectName}.status is on
       # - ${Properties.selfObjectName}.forceOn is not true
       # - ${Properties.temperature.object}.temperature < ${Properties.selfObjectName}.noPresenceMaxTemp
     runFunctions:
