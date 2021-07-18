@@ -131,27 +131,6 @@ RUN echo -e "\n > INSTALL HCITOOL\n" \
 #     /var/tmp/*
 
 
-# INSTALL BROADLINK
-COPY app/modules/broadlink2mqtt /app/modules/broadlink2mqtt
-RUN echo -e "\n > INSTALL BROADLINK IN $BROADLINK_PATH\n" \
- && apk add --no-cache --virtual=build-dependencies \
-    git \
-    py3-pip \
- \
- && pip3 install paho-mqtt \
- \
- && git clone https://github.com/mjg59/python-broadlink.git /app/modules/broadlink2mqtt/broadlink \
- && cd /app/modules/broadlink2mqtt/broadlink \
- && git checkout 9ff6b2d48e58f005765088cdf3dc5cc553cdb01a \
- \
- && echo -e "\n > CLEANUP\n" \
- && apk del --purge \
-    build-dependencies \
- && rm -rf \
-    /tmp/* \
-    /var/tmp/*
-
-
 # # INSTALL GO COMPILED MODULES:
 # # - CEC-CLIENT TO MQTT BRIDGE
 # # - EVDEV2MQTT
@@ -205,6 +184,27 @@ RUN echo -e "\n > INSTALL MOSQUITTO\n" \
  mosquitto-clients \
  \
  && echo -e "\n > CLEANUP\n" \
+ && rm -rf \
+    /tmp/* \
+    /var/tmp/*
+
+
+# INSTALL BROADLINK
+COPY app/modules/broadlink2mqtt /app/modules/broadlink2mqtt
+RUN echo -e "\n > INSTALL BROADLINK IN $BROADLINK_PATH\n" \
+ && apk add --no-cache --virtual=build-dependencies \
+    git \
+    py3-pip \
+ \
+ && pip3 install paho-mqtt \
+ \
+ && git clone https://github.com/mjg59/python-broadlink.git /app/modules/broadlink2mqtt/broadlink \
+ && cd /app/modules/broadlink2mqtt/broadlink \
+ && git checkout 9ff6b2d48e58f005765088cdf3dc5cc553cdb01a \
+ \
+ && echo -e "\n > CLEANUP\n" \
+ && apk del --purge \
+    build-dependencies \
  && rm -rf \
     /tmp/* \
     /var/tmp/*

@@ -1,0 +1,4 @@
+---
+
+# broadlinkController should receive an object created from Module.Device.Broadlink.Controller:
+broadlinkController: !required
