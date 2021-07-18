@@ -420,6 +420,15 @@ ${Properties.tv.object}.status:
       - ${Properties.tv.object}.off()
       - SystemWarn.send('Detected TV ON while nobody home! Turned it off. (${Properties.selfObjectName})')
 
+  ON while sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is on
+      - House.sleeping is true
+    set:
+      ${Properties.selfObjectName}.sleeping: 'false'
+    run:
+      - SystemNotify.send('Awake (TV on in ${Properties.selfObjectName})')
+
   Mark motion - ${Properties.selfObjectName}:
     set:
       ${Properties.selfObjectName}.lastHumanAction: System.timestamp
@@ -660,22 +669,6 @@ ${Properties.button.object}.click:
       - ${Properties.light.secondary.object}.brightness('100')
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
 
-  Triple click - Audio system OFF - ${Properties.selfObjectName}:
-    if:
-      - this is triple
-      - ${Properties.tv.audio-system.object}.status is on
-    run:
-      - ${Properties.tv.audio-system.object}.off()
-      - SystemNotify.send('${Properties.tv.audio-system.object} OFF (${Properties.button.object})')
-
-  Triple click - Audio system ON - ${Properties.selfObjectName}:
-    if:
-      - this is triple
-      - ${Properties.tv.audio-system.object}.status not in ['on','NONE.status']
-    run:
-      - ${Properties.tv.audio-system.object}.on()
-      - SystemNotify.send('${Properties.tv.audio-system.object} ON (${Properties.button.object})')
-
   Triple click - Custom Defined Toggle OFF - ${Properties.selfObjectName}:
     if:
       - this is triple
@@ -683,6 +676,10 @@ ${Properties.button.object}.click:
     run:
       - ${Properties.button.toggle.triple-click}.off()
       - SystemNotify.send('${Properties.button.toggle.triple-click} OFF (${Properties.button.object})')
+    set:
+      ${Properties.button.toggle.triple-click}.forceOff: 'true'
+      ${Properties.button.toggle.triple-click}.forceOn: 'false'
+
 
   Triple click - Custom Defined Toggle ON - ${Properties.selfObjectName}:
     if:
@@ -691,28 +688,9 @@ ${Properties.button.object}.click:
     run:
       - ${Properties.button.toggle.triple-click}.on()
       - SystemNotify.send('${Properties.button.toggle.triple-click} ON (${Properties.button.object})')
-
-  Triple click - Heating OFF - ${Properties.selfObjectName}:
-    if:
-      - this is triple
-      - ${Properties.heating}.status is on
-    run:
-      - ${Properties.heating}.off()
-      - SystemNotify.send('${Properties.heating} OFF (${Properties.button.object})')
     set:
-      ${Properties.heating}.forceOff: 'true'
-      ${Properties.heating}.forceOn: 'false'
-
-  Triple click - Heating ON - ${Properties.selfObjectName}:
-    if:
-      - this is triple
-      - ${Properties.heating}.status not in ['on','NONE.status']
-    run:
-      - ${Properties.heating}.on()
-      - SystemNotify.send('${Properties.heating} ON (${Properties.button.object})')
-    set:
-      ${Properties.heating}.forceOff: 'false'
-      ${Properties.heating}.forceOn: 'true'
+      ${Properties.button.toggle.triple-click}.forceOff: 'false'
+      ${Properties.button.toggle.triple-click}.forceOn: 'true'
 
   Quadruple click - Pause cleaning - ${Properties.selfObjectName}:
     if:
@@ -737,6 +715,8 @@ ${Properties.button.object}.click:
       - this is quadruple
       - ${Properties.roborock.object}.status in ['Paused','Idle']
       - ${Properties.roborock.object}.zone is ${Properties.name}
+      - ${Properties.roborock.object}.lidOpened is not true
+      - ${Properties.roborock.object}.lidOpened.timeSince < 172800
     run:
       - ${Properties.roborock.object}.cleanZone('${Properties.roborock.local-zone}','${Properties.name}')
       - SystemNotify.send('Clean ${Properties.selfObjectName} (${Properties.button.object})')
@@ -745,6 +725,8 @@ ${Properties.button.object}.click:
     if:
       - this is quadruple
       - ${Properties.roborock.object}.status is Charging
+      - ${Properties.roborock.object}.lidOpened is not true
+      - ${Properties.roborock.object}.lidOpened.timeSince < 172800
     run:
       - ${Properties.roborock.object}.cleanZone('${Properties.roborock.local-zone}','${Properties.name}')
       - SystemNotify.send('Clean ${Properties.selfObjectName} (${Properties.button.object})')
@@ -753,6 +735,8 @@ ${Properties.button.object}.click:
     if:
       - this is many
       - ${Properties.roborock.object}.status in ['Paused','Idle','Charging']
+      - ${Properties.roborock.object}.lidOpened is not true
+      - ${Properties.roborock.object}.lidOpened.timeSince < 172800
     run:
       - ${Properties.roborock.object}.start()
       - SystemNotify.send('Clean house (${Properties.button.object})')
@@ -765,27 +749,17 @@ ${Properties.button.object}.click:
       - ${Properties.roborock.object}.pause()
       - SystemNotify.send('Paused cleaning (${Properties.button.object})')
 
-  # Long click - Going to sleep - ${Properties.selfObjectName}:
-  #   if:
-  #     - this is long
-  #     - ${Properties.selfObjectName} in ['Bedroom','Livingroom']
-  #   run:
-  #     - ${Properties.selfObjectName}.off()
-  #     - SystemNotify.send('Going to sleep (${Properties.button.object})')
-  #   set:
-  #     ${Properties.selfObjectName}.ignoreMotion: 'true'
+  Quadruple click - Clean roborock - ${Properties.selfObjectName}:
+    if:
+      - this in ['quadruple','many']
+      - ${Properties.roborock.object}.status in ['Paused','Idle','Charging']
+      - ${Properties.roborock.object}.lidOpened is not true
+      - ${Properties.roborock.object}.lidOpened.timeSince >= 172800
+    run:
+      - ${Properties.roborock.object}.gotoCleaningPoint()
+      - SystemNotify.send('${Properties.roborock.object} not cleaned for more than 48 hours. Going to cleaning point (${Properties.button.object})')
 
-  # Long click - Turn everything OFF - ${Properties.selfObjectName}:
-  #   if:
-  #     - this is long
-  #     - ${Properties.selfObjectName} not in ['Bedroom','Livingroom']
-  #   run:
-  #     - House.off()
-  #     - SystemNotify.send('Turn everything OFF (${Properties.button.object})')
-  #   set:
-  #     ${Properties.selfObjectName}.ignoreMotion: 'true'
-
-  Long click - Turn everything OFF - ${Properties.selfObjectName}:
+  Long click - Turn everything OFF - Sleep - ${Properties.selfObjectName}:
     if:
       - this is long
     run:
@@ -845,7 +819,10 @@ ${Properties.door.object}.contact:
 
 ${Properties.selfObjectName}.closedDoor:
   Mark house doors status - ${Properties.selfObjectName}:
-    run: House.updateDoorsStatus()
+    run:
+      - House.updateDoorsStatus()
+      - ${Properties.selfObjectName}.updateProvidesAirSeal()
+      - House.updateAirSealed()
 
 # WINDOWS
 
@@ -934,6 +911,8 @@ ${Properties.selfObjectName}.openWindows:
   Update house windows status - ${Properties.selfObjectName}:
     run:
       - House.updateWindowsStatus()
+      - ${Properties.selfObjectName}.updateProvidesAirSeal()
+      - House.updateAirSealed()
 
 # WATER SENSOR
 
@@ -1019,3 +998,10 @@ ${Properties.laptop.object}.call:
   Start/End call - ${Properties.selfObjectName}:
     set:
       ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+
+# AIR SEAL
+
+${Properties.selfObjectName}.provides-air-seal:
+  Update house air seal - ${Properties.selfObjectName}:
+    run:
+      - House.updateAirSealed()

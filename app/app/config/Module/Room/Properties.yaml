@@ -95,3 +95,8 @@ laptop:
 water-sensor:
   object: NONE
 
+air-seal-rooms:
+  room-1: NONE
+  room-2: NONE
+  room-3: NONE
+  room-4: NONE

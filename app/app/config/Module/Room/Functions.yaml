@@ -212,3 +212,33 @@ functions:
       forceLightOn: 'false'
     runFunctions:
       - SystemNotify.send('Awake (${Properties.selfObjectName})')
+
+  # Provides air seal
+
+  updateProvidesAirSeal():
+    if:
+      - ${Properties.selfObjectName}.closedDoor is not false
+    elseIf:
+      - ${Properties.selfObjectName}.openWindows is not true
+    set:
+      provides-air-seal: 'true'
+    elseSet:
+      provides-air-seal: 'false'
+
+  # Is air sealed
+
+  updateAirSealed():
+    if: # Closed window & door
+      - ${Properties.selfObjectName}.openWindows is not true
+      - ${Properties.selfObjectName}.closedDoor is not false
+    elseIf: # Closed window, opened door, air sealed other rooms
+      - ${Properties.selfObjectName}.openWindows is not true
+      - ${Properties.selfObjectName}.closedDoor is not true
+      - ${Properties.air-seal-rooms.room-1}.provides-air-seal is not false
+      - ${Properties.air-seal-rooms.room-2}.provides-air-seal is not false
+      - ${Properties.air-seal-rooms.room-3}.provides-air-seal is not false
+      - ${Properties.air-seal-rooms.room-4}.provides-air-seal is not false
+    set:
+      air-sealed: 'true'
+    elseSet:
+      air-sealed: 'false'
