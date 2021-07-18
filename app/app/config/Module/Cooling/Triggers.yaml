@@ -39,6 +39,22 @@ ${Properties.selfObjectName}.noPresenceMinTemp:
     run:
       - ${Properties.selfObjectName}.auto()
 
+# AIR SEAL
+
+${Properties.room}.air-sealed:
+  If NOT air-sealed - ${Properties.selfObjectName}:
+    if:
+      - this is false
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.room} NOT air-sealed)')
+
+  If air-sealed - ${Properties.selfObjectName}:
+    if:
+      - this is true
+    run:
+      - ${Properties.selfObjectName}.auto()
+
 # WINDOWS
 
 House.openWindows:
