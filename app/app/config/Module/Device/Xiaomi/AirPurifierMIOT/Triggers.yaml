@@ -1,7 +1,7 @@
 --- # Do stuff when certain variables are changed
 
-House.openWindows:
-  Opened window - ${Properties.selfObjectName}:
+${Properties.room}.air-sealed:
+  NOT air-sealed - ${Properties.selfObjectName}:
     if:
       - this is true
       - ${Properties.selfObjectName}.status is on
@@ -9,9 +9,9 @@ House.openWindows:
       - ${Properties.selfObjectName}.set_mode('silent')
       - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('off')
-      - SystemNotify.send('${Properties.selfObjectName} SILENT (Opened Window)')
+      - SystemNotify.send('${Properties.selfObjectName} SILENT (${Properties.room} NOT air-sealed)')
 
-  Closed windows - ${Properties.selfObjectName}:
+  air-sealed - ${Properties.selfObjectName}:
     if:
       - this is false
       - House.sleeping is false
@@ -20,7 +20,7 @@ House.openWindows:
       - ${Properties.selfObjectName}.set_mode('auto')
       - System.sleep('1')
       - ${Properties.selfObjectName}.set_led_brightness('dim')
-      - SystemNotify.send('${Properties.selfObjectName} AUTO (Closed Windows)')
+      - SystemNotify.send('${Properties.selfObjectName} AUTO (${Properties.room} air-sealed)')
 
 House.sleeping:
   Sleeping - ${Properties.selfObjectName}:

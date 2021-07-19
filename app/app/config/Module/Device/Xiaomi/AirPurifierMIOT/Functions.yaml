@@ -18,12 +18,12 @@ functions:
 
   checkOpenWindows():
     runIf:
-      - House.openWindows is true
-      - House.openWindows.timeSince >= 60
+      - ${Properties.room}.air-sealed is false
+      - ${Properties.room}.air-sealed.timeSince >= 60
       - ${Properties.selfObjectName}.status not in ['off','offline']
     runFunctions:
       - ${Properties.selfObjectName}.off()
-      - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
+      - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.room} not air-sealed)')
 
   checkSleeping():
     runIf:

@@ -2,3 +2,4 @@
 
 ip: !required
 token: !required
+room: NONE
