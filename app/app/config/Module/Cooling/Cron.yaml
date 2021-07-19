@@ -2,6 +2,17 @@
 
 jobs:
 
+  # CHECK AIR SEAL
+
+  - interval: 11
+    if:
+      - ${Properties.room}.air-sealed is false
+      - ${Properties.selfObjectName}.status is on
+      - ${Properties.room}.air-sealed.timeSince >= 60
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.room} NOT air-sealed)')
+
   # CHECK EVERY MINUTE
 
   - interval: 60
