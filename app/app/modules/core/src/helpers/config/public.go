@@ -19,7 +19,7 @@ func SetOnChangeCallback(callback onChangeCallbackType) {
   onChangeCallback = callback
 }
 
-func ReloadOnChange(interval int) {
+func LoopReloadOnChange(interval int) {
   for {
     time.Sleep(time.Duration(interval) * time.Second)
     Load()
@@ -36,28 +36,27 @@ func GetJSON() string {
 func Load() {
   fmt.Println("loadConfig()")
 
-  // Get current files with modified time
+  // Get current files with their modified time
   newConfigFiles := getConfigFilesIn(configPath)
 
-  // If there are changes
   if thereAreChanges(newConfigFiles) {
 
-    // Set new files map
     setNewConfigFiles(newConfigFiles)
 
-    // Initialize new config
     newConfig := make(map[string]interface{})
-
-    // Load each file
     for path, _ := range configFiles.value {
       loadFileIntoConfig(path, newConfig)
     }
 
-    // Process config
     processConfig(newConfig)
-
-    // Set new config
+    dropBaseModules(newConfig)
     setNewConfig(newConfig)
+  }
+}
+
+func dropBaseModules(newConfig map[string]interface{}) {
+  if _, ok := newConfig["Module"]; ok {
+    delete(newConfig, "Module")
   }
 }
 

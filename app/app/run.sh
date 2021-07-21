@@ -55,6 +55,7 @@ if [ "$APP_ENV" == "prod" ]; then
     cron
     core/telegram-bot
     core/free-text-parser
+    core/config
     '
     # evdev2mqtt
     # bluetooth-scan
