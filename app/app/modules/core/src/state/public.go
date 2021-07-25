@@ -2,22 +2,23 @@ package state
 
 import (
   "fmt"
+  "reflect"
   "time"
   // "os"
   // "os/signal"
   // "strings"
   // "syscall"
 
-  json "../json"
-  // mqtt "../mqtt"
-  db "../mysql"
+  json "../helpers/json"
+  // mqtt "../helpers/mqtt"
+  config "../config"
+  db "../helpers/mysql"
 )
 
 func GetJSON() string {
   state.mutex.Lock()
   defer state.mutex.Unlock()
-  stateJson := json.Encode(state.value)
-  return stateJson
+  return state.json
 }
 
 func SaveDirtyData() {
@@ -29,6 +30,12 @@ func Connect() {
 }
 func Disconnect() {
   db.Disconnect()
+}
+
+func InitConfigClient() {
+  config.CreateClient(ServiceName, func() {
+    fmt.Println("STATE: Config changed!")
+  })
 }
 
 func Load(callback func()) {
@@ -86,22 +93,24 @@ func Set(source string, name string, value string, callback func()) {
 }
 
 func shouldSet(currentVar db.StateType, newVar db.StateType) bool {
-  if currentVar.Source == "" {
-    return true
+  return currentVar.Source == "" ||
+    currentVar.Value != newVar.Value ||
+    currentVar.TmpValue != "" && newVar.TmpValue == "" ||
+    currentVar.TmpTimes != newVar.TmpTimes ||
+    shouldAlwaysBeSet(newVar.Source, newVar.Name)
+}
+
+func shouldAlwaysBeSet(source string, name string) bool {
+  value := config.GetPath([]string{
+    "Objects", source, "Incoming", "alwaysSetWhenReceived",
+  })
+  if value != nil && reflect.ValueOf(value).Kind().String() == "slice" {
+    for _, element := range value.([]interface{}) {
+      if element.(string) == name {
+        return true
+      }
+    }
   }
-  if currentVar.Value != newVar.Value {
-    return true
-  }
-  if currentVar.TmpValue != "" && newVar.TmpValue == "" {
-    return true
-  }
-  if currentVar.TmpTimes != newVar.TmpTimes {
-    return true
-  }
-  // TODO: REQUIRED !!!! FUCKS UP THE LOGIC OTHERWISE !!!!
-  // if force from incoming config to be always set {
-  //   return true
-  // }
   return false
 }
 
@@ -140,6 +149,7 @@ func setState(newState map[string]map[string]db.StateType) {
   state.mutex.Lock()
   defer state.mutex.Unlock()
   state.value = newState
+  state.json = json.Encode(state.value)
 }
 
 func MapHasAllKeys(data map[string]interface{}, keys []string) bool {

@@ -16,13 +16,18 @@ func debug(text string) {
 }
 
 func Connect(newServiceName string, mqttBroker string) {
-  debug("mqtt.Connect(): " + newServiceName + " @ " + mqttBroker)
+  debug("\n\nmqtt.Connect(): " + newServiceName + " @ " + mqttBroker)
 
   // Make sure the connections map is initialized
   if connections == nil {
+    debug("mqtt.Connect(): nil connections")
     connections = make(map[string]mqtt.Client, 1)
   }
 
+  if _, ok := connections[mqttBroker]; ok {
+    debug("mqtt.Connect(): connection already exists!")
+    return
+  }
   // Set service name locally
   serviceName = newServiceName
 
@@ -36,6 +41,7 @@ func Connect(newServiceName string, mqttBroker string) {
   if token := connections[mqttBroker].Connect(); token.Wait() && token.Error() != nil {
     panic("mqtt.Connect(): " + token.Error().Error())
   }
+  debug("mqtt.Connect(): connected")
 }
 
 func SubscribeWithTopic(topic string, callback func(string, string)) {

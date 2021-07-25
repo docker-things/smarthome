@@ -4,7 +4,7 @@ import (
   "fmt"
   "time"
 
-  json "../json"
+  json "../helpers/json"
 )
 
 func CompileRegexp() {
@@ -28,9 +28,8 @@ func LoopReloadOnChange(interval int) {
 
 func GetJSON() string {
   config.mutex.Lock()
-  configJsonString := json.Encode(config.value)
-  config.mutex.Unlock()
-  return configJsonString
+  defer config.mutex.Unlock()
+  return config.json
 }
 
 func Load() {
@@ -63,7 +62,9 @@ func dropBaseModules(newConfig map[string]interface{}) {
 func setNewConfig(newConfig map[string]interface{}) {
   config.mutex.Lock()
   config.value = newConfig
-  configJsonString := json.Encode(config.value)
+  config.json = json.Encode(config.value)
   config.mutex.Unlock()
-  onChangeCallback(configJsonString)
+  if onChangeCallback != nil {
+    onChangeCallback(config.json)
+  }
 }

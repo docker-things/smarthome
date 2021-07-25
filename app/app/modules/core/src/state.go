@@ -5,53 +5,35 @@ import (
   "fmt"
   "os"
   "os/signal"
-  "strings"
   "syscall"
 
   jsonHelper "./helpers/json"
   mqtt "./helpers/mqtt"
-  state "./helpers/state"
+  state "./state"
 )
 
 /**
  * TODO:
- *
- * - implement config client & include it in state
- *
  * - populate a dirty list of maps when changes are made
  * - dump dirty changes to db every 30 seconds
  * - dump dirty changes on sig kill
  */
-
-const serviceName = "core/state"
-const mqttBroker = "tcp://mqtt:1883"
-
-// IN
-var topicSet = strings.Join([]string{serviceName, "set"}, "/")
-var topicRequest = strings.Join([]string{serviceName, "request"}, "/")
-
-// OUT
-var topicAnnounce = strings.Join([]string{serviceName, "announce"}, "/")
 
 func main() {
   // Create channel to monitor interrupt signals
   c := make(chan os.Signal, 1)
   signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
-  // Connect to mqtt
-  mqtt.Connect(serviceName, mqttBroker)
+  mqtt.Connect(state.ServiceName, state.MqttBroker)
 
-  // Connect to db
   state.Connect()
   defer state.Disconnect()
 
-  // Load current state
+  state.InitConfigClient()
+
   state.Load(announceFullState)
 
-  // Listen for incoming MQTT requests
   listenForIncomingRequests()
-
-  // Listen for incoming MQTT requests
   listenForSetRequests()
 
   // Keep alive until interrupt is received
@@ -64,7 +46,7 @@ func main() {
 func announceFullState() {
   fmt.Println("Announcing state")
   stateJson := state.GetJSON()
-  mqtt.PublishOn(topicAnnounce, stateJson)
+  mqtt.PublishOn(state.TopicAnnounce, stateJson)
 }
 
 func listenForSetRequests() {
@@ -74,7 +56,7 @@ func listenForSetRequests() {
     "value",
   }
 
-  mqtt.Subscribe(topicSet, func(msg string) {
+  mqtt.Subscribe(state.TopicSet, func(msg string) {
     fmt.Println("SET: " + msg)
 
     var request map[string]interface{}
@@ -95,13 +77,13 @@ func listenForSetRequests() {
     state.Set(source, name, value, func() {
       fmt.Println("[DEBUG] Announcing change")
       variable := state.GetVariable(source, name)
-      mqtt.PublishOn(topicAnnounce, jsonHelper.Encode(variable))
+      mqtt.PublishOn(state.TopicAnnounce, jsonHelper.Encode(variable))
     })
   })
 }
 
 func listenForIncomingRequests() {
-  mqtt.Subscribe(topicRequest, func(msg string) {
+  mqtt.Subscribe(state.TopicRequest, func(msg string) {
     fmt.Println("REQUEST: " + msg)
 
     var request map[string]string

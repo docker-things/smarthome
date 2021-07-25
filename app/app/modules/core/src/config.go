@@ -3,23 +3,10 @@ package main
 import (
   "encoding/json"
   "fmt"
-  "strings"
 
-  config "./helpers/config"
+  config "./config"
   mqtt "./helpers/mqtt"
 )
-
-const serviceName = "core/config"
-const broker = "tcp://mqtt:1883"
-const configPath = "/app/data/config"
-
-// IN
-var topicRequest = strings.Join([]string{serviceName, "request"}, "/")
-
-// OUT
-var topicAnnounce = strings.Join([]string{serviceName, "announce"}, "/")
-
-// var publishTopic string
 
 func main() {
 
@@ -27,16 +14,16 @@ func main() {
   config.CompileRegexp()
 
   // Set config path
-  config.SetPath(configPath)
+  config.SetPath(config.ConfigPath)
 
   // Set publish method
   config.SetOnChangeCallback(func(configJson string) {
-    fmt.Println("Sending config")
-    mqtt.PublishOn(topicAnnounce, configJson)
+    fmt.Println("Announcing config")
+    mqtt.PublishOn(config.TopicAnnounce, configJson)
   })
 
   // Connect to MQTT
-  mqtt.Connect(serviceName, broker)
+  mqtt.Connect(config.ServiceName, config.Broker)
 
   // Get config
   config.Load()
@@ -49,7 +36,7 @@ func main() {
 }
 
 func listenForIncomingRequests() {
-  mqtt.Subscribe(topicRequest, func(msg string) {
+  mqtt.Subscribe(config.TopicRequest, func(msg string) {
     fmt.Println("REQUEST: " + msg)
 
     var request map[string]string
