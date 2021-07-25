@@ -2,10 +2,12 @@ package mysql
 
 import (
   "database/sql"
+  // "database/sql/driver"
   "fmt"
-  _ "github.com/go-sql-driver/mysql"
   "strings"
   "time"
+
+  _ "github.com/go-sql-driver/mysql"
 )
 
 const mysqlDB = "smarthome"
@@ -43,30 +45,103 @@ func Connect() {
   db = connection
 
   createTables()
+  go optimizeEvery24Hours()
 }
 
 func Disconnect() {
   db.Close()
 }
 
-func dbExec(query string) {
-  fmt.Println("mysql.dbExec(): " + query)
-  queryStatement, err := db.Prepare(query)
+func GetCurrentState() []StateType {
+  return getStateRows(`
+    SELECT
+      source,
+      name,
+      value,
+      prevValue,
+      tmpValue,
+      timestamp,
+      tmpTimes,
+      tmpTimestamp
+    FROM current
+    ORDER BY
+      source,
+      name
+    `)
+}
+
+func SetState(data StateType) {
+  queryStatement, err := db.Prepare(`
+      REPLACE INTO current (
+        source,
+        name,
+        value,
+        prevValue,
+        timestamp,
+        tmpValue,
+        tmpTimes,
+        tmpTimestamp
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      `)
   if err != nil {
-    panic("mysql.dbExec(): " + err.Error())
+    panic("mysql.SetState(): Prepare: " + err.Error())
   }
   defer queryStatement.Close()
-  _, err = queryStatement.Exec()
+  _, err = queryStatement.Exec(
+    data.Source,
+    data.Name,
+    data.Value,
+    data.PrevValue,
+    data.Timestamp,
+    data.TmpValue,
+    data.TmpTimes,
+    data.TmpTimestamp,
+  )
   if err != nil {
-    panic("mysql.dbExec(): " + err.Error())
+    panic("mysql.SetState(): Exec: " + err.Error())
   }
 }
 
-func getRows(query string) []map[string]interface{} {
+func dbExec(query string) {
+  // fmt.Println("mysql.dbExec(): " + query)
+  _, err := db.Exec(query)
+  if err != nil {
+    panic("mysql.dbExec(): Exec: " + err.Error())
+  }
+}
+
+func getStateRows(query string) []StateType {
+  rows, err := db.Query(query)
+  if err != nil {
+    panic("mysql.getRows(): Query: " + err.Error())
+  }
+  defer rows.Close()
+
+  data := make([]StateType, 0)
+  for rows.Next() {
+    entry := StateType{}
+    rows.Scan(
+      &entry.Source,
+      &entry.Name,
+      &entry.Value,
+      &entry.PrevValue,
+      &entry.TmpValue,
+      &entry.Timestamp,
+      &entry.TmpTimes,
+      &entry.TmpTimestamp,
+    )
+    data = append(data, entry)
+  }
+
+  return data
+}
+
+/*func getUnknownRows(query string) []map[string]interface{} {
   // Query
   rows, err := db.Query(query)
   if err != nil {
-    panic("mysql.getRows(): " + err.Error())
+    panic("mysql.getRows(): Query: " + err.Error())
   }
 
   // Make sure result is closed
@@ -75,7 +150,7 @@ func getRows(query string) []map[string]interface{} {
   // Fetch columns
   columns, err := rows.Columns()
   if err != nil {
-    panic("mysql.getRows(): " + err.Error())
+    panic("mysql.getRows(): Columns: " + err.Error())
   }
   columnsCount := len(columns)
 
@@ -104,11 +179,10 @@ func getRows(query string) []map[string]interface{} {
   }
 
   return tableData
-}
-
+}*/
 
 func tableExists(table string) bool {
-  fmt.Println("mysql.tableExists(): " + table)
+  // fmt.Println("mysql.tableExists(): " + table)
   rows, err := db.Query(`
     SELECT table_name
     FROM   information_schema.tables
@@ -121,8 +195,38 @@ func tableExists(table string) bool {
   return rows.Next()
 }
 
-func createTables() {
+func ValidStateRow(row map[string]interface{}) bool {
+  return MapHasAllKeys(row, []string{
+    "source",
+    "name",
+    "value",
+    "prevValue",
+    "timestamp",
+    "tmpValue",
+    "tmpTimes",
+    "tmpTimestamp",
+  })
+}
 
+func ValidHistoryRow(row map[string]interface{}) bool {
+  return MapHasAllKeys(row, []string{
+    "source",
+    "name",
+    "value",
+    "timestamp",
+  })
+}
+
+func MapHasAllKeys(data map[string]interface{}, keys []string) bool {
+  for _, key := range keys {
+    if _, ok := data[key]; !ok {
+      return false
+    }
+  }
+  return true
+}
+
+func createTables() {
   if !tableExists("current") {
     dbExec(`
       CREATE TABLE current (
@@ -161,6 +265,17 @@ func createTables() {
   }
 }
 
-func GetCurrentState() []map[string]interface{} {
-  return getRows("SELECT * FROM `current` ORDER BY `source`, `name`")
+func optimize() {
+  fmt.Println("DB Optimization started")
+  dbExec("OPTIMIZE TABLE `current`")
+  dbExec("OPTIMIZE TABLE `history`")
+  dbExec("PURGE BINARY LOGS BEFORE DATE(NOW() - INTERVAL 1 DAY) + INTERVAL 0 SECOND")
+  fmt.Println("DB Optimization ended")
+}
+
+func optimizeEvery24Hours() {
+  for {
+    optimize()
+    time.Sleep(time.Duration(24) * time.Hour)
+  }
 }
