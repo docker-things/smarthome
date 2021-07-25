@@ -246,7 +246,17 @@ COPY app/modules/core /app/modules/core
 RUN echo -e "\n > BUILD CORE MODULE: CONFIG\n" \
  && cd /app/modules/core \
  && go get -d ./... \
- && go build -ldflags "-s -w" src/config.go
+ && go build -ldflags "-s -w" src/config.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: STATE\n" \
+ && cd /app/modules/core \
+ && go get -d ./... \
+ && go build -ldflags "-s -w" src/state.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: FUNCTIONS\n" \
+ && cd /app/modules/core \
+ && go get -d ./... \
+ && go build -ldflags "-s -w" src/functions.go
 
 # COPY APP FILES
 COPY app/config /app/config

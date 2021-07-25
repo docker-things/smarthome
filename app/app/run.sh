@@ -65,6 +65,7 @@ else
     core/mqtt-listener
     core/config
     core/state
+    core/functions
     core/free-text-parser
     '
 
