@@ -1,14 +1,21 @@
 #!/bin/ash
 
 while [ 1 = 1 ]; do
-  # TODO: REMOVE BUILD @ RUNTIME
-  clear
-  echo " > Building..."
-  cd /app/modules/core
-  go get -d ./... && \
-  go build -ldflags "-s -w" src/free-text-parser.go && \
-  /app/modules/core/free-text-parser
+  if [ "$APP_ENV" == "dev" ]; then
+    clear
 
-  echo " > Service stopped, restarting in 5 seconds..."
-  sleep 5s
+    echo " > Building..."
+    cd /app/modules/core
+    go get -d ./... && \
+    go build -ldflags "-s -w" src/free-text-parser.go && \
+      /app/modules/core/free-text-parser
+
+    echo " > Hit ENTER!"
+    read
+  else
+    /app/modules/core/free-text-parser
+
+    echo " > Service stopped, restarting in 5 seconds..."
+    sleep 5s
+  fi
 done
