@@ -83,35 +83,39 @@ func listenForSetRequests() {
 }
 
 func listenForIncomingRequests() {
+  requiredParams := []string{
+    "source",
+    "name",
+    "responseTopic",
+  }
+
   mqtt.Subscribe(state.TopicRequest, func(msg string) {
     fmt.Println("REQUEST: " + msg)
 
-    var request map[string]string
+    var request map[string]interface{}
     err := json.Unmarshal([]byte(msg), &request)
     if err != nil {
       panic(err.Error())
     }
 
-    if _, ok := request["key"]; !ok {
-      fmt.Println("WARN: Request contains no \"key\"!")
-      return
-    }
-
-    if _, ok := request["responseTopic"]; !ok {
-      fmt.Println("WARN: Request contains no \"responseTopic\"!")
+    if !state.MapHasAllKeys(request, requiredParams) {
+      fmt.Printf("[WARN] Request must contain these params: %s", requiredParams)
       return
     }
 
     var stateJson string
 
-    if request["key"] == "" {
+    source := request["source"].(string)
+    responseTopic := request["responseTopic"].(string)
+
+    if source == "" {
       stateJson = state.GetJSON()
     } else {
-      fmt.Println("WARN: Deep key not implemented!")
+      fmt.Println("WARN: Granular requests not implemented!")
       return
     }
 
-    fmt.Println("Sending config to " + request["responseTopic"])
-    mqtt.PublishOn(request["responseTopic"], stateJson)
+    fmt.Println("Sending config to " + responseTopic)
+    mqtt.PublishOn(responseTopic, stateJson)
   })
 }

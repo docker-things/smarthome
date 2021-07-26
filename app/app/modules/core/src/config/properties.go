@@ -6,7 +6,7 @@ import (
 )
 
 const ServiceName = "core/config"
-const Broker = "tcp://mqtt:1883"
+const MqttBroker = "tcp://mqtt:1883"
 const ConfigPath = "/app/data/config"
 
 // IN

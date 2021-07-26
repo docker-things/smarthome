@@ -33,9 +33,7 @@ func Disconnect() {
 }
 
 func InitConfigClient() {
-  config.CreateClient(ServiceName, func() {
-    fmt.Println("STATE: Config changed!")
-  })
+  config.CreateClient(ServiceName)
 }
 
 func Load(callback func()) {
@@ -62,7 +60,7 @@ func getCurrentState() {
     variables++
   }
 
-  setState(newState)
+  setNewState(newState)
 
   fmt.Printf("Loaded %d variables for %d objects\n", variables, objects)
 }
@@ -145,9 +143,25 @@ func GetStringParam(source string, name string, param string) string {
   return ""
 }
 
-func setState(newState map[string]map[string]db.StateType) {
+func setNewState(newState map[string]map[string]db.StateType) {
   state.mutex.Lock()
   defer state.mutex.Unlock()
+  state.value = newState
+  state.json = json.Encode(state.value)
+}
+
+func setNewPartialState(newState map[string]map[string]db.StateType) {
+  state.mutex.Lock()
+  defer state.mutex.Unlock()
+  for source, variables := range newState {
+    if _, ok := state.value[source]; !ok {
+      state.value[source] = variables
+      continue
+    }
+    for name, variable := range variables {
+      state.value[source][name] = variable
+    }
+  }
   state.value = newState
   state.json = json.Encode(state.value)
 }

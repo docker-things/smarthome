@@ -1,4 +1,4 @@
-package config
+package state
 
 import (
   "encoding/json"
@@ -6,6 +6,7 @@ import (
   "time"
 
   mqtt "../helpers/mqtt"
+  db "../helpers/mysql"
   randomString "../helpers/randomString"
 )
 
@@ -17,42 +18,42 @@ func CreateClient(serviceName string) {
   gotInitialResponse = false
 
   id := randomString.RandomString(16)
-  responseTopic := strings.Join([]string{serviceName, "config-client", id}, "/")
+  responseTopic := strings.Join([]string{serviceName, "state-client", id}, "/")
 
   mqtt.Connect(serviceName, MqttBroker)
 
   listenForAnnouncements()
   listenForRequestResponse(responseTopic)
 
-  requestInitialConfig(responseTopic)
+  requestInitialState(responseTopic)
 }
 
 func listenForAnnouncements() {
   mqtt.Subscribe(TopicAnnounce, func(msg string) {
-    var data map[string]interface{}
+    var data map[string]map[string]db.StateType
     err := json.Unmarshal([]byte(msg), &data)
     if err != nil {
       panic(err.Error())
     }
-    setNewConfig(data)
+    setNewPartialState(data)
   })
 }
 
 func listenForRequestResponse(responseTopic string) {
   mqtt.Subscribe(responseTopic, func(msg string) {
-    var data map[string]interface{}
+    var data map[string]map[string]db.StateType
     err := json.Unmarshal([]byte(msg), &data)
     if err != nil {
       panic(err.Error())
     }
-    setNewConfig(data)
+    setNewState(data)
     gotInitialResponse = true
   })
 }
 
-func requestInitialConfig(responseTopic string) {
+func requestInitialState(responseTopic string) {
   for {
-    mqtt.PublishOn(TopicRequest, "{\"path\":\"\",\"responseTopic\":\""+responseTopic+"\"}")
+    mqtt.PublishOn(TopicRequest, "{\"source\":\"\",\"name\":\"\",\"responseTopic\":\""+responseTopic+"\"}")
     for i := 0; i < 5; i++ {
       if gotInitialResponse {
         return
@@ -60,11 +61,4 @@ func requestInitialConfig(responseTopic string) {
       time.Sleep(1 * time.Second)
     }
   }
-}
-
-func GetPath(requiredPath []string) interface{} {
-  config.mutex.Lock()
-  defer config.mutex.Unlock()
-  value, _ := getAbsoluteTreeValue(requiredPath, config.value)
-  return value
 }

@@ -23,7 +23,7 @@ func main() {
   })
 
   // Connect to MQTT
-  mqtt.Connect(config.ServiceName, config.Broker)
+  mqtt.Connect(config.ServiceName, config.MqttBroker)
 
   // Get config
   config.Load()
