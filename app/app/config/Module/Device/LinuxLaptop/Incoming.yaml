@@ -13,6 +13,7 @@ actions:
     battery: ${PARAMS.battery}
     charging: ${PARAMS.charging}
     lux: ${PARAMS.lux}
+    displays: ${PARAMS.displays}
     brightness: ${PARAMS.brightness}
     volume: ${PARAMS.volume}
     status: ${PARAMS.status}

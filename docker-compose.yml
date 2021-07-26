@@ -7,10 +7,20 @@ services:
     container_name: smarthome-mqtt
     restart: always
     volumes:
-      - ./data/mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./data/mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
     ports:
       - 1883:1883
       - 1884:1884
+
+  mqtt-gaming:
+    image: eclipse-mosquitto:1.6.9
+    container_name: smarthome-mqtt-gaming
+    restart: always
+    volumes:
+      - ./data/mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    ports:
+      - 12345:1883
+      - 12346:1884
 
   zigbee2mqtt:
     image: koenkk/zigbee2mqtt:1.18.1
@@ -19,11 +29,11 @@ services:
       - mqtt
     restart: always
     devices:
-      - /dev/ttyACM1:/dev/ttyACM0 # zigbee coordinator
+      - $DEVICE_ZIGBEE:/dev/ttyACM0
     volumes:
       - ./data/zigbee2mqtt:/app/data
     environment:
-      - TZ=Europe/Bucharest
+      - TZ=$TIMEZONE
 
   db:
     image: mariadb:10.2.32
@@ -33,11 +43,11 @@ services:
     volumes:
       - ./data/db:/var/lib/mysql
     environment:
-      # - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      - MYSQL_PASSWORD=userpassword
-      - MYSQL_DATABASE=smarthome
-      - MYSQL_USER=smarthome
+      # - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_ALLOW_EMPTY_PASSWORD=$MYSQL_ALLOW_EMPTY_PASSWORD
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
 
   app:
     image: smarthome:0.1.0
@@ -45,31 +55,31 @@ services:
     build:
       context: ./app
       args:
-        DOCKER_TIMEZONE: Europe/Bucharest
+        DOCKER_TIMEZONE: $TIMEZONE
     depends_on:
       - mqtt
       - db
     restart: always
     devices:
-      - /dev/ttyACM0:/dev/ttyACM0 # cec device
+      - $DEVICE_CEC:/dev/ttyACM0
     # network_mode: host
     ports:
-      - 1122:80
+      - $PORT_WEB:80
     volumes:
       - ./data/app:/app/data
-      - ./db:/var/lib/mysql
       # TODO: remove mounts - used for development
       - ./app/app/modules/core/src:/app/modules/core/src
       - ./app/app/web/Core:/app/web/Core
       - ./app/app/web/UI:/app/web/UI
       - ./app/app/web/res:/app/web/res
-      - ./app/dev/go:/root/go
-      - ./app/dev/go-build:/root/.cache/go-build
+      - ./tmp/app/go:/root/go
+      - ./tmp/app/go-build:/root/.cache/go-build
     environment:
-      - MYSQL_PASSWORD=userpassword
-      - MYSQL_DATABASE=smarthome
-      - MYSQL_USER=smarthome
-      - MYSQL_HOST=db
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_HOST=$MYSQL_HOST
+      - APP_ENV=$APP_ENV
 
     # deploy:
     #   resources:

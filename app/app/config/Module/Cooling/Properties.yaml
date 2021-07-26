@@ -1,0 +1,11 @@
+---
+
+controller: NONE
+
+force-on-seconds: 3600
+force-off-seconds: 3600
+
+temperature:
+  object: NONE
+
+room: NONE

@@ -119,7 +119,25 @@ class Core_Function {
     $conditions->set('RESPONSE', $output);
 
     // Check conditions
-    return $conditions->check($function['if']);
+    $conditionsToCheck = [
+      $function['if'],
+    ];
+    if (isset($function['elseIf'])) {
+      $conditionsToCheck[] = $function['elseIf'];
+      for ($i = 2; $i < 10; $i++) {
+        if (isset($function['elseIf-' . $i])) {
+          $conditionsToCheck[] = $function['elseIf-' . $i];
+        } else {
+          break;
+        }
+      }
+    }
+    for ($i = 0; $i < count($conditionsToCheck); $i++) {
+      if ($conditions->check($conditionsToCheck[$i])) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -141,7 +159,25 @@ class Core_Function {
     $conditions->set('RESPONSE', $output);
 
     // Check conditions
-    return $conditions->check($function['runIf']);
+    $conditionsToCheck = [
+      $function['runIf'],
+    ];
+    if (isset($function['runElseIf'])) {
+      $conditionsToCheck[] = $function['runElseIf'];
+      for ($i = 2; $i < 10; $i++) {
+        if (isset($function['runElseIf-' . $i])) {
+          $conditionsToCheck[] = $function['runElseIf-' . $i];
+        } else {
+          break;
+        }
+      }
+    }
+    for ($i = 0; $i < count($conditionsToCheck); $i++) {
+      if ($conditions->check($conditionsToCheck[$i])) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

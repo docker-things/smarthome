@@ -43,7 +43,7 @@ chmod 775 -R \
 SCREEN_NAME="`hostname`"
 
 # Services to launch
-if [ "`cat /app/data/.env`" == "prod" ]; then
+if [ "$APP_ENV" == "prod" ]; then
   SERVICES='
     apache
     mqtt-listener
@@ -55,6 +55,7 @@ if [ "`cat /app/data/.env`" == "prod" ]; then
     cron
     core/telegram-bot
     core/free-text-parser
+    core/config
     '
     # evdev2mqtt
     # bluetooth-scan
@@ -64,7 +65,7 @@ else
     core/mqtt-listener
     core/config
     core/state
-    core/telegram-bot
+    core/functions
     core/free-text-parser
     '
 

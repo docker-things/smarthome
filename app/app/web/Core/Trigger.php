@@ -92,12 +92,31 @@ class Core_Trigger {
     foreach ($triggers AS $trigger) {
 
       // If there's no condition assume we always trigger this
+      $valid = false;
       if (!isset($trigger['if'])) {
         $valid = true;
       }
       // Otherwise check if the conditions are valid
       else {
-        $valid = $conditions->check($trigger['if']);
+        $conditionsToCheck = [
+          $trigger['if'],
+        ];
+        if (isset($trigger['elseIf'])) {
+          $conditionsToCheck[] = $trigger['elseIf'];
+          for ($i = 2; $i < 10; $i++) {
+            if (isset($trigger['elseIf-' . $i])) {
+              $conditionsToCheck[] = $trigger['elseIf-' . $i];
+            } else {
+              break;
+            }
+          }
+        }
+        for ($i = 0; $i < count($conditionsToCheck); $i++) {
+          if ($conditions->check($conditionsToCheck[$i])) {
+            $valid = true;
+            break;
+          }
+        }
       }
 
       // Append trigger if valid
@@ -108,54 +127,6 @@ class Core_Trigger {
 
     // Return all the valid triggers
     return $validTriggers;
-  }
-
-  /**
-   * @param  string   $field
-   * @return string
-   */
-  private function _preprocessDataField($field) {
-    // Core_Logger::debug('Core_Trigger::_preprocessDataField(' . $field . ')');
-
-    // Initialize new value
-    $newField = $field;
-
-    // Remove quotes
-    $newField = preg_replace('/^\'(.*)\'$/', '$1', $newField);
-
-    // Check if it's a world state variable
-    if (strpos($newField, '.') !== false) {
-
-      // Split source & name
-      $tmp = explode('.', $newField, 2);
-
-      // .timeSince
-      $fieldName = preg_replace('/\.timeSince$/', '', $tmp[1]);
-      if ($fieldName != $tmp[1]) {
-        $newField = $this->_app->getState()->getVariableTimeSince($tmp[0], $fieldName, $newField);
-      }
-      // .previousValue
-      else {
-        $fieldName = preg_replace('/\.previousValue$/', '', $tmp[1]);
-        if ($fieldName != $tmp[1]) {
-          $newField = $this->_app->getState()->getVariablePreviousValue($tmp[0], $fieldName, $newField);
-        }
-        // .objectName
-        else {
-          $fieldName = preg_replace('/\.objectName$/', '', $tmp[1]);
-          if ($fieldName != $tmp[1]) {
-            $newField = $tmp[0];
-          }
-          // Replace with value
-          else {
-            $newField = $this->_app->getState()->getVariableValue($tmp[0], $fieldName, $newField);
-          }
-        }
-      }
-    }
-
-    // Return
-    return $newField;
   }
 
   /**
@@ -238,9 +209,6 @@ class Core_Trigger {
       Core_Logger::error('Core_Trigger::_setNewState("' . $where . '", "' . $value . '"): INVALID $where PARAM!');
       return false;
     }
-
-    // Replace world var if matched
-    $value = $this->_preprocessDataField($value);
 
     // Set new var state
     $this->_app->getState()->set($where[0], $where[1], $value);

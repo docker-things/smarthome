@@ -73,13 +73,13 @@ RUN echo -e "\n > INSTALL APACHE\n" \
 RUN echo -e "\n > INSTALL PYTHON-MIIO\n" \
  && apk add --no-cache \
     python3 \
+    py3-pip \
     openssl \
  && apk add --no-cache --virtual build-dependencies \
     gcc \
     rust \
     cargo \
     python3-dev \
-    py3-pip \
     musl-dev \
     libffi-dev \
     linux-headers \
@@ -129,27 +129,6 @@ RUN echo -e "\n > INSTALL HCITOOL\n" \
 #     /app/modules/presence/.git \
 #     # /tmp/* \
 #     /var/tmp/*
-
-
-# INSTALL BROADLINK
-COPY app/modules/broadlink2mqtt /app/modules/broadlink2mqtt
-RUN echo -e "\n > INSTALL BROADLINK IN $BROADLINK_PATH\n" \
- && apk add --no-cache --virtual=build-dependencies \
-    git \
-    py3-pip \
- \
- && pip3 install paho-mqtt \
- \
- && git clone https://github.com/mjg59/python-broadlink.git /app/modules/broadlink2mqtt/broadlink \
- && cd /app/modules/broadlink2mqtt/broadlink \
- && git checkout 9ff6b2d48e58f005765088cdf3dc5cc553cdb01a \
- \
- && echo -e "\n > CLEANUP\n" \
- && apk del --purge \
-    build-dependencies \
- && rm -rf \
-    /tmp/* \
-    /var/tmp/*
 
 
 # # INSTALL GO COMPILED MODULES:
@@ -210,6 +189,27 @@ RUN echo -e "\n > INSTALL MOSQUITTO\n" \
     /var/tmp/*
 
 
+# INSTALL BROADLINK
+COPY app/modules/broadlink2mqtt /app/modules/broadlink2mqtt
+RUN echo -e "\n > INSTALL BROADLINK IN $BROADLINK_PATH\n" \
+ && apk add --no-cache --virtual=build-dependencies \
+    git \
+    py3-pip \
+ \
+ && pip3 install paho-mqtt \
+ \
+ && git clone https://github.com/mjg59/python-broadlink.git /app/modules/broadlink2mqtt/broadlink \
+ && cd /app/modules/broadlink2mqtt/broadlink \
+ && git checkout 9ff6b2d48e58f005765088cdf3dc5cc553cdb01a \
+ \
+ && echo -e "\n > CLEANUP\n" \
+ && apk del --purge \
+    build-dependencies \
+ && rm -rf \
+    /tmp/* \
+    /var/tmp/*
+
+
 # INSTALL GO COMPILED MODULES:
 RUN echo -e "\n > INSTALL GO BUILD ENV\n" \
  && apk add --no-cache --virtual=build-dependencies \
@@ -241,6 +241,22 @@ RUN echo -e "\n > BUILD MODULE: CEC-CLIENT TO MQTT BRIDGE\n" \
  && go get github.com/blchinezu/go-wol/cmd/wol \
  && mv /root/go/bin/wol /app/modules/wakeonlan
 
+COPY app/modules/core /app/modules/core
+
+RUN echo -e "\n > BUILD CORE MODULE: CONFIG\n" \
+ && cd /app/modules/core \
+ && go get -d ./... \
+ && go build -ldflags "-s -w" src/config.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: STATE\n" \
+ && cd /app/modules/core \
+ && go get -d ./... \
+ && go build -ldflags "-s -w" src/state.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: FUNCTIONS\n" \
+ && cd /app/modules/core \
+ && go get -d ./... \
+ && go build -ldflags "-s -w" src/functions.go
 
 # COPY APP FILES
 COPY app/config /app/config
@@ -252,7 +268,6 @@ COPY app/modules/openweather /app/modules/openweather
 COPY app/services /app/services
 COPY app/web /app/web
 COPY app/run.sh /app/run.sh
-COPY app/modules/core /app/modules/core
 
 
 # CLEANUP ROOT

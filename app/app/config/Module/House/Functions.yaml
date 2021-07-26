@@ -145,3 +145,15 @@ functions:
       - ${Properties.room-9}.awake()
     set:
       sleeping: 'false'
+
+  updateAirSealed():
+    runFunctionsAsync:
+      - ${Properties.room-1}.updateAirSealed()
+      - ${Properties.room-2}.updateAirSealed()
+      - ${Properties.room-3}.updateAirSealed()
+      - ${Properties.room-4}.updateAirSealed()
+      - ${Properties.room-5}.updateAirSealed()
+      - ${Properties.room-6}.updateAirSealed()
+      - ${Properties.room-7}.updateAirSealed()
+      - ${Properties.room-8}.updateAirSealed()
+      - ${Properties.room-9}.updateAirSealed()

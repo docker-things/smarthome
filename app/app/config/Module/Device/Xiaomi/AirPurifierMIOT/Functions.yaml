@@ -18,18 +18,18 @@ functions:
 
   checkOpenWindows():
     runIf:
-      - House.openWindows is true
-      - House.openWindows.timeSince >= 60
-      - ${Properties.selfObjectName}.status is not off
+      - ${Properties.room}.air-sealed is false
+      - ${Properties.room}.air-sealed.timeSince >= 60
+      - ${Properties.selfObjectName}.status not in ['off','offline']
     runFunctions:
       - ${Properties.selfObjectName}.off()
-      - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
+      - SystemNotify.send('${Properties.selfObjectName} OFF (${Properties.room} not air-sealed)')
 
   checkSleeping():
     runIf:
       - House.sleeping is true
       - House.sleeping.timeSince >= 60
-      - ${Properties.selfObjectName}.status is not off
+      - ${Properties.selfObjectName}.status not in ['off','offline']
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Sleeping)')
@@ -38,7 +38,7 @@ functions:
     runIf:
       - House.presence is false
       - House.presence.timeSince > 300
-      - ${Properties.selfObjectName}.status is not off
+      - ${Properties.selfObjectName}.status not in ['off','offline']
     runFunctions:
       - ${Properties.selfObjectName}.off()
       - SystemNotify.send('${Properties.selfObjectName} OFF (Empty house for 10m)')

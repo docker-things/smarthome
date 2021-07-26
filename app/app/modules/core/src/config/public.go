@@ -4,7 +4,7 @@ import (
   "fmt"
   "time"
 
-  json "../json"
+  json "../helpers/json"
 )
 
 func CompileRegexp() {
@@ -19,7 +19,7 @@ func SetOnChangeCallback(callback onChangeCallbackType) {
   onChangeCallback = callback
 }
 
-func ReloadOnChange(interval int) {
+func LoopReloadOnChange(interval int) {
   for {
     time.Sleep(time.Duration(interval) * time.Second)
     Load()
@@ -28,43 +28,43 @@ func ReloadOnChange(interval int) {
 
 func GetJSON() string {
   config.mutex.Lock()
-  configJsonString := json.Encode(config.value)
-  config.mutex.Unlock()
-  return configJsonString
+  defer config.mutex.Unlock()
+  return config.json
 }
 
 func Load() {
   fmt.Println("loadConfig()")
 
-  // Get current files with modified time
+  // Get current files with their modified time
   newConfigFiles := getConfigFilesIn(configPath)
 
-  // If there are changes
   if thereAreChanges(newConfigFiles) {
 
-    // Set new files map
     setNewConfigFiles(newConfigFiles)
 
-    // Initialize new config
     newConfig := make(map[string]interface{})
-
-    // Load each file
     for path, _ := range configFiles.value {
       loadFileIntoConfig(path, newConfig)
     }
 
-    // Process config
     processConfig(newConfig)
-
-    // Set new config
+    dropBaseModules(newConfig)
     setNewConfig(newConfig)
+  }
+}
+
+func dropBaseModules(newConfig map[string]interface{}) {
+  if _, ok := newConfig["Module"]; ok {
+    delete(newConfig, "Module")
   }
 }
 
 func setNewConfig(newConfig map[string]interface{}) {
   config.mutex.Lock()
   config.value = newConfig
-  configJsonString := json.Encode(config.value)
+  config.json = json.Encode(config.value)
   config.mutex.Unlock()
-  onChangeCallback(configJsonString)
+  if onChangeCallback != nil {
+    onChangeCallback(config.json)
+  }
 }

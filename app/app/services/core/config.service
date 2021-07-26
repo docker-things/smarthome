@@ -1,18 +1,21 @@
 #!/bin/ash
 
 while [ 1 = 1 ]; do
-  # TODO: REMOVE BUILD @ RUNTIME
-  clear
-  echo " > Building..."
-  cd /app/modules/core
-  go get -d ./... && \
-  go build -ldflags "-s -w" src/config.go && \
-  /app/modules/core/config
+  if [ "$APP_ENV" == "dev" ]; then
+    clear
 
-  echo " > Service stopped, restarting in 5 seconds..."
-  # TODO: RESTORE SLEEP!
-  # sleep 5s
-  # TODO: REMOVE PAUSE @ RUNTIME
-  echo " > Hit ENTER!"
-  read
+    echo " > Building..."
+    cd /app/modules/core
+    go get -d ./... && \
+    go build -ldflags "-s -w" src/config.go && \
+      /app/modules/core/config
+
+    echo " > Hit ENTER!"
+    read
+  else
+    /app/modules/core/config
+
+    echo " > Service stopped, restarting in 5 seconds..."
+    sleep 5s
+  fi
 done

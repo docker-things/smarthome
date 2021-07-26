@@ -8,7 +8,7 @@ devices = {}
 
 def on_message(client, userdata, message):
     json_data = json.loads(message.payload.decode("utf-8"))
-    # print("\nReceived:",json_data)
+    # print("\nReceived:", json_data)
 
     key = str(json_data['ip'])+'-'+str(json_data['mac'])
 
@@ -19,7 +19,7 @@ def on_message(client, userdata, message):
             device = broadlink.gendevice(
                 int(json_data['type'], 16),
                 (json_data['ip'], 80),
-                json_data['mac']
+                json_data['mac'].replace(':', '')
                 )
 
             print(' > Authenticating')
@@ -30,17 +30,21 @@ def on_message(client, userdata, message):
                 return
 
         except Exception as e:
-            print("ERROR:",e)
+            print("ERROR:", e)
             return
 
     try:
         packet = b64decode(json_data['packet'])
     except Exception as e:
-        print("ERROR decoding packet:",e)
+        print("ERROR decoding packet:", e)
         return
 
-    print('Sending packet:',json_data['packet'])
-    devices[key].send_data(packet)
+    try:
+        print('Sending packet:',json_data['packet'])
+        devices[key].send_data(packet)
+    except Exception as e:
+        print("ERROR sending packet:", e)
+        return
 
 print("Creating new MQTT Client")
 client = mqtt.Client("broadlink2mqtt")

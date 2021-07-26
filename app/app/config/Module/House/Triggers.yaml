@@ -35,6 +35,23 @@ House.openWindows:
       - SystemWarn.send('Someone opened windows but house is empty!')
       - SystemNotify.send('Someone opened windows but house is empty!')
 
+House.closedDoors:
+  Pause roborock when closed doors - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.roborock.object}.status in ['Cleaning','Zoned_cleaning']
+    run:
+      - ${Properties.roborock.object}.pause()
+      - SystemNotify.send('Paused cleaning (Door closed)')
+
+  Resume roborock when opened doors - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.roborock.object}.status in ['Paused','Idle']
+    run:
+      - ${Properties.roborock.object}.resume()
+      - SystemNotify.send('Resumed cleaning (All doors opened)')
+
 House.presence:
   When house is empty - ${Properties.selfObjectName}:
     if:
@@ -71,6 +88,7 @@ House.active:
       - House.presence is true
       - House.sleeping is not true
       - Sun.state is night
+      - ${Properties.plex.object}.statusDelayed not in ['playing','paused','resumed']
     run:
       - House.off()
     set:
@@ -93,15 +111,6 @@ House.sleeping:
     if: this is false
     run: SystemNotify.send('House awake')
 
-House.presence:
-  Presence - ${Properties.selfObjectName}:
-    if: this is true
-    run: SystemNotify.send('House got presence')
-
-  No presence - ${Properties.selfObjectName}:
-    if: this is false
-    run: SystemNotify.send('House got no presence')
-
 House.shouldCheckPresence:
   Should check - ${Properties.selfObjectName}:
     if: this is true
@@ -118,6 +127,7 @@ Sun.state:
       - House.active is false
       - House.presence is true
       - House.sleeping is not true
+      - ${Properties.plex.object}.statusDelayed not in ['playing','paused','resumed']
     run:
       - House.off()
     set:

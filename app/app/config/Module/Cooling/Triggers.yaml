@@ -1,0 +1,93 @@
+--- # Do stuff when certain variables are changed
+
+# TEMPERATURE
+
+${Properties.temperature.object}.temperature:
+  Adjust heating - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.auto()
+
+# CONTROLLER STATUS
+
+${Properties.controller}.status:
+  Take controller status - ON - ${Properties.selfObjectName}:
+    if:
+      - this is on
+    set:
+      ${Properties.selfObjectName}.status: 'on'
+
+  Take controller status - OFF - ${Properties.selfObjectName}:
+    if:
+      - this is off
+    set:
+      ${Properties.selfObjectName}.status: 'off'
+
+# CONFIG CHANGE
+
+${Properties.selfObjectName}.presenceMinTemp:
+  Recheck when levels change:
+    run:
+      - ${Properties.selfObjectName}.auto()
+
+${Properties.selfObjectName}.sleepingMinTemp:
+  Recheck when levels change:
+    run:
+      - ${Properties.selfObjectName}.auto()
+
+${Properties.selfObjectName}.noPresenceMinTemp:
+  Recheck when levels change:
+    run:
+      - ${Properties.selfObjectName}.auto()
+
+# WINDOWS
+
+House.openWindows:
+
+  Opening windows - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.selfObjectName}.status is not off
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
+
+  Closing windows - ${Properties.selfObjectName}:
+    if:
+      - this is false
+    run:
+      - ${Properties.selfObjectName}.auto()
+
+# PRESENCE
+
+House.presence:
+  When house is empty - turn off heating - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      # - ${Properties.selfObjectName}.status is not off
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Empty house)')
+
+  When house is populated - ${Properties.selfObjectName}:
+    if:
+      - this is true
+    run:
+      - ${Properties.selfObjectName}.auto()
+
+# SLEEPING
+
+House.sleeping:
+
+  Sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      # - ${Properties.selfObjectName}.status is not off
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('${Properties.selfObjectName} OFF (Sleeping)')
+
+  Awake - ${Properties.selfObjectName}:
+    if:
+      - this is false
+    run:
+      - ${Properties.selfObjectName}.auto()

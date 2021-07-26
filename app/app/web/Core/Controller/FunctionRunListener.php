@@ -42,6 +42,7 @@ class Core_Controller_FunctionRunListener extends Core_Controller_Base {
         $functions[$i] = urlencode($function);
       }
       exec("php web/runFunctions.php '" . implode("' '", $functions) . "' > /dev/null 2>&1 &");
+      // system("php web/runFunctions.php '" . implode("' '", $functions) . "'");
     }
 
     Core_Logger::info('Stopped listening to MQTT');
