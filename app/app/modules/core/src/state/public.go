@@ -85,7 +85,7 @@ func Set(source string, name string, value string, callback func()) {
 
   if shouldSet(currentVar, newVar) {
     setVariableState(newVar)
-    db.SetState(newVar)
+    go db.SetState(newVar)
     callback()
   }
 }
