@@ -62,10 +62,10 @@ if [ "$APP_ENV" == "prod" ]; then
 else
   SERVICES='
     core/mqtt-stealer
-    core/mqtt-listener
     core/config
     core/state
     core/functions
+    core/incoming
     core/free-text-parser
     '
 
