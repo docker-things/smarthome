@@ -3,6 +3,7 @@ package config
 import (
   "encoding/json"
   "strings"
+  "time"
 
   mqtt "../helpers/mqtt"
   randomString "../helpers/randomString"
@@ -10,7 +11,11 @@ import (
 
 var clientID string
 
+var gotInitialResponse bool
+
 func CreateClient(serviceName string, onChange func()) {
+  gotInitialResponse = false
+
   id := randomString.RandomString(16)
   responseTopic := strings.Join([]string{serviceName, "config-client", id}, "/")
 
@@ -41,11 +46,20 @@ func listenForRequestResponse(responseTopic string) {
       panic(err.Error())
     }
     setNewConfig(data)
+    gotInitialResponse = true
   })
 }
 
 func requestInitialConfig(responseTopic string) {
-  mqtt.PublishOn(TopicRequest, "{\"path\":\"\",\"responseTopic\":\""+responseTopic+"\"}")
+  for {
+    mqtt.PublishOn(TopicRequest, "{\"path\":\"\",\"responseTopic\":\""+responseTopic+"\"}")
+    for i := 0; i < 5; i++ {
+      if gotInitialResponse {
+        return
+      }
+      time.Sleep(1 * time.Second)
+    }
+  }
 }
 
 func GetPath(requiredPath []string) interface{} {
