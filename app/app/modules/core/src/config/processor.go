@@ -13,9 +13,9 @@ import (
   // "io/ioutil"
   "strings"
 
-  deepcopy "../deepcopy"
-  json "../json"
-  log "../log"
+  deepcopy "../helpers/deepcopy"
+  json "../helpers/json"
+  log "../helpers/log"
 )
 
 var regex map[string]*regexp.Regexp

@@ -241,6 +241,24 @@ RUN echo -e "\n > BUILD MODULE: CEC-CLIENT TO MQTT BRIDGE\n" \
  && go get github.com/blchinezu/go-wol/cmd/wol \
  && mv /root/go/bin/wol /app/modules/wakeonlan
 
+COPY app/modules/core /app/modules/core
+
+RUN echo -e "\n > BUILD CORE MODULES: Fetch dependencies\n" \
+ && cd /app/modules/core \
+ && go get -d ./... \
+ \
+ && echo -e "\n > BUILD CORE MODULE: config\n" \
+ && go build -ldflags "-s -w" src/config.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: state\n" \
+ && go build -ldflags "-s -w" src/state.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: functions\n" \
+ && go build -ldflags "-s -w" src/functions.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: incoming\n" \
+ && go build -ldflags "-s -w" src/incoming.go
+
 
 # COPY APP FILES
 COPY app/config /app/config
@@ -252,7 +270,6 @@ COPY app/modules/openweather /app/modules/openweather
 COPY app/services /app/services
 COPY app/web /app/web
 COPY app/run.sh /app/run.sh
-COPY app/modules/core /app/modules/core
 
 
 # CLEANUP ROOT

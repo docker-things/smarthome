@@ -1,24 +1,12 @@
 package main
 
 import (
+  "encoding/json"
   "fmt"
-  "strings"
 
-  config "./helpers/config"
+  config "./config"
   mqtt "./helpers/mqtt"
 )
-
-const serviceName = "core/config"
-const broker = "tcp://mqtt:1883"
-const configPath = "/app/data/config"
-
-// IN
-var topicRequest = strings.Join([]string{serviceName, "request"}, "/")
-
-// OUT
-var topicPublish = strings.Join([]string{serviceName, "get"}, "/")
-
-// var publishTopic string
 
 func main() {
 
@@ -26,31 +14,57 @@ func main() {
   config.CompileRegexp()
 
   // Set config path
-  config.SetPath(configPath)
+  config.SetPath(config.ConfigPath)
 
   // Set publish method
   config.SetOnChangeCallback(func(configJson string) {
-    fmt.Println("Sending config")
-    mqtt.PublishOn(topicPublish, configJson)
+    fmt.Println("Announcing config")
+    mqtt.PublishOn(config.TopicAnnounce, configJson)
   })
 
   // Connect to MQTT
-  mqtt.Connect(serviceName, broker)
+  mqtt.Connect(config.ServiceName, config.MqttBroker)
 
   // Get config
   config.Load()
 
-  // Listen to incoming MQTT requests
-  mqtt.Subscribe(topicRequest, func(msg string) {
-    fmt.Println("RECEIVED: " + msg)
-    // TODO: Send config per service channel with custom restricted format
-    // NEVER expose the actual config format in order to be able to later change it
-    //
-    // configJson := config.GetJSON()
-    // fmt.Println("Sending config per service in custom restricted format")
-    // mqtt.PublishOn(topicPublish, configJson)
-  })
+  // Listen for incoming MQTT requests
+  listenForIncomingRequests()
 
   // Check for config changes every 5 seconds
-  config.ReloadOnChange(5)
+  config.LoopReloadOnChange(5)
+}
+
+func listenForIncomingRequests() {
+  mqtt.Subscribe(config.TopicRequest, func(msg string) {
+    fmt.Println("REQUEST: " + msg)
+
+    var request map[string]string
+    err := json.Unmarshal([]byte(msg), &request)
+    if err != nil {
+      panic(err.Error())
+    }
+
+    if _, ok := request["path"]; !ok {
+      fmt.Println("WARN: Request contains no \"path\"!")
+      return
+    }
+
+    if _, ok := request["responseTopic"]; !ok {
+      fmt.Println("WARN: Request contains no \"responseTopic\"!")
+      return
+    }
+
+    var configJson string
+
+    if request["path"] == "" {
+      configJson = config.GetJSON()
+    } else {
+      fmt.Println("WARN: Deep path not implemented!")
+      return
+    }
+
+    fmt.Println("Sending config to " + request["responseTopic"])
+    mqtt.PublishOn(request["responseTopic"], configJson)
+  })
 }

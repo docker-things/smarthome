@@ -1,70 +1,121 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"os/signal"
-	"strings"
-	"syscall"
+  "encoding/json"
+  "fmt"
+  "os"
+  "os/signal"
+  "syscall"
 
-	json "./helpers/json"
-	mqtt "./helpers/mqtt"
-	db "./helpers/mysql"
+  jsonHelper "./helpers/json"
+  mqtt "./helpers/mqtt"
+  state "./state"
 )
 
-const serviceName = "core/state"
-const mqttBroker = "tcp://mqtt:1883"
-
-// IN
-var topicSet = strings.Join([]string{serviceName, "set"}, "/")
-var topicGetFullstate = strings.Join([]string{serviceName, "get-full-state"}, "/")
-
-// OUT
-var topicChange = strings.Join([]string{serviceName, "change"}, "/")
-var topicProvideFullState = strings.Join([]string{serviceName, "full-state"}, "/")
+/**
+ * TODO:
+ * - populate a dirty list of maps when changes are made
+ * - dump dirty changes to db every 30 seconds
+ * - dump dirty changes on sig kill
+ */
 
 func main() {
-	// Create channel to monitor interrupt signals
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+  // Create channel to monitor interrupt signals
+  c := make(chan os.Signal, 1)
+  signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
-	// Connect to stuff
-	mqtt.Connect(serviceName, mqttBroker)
-	db.Connect()
-	defer db.Disconnect()
+  mqtt.Connect(state.ServiceName, state.MqttBroker)
 
-	// TODO: State setter & notifier
-	/*mqtt.Subscribe(topicSet, func(msg string) {
-		fmt.Printf("%s: %s\n", topicSet, msg)
-		// mqtt.PublishOn(topicChange, msg)
-	})*/
+  state.Connect()
+  defer state.Disconnect()
 
-	// Full state provider
-	mqtt.Subscribe(topicGetFullstate, func(msg string) {
-		fmt.Println("RECEIVED: " + topicGetFullstate + ": " + msg)
-		result := db.GetCurrentState()
-		json := json.Encode(result)
-		mqtt.PublishOn(topicProvideFullState, json)
-	})
+  state.InitConfigClient()
 
-	// Keep alive until interrupt is received
-	<-c
+  state.Load(announceFullState)
+
+  listenForIncomingRequests()
+  listenForSetRequests()
+
+  // Keep alive until interrupt is received
+  <-c
+
+  // TODO: DUMP DIRTY DATA!
+  state.SaveDirtyData()
 }
 
-/*func testConnection() {
+func announceFullState() {
+  fmt.Println("Announcing state")
+  stateJson := state.GetJSON()
+  mqtt.PublishOn(state.TopicAnnounce, stateJson)
+}
 
-	// Prepare statement for inserting data
-	stmtIns, err := db.Prepare("INSERT INTO squareNum VALUES( ?, ? )") // ? = placeholder
-	if err != nil {
-		panic(err.Error())
-	}
-	defer stmtIns.Close()
+func listenForSetRequests() {
+  requiredParams := []string{
+    "source",
+    "name",
+    "value",
+  }
 
-	// Insert square numbers for 0-24 in the database
-	for i := 0; i < 25; i++ {
-		_, err = stmtIns.Exec(i, (i * i)) // Insert tuples (i, i^2)
-		if err != nil {
-			panic(err.Error())
-		}
-	}
-}*/
+  mqtt.Subscribe(state.TopicSet, func(msg string) {
+    fmt.Println("SET: " + msg)
+
+    var request map[string]interface{}
+    err := json.Unmarshal([]byte(msg), &request)
+    if err != nil {
+      panic(err.Error())
+    }
+
+    if !state.MapHasAllKeys(request, requiredParams) {
+      fmt.Printf("[WARN] Request must contain these params: %s", requiredParams)
+      return
+    }
+
+    source := request["source"].(string)
+    name := request["name"].(string)
+    value := request["value"].(string)
+
+    state.Set(source, name, value, func() {
+      fmt.Println("[DEBUG] Announcing change")
+      variable := state.GetVariable(source, name)
+      mqtt.PublishOn(state.TopicAnnounce, jsonHelper.Encode(variable))
+    })
+  })
+}
+
+func listenForIncomingRequests() {
+  requiredParams := []string{
+    "source",
+    "name",
+    "responseTopic",
+  }
+
+  mqtt.Subscribe(state.TopicRequest, func(msg string) {
+    fmt.Println("REQUEST: " + msg)
+
+    var request map[string]interface{}
+    err := json.Unmarshal([]byte(msg), &request)
+    if err != nil {
+      panic(err.Error())
+    }
+
+    if !state.MapHasAllKeys(request, requiredParams) {
+      fmt.Printf("[WARN] Request must contain these params: %s", requiredParams)
+      return
+    }
+
+    var stateJson string
+
+    source := request["source"].(string)
+    responseTopic := request["responseTopic"].(string)
+
+    if source == "" {
+      stateJson = state.GetJSON()
+    } else {
+      fmt.Println("WARN: Granular requests not implemented!")
+      return
+    }
+
+    fmt.Println("Sending config to " + responseTopic)
+    mqtt.PublishOn(responseTopic, stateJson)
+  })
+}
