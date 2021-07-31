@@ -257,7 +257,13 @@ RUN echo -e "\n > BUILD CORE MODULES: Fetch dependencies\n" \
  && go build -ldflags "-s -w" src/functions.go \
  \
  && echo -e "\n > BUILD CORE MODULE: incoming\n" \
- && go build -ldflags "-s -w" src/incoming.go
+ && go build -ldflags "-s -w" src/incoming.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: telegram-bot\n" \
+ && go build -ldflags "-s -w" src/telegram-bot.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: free-text-parser\n" \
+ && go build -ldflags "-s -w" src/free-text-parser.go
 
 
 # COPY APP FILES
