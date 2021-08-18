@@ -10,6 +10,7 @@ actionParam: ${PARAMS.mqtt-topic}
 actions:
 
   ${Properties.mqtt-topic}:
+    activity: ${PARAMS.activity}
     battery: ${PARAMS.battery}
     charging: ${PARAMS.charging}
     lux: ${PARAMS.lux}
