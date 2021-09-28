@@ -46,8 +46,10 @@ House.closedDoors:
 
   Resume roborock when opened doors - ${Properties.selfObjectName}:
     if:
-      - this is true
+      - this is false
       - ${Properties.roborock.object}.status in ['Paused','Idle']
+      - ${Properties.roborock.object}.lidOpened is not true
+      - ${Properties.roborock.object}.lidOpened.timeSince < 172800
     run:
       - ${Properties.roborock.object}.resume()
       - SystemNotify.send('Resumed cleaning (All doors opened)')
