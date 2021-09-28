@@ -18,7 +18,7 @@ var TopicAnnounce = strings.Join([]string{ServiceName, "announce"}, "/")
 // CONFIG
 type configType struct {
   value map[string]interface{}
-  json string
+  json  string
   mutex sync.Mutex
 }
 
@@ -28,6 +28,11 @@ var config configType
 var configPath string
 
 // On change callback
-type onChangeCallbackType func(string)
+type onChangeCallbackType func(map[string]interface{})
 
 var onChangeCallback onChangeCallbackType
+
+// On change JSON callback
+type onChangeJsonCallbackType func(string)
+
+var onChangeJsonCallback onChangeJsonCallbackType

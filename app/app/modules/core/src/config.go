@@ -17,7 +17,7 @@ func main() {
   config.SetPath(config.ConfigPath)
 
   // Set publish method
-  config.SetOnChangeCallback(func(configJson string) {
+  config.SetOnChangeJsonCallback(func(configJson string) {
     fmt.Println("Announcing config")
     mqtt.PublishOn(config.TopicAnnounce, configJson)
   })
