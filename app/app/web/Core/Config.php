@@ -37,15 +37,63 @@ class Core_Config {
    */
   private $_safetyCounter = 0;
 
+  private $_cacheFile = [
+    'lock'   => '/tmp/smarthome-config.lock',
+    'config' => '/tmp/smarthome-config.cache',
+  ];
+
   /**
    * Load & import everything on init
    */
   public function __construct(Core_Controller_Base $app) {
-    $this->_app = $app;
-    $this->_loadAll();
-    $this->_processImports();
+    $this->_app  = $app;
+    $isFromCache = false;
+    if ($this->_hasCache()) {
+      $this->_getCache();
+      $isFromCache = !empty($this->_rawConfig);
+    }
+    if (empty($this->_rawConfig)) {
+      $this->_loadAll();
+      $this->_processImports();
+      if (!$isFromCache) {
+        $this->_setCache();
+      }
+    }
     $this->_setRuntimeConstants();
     $this->_processObjects();
+  }
+
+  private function _hasCache() {
+    clearstatcache();
+    if (file_exists($this->_cacheFile['config'])) {
+      while (file_exists($this->_cacheFile['lock'])) {
+        clearstatcache(true, $this->_cacheFile['lock']);
+        sleep(1);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  private function _getCache() {
+    $cache = unserialize(file_get_contents($this->_cacheFile['config']));
+    if (!$cache) {
+      Core_Logger::error(get_class($this) . '::_getCache(): Got no cache from file!');
+      Core_Logger::error(get_class($this) . '::_getCache(): $cache = ' . $cache);
+      return;
+    }
+    $this->_config    = $cache['config'];
+    $this->_rawConfig = $cache['rawConfig'];
+  }
+
+  private function _setCache() {
+    file_put_contents($this->_cacheFile['lock'], '');
+    file_put_contents($this->_cacheFile['config'], serialize([
+      'config'    => $this->_config,
+      'rawConfig' => $this->_rawConfig,
+    ]));
+    unlink($this->_cacheFile['lock']);
+    clearstatcache(true, $this->_cacheFile['lock']);
   }
 
   /**
