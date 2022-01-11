@@ -10,7 +10,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
     'thirdparty/roundslider.min.css',
     'thirdparty/fontawesome.min.css',
     'thirdparty/weather-icons.min.css',
-    'dashboardDev.css',
+    'dashboard.css',
   ];
 
   /**
@@ -28,7 +28,7 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
     'thirdparty/jquery.toast.min.js',
     'thirdparty/roundslider.min.js',
     'thirdparty/paho-mqtt-min.js',
-    'dashboardDev.js',
+    'dashboard.js',
   ];
 
   /**
