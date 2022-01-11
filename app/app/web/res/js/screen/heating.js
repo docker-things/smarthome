@@ -50,6 +50,7 @@ $(document).ready(function() {
   function activateTriggers() {
     setTrigger('Heating', 'presenceMinTemp', function(props) {
       $(".screen.heating .temperatureSlider").data("roundSlider").setValue(props.value);
+      showInfo('Temperature set to: ' + props.value)
     })
     setTrigger('Heating', 'status', function(props) {
       $('.screen.heating > .titleContainer .status').text(props.value);
