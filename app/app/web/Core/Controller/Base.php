@@ -50,7 +50,7 @@ class Core_Controller_Base {
   /**
    * Initialize stuff
    */
-  public function __construct(Core_Controller_Base $app = null) {
+  public function __construct(Core_Controller_Base $app = null, Core_Config $config = null) {
     if (null === $app) {
       $this->_payload = $this->_setPayload();
       $this->_config  = new Core_Config($this);
@@ -58,7 +58,7 @@ class Core_Controller_Base {
       $this->_queue   = new Core_Queue($this);
     } else {
       $this->_payload = $app->getPayload();
-      $this->_config  = $app->getConfig();
+      $this->_config  = null !== $config ? $config : $app->getConfig();
       $this->_state   = $app->getState();
       $this->_queue   = $app->getQueue();
     }

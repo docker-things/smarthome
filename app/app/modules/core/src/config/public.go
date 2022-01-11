@@ -19,6 +19,10 @@ func SetOnChangeCallback(callback onChangeCallbackType) {
   onChangeCallback = callback
 }
 
+func SetOnChangeJsonCallback(callback onChangeJsonCallbackType) {
+  onChangeJsonCallback = callback
+}
+
 func LoopReloadOnChange(interval int) {
   for {
     time.Sleep(time.Duration(interval) * time.Second)
@@ -65,6 +69,9 @@ func setNewConfig(newConfig map[string]interface{}) {
   config.json = json.Encode(config.value)
   config.mutex.Unlock()
   if onChangeCallback != nil {
-    onChangeCallback(config.json)
+    onChangeCallback(newConfig)
+  }
+  if onChangeJsonCallback != nil {
+    onChangeJsonCallback(config.json)
   }
 }

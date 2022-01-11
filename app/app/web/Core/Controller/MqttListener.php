@@ -61,7 +61,7 @@ class Core_Controller_MqttListener extends Core_Controller_Base {
       ], $json);
 
       // Initialize incoming handler
-      $incomingHandler = new Core_Controller_Incoming;
+      $incomingHandler = new Core_Controller_Incoming(null, $this->getConfig());
 
       // Mark functions to run asynchronously
       $incomingHandler->shouldRunFunctionsAsync(true);

@@ -9,11 +9,17 @@ import (
   randomString "../helpers/randomString"
 )
 
-var clientID string
-
+var clientCreated bool
 var gotInitialResponse bool
 
+var clientID string
+
 func CreateClient(serviceName string) {
+  if clientCreated == true {
+    return
+  }
+
+  clientCreated = true
   gotInitialResponse = false
 
   id := randomString.RandomString(16)

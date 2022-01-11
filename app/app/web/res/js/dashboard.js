@@ -137,6 +137,43 @@ function showScreenSlide(screen) {
   }
 }
 
+function showScreenSlideEnclosed(screen) {
+  let offset = howMayScreensAwayIs(screen)
+  if (offset > 0) {
+    for (i = 0; i < offset; i++) {
+      showNextScreenSlide();
+    }
+  } else if (offset < 0) {
+    for (i = 0; i > offset; i--) {
+      showPrevScreenSlide();
+    }
+  } else {
+    console.log('showScreenSlideEnclosed(' + screen + '): Requested current screen?!')
+  }
+}
+
+function howMayScreensAwayIs(screen) {
+  const active = SCREENS.indexOf(ACTIVE_SCREEN)
+
+  let offset = 0
+  while (active + offset != SCREENS.length) {
+    offset++
+    if (SCREENS[active + offset] == screen) {
+      return offset
+    }
+  }
+
+  offset = 0
+  while (active + offset != -1) {
+    offset--
+    if (SCREENS[active + offset] == screen) {
+      return offset
+    }
+  }
+
+  return 0
+}
+
 function showScreenSlideForStaticDashboard(screen) {
   if (screen != getActiveScreen() && DASHBOARD_ROOM != 'NONE') {
     showScreenSlide(screen)
@@ -455,9 +492,9 @@ function touchDragMenu(touch) {
 
 function touchDragTo(touch) {
   // if (touch.mode == 'vertical') {
-  //   touchDragMenu(touch);
+  touchDragMenu(touch);
   // } else {
-  touchDragScreens(touch);
+  //   touchDragScreens(touch);
   // }
 }
 
@@ -565,8 +602,15 @@ function bindOverlayClick() {
 function bindMenuButtons() {
   $('.mainContainer > .menuContainer .screensSelector > div').click(function() {
     const screen = $(this).attr('name');
-    showScreen(screen);
+    showScreenSlideEnclosed(screen);
   })
+}
+
+function bindScreenTitlePress() {
+  $('.mainContainer > .overviewContainer > .screen > .titleContainer > .title')
+    .click(function() {
+      showMenu()
+    });
 }
 
 function bindPrevNextScreenButtons() {
@@ -903,27 +947,34 @@ function preloadImage(url, callback) {
 $(document).ready(function() {
 
   // Do local setup
-  setTriggers();
+  setTriggers()
 
   // Set touch listeners
-  bindMenuButtons();
-  bindScreenTouchEvents();
-  bindScreenScrollEvents();
-  bindPrevNextScreenButtons();
-  bindOverlayClick();
-  bindFullScreenAction();
-  bindActivityMonitor();
+  bindMenuButtons()
+  bindScreenTouchEvents()
+  bindScreenScrollEvents()
+  bindScreenTitlePress()
+  bindPrevNextScreenButtons()
+  bindOverlayClick()
+  bindFullScreenAction()
+  bindActivityMonitor()
 
   // Show the screen
-  createScreenList();
-  showScreen(SCREENS[0]);
+  createScreenList()
+  showScreen(SCREENS[0])
 
   // Window related handlers
-  windowResizeHandler();
+  windowResizeHandler()
 
   // Get full state initially - one time
-  getInitialState();
+  getInitialState()
 
   // Start state listener
-  startStateListener();
+  startStateListener()
+
+  // Menu glimpse
+  setTimeout(function() {
+    showMenu()
+    setTimeout(hideMenu, 400)
+  }, 3000)
 })

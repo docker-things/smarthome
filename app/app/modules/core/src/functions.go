@@ -14,13 +14,6 @@ import (
   // functions "./functions"
 )
 
-/**
- * TODO:
- * - populate a dirty list of maps when changes are made
- * - dump dirty changes to db every 30 seconds
- * - dump dirty changes on sig kill
- */
-
 func main() {
   // // Create channel to monitor interrupt signals
   // c := make(chan os.Signal, 1)

@@ -243,20 +243,28 @@ RUN echo -e "\n > BUILD MODULE: CEC-CLIENT TO MQTT BRIDGE\n" \
 
 COPY app/modules/core /app/modules/core
 
-RUN echo -e "\n > BUILD CORE MODULE: CONFIG\n" \
+RUN echo -e "\n > BUILD CORE MODULES: Fetch dependencies\n" \
  && cd /app/modules/core \
  && go get -d ./... \
+ \
+ && echo -e "\n > BUILD CORE MODULE: config\n" \
  && go build -ldflags "-s -w" src/config.go \
  \
- && echo -e "\n > BUILD CORE MODULE: STATE\n" \
- && cd /app/modules/core \
- && go get -d ./... \
+ && echo -e "\n > BUILD CORE MODULE: state\n" \
  && go build -ldflags "-s -w" src/state.go \
  \
- && echo -e "\n > BUILD CORE MODULE: FUNCTIONS\n" \
- && cd /app/modules/core \
- && go get -d ./... \
- && go build -ldflags "-s -w" src/functions.go
+ && echo -e "\n > BUILD CORE MODULE: functions\n" \
+ && go build -ldflags "-s -w" src/functions.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: incoming\n" \
+ && go build -ldflags "-s -w" src/incoming.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: telegram-bot\n" \
+ && go build -ldflags "-s -w" src/telegram-bot.go \
+ \
+ && echo -e "\n > BUILD CORE MODULE: free-text-parser\n" \
+ && go build -ldflags "-s -w" src/free-text-parser.go
+
 
 # COPY APP FILES
 COPY app/config /app/config

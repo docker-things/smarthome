@@ -39,24 +39,6 @@ ${Properties.selfObjectName}.noPresenceMinTemp:
     run:
       - ${Properties.selfObjectName}.auto()
 
-# WINDOWS
-
-House.openWindows:
-
-  Opening windows - ${Properties.selfObjectName}:
-    if:
-      - this is true
-      - ${Properties.selfObjectName}.status is not off
-    run:
-      - ${Properties.selfObjectName}.off()
-      - SystemNotify.send('${Properties.selfObjectName} OFF (Opened windows)')
-
-  Closing windows - ${Properties.selfObjectName}:
-    if:
-      - this is false
-    run:
-      - ${Properties.selfObjectName}.auto()
-
 # PRESENCE
 
 House.presence:
