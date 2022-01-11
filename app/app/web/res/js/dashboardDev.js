@@ -138,9 +138,7 @@ function showScreenSlide(screen) {
 }
 
 function showScreenSlideEnclosed(screen) {
-  console.log('showScreenSlideEnclosed(' + screen + ')')
   let offset = howMayScreensAwayIs(screen)
-  console.log('showScreenSlideEnclosed(' + screen + '): offset = ' + offset)
   if (offset > 0) {
     for (i = 0; i < offset; i++) {
       showNextScreenSlide();
