@@ -45,10 +45,10 @@ abstract class UI_Controller_Screen_Base {
     $html[] = '<div class="screen ' . $this->class . '" name="' . $this->class . '">';
     $html[] = '<div class="backgroundImage"></div>';
     $html[] = '<div class="titleContainer">';
-    $html[] = '<div class="prevButton">&lt;</div>';
+    // $html[] = '<div class="prevButton">&lt;</div>';
     $html[] = '<div class="title">' . $this->name . '</div>';
     $html[] = '<div class="status"></div>';
-    $html[] = '<div class="nextButton">&gt;</div>';
+    // $html[] = '<div class="nextButton">&gt;</div>';
     $html[] = '</div>';
     $html[] = '<div class="container">';
     $html   = array_merge($html, $this->setHTML());

@@ -70,7 +70,7 @@ class UI_Controller_ScreenDev_Create {
   public function verticalRoundButton($class, $name, $hiddenName = '') {
     return implode([
       '<div class="verticalRoundButton ' . $class . '" name="' . $hiddenName . '">',
-      '<div class="icon"></div>',
+      '<div class="icon" style="background-image:url(/res/img/screen/' . $class . '/menu-icon.png);"></div>',
       '<div class="name">' . $name . '</div>',
       '</div>',
     ]);

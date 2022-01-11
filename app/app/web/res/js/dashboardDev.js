@@ -137,6 +137,45 @@ function showScreenSlide(screen) {
   }
 }
 
+function showScreenSlideEnclosed(screen) {
+  console.log('showScreenSlideEnclosed(' + screen + ')')
+  let offset = howMayScreensAwayIs(screen)
+  console.log('showScreenSlideEnclosed(' + screen + '): offset = ' + offset)
+  if (offset > 0) {
+    for (i = 0; i < offset; i++) {
+      showNextScreenSlide();
+    }
+  } else if (offset < 0) {
+    for (i = 0; i > offset; i--) {
+      showPrevScreenSlide();
+    }
+  } else {
+    console.log('showScreenSlideEnclosed(' + screen + '): Requested current screen?!')
+  }
+}
+
+function howMayScreensAwayIs(screen) {
+  const active = SCREENS.indexOf(ACTIVE_SCREEN)
+
+  let offset = 0
+  while (active + offset != SCREENS.length) {
+    offset++
+    if (SCREENS[active + offset] == screen) {
+      return offset
+    }
+  }
+
+  offset = 0
+  while (active + offset != -1) {
+    offset--
+    if (SCREENS[active + offset] == screen) {
+      return offset
+    }
+  }
+
+  return 0
+}
+
 function showScreenSlideForStaticDashboard(screen) {
   if (screen != getActiveScreen() && DASHBOARD_ROOM != 'NONE') {
     showScreenSlide(screen)
@@ -455,9 +494,9 @@ function touchDragMenu(touch) {
 
 function touchDragTo(touch) {
   // if (touch.mode == 'vertical') {
-  //   touchDragMenu(touch);
+  touchDragMenu(touch);
   // } else {
-  touchDragScreens(touch);
+  //   touchDragScreens(touch);
   // }
 }
 
@@ -565,7 +604,7 @@ function bindOverlayClick() {
 function bindMenuButtons() {
   $('.mainContainer > .menuContainer .screensSelector > div').click(function() {
     const screen = $(this).attr('name');
-    showScreen(screen);
+    showScreenSlideEnclosed(screen);
   })
 }
 
@@ -926,4 +965,10 @@ $(document).ready(function() {
 
   // Start state listener
   startStateListener();
+
+  // Menu glimpse
+  setTimeout(function() {
+    showMenu()
+    setTimeout(hideMenu, 400)
+  }, 3000)
 })

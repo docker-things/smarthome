@@ -3,6 +3,7 @@
 echo ' > app/web/UI/Controller/Dashboard.php'
 rm -f app/web/UI/Controller/Dashboard.php
 cp app/web/UI/Controller/DashboardDev.php app/web/UI/Controller/Dashboard.php
+sed -i 's/Dev\./\./g' app/web/UI/Controller/Dashboard.php
 sed -i 's/Dev\_/\_/g' app/web/UI/Controller/Dashboard.php
 sed -i 's/Dev extends/ extends/g' app/web/UI/Controller/Dashboard.php
 

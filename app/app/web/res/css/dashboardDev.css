@@ -101,7 +101,7 @@ body {
 }
 .mainContainer>.overlay.visible {
   top: 0;
-  opacity: 0.25;
+  opacity: 0.5;
 }
 /* MENU */
 
@@ -121,6 +121,7 @@ body {
 }
 .mainContainer>.menuContainer.visible {
   box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid #333333;
 }
 .mainContainer>.menuContainer .menuTitle {
   font-size: 1.5rem;
@@ -382,4 +383,73 @@ body {
   align-items: center;
   font-size: 1.25rem;
   margin: 1.5rem 3rem;
+}
+.verticalRoundButton .icon {
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 0.5rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+/* NARROW RES */
+
+@media (max-width: 800px) {
+  .verticalStatus {
+    min-width: 9rem;
+  }
+  .verticalRoundButton {
+    margin: 1.5rem 2rem;
+  }
+  .verticalRoundButton .icon {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 0.5;
+  }
+}
+@media (max-width: 650px) {
+  .verticalStatus {
+    min-width: 8rem;
+  }
+  .verticalRoundButton {
+    margin: 1.5rem 1.5rem;
+  }
+  .verticalRoundButton .icon {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 0.5;
+  }
+}
+@media (max-width: 576px) {
+  .verticalStatus {
+    min-width: 6.5rem;
+  }
+  .verticalRoundButton {
+    margin: 1.5rem 1rem;
+    font-size: 1rem;
+  }
+  .verticalRoundButton .icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.25rem;
+  }
+}
+@media (max-width: 450px) {
+  .verticalStatus {
+    min-width: 5.5rem;
+  }
+  .verticalRoundButton {
+    margin: 1.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}
+@media (max-width: 365px) {
+  .verticalStatus {
+    min-width: 4.5em;
+  }
+  .verticalRoundButton {
+    margin: 1.5rem 0.5rem;
+    font-size: 0.5rem;
+  }
 }

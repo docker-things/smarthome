@@ -43,9 +43,9 @@ class UI_Controller_Dashboard extends Core_Controller_Base {
   private $screens = [
     'Main',
     'Roborock',
+    'Heating',
     'Audio',
     'NowPlaying',
-    'Heating',
     // 'Sleeping',
     // 'Overview',
   ];
