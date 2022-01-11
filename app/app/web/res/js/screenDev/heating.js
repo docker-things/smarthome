@@ -34,10 +34,10 @@ $(document).ready(function() {
         const maxTemp = minTemp + 0.25;
         setState('Heating', 'presenceMinTemp', minTemp); // 22
         setState('Heating', 'presenceMaxTemp', maxTemp); // 22.25
-        setState('Heating', 'sleepingMinTemp', minTemp - 4); // 18
-        setState('Heating', 'sleepingMaxTemp', maxTemp - 4); // 18.25
-        setState('Heating', 'noPresenceMinTemp', minTemp - 7); // 15
-        setState('Heating', 'noPresenceMaxTemp', maxTemp - 7); // 15.25
+        setState('Heating', 'sleepingMinTemp', minTemp - 2); // 20
+        setState('Heating', 'sleepingMaxTemp', maxTemp - 2); // 20.25
+        setState('Heating', 'noPresenceMinTemp', minTemp - 4); // 18
+        setState('Heating', 'noPresenceMaxTemp', maxTemp - 4); // 18.25
       }
     });
 
