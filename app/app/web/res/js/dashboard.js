@@ -608,6 +608,13 @@ function bindMenuButtons() {
   })
 }
 
+function bindScreenTitlePress() {
+  $('.mainContainer > .overviewContainer > .screen > .titleContainer > .title')
+    .click(function() {
+      showMenu()
+    });
+}
+
 function bindPrevNextScreenButtons() {
   $('.mainContainer > .overviewContainer > .screen > .titleContainer .prevButton')
     .click(function() {
@@ -942,29 +949,30 @@ function preloadImage(url, callback) {
 $(document).ready(function() {
 
   // Do local setup
-  setTriggers();
+  setTriggers()
 
   // Set touch listeners
-  bindMenuButtons();
-  bindScreenTouchEvents();
-  bindScreenScrollEvents();
-  bindPrevNextScreenButtons();
-  bindOverlayClick();
-  bindFullScreenAction();
-  bindActivityMonitor();
+  bindMenuButtons()
+  bindScreenTouchEvents()
+  bindScreenScrollEvents()
+  bindScreenTitlePress()
+  bindPrevNextScreenButtons()
+  bindOverlayClick()
+  bindFullScreenAction()
+  bindActivityMonitor()
 
   // Show the screen
-  createScreenList();
-  showScreen(SCREENS[0]);
+  createScreenList()
+  showScreen(SCREENS[0])
 
   // Window related handlers
-  windowResizeHandler();
+  windowResizeHandler()
 
   // Get full state initially - one time
-  getInitialState();
+  getInitialState()
 
   // Start state listener
-  startStateListener();
+  startStateListener()
 
   // Menu glimpse
   setTimeout(function() {
