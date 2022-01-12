@@ -439,6 +439,8 @@ function touchDragScreens(touch) {
   }
 }
 
+var MENU_HIDE_HANDLE
+
 function showMenu() {
   markActivity();
   const menu = $('.mainContainer .menuContainer')
@@ -447,6 +449,9 @@ function showMenu() {
     top: 0,
   })
   $('.mainContainer > .overlay').addClass('visible')
+
+  cancelHideMenuTimeout()
+  MENU_HIDE_HANDLE = setTimeout(hideMenu, 30000);
 }
 
 function hideMenu() {
@@ -458,6 +463,14 @@ function hideMenu() {
   })
   menu.removeClass('visible')
   $('.mainContainer > .overlay').removeClass('visible')
+  cancelHideMenuTimeout()
+}
+
+function cancelHideMenuTimeout() {
+  if (MENU_HIDE_HANDLE) {
+    clearTimeout(MENU_HIDE_HANDLE);
+    MENU_HIDE_HANDLE = false;
+  }
 }
 
 function touchDragMenu(touch) {
