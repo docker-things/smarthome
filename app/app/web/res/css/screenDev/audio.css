@@ -162,7 +162,7 @@
   font-size: 1.7em;
 }
 .screen.audio #showSnapControl .delete-icon {
-  color: #ff4081;
+  color: #f19e00;
   text-decoration: none;
 }
 .screen.audio #showSnapControl .edit-icons {
@@ -222,14 +222,14 @@
   height: 12px;
   width: 12px;
   border-radius: 50%;
-  background: #ff4081;
+  background: #f19e00;
   cursor: pointer;
 }
 .screen.audio #showSnapControl .slider::-moz-range-thumb {
   height: 1.5em;
   width: 1.5em;
   border-radius: 50%;
-  background: #ff4081;
+  background: #f19e00;
   cursor: pointer;
 }
 .screen.audio #showSnapControl .slider.muted {
