@@ -15,6 +15,7 @@ $(document).ready(function() {
 
       min: 15,
       max: 30,
+      step: 0.5,
       value: 15,
 
       handleSize: '+40',
@@ -41,10 +42,10 @@ $(document).ready(function() {
       }
     });
 
-    sliderObject
-      .bind('touchstart', preventTouchDrag)
-      .bind('touchend', restoreTouchDrag)
-      .bind('touchcancel', restoreTouchDrag)
+    // sliderObject
+    //   .bind('touchstart', preventTouchDrag)
+    //   .bind('touchend', restoreTouchDrag)
+    //   .bind('touchcancel', restoreTouchDrag)
   }
 
   function activateTriggers() {

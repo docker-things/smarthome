@@ -208,6 +208,16 @@ body {
   color: grey;
   text-transform: capitalize;
 }
+.mainContainer>.overviewContainer>.screen>.menuButton {
+  position: absolute;
+  top: 1%;
+  left: 1%;
+  background: url('/res/img/icons/menu.png');
+  width: 64px;
+  height: 64px;
+  opacity: .5;
+  z-index: 8999;
+}
 .mainContainer>.overviewContainer>.screen>.titleContainer .prevButton,
 .mainContainer>.overviewContainer>.screen>.titleContainer .nextButton {
   position: absolute;
@@ -216,7 +226,8 @@ body {
   height: 4rem;
   font-size: 2rem;
   color: #999;
-  display: flex;
+  display: none;
+  /*display: flex;*/
   justify-content: center;
   flex-direction: row;
   align-items: center;
