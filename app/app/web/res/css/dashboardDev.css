@@ -215,7 +215,7 @@ body {
   background: url('/res/img/icons/menu.png');
   width: 64px;
   height: 64px;
-  opacity: .5;
+  opacity: .35;
   z-index: 8999;
 }
 .mainContainer>.overviewContainer>.screen>.titleContainer .prevButton,
