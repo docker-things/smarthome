@@ -399,13 +399,13 @@ function touchDragScreens(touch) {
     getNextScreenObject().css(SCREEN_TRANSITION_DISABLED)
   }
   touch.prevScreen.css({
-    left: touch.delta.x - $(window).width(),
+    left: touch.delta.x - $(window).width() - 10,
   });
   touch.activeScreen.css({
     left: touch.delta.x,
   });
   touch.nextScreen.css({
-    left: $(window).width() + touch.delta.x,
+    left: $(window).width() + touch.delta.x + 10,
   });
 
   // let scale = 1 - Math.abs(touch.delta.x) / $(window).height()
@@ -617,6 +617,13 @@ function bindMenuButtons() {
     const screen = $(this).attr('name');
     showScreenSlideEnclosed(screen);
   })
+}
+
+function bindMenuButton() {
+  $('.mainContainer > .overviewContainer > .screen > .menuButton')
+    .click(function() {
+      showMenu()
+    });
 }
 
 function bindScreenTitlePress() {
@@ -963,9 +970,10 @@ $(document).ready(function() {
   setTriggers()
 
   // Set touch listeners
+  bindMenuButton()
   bindMenuButtons()
-  bindScreenTouchEvents()
-  bindScreenScrollEvents()
+  // bindScreenTouchEvents()
+  // bindScreenScrollEvents()
   bindScreenTitlePress()
   bindPrevNextScreenButtons()
   bindOverlayClick()
@@ -989,5 +997,5 @@ $(document).ready(function() {
   setTimeout(function() {
     showMenu()
     setTimeout(hideMenu, 400)
-  }, 3000)
+  }, 500)
 })
