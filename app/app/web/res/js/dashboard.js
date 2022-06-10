@@ -336,17 +336,32 @@ function hideScreenBackground(screenClass) {
 
 function setLightTheme() {
   $('.mainContainer').removeClass('darkMode');
-  $(".mainContainer").css('opacity', 1);
+  setBrightness(100);
 }
 
 function setBrightDarkTheme() {
   $('.mainContainer').addClass('darkMode');
-  $(".mainContainer").css('opacity', 1);
+  setBrightness(100);
 }
 
 function setDimDarkTheme() {
   $('.mainContainer').addClass('darkMode');
-  $(".mainContainer").css('opacity', 0.25);
+  setBrightness(25);
+}
+
+function setDimmestDarkTheme() {
+  $('.mainContainer').addClass('darkMode');
+  setBrightness(2);
+}
+
+function setBrightness(brightness) {
+  if (DASHBOARD_DEVICE != 'NONE') {
+    message = new Paho.MQTT.Message("" + Math.floor(brightness / 2));
+    message.destinationName = "dashboard/" + DASHBOARD_DEVICE + "/setBrightness";
+    MQTT_CLIENT.send(message);
+  } else {
+    $(".mainContainer").css('opacity', (brightness / 100));
+  }
 }
 
 function autoTheme() {
@@ -355,7 +370,7 @@ function autoTheme() {
     // If sleeping
     const sleeping = getStateValue(DASHBOARD_ROOM, 'sleeping') == 'true';
     if (sleeping) {
-      setDimDarkTheme();
+      setDimmestDarkTheme();
       return;
     }
 

@@ -2,11 +2,22 @@
 
 # How to recognize the request
 recognize-by-comparing:
+
   - ${PARAMS.event}: media.play
+    ${PARAMS.Player.local}: 'true'
+
   - ${PARAMS.event}: media.resume
+    ${PARAMS.Player.local}: 'true'
+
   - ${PARAMS.event}: media.stop
+    ${PARAMS.Player.local}: 'true'
+
   - ${PARAMS.event}: media.pause
+    ${PARAMS.Player.local}: 'true'
+
   - ${PARAMS.event}: media.scrobble
+    ${PARAMS.Player.local}: 'true'
+
 
 # Take the action param from the event param
 actionParam: ${PARAMS.event}

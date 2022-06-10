@@ -4,7 +4,9 @@
 
 ${Properties.selfObjectName}.illuminance-1:
   Set main variable - ${Properties.selfObjectName}:
-    if: this <= this.illuminance-2
+    if:
+      - this <= this.illuminance-2
+      - ${Properties.light-sensor} != NONE
     set:
       illuminance: this.illuminance-1
 
@@ -49,7 +51,9 @@ ${Properties.selfObjectName}.voltage-1:
 
 ${Properties.selfObjectName}.illuminance-2:
   Set main variable - ${Properties.selfObjectName}:
-    if: this <= this.illuminance-1
+    if:
+      - this <= this.illuminance-1
+      - ${Properties.light-sensor} != NONE
     set:
       illuminance: this.illuminance-2
 
@@ -75,7 +79,6 @@ ${Properties.selfObjectName}.battery-2:
     if: this <= this.battery-1
     set:
       battery: this.battery-2
----
 
 ${Properties.selfObjectName}.battery:
   Low battery - ${Properties.selfObjectName}:
@@ -91,3 +94,10 @@ ${Properties.selfObjectName}.voltage-2:
     if: this <= this.voltage-1
     set:
       voltage: this.voltage-2
+
+# LIGHT SENSOR
+
+${Properties.light-sensor}.illuminance_lux:
+  Sync illuminance - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.illuminance: ${Properties.light-sensor}.illuminance_lux

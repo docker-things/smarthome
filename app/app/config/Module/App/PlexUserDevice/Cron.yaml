@@ -1,0 +1,11 @@
+---
+
+jobs:
+
+  # Delayed status
+  - interval: 1
+    if:
+      - ${Properties.selfObjectName}.status != ${Properties.selfObjectName}.statusDelayed
+      - ${Properties.selfObjectName}.status.timeSince >= 5
+    set:
+      ${Properties.selfObjectName}.statusDelayed: ${Properties.selfObjectName}.status

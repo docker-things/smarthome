@@ -2,3 +2,4 @@
 
 mqtt-topic-1: !required
 mqtt-topic-2: !required
+light-sensor: NONE

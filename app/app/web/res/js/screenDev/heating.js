@@ -59,7 +59,7 @@ $(document).ready(function() {
         showScreenSlideForStaticDashboard('heating');
       }
     })
-    setTrigger('Bedroom-Temperature', 'temperature', function(props) {
+    setTrigger('Livingroom-Temperature', 'temperature', function(props) {
       const value = Math.round(parseFloat(props.value) * 10) / 10;
       $('.screen.heating .top .bedroom .value').text(value);
     })

@@ -8,8 +8,3 @@ ${Properties.selfObjectName}.battery:
     run:
       - SystemWarn.send('${Properties.selfObjectName} has this.battery% battery left!')
       - SystemNotify.send('${Properties.selfObjectName} has this.battery% battery left!')
-
-${Properties.light-sensor}.illuminance_lux:
-  Sync illuminance - ${Properties.selfObjectName}:
-    set:
-      ${Properties.selfObjectName}.illuminance: ${Properties.light-sensor}.illuminance_lux
