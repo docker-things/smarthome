@@ -1,0 +1,13 @@
+---
+
+id: !required
+stream-1: NONE
+stream-2: NONE
+stream-3: NONE
+speaker-1: NONE
+speaker-2: NONE
+speaker-3: NONE
+speaker-4: NONE
+speaker-5: NONE
+nightVolume: NONE
+dayVolume: NONE

@@ -81,6 +81,7 @@ services:
       - MYSQL_USER=$MYSQL_USER
       - MYSQL_HOST=$MYSQL_HOST
       - APP_ENV=$APP_ENV
+      - HOST_IP=$HOST_IP
 
     # deploy:
     #   resources:

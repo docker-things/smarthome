@@ -1,0 +1,50 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.params.id}: ${Properties.id}
+
+# Take the action param from the event param
+actionParam: ${PARAMS.method}
+
+# Known actions and what variables are set by them
+actions:
+  Client.OnConnect:
+    name: ${PARAMS.params.client.config.name}
+    latency: ${PARAMS.params.client.config.latency}
+    muted: ${PARAMS.params.client.config.volume.muted}
+    volume: ${PARAMS.params.client.config.volume.percent}
+    connected: ${PARAMS.params.client.connected}
+    host_arch: ${PARAMS.params.client.host.arch}
+    host_ip: ${PARAMS.params.client.host.ip}
+    host_mac: ${PARAMS.params.client.host.mac}
+    host_name: ${PARAMS.params.client.host.name}
+    host_os: ${PARAMS.params.client.host.os}
+    snapclient_name: ${PARAMS.params.client.snapclient.name}
+    snapclient_protocolVersion: ${PARAMS.params.client.snapclient.protocolVersion}
+    snapclient_version: ${PARAMS.params.client.snapclient.version}
+
+  Client.OnDisconnect:
+    name: ${PARAMS.params.client.config.name}
+    latency: ${PARAMS.params.client.config.latency}
+    muted: ${PARAMS.params.client.config.volume.muted}
+    volume: ${PARAMS.params.client.config.volume.percent}
+    connected: ${PARAMS.params.client.connected}
+    host_arch: ${PARAMS.params.client.host.arch}
+    host_ip: ${PARAMS.params.client.host.ip}
+    host_mac: ${PARAMS.params.client.host.mac}
+    host_name: ${PARAMS.params.client.host.name}
+    host_os: ${PARAMS.params.client.host.os}
+    snapclient_name: ${PARAMS.params.client.snapclient.name}
+    snapclient_protocolVersion: ${PARAMS.params.client.snapclient.protocolVersion}
+    snapclient_version: ${PARAMS.params.client.snapclient.version}
+
+  Client.OnVolumeChanged:
+    muted: ${PARAMS.params.volume.muted}
+    volume: ${PARAMS.params.volume.percent}
+
+  Client.OnLatencyChanged:
+    latency: ${PARAMS.params.latency}
+
+  Client.OnNameChanged:
+    name: ${PARAMS.params.name}

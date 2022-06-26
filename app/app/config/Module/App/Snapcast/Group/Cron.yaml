@@ -1,0 +1,13 @@
+---
+
+jobs:
+
+  # Loud during quiet hours?
+  - interval: 29
+    if:
+      - ${Properties.nightVolume} is not NONE
+      - System.hour in ['22','23','0','1','2','3','4','5','6','7']
+      - ${Properties.selfObjectName}.volume > ${Properties.nightVolume}
+    run:
+      - ${Properties.selfObjectName}.setVolume('${Properties.nightVolume}')
+      - SystemNotify.send('${Properties.selfObjectName} Set volume to ${Properties.nightVolume} (Quiet hours)')
