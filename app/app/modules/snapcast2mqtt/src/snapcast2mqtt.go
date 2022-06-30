@@ -48,7 +48,7 @@ func initWebSocketClient() {
       _, message, err := ws.ReadMessage()
       if err != nil {
         fmt.Println("[ERROR] Reading WebSocket message:", err)
-        return
+        os.Exit(1)
       }
       onWebSocketMessage(message)
     }
