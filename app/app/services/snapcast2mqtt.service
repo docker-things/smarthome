@@ -1,0 +1,21 @@
+#!/bin/ash
+
+while [ 1 = 1 ]; do
+  if [ "$APP_ENV" == "dev" ]; then
+    clear
+
+    echo " > Building..."
+    cd /app/modules
+    go get -d ./... && \
+    go build -ldflags "-s -w" src/snapcast2mqtt.go && \
+      /app/modules/snapcast2mqtt/snapcast2mqtt
+
+    echo " > Hit ENTER!"
+    read
+  else
+    /app/modules/snapcast2mqtt/snapcast2mqtt
+
+    echo " > Service stopped, restarting in 5 seconds..."
+    sleep 5s
+  fi
+done

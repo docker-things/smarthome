@@ -1,0 +1,53 @@
+--- # Do stuff when certain variables are changed
+
+${Properties.selfObjectName}.connected:
+  Connected - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.selfObjectName}.volume is not 0
+      - ${Properties.selfObjectName}.muted is not true
+    set:
+      ${Properties.selfObjectName}.status: 'on'
+
+  Disconnected - ${Properties.selfObjectName}:
+    if: this is false
+    set:
+      ${Properties.selfObjectName}.status: 'off'
+
+${Properties.selfObjectName}.volume:
+  Got volume - ${Properties.selfObjectName}:
+    if:
+      - this is not 0
+      - ${Properties.selfObjectName}.connected is not false
+      - ${Properties.selfObjectName}.muted is false
+    set:
+      ${Properties.selfObjectName}.status: 'on'
+
+  No volume - ${Properties.selfObjectName}:
+    if: this is 0
+    set:
+      ${Properties.selfObjectName}.status: 'off'
+
+${Properties.selfObjectName}.muted:
+  Unmuted - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.selfObjectName}.connected is not false
+      - ${Properties.selfObjectName}.volume is not 0
+    set:
+      ${Properties.selfObjectName}.status: 'on'
+
+  Muted - ${Properties.selfObjectName}:
+    if: this is true
+    set:
+      ${Properties.selfObjectName}.status: 'off'
+
+System.time:
+  Unmute at day time - ${Properties.selfObjectName}:
+    if:
+      - this is '08:00'
+      - ${Properties.muteAtNight} is true
+      - ${Properties.selfObjectName}.muted is true
+    run:
+      - ${Properties.selfObjectName}.unmute()
+      - SystemNotify.send('${Properties.selfObjectName} UNMUTE (Loud hours)')

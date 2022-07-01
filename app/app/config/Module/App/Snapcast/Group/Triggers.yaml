@@ -1,0 +1,305 @@
+--- # Do stuff when certain variables are changed
+
+${Properties.stream-1}.status:
+  Playing - ${Properties.selfObjectName}:
+    if: this is playing
+    set:
+      ${Properties.selfObjectName}.playing: 'true'
+
+  Idle - ${Properties.selfObjectName}:
+    if: this is idle
+    set:
+      ${Properties.selfObjectName}.playing: 'false'
+
+${Properties.stream-2}.status:
+  Playing - ${Properties.selfObjectName}:
+    if: this is playing
+    set:
+      ${Properties.selfObjectName}.playing: 'true'
+
+  Idle - ${Properties.selfObjectName}:
+    if: this is idle
+    set:
+      ${Properties.selfObjectName}.playing: 'false'
+
+${Properties.stream-3}.status:
+  Playing - ${Properties.selfObjectName}:
+    if: this is playing
+    set:
+      ${Properties.selfObjectName}.playing: 'true'
+
+  Idle - ${Properties.selfObjectName}:
+    if: this is idle
+    set:
+      ${Properties.selfObjectName}.playing: 'false'
+
+${Properties.speaker-1}.volume:
+  Changed volume - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.volume: ${Properties.speaker-1}.volume
+
+${Properties.speaker-2}.volume:
+  Changed volume - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.volume: ${Properties.speaker-2}.volume
+
+${Properties.speaker-3}.volume:
+  Changed volume - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.volume: ${Properties.speaker-3}.volume
+
+${Properties.speaker-4}.volume:
+  Changed volume - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.volume: ${Properties.speaker-4}.volume
+
+${Properties.speaker-5}.volume:
+  Changed volume - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.volume: ${Properties.speaker-5}.volume
+
+${Properties.selfObjectName}.muted:
+  Unmuted - ${Properties.selfObjectName}:
+    if: this is false
+    set:
+      status: 'on'
+    run:
+      - SystemNotify.send('${Properties.selfObjectName} unmuted')
+
+  Muted - ${Properties.selfObjectName}:
+    if: this is true
+    set:
+      status: 'off'
+    run:
+      - SystemNotify.send('${Properties.selfObjectName} muted')
+
+  Sync with sockets - OFF - ${Properties.selfObjectName}:
+    if:
+      - this is true
+    run:
+      - ${Properties.speaker-1-socket}.off()
+      - ${Properties.speaker-2-socket}.off()
+      - ${Properties.speaker-3-socket}.off()
+      - ${Properties.speaker-4-socket}.off()
+      - ${Properties.speaker-5-socket}.off()
+      - SystemNotify.send('All speaker sockets OFF (${Properties.selfObjectName} muted)')
+
+  Sync with ${Properties.speaker-1} - ON - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.speaker-1-socket}.status is off
+      - ${Properties.speaker-1}.status is on
+      - ${Properties.selfObjectName}.playing is true
+    run:
+      - ${Properties.speaker-1-socket}.on()
+      - SystemNotify.send('${Properties.speaker-1-socket} ON (${Properties.selfObjectName} unmuted)')
+
+  Sync with ${Properties.speaker-2} - ON - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.speaker-2-socket}.status is off
+      - ${Properties.speaker-2}.status is on
+      - ${Properties.selfObjectName}.playing is true
+    run:
+      - ${Properties.speaker-2-socket}.on()
+      - SystemNotify.send('${Properties.speaker-2-socket} ON (${Properties.selfObjectName} unmuted)')
+
+  Sync with ${Properties.speaker-3} - ON - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.speaker-3-socket}.status is off
+      - ${Properties.speaker-3}.status is on
+      - ${Properties.selfObjectName}.playing is true
+    run:
+      - ${Properties.speaker-3-socket}.on()
+      - SystemNotify.send('${Properties.speaker-3-socket} ON (${Properties.selfObjectName} unmuted)')
+
+  Sync with ${Properties.speaker-4} - ON - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.speaker-4-socket}.status is off
+      - ${Properties.speaker-4}.status is on
+      - ${Properties.selfObjectName}.playing is true
+    run:
+      - ${Properties.speaker-4-socket}.on()
+      - SystemNotify.send('${Properties.speaker-4-socket} ON (${Properties.selfObjectName} unmuted)')
+
+  Sync with ${Properties.speaker-5} - ON - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.speaker-5-socket}.status is off
+      - ${Properties.speaker-5}.status is on
+      - ${Properties.selfObjectName}.playing is true
+    run:
+      - ${Properties.speaker-5-socket}.on()
+      - SystemNotify.send('${Properties.speaker-5-socket} ON (${Properties.selfObjectName} unmuted)')
+
+System.time:
+
+  Increase volume at day time - ${Properties.selfObjectName}:
+    if:
+      - this is '08:00'
+      - ${Properties.dayVolume} is not NONE
+      - ${Properties.selfObjectName}.volume < ${Properties.dayVolume}
+    run:
+      - ${Properties.selfObjectName}.setVolume('${Properties.dayVolume}')
+      - SystemNotify.send('${Properties.selfObjectName} Set volume to ${Properties.dayVolume} (Loud hours)')
+
+# SOCKETS
+
+${Properties.speaker-1}.status:
+  Sync with socket - OFF - ${Properties.speaker-1} - ${Properties.selfObjectName}:
+    if:
+      - this is off
+      - ${Properties.speaker-1-socket}.status is on
+    run:
+      - ${Properties.speaker-1-socket}.off()
+      - SystemNotify.send('${Properties.speaker-1-socket} OFF (${Properties.speaker-1} OFF)')
+
+  Sync with socket - ON - ${Properties.speaker-1} - ${Properties.selfObjectName}:
+    if:
+      - this is on
+      - ${Properties.speaker-1-socket}.status is off
+      - ${Properties.selfObjectName}.playing is true
+      - ${Properties.selfObjectName}.muted is false
+    run:
+      - ${Properties.speaker-1-socket}.on()
+      - SystemNotify.send('${Properties.speaker-1-socket} ON (${Properties.speaker-1} ON)')
+
+${Properties.speaker-2}.status:
+  Sync with socket - OFF - ${Properties.speaker-2} - ${Properties.selfObjectName}:
+    if:
+      - this is off
+      - ${Properties.speaker-2-socket}.status is on
+    run:
+      - ${Properties.speaker-2-socket}.off()
+      - SystemNotify.send('${Properties.speaker-2-socket} OFF (${Properties.speaker-2} OFF)')
+
+  Sync with socket - ON - ${Properties.speaker-2} - ${Properties.selfObjectName}:
+    if:
+      - this is on
+      - ${Properties.speaker-2-socket}.status is off
+      - ${Properties.selfObjectName}.playing is true
+      - ${Properties.selfObjectName}.muted is false
+    run:
+      - ${Properties.speaker-2-socket}.on()
+      - SystemNotify.send('${Properties.speaker-2-socket} ON (${Properties.speaker-2} ON)')
+
+${Properties.speaker-3}.status:
+  Sync with socket - OFF - ${Properties.speaker-3} - ${Properties.selfObjectName}:
+    if:
+      - this is off
+      - ${Properties.speaker-3-socket}.status is on
+    run:
+      - ${Properties.speaker-3-socket}.off()
+      - SystemNotify.send('${Properties.speaker-3-socket} OFF (${Properties.speaker-3} OFF)')
+
+  Sync with socket - ON - ${Properties.speaker-3} - ${Properties.selfObjectName}:
+    if:
+      - this is on
+      - ${Properties.speaker-3-socket}.status is off
+      - ${Properties.selfObjectName}.playing is true
+      - ${Properties.selfObjectName}.muted is false
+    run:
+      - ${Properties.speaker-3-socket}.on()
+      - SystemNotify.send('${Properties.speaker-3-socket} ON (${Properties.speaker-3} ON)')
+
+${Properties.speaker-4}.status:
+  Sync with socket - OFF - ${Properties.speaker-4} - ${Properties.selfObjectName}:
+    if:
+      - this is off
+      - ${Properties.speaker-4-socket}.status is on
+    run:
+      - ${Properties.speaker-4-socket}.off()
+      - SystemNotify.send('${Properties.speaker-4-socket} OFF (${Properties.speaker-4} OFF)')
+
+  Sync with socket - ON - ${Properties.speaker-4} - ${Properties.selfObjectName}:
+    if:
+      - this is on
+      - ${Properties.speaker-4-socket}.status is off
+      - ${Properties.selfObjectName}.playing is true
+      - ${Properties.selfObjectName}.muted is false
+    run:
+      - ${Properties.speaker-4-socket}.on()
+      - SystemNotify.send('${Properties.speaker-4-socket} ON (${Properties.speaker-4} ON)')
+
+${Properties.speaker-5}.status:
+  Sync with socket - OFF - ${Properties.speaker-5} - ${Properties.selfObjectName}:
+    if:
+      - this is off
+      - ${Properties.speaker-5-socket}.status is on
+    run:
+      - ${Properties.speaker-5-socket}.off()
+      - SystemNotify.send('${Properties.speaker-5-socket} OFF (${Properties.speaker-5} OFF)')
+
+  Sync with socket - ON - ${Properties.speaker-5} - ${Properties.selfObjectName}:
+    if:
+      - this is on
+      - ${Properties.speaker-5-socket}.status is off
+      - ${Properties.selfObjectName}.playing is true
+      - ${Properties.selfObjectName}.muted is false
+    run:
+      - ${Properties.speaker-5-socket}.on()
+      - SystemNotify.send('${Properties.speaker-5-socket} ON (${Properties.speaker-5} ON)')
+
+${Properties.selfObjectName}.playing:
+  Sync with sockets - OFF - ${Properties.selfObjectName}:
+    if:
+      - this is false
+    run:
+      - ${Properties.speaker-1-socket}.off()
+      - ${Properties.speaker-2-socket}.off()
+      - ${Properties.speaker-3-socket}.off()
+      - ${Properties.speaker-4-socket}.off()
+      - ${Properties.speaker-5-socket}.off()
+      - SystemNotify.send('All speaker sockets OFF (${Properties.selfObjectName} idle)')
+
+  Sync with ${Properties.speaker-1} - ON - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.speaker-1}.status is on
+      - ${Properties.speaker-1-socket}.status is off
+      - ${Properties.selfObjectName}.muted is false
+    run:
+      - ${Properties.speaker-1-socket}.on()
+      - SystemNotify.send('${Properties.speaker-1-socket} ON (${Properties.selfObjectName} playing)')
+
+  Sync with ${Properties.speaker-2} - ON - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.speaker-2}.status is on
+      - ${Properties.speaker-2-socket}.status is off
+      - ${Properties.selfObjectName}.muted is false
+    run:
+      - ${Properties.speaker-2-socket}.on()
+      - SystemNotify.send('${Properties.speaker-2-socket} ON (${Properties.selfObjectName} playing)')
+
+  Sync with ${Properties.speaker-3} - ON - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.speaker-3}.status is on
+      - ${Properties.speaker-3-socket}.status is off
+      - ${Properties.selfObjectName}.muted is false
+    run:
+      - ${Properties.speaker-3-socket}.on()
+      - SystemNotify.send('${Properties.speaker-3-socket} ON (${Properties.selfObjectName} playing)')
+
+  Sync with ${Properties.speaker-4} - ON - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.speaker-4}.status is on
+      - ${Properties.speaker-4-socket}.status is off
+      - ${Properties.selfObjectName}.muted is false
+    run:
+      - ${Properties.speaker-4-socket}.on()
+      - SystemNotify.send('${Properties.speaker-4-socket} ON (${Properties.selfObjectName} playing)')
+
+  Sync with ${Properties.speaker-5} - ON - ${Properties.selfObjectName}:
+    if:
+      - this is true
+      - ${Properties.speaker-5}.status is on
+      - ${Properties.speaker-5-socket}.status is off
+      - ${Properties.selfObjectName}.muted is false
+    run:
+      - ${Properties.speaker-5-socket}.on()
+      - SystemNotify.send('${Properties.speaker-5-socket} ON (${Properties.selfObjectName} playing)')

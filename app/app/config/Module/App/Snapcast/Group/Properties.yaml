@@ -1,0 +1,18 @@
+---
+
+id: !required
+stream-1: NONE
+stream-2: NONE
+stream-3: NONE
+speaker-1: NONE
+speaker-2: NONE
+speaker-3: NONE
+speaker-4: NONE
+speaker-5: NONE
+speaker-1-socket: NONE
+speaker-2-socket: NONE
+speaker-3-socket: NONE
+speaker-4-socket: NONE
+speaker-5-socket: NONE
+nightVolume: NONE
+dayVolume: NONE

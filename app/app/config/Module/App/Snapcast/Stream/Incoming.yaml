@@ -1,0 +1,28 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.params.id}: ${Properties.id}
+
+# Take the action param from the event param
+actionParam: ${PARAMS.method}
+
+# Known actions and what variables are set by them
+actions:
+  Stream.OnUpdate:
+    status: ${PARAMS.params.stream.status}
+    uri_fragment: ${PARAMS.params.stream.uri.fragment}
+    uri_host: ${PARAMS.params.stream.uri.host}
+    uri_path: ${PARAMS.params.stream.uri.path}
+    uri_query_chunk_ms: ${PARAMS.params.stream.uri.query.chunk_ms}
+    uri_query_codec: ${PARAMS.params.stream.uri.query.codec}
+    uri_query_name: ${PARAMS.params.stream.uri.query.name}
+    uri_query_sampleformat: ${PARAMS.params.stream.uri.query.sampleformat}
+    raw: ${PARAMS.params.stream.raw}
+    scheme: ${PARAMS.params.stream.scheme}
+    canControl: ${PARAMS.params.stream.properties.canControl}
+    canGoNext: ${PARAMS.params.stream.properties.canGoNext}
+    canGoPrevious: ${PARAMS.params.stream.properties.canGoPrevious}
+    canPause: ${PARAMS.params.stream.properties.canPause}
+    canPlay: ${PARAMS.params.stream.properties.canPlay}
+    canSeek: ${PARAMS.params.stream.properties.canSeek}

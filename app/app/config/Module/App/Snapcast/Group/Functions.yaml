@@ -1,0 +1,31 @@
+---
+
+cmd: 'mosquitto_pub -h mqtt -t "snapcast/tx" -m'
+
+functions:
+
+  setVolume(volume):
+    runFunctions:
+      - ${Properties.speaker-1}.setVolume('${ARGS.volume}')
+      - ${Properties.speaker-2}.setVolume('${ARGS.volume}')
+      - ${Properties.speaker-3}.setVolume('${ARGS.volume}')
+      - ${Properties.speaker-4}.setVolume('${ARGS.volume}')
+      - ${Properties.speaker-5}.setVolume('${ARGS.volume}')
+
+  mute():
+    run: "${cmd} '{\"id\":5,\"jsonrpc\":\"2.0\",\"method\":\"Group.SetMute\",\"params\":{\"id\":\"${Properties.id}\",\"mute\":true}}'"
+    set:
+      muted: 'true'
+
+  unmute():
+    run: "${cmd} '{\"id\":5,\"jsonrpc\":\"2.0\",\"method\":\"Group.SetMute\",\"params\":{\"id\":\"${Properties.id}\",\"mute\":false}}'"
+    set:
+      muted: 'false'
+
+  on():
+    runFunctions:
+      - ${Properties.selfObjectName}.unmute()
+
+  off():
+    runFunctions:
+      - ${Properties.selfObjectName}.mute()

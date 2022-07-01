@@ -73,9 +73,8 @@ ${Properties.plex.object}.statusDelayed:
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.selfObjectName}.gotNaturalLight is false
     run:
-      - ${Properties.selfObjectName}.secondaryLightOn()
-      - ${Properties.selfObjectName}.lightOff()
-      - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
+      - ${Properties.plex.pause-light}.on()
+      - SystemNotify.send('${Properties.plex.pause-light} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'false'
 
@@ -87,9 +86,8 @@ ${Properties.plex.object}.statusDelayed:
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.selfObjectName}.gotNaturalLight is false
     run:
-      - ${Properties.selfObjectName}.secondaryLightOff()
-      - ${Properties.selfObjectName}.lightOn()
-      - SystemNotify.send('${Properties.light.object} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
+      - ${Properties.plex.stop-light}.on()
+      - SystemNotify.send('${Properties.plex.stop-light} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
     set:
       ${Properties.selfObjectName}.ignoreMotion: 'false'
       ${Properties.motion.object}.occupancy: 'true'
@@ -642,7 +640,7 @@ ${Properties.button.object}.click:
     if:
       - this is double
       - ${Properties.light.secondary.object}.status is on
-      - ${Properties.light.secondary.object}.brightness is 100
+      - ${Properties.light.secondary.object}.brightness is ${Properties.light.secondary.brightness}
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (${Properties.button.object})')
@@ -666,7 +664,7 @@ ${Properties.button.object}.click:
       - ${Properties.light.secondary.object}.status is on
       - ${Properties.light.secondary.object}.brightness is ${Properties.light.secondary.mid-brightness}
     run:
-      - ${Properties.light.secondary.object}.brightness('100')
+      - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
 
   Triple click - Custom Defined Toggle OFF - ${Properties.selfObjectName}:

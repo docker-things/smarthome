@@ -1,0 +1,18 @@
+---
+
+cmdSet: 'mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/set" -m'
+cmdGet: 'mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/get" -m'
+
+functions:
+
+  on():
+    run: "${cmdSet} '{\"state\": \"ON\"}'"
+
+  off():
+    run: "${cmdSet} '{\"state\": \"OFF\"}'"
+
+  toggle():
+    run: "${cmdSet} '{\"state\": \"TOGGLE\"}'"
+
+  status():
+    run: "${cmdGet} '{\"state\": \"\"}'"

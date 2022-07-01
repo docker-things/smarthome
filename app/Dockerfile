@@ -220,6 +220,7 @@ RUN echo -e "\n > INSTALL GO BUILD ENV\n" \
 
 COPY app/modules/cec-client-mqtt-bridge /app/modules/cec-client-mqtt-bridge
 COPY app/modules/evdev2mqtt /app/modules/evdev2mqtt
+COPY app/modules/snapcast2mqtt /app/modules/snapcast2mqtt
 COPY app/modules/yeelight /app/modules/yeelight
 
 RUN echo -e "\n > BUILD MODULE: CEC-CLIENT TO MQTT BRIDGE\n" \
@@ -232,6 +233,12 @@ RUN echo -e "\n > BUILD MODULE: CEC-CLIENT TO MQTT BRIDGE\n" \
  && go get github.com/eclipse/paho.mqtt.golang \
  && go get github.com/gvalkov/golang-evdev \
  && go build -ldflags "-s -w" src/evdev2mqtt.go \
+ \
+ && echo -e "\n > BUILD MODULE: SNAPCAST2MQTT\n" \
+ && cd /app/modules/snapcast2mqtt \
+ && go get github.com/eclipse/paho.mqtt.golang \
+ && go get github.com/gvalkov/golang-evdev \
+ && go build -ldflags "-s -w" src/snapcast2mqtt.go \
  \
  && echo -e "\n > BUILD MODULE: YEELIGHT\n" \
  && cd /app/modules/yeelight \

@@ -1,0 +1,41 @@
+---
+
+cmd: 'mosquitto_pub -h mqtt -t "snapcast/tx" -m'
+
+functions:
+
+  getStatus():
+    run: "${cmd} '{\"id\":8,\"jsonrpc\":\"2.0\",\"method\":\"Client.GetStatus\",\"params\":{\"id\":\"${Properties.id}\"}}'"
+
+  setLatency(latency):
+    run: "${cmd} '{\"id\":7,\"jsonrpc\":\"2.0\",\"method\":\"Client.SetLatency\",\"params\":{\"id\":\"${Properties.id}\",\"latency\":${ARGS.latency}}}'"
+    set:
+      latency: ${ARGS.latency}
+
+  setName(name):
+    run: "${cmd} '{\"id\":7,\"jsonrpc\":\"2.0\",\"method\":\"Client.SetName\",\"params\":{\"id\":\"${Properties.id}\",\"name\":\"${ARGS.name}\"}}'"
+    set:
+      name: ${ARGS.name}
+
+  setVolume(volume):
+    run: "${cmd} '{\"id\":\"8\",\"jsonrpc\":\"2.0\",\"method\":\"Client.SetVolume\",\"params\":{\"id\":\"${Properties.id}\",\"volume\":{\"percent\":${ARGS.volume}}}}'"
+    set:
+      volume: ${ARGS.volume}
+
+  mute():
+    run: "${cmd} '{\"id\":\"8\",\"jsonrpc\":\"2.0\",\"method\":\"Client.SetVolume\",\"params\":{\"id\":\"${Properties.id}\",\"volume\":{\"muted\":true}}}'"
+    set:
+      muted: 'true'
+
+  unmute():
+    run: "${cmd} '{\"id\":\"8\",\"jsonrpc\":\"2.0\",\"method\":\"Client.SetVolume\",\"params\":{\"id\":\"${Properties.id}\",\"volume\":{\"muted\":false}}}'"
+    set:
+      muted: 'false'
+
+  on():
+    runFunctions:
+      - ${Properties.selfObjectName}.unmute()
+
+  off():
+    runFunctions:
+      - ${Properties.selfObjectName}.mute()

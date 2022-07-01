@@ -1,0 +1,13 @@
+---
+
+jobs:
+
+  # Speaker is on during quiet hours?
+  - interval: 29
+    if:
+      - ${Properties.muteAtNight} is true
+      - ${Properties.selfObjectName}.status is on
+      - System.hour in ['22','23','0','1','2','3','4','5','6','7']
+    run:
+      - ${Properties.selfObjectName}.mute()
+      - SystemNotify.send('${Properties.selfObjectName} MUTE (Quiet hours)')
