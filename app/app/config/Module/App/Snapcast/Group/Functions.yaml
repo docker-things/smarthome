@@ -12,6 +12,9 @@ functions:
       - ${Properties.speaker-4}.setVolume('${ARGS.volume}')
       - ${Properties.speaker-5}.setVolume('${ARGS.volume}')
 
+  getStatus():
+    run: "${cmd} '{\"id\":5,\"jsonrpc\":\"2.0\",\"method\":\"Group.GetStatus\",\"params\":{\"id\":\"${Properties.id}\"}}'"
+
   mute():
     run: "${cmd} '{\"id\":5,\"jsonrpc\":\"2.0\",\"method\":\"Group.SetMute\",\"params\":{\"id\":\"${Properties.id}\",\"mute\":true}}'"
     set:

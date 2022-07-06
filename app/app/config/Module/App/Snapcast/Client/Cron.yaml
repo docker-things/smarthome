@@ -2,6 +2,11 @@
 
 jobs:
 
+  # Get status
+  - interval: 6
+    run:
+      - ${Properties.selfObjectName}.getStatus()
+
   # Speaker is on during quiet hours?
   - interval: 29
     if:
