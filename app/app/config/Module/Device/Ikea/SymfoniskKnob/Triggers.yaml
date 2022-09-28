@@ -1,0 +1,10 @@
+---
+
+${Properties.selfObjectName}.battery:
+  Low battery - ${Properties.selfObjectName}:
+    if:
+      - this <= 40
+      - this < ${Properties.selfObjectName}.battery.previousValue
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} has this.battery% battery left!')
+      - SystemNotify.send('${Properties.selfObjectName} has this.battery% battery left!')
