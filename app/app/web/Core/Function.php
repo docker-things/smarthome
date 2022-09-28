@@ -65,6 +65,9 @@ class Core_Function {
       // Set state variables
       $function = $this->_setFunctionStateVariables($function);
 
+      // Set state variables
+      $function = $this->_computeFunctionParams($function);
+
       // Execute function
       $output = $this->_runFunction($function);
 
@@ -253,7 +256,9 @@ class Core_Function {
     system($function['run'] . ' 2>&1', $retval);
     $output = ob_get_clean();
 
-    Core_Logger::info('Core_Function::_runFunction(): Output: ' . $output);
+    if ('' != $output) {
+      Core_Logger::info('Core_Function::_runFunction(): Output: ' . $output);
+    }
 
     return $output;
   }
@@ -331,6 +336,30 @@ class Core_Function {
 
           // Core_Logger::debug("Core_Function::_setFunctionStateVariables(): REPLACE " . $matches[0][$key] . " WITH " . $value . "");
           $val = str_replace($matches[0][$key], $value, $val);
+        }
+      }
+      return $val;
+    }, $function);
+  }
+
+  /**
+   * @param  $function
+   * @return mixed
+   */
+  private function _computeFunctionParams($function) {
+    return $this->_arrayMapRecursive(function ($val) {
+      if (preg_match_all('/([0-9]+)[ ]+?([\+\-\/\*])[ ]+?([0-9]+)/', $val, $matches)) {
+        foreach ($matches[0] AS $i => $match) {
+          $value = $match;
+          switch ($matches[2][$i]) {
+            case '+':$value = intval($matches[1][$i]) + intval($matches[3][$i]);break;
+            case '-':$value = intval($matches[1][$i]) - intval($matches[3][$i]);break;
+            case '/':$value = intval($matches[1][$i]) / intval($matches[3][$i]);break;
+            case '*':$value = intval($matches[1][$i]) * intval($matches[3][$i]);break;
+            default:
+              Core_Logger::warn("Core_Function::_computeFunctionParams(): Unknown operator: " . $matches[2][$i]);
+          }
+          $val = str_replace($match, $value, $val);
         }
       }
       return $val;
