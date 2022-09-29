@@ -80,6 +80,13 @@ class Core_Function {
       } else {
         $this->_setNewStates($function, $output, 'elseSet');
       }
+    } else {
+      if (isset($function['runFunctionsElse'])) {
+        $function['runFunctions'] = $function['runFunctionsElse'];
+
+        // Execute YAML function
+        $this->_runYamlFunctions($function);
+      }
     }
 
     return true;
