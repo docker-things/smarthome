@@ -5,7 +5,7 @@ cmd: 'mosquitto_pub -h mqtt -t "snapcast/tx" -m'
 functions:
 
   setVolume(volume):
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.speaker-1}.setVolume('${ARGS.volume}')
       - ${Properties.speaker-2}.setVolume('${ARGS.volume}')
       - ${Properties.speaker-3}.setVolume('${ARGS.volume}')
@@ -13,7 +13,7 @@ functions:
       - ${Properties.speaker-5}.setVolume('${ARGS.volume}')
 
   increaseVolume():
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.speaker-1}.increaseVolume()
       - ${Properties.speaker-2}.increaseVolume()
       - ${Properties.speaker-3}.increaseVolume()
@@ -21,7 +21,7 @@ functions:
       - ${Properties.speaker-5}.increaseVolume()
 
   decreaseVolume():
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.speaker-1}.decreaseVolume()
       - ${Properties.speaker-2}.decreaseVolume()
       - ${Properties.speaker-3}.decreaseVolume()
@@ -40,6 +40,14 @@ functions:
     run: "${cmd} '{\"id\":5,\"jsonrpc\":\"2.0\",\"method\":\"Group.SetMute\",\"params\":{\"id\":\"${Properties.id}\",\"mute\":false}}'"
     set:
       muted: 'false'
+
+  toggle():
+    runIf:
+      - ${Properties.selfObjectName}.muted is not true
+    runFunctions:
+      - ${Properties.selfObjectName}.mute()
+    runFunctionsElse:
+      - ${Properties.selfObjectName}.unmute()
 
   on():
     runFunctions:

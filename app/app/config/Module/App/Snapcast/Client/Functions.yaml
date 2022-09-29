@@ -23,10 +23,14 @@ functions:
       volume: ${ARGS.volume}
 
   increaseVolume():
+    runIf:
+      - ${Properties.selfObjectName}.volume < 100
     runFunctions:
       - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume + 1')
 
   decreaseVolume():
+    runIf:
+      - ${Properties.selfObjectName}.volume > 0
     runFunctions:
       - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume - 1')
 
@@ -39,6 +43,14 @@ functions:
     run: "${cmd} '{\"id\":\"8\",\"jsonrpc\":\"2.0\",\"method\":\"Client.SetVolume\",\"params\":{\"id\":\"${Properties.id}\",\"volume\":{\"muted\":false}}}'"
     set:
       muted: 'false'
+
+  toggle():
+    runIf:
+      - ${Properties.selfObjectName}.muted is not true
+    runFunctions:
+      - ${Properties.selfObjectName}.mute()
+    runFunctionsElse:
+      - ${Properties.selfObjectName}.unmute()
 
   on():
     runFunctions:
