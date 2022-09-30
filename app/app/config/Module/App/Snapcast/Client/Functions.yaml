@@ -22,18 +22,6 @@ functions:
     set:
       volume: ${ARGS.volume}
 
-  increaseVolume():
-    runIf:
-      - ${Properties.selfObjectName}.volume < 100
-    runFunctions:
-      - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume + 1')
-
-  decreaseVolume():
-    runIf:
-      - ${Properties.selfObjectName}.volume > 0
-    runFunctions:
-      - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume - 1')
-
   mute():
     run: "${cmd} '{\"id\":\"8\",\"jsonrpc\":\"2.0\",\"method\":\"Client.SetVolume\",\"params\":{\"id\":\"${Properties.id}\",\"volume\":{\"muted\":true}}}'"
     set:
@@ -59,3 +47,79 @@ functions:
   off():
     runFunctions:
       - ${Properties.selfObjectName}.mute()
+
+
+
+  increaseVolume():
+    runFunctions:
+      - ${Properties.selfObjectName}.increaseVolume1step()
+      - ${Properties.selfObjectName}.increaseVolume2steps()
+      - ${Properties.selfObjectName}.increaseVolume3steps()
+
+  increaseVolume1step():
+    runIf:
+      - ${Properties.selfObjectName}.volume <= 20
+    runElseIf:
+      - ${Properties.selfObjectName}.volume is 99
+    runFunctions:
+      - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume + 1')
+
+  increaseVolume2steps():
+    runIf:
+      - ${Properties.selfObjectName}.volume > 20
+      - ${Properties.selfObjectName}.volume <= 50
+    runElseIf:
+      - ${Properties.selfObjectName}.volume is 98
+    runFunctions:
+      - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume + 2')
+
+  increaseVolume3steps():
+    runIf:
+      - ${Properties.selfObjectName}.volume > 50
+      - ${Properties.selfObjectName}.volume <= 97
+    runFunctions:
+      - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume + 3')
+
+
+
+  decreaseVolume():
+    runFunctions:
+      - ${Properties.selfObjectName}.decreaseVolume1step()
+      - ${Properties.selfObjectName}.decreaseVolume2steps()
+      - ${Properties.selfObjectName}.decreaseVolume3steps()
+      - ${Properties.selfObjectName}.decreaseVolume4steps()
+      - ${Properties.selfObjectName}.decreaseVolume5steps()
+
+  decreaseVolume1step():
+    runIf:
+      - ${Properties.selfObjectName}.volume > 0
+      - ${Properties.selfObjectName}.volume <= 20
+    runFunctions:
+      - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume - 1')
+
+  decreaseVolume2steps():
+    runIf:
+      - ${Properties.selfObjectName}.volume > 20
+      - ${Properties.selfObjectName}.volume <= 40
+    runFunctions:
+      - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume - 2')
+
+  decreaseVolume3steps():
+    runIf:
+      - ${Properties.selfObjectName}.volume > 40
+      - ${Properties.selfObjectName}.volume <= 60
+    runFunctions:
+      - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume - 3')
+
+  decreaseVolume4steps():
+    runIf:
+      - ${Properties.selfObjectName}.volume > 60
+      - ${Properties.selfObjectName}.volume <= 80
+    runFunctions:
+      - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume - 4')
+
+  decreaseVolume5steps():
+    runIf:
+      - ${Properties.selfObjectName}.volume > 80
+    runFunctions:
+      - ${Properties.selfObjectName}.setVolume('${Properties.selfObjectName}.volume - 5')
