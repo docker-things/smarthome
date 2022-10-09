@@ -59,11 +59,18 @@ functions:
     runFunctions:
       - ${Properties.light.night.object}.off()
 
+  otherLightsOff():
+    runFunctions:
+      - ${Properties.light.other-1}.off()
+      - ${Properties.light.other-2}.off()
+      - ${Properties.light.other-3}.off()
+
   allLightsOff():
     runFunctionsAsync:
       - ${Properties.selfObjectName}.lightOff()
       - ${Properties.selfObjectName}.secondaryLightOff()
       - ${Properties.selfObjectName}.nightLightOff()
+      - ${Properties.selfObjectName}.otherLightsOff()
       - ${Properties.ledstrip.object}.off()
 
   off():
