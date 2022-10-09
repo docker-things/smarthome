@@ -1,0 +1,5 @@
+---
+
+mqtt-topic: !required
+motion-sensor: NONE
+light-sensor: NONE
