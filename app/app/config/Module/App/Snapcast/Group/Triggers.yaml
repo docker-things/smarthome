@@ -303,3 +303,33 @@ ${Properties.selfObjectName}.playing:
     run:
       - ${Properties.speaker-5-socket}.on()
       - SystemNotify.send('${Properties.speaker-5-socket} ON (${Properties.selfObjectName} playing)')
+
+# SLEEPING
+
+House.sleeping:
+  Sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is true
+    run:
+      - ${Properties.selfObjectName}.off()
+
+  Awake - ${Properties.selfObjectName}:
+    if:
+      - House.sleeping is false
+      - House.presence is true
+    run:
+      - ${Properties.selfObjectName}.on()
+
+House.presence:
+  Sleeping - ${Properties.selfObjectName}:
+    if:
+      - this is false
+    run:
+      - ${Properties.selfObjectName}.off()
+
+  Awake - ${Properties.selfObjectName}:
+    if:
+      - House.sleeping is false
+      - House.presence is true
+    run:
+      - ${Properties.selfObjectName}.on()

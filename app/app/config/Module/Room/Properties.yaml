@@ -52,6 +52,10 @@ light:
     off-when-no-motion-for-X-seconds-old-location: 10
     off-when-lux-over: 200
 
+  other-1: NONE
+  other-2: NONE
+  other-3: NONE
+
   night:
     object: NONE
 

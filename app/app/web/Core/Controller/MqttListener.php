@@ -60,18 +60,21 @@ class Core_Controller_MqttListener extends Core_Controller_Base {
         'mqtt-topic' => $topic,
       ], $json);
 
-      // Initialize incoming handler
-      $incomingHandler = new Core_Controller_Incoming(null, $this->getConfig());
+      $cmd = "php web/incomingMQTT.php '" . urlencode(json_encode($_GET)) . "' > /dev/null 2>&1 &";
+      if (strlen($cmd) > 125000 || false === exec($cmd)) {
+        // Initialize incoming handler
+        $incomingHandler = new Core_Controller_Incoming(null, $this->getConfig());
 
-      // Mark functions to run asynchronously
-      $incomingHandler->shouldRunFunctionsAsync(true);
+        // Mark functions to run asynchronously
+        $incomingHandler->shouldRunFunctionsAsync(true);
 
-      // Recognize request and run
-      $incomingHandler->run();
+        // Recognize request and run
+        $incomingHandler->run();
 
-      // Delete object
-      $incomingHandler = null;
-      unset($incomingHandler);
+        // Delete object
+        $incomingHandler = null;
+        unset($incomingHandler);
+      }
     }
 
     Core_Logger::info('Stopped listening to MQTT');

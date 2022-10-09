@@ -9,8 +9,10 @@ ${Properties.selfObjectName}.connected:
     set:
       ${Properties.selfObjectName}.status: 'on'
 
-  Disconnected - ${Properties.selfObjectName}:
-    if: this is false
+  Disconnected - but not local - ${Properties.selfObjectName}:
+    if:
+      - this is false
+      - ${Properties.selfObjectName}.host_ip is not 127.0.0.1
     set:
       ${Properties.selfObjectName}.status: 'off'
 

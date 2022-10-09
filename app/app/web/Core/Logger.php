@@ -38,7 +38,13 @@ class Core_Logger {
    */
   private static function _message($message, $type) {
     $finalMessage = "\n[" . date('Y-m-d H:i:s') . '] ' . $type . ' ' . exec('whoami') . ': ' . $message;
-    echo $finalMessage;
+
+    // $cmd = "mosquitto_pub -h mqtt -t 'core-logger/" . $type . "' -m '" . str_replace("'", "", $message) . "'";
+    // ob_start();
+    // system($cmd . ' 2>&1 &', $retval);
+    // ob_end_clean();
+
+    // echo $finalMessage;
     // file_put_contents(Core_Logger::$logFile, $finalMessage, FILE_APPEND);
   }
 }

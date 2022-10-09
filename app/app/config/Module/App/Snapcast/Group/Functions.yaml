@@ -5,12 +5,31 @@ cmd: 'mosquitto_pub -h mqtt -t "snapcast/tx" -m'
 functions:
 
   setVolume(volume):
-    runFunctions:
+    runFunctionsAsync:
       - ${Properties.speaker-1}.setVolume('${ARGS.volume}')
       - ${Properties.speaker-2}.setVolume('${ARGS.volume}')
       - ${Properties.speaker-3}.setVolume('${ARGS.volume}')
       - ${Properties.speaker-4}.setVolume('${ARGS.volume}')
       - ${Properties.speaker-5}.setVolume('${ARGS.volume}')
+
+  increaseVolume():
+    runFunctionsAsync:
+      - ${Properties.speaker-1}.increaseVolume()
+      - ${Properties.speaker-2}.increaseVolume()
+      - ${Properties.speaker-3}.increaseVolume()
+      - ${Properties.speaker-4}.increaseVolume()
+      - ${Properties.speaker-5}.increaseVolume()
+
+  decreaseVolume():
+    runFunctionsAsync:
+      - ${Properties.speaker-1}.decreaseVolume()
+      - ${Properties.speaker-2}.decreaseVolume()
+      - ${Properties.speaker-3}.decreaseVolume()
+      - ${Properties.speaker-4}.decreaseVolume()
+      - ${Properties.speaker-5}.decreaseVolume()
+
+  getStatus():
+    run: "${cmd} '{\"id\":5,\"jsonrpc\":\"2.0\",\"method\":\"Group.GetStatus\",\"params\":{\"id\":\"${Properties.id}\"}}'"
 
   mute():
     run: "${cmd} '{\"id\":5,\"jsonrpc\":\"2.0\",\"method\":\"Group.SetMute\",\"params\":{\"id\":\"${Properties.id}\",\"mute\":true}}'"
@@ -21,6 +40,14 @@ functions:
     run: "${cmd} '{\"id\":5,\"jsonrpc\":\"2.0\",\"method\":\"Group.SetMute\",\"params\":{\"id\":\"${Properties.id}\",\"mute\":false}}'"
     set:
       muted: 'false'
+
+  toggle():
+    runIf:
+      - ${Properties.selfObjectName}.muted is not true
+    runFunctions:
+      - ${Properties.selfObjectName}.mute()
+    runFunctionsElse:
+      - ${Properties.selfObjectName}.unmute()
 
   on():
     runFunctions:

@@ -28,630 +28,630 @@ functions:
       current.weather.0.main: ${RESPONSE.current.weather.0.main}
       current.weather.0.description: ${RESPONSE.current.weather.0.description}
       current.weather.0.icon: ${RESPONSE.current.weather.0.icon}
-      hourly.0.dt: ${RESPONSE.hourly.0.dt}
-      hourly.0.temp: ${RESPONSE.hourly.0.temp}
-      hourly.0.feels_like: ${RESPONSE.hourly.0.feels_like}
-      hourly.0.pressure: ${RESPONSE.hourly.0.pressure}
-      hourly.0.humidity: ${RESPONSE.hourly.0.humidity}
-      hourly.0.dew_point: ${RESPONSE.hourly.0.dew_point}
-      hourly.0.clouds: ${RESPONSE.hourly.0.clouds}
-      hourly.0.wind_speed: ${RESPONSE.hourly.0.wind_speed}
-      hourly.0.wind_deg: ${RESPONSE.hourly.0.wind_deg}
-      hourly.0.weather.0.id: ${RESPONSE.hourly.0.weather.0.id}
-      hourly.0.weather.0.main: ${RESPONSE.hourly.0.weather.0.main}
-      hourly.0.weather.0.description: ${RESPONSE.hourly.0.weather.0.description}
-      hourly.0.weather.0.icon: ${RESPONSE.hourly.0.weather.0.icon}
-      hourly.1.dt: ${RESPONSE.hourly.1.dt}
-      hourly.1.temp: ${RESPONSE.hourly.1.temp}
-      hourly.1.feels_like: ${RESPONSE.hourly.1.feels_like}
-      hourly.1.pressure: ${RESPONSE.hourly.1.pressure}
-      hourly.1.humidity: ${RESPONSE.hourly.1.humidity}
-      hourly.1.dew_point: ${RESPONSE.hourly.1.dew_point}
-      hourly.1.clouds: ${RESPONSE.hourly.1.clouds}
-      hourly.1.wind_speed: ${RESPONSE.hourly.1.wind_speed}
-      hourly.1.wind_deg: ${RESPONSE.hourly.1.wind_deg}
-      hourly.1.weather.0.id: ${RESPONSE.hourly.1.weather.0.id}
-      hourly.1.weather.0.main: ${RESPONSE.hourly.1.weather.0.main}
-      hourly.1.weather.0.description: ${RESPONSE.hourly.1.weather.0.description}
-      hourly.1.weather.0.icon: ${RESPONSE.hourly.1.weather.0.icon}
-      hourly.2.dt: ${RESPONSE.hourly.2.dt}
-      hourly.2.temp: ${RESPONSE.hourly.2.temp}
-      hourly.2.feels_like: ${RESPONSE.hourly.2.feels_like}
-      hourly.2.pressure: ${RESPONSE.hourly.2.pressure}
-      hourly.2.humidity: ${RESPONSE.hourly.2.humidity}
-      hourly.2.dew_point: ${RESPONSE.hourly.2.dew_point}
-      hourly.2.clouds: ${RESPONSE.hourly.2.clouds}
-      hourly.2.wind_speed: ${RESPONSE.hourly.2.wind_speed}
-      hourly.2.wind_deg: ${RESPONSE.hourly.2.wind_deg}
-      hourly.2.weather.0.id: ${RESPONSE.hourly.2.weather.0.id}
-      hourly.2.weather.0.main: ${RESPONSE.hourly.2.weather.0.main}
-      hourly.2.weather.0.description: ${RESPONSE.hourly.2.weather.0.description}
-      hourly.2.weather.0.icon: ${RESPONSE.hourly.2.weather.0.icon}
-      hourly.3.dt: ${RESPONSE.hourly.3.dt}
-      hourly.3.temp: ${RESPONSE.hourly.3.temp}
-      hourly.3.feels_like: ${RESPONSE.hourly.3.feels_like}
-      hourly.3.pressure: ${RESPONSE.hourly.3.pressure}
-      hourly.3.humidity: ${RESPONSE.hourly.3.humidity}
-      hourly.3.dew_point: ${RESPONSE.hourly.3.dew_point}
-      hourly.3.clouds: ${RESPONSE.hourly.3.clouds}
-      hourly.3.wind_speed: ${RESPONSE.hourly.3.wind_speed}
-      hourly.3.wind_deg: ${RESPONSE.hourly.3.wind_deg}
-      hourly.3.weather.0.id: ${RESPONSE.hourly.3.weather.0.id}
-      hourly.3.weather.0.main: ${RESPONSE.hourly.3.weather.0.main}
-      hourly.3.weather.0.description: ${RESPONSE.hourly.3.weather.0.description}
-      hourly.3.weather.0.icon: ${RESPONSE.hourly.3.weather.0.icon}
-      hourly.4.dt: ${RESPONSE.hourly.4.dt}
-      hourly.4.temp: ${RESPONSE.hourly.4.temp}
-      hourly.4.feels_like: ${RESPONSE.hourly.4.feels_like}
-      hourly.4.pressure: ${RESPONSE.hourly.4.pressure}
-      hourly.4.humidity: ${RESPONSE.hourly.4.humidity}
-      hourly.4.dew_point: ${RESPONSE.hourly.4.dew_point}
-      hourly.4.clouds: ${RESPONSE.hourly.4.clouds}
-      hourly.4.wind_speed: ${RESPONSE.hourly.4.wind_speed}
-      hourly.4.wind_deg: ${RESPONSE.hourly.4.wind_deg}
-      hourly.4.weather.0.id: ${RESPONSE.hourly.4.weather.0.id}
-      hourly.4.weather.0.main: ${RESPONSE.hourly.4.weather.0.main}
-      hourly.4.weather.0.description: ${RESPONSE.hourly.4.weather.0.description}
-      hourly.4.weather.0.icon: ${RESPONSE.hourly.4.weather.0.icon}
-      hourly.5.dt: ${RESPONSE.hourly.5.dt}
-      hourly.5.temp: ${RESPONSE.hourly.5.temp}
-      hourly.5.feels_like: ${RESPONSE.hourly.5.feels_like}
-      hourly.5.pressure: ${RESPONSE.hourly.5.pressure}
-      hourly.5.humidity: ${RESPONSE.hourly.5.humidity}
-      hourly.5.dew_point: ${RESPONSE.hourly.5.dew_point}
-      hourly.5.clouds: ${RESPONSE.hourly.5.clouds}
-      hourly.5.wind_speed: ${RESPONSE.hourly.5.wind_speed}
-      hourly.5.wind_deg: ${RESPONSE.hourly.5.wind_deg}
-      hourly.5.weather.0.id: ${RESPONSE.hourly.5.weather.0.id}
-      hourly.5.weather.0.main: ${RESPONSE.hourly.5.weather.0.main}
-      hourly.5.weather.0.description: ${RESPONSE.hourly.5.weather.0.description}
-      hourly.5.weather.0.icon: ${RESPONSE.hourly.5.weather.0.icon}
-      hourly.6.dt: ${RESPONSE.hourly.6.dt}
-      hourly.6.temp: ${RESPONSE.hourly.6.temp}
-      hourly.6.feels_like: ${RESPONSE.hourly.6.feels_like}
-      hourly.6.pressure: ${RESPONSE.hourly.6.pressure}
-      hourly.6.humidity: ${RESPONSE.hourly.6.humidity}
-      hourly.6.dew_point: ${RESPONSE.hourly.6.dew_point}
-      hourly.6.clouds: ${RESPONSE.hourly.6.clouds}
-      hourly.6.wind_speed: ${RESPONSE.hourly.6.wind_speed}
-      hourly.6.wind_deg: ${RESPONSE.hourly.6.wind_deg}
-      hourly.6.weather.0.id: ${RESPONSE.hourly.6.weather.0.id}
-      hourly.6.weather.0.main: ${RESPONSE.hourly.6.weather.0.main}
-      hourly.6.weather.0.description: ${RESPONSE.hourly.6.weather.0.description}
-      hourly.6.weather.0.icon: ${RESPONSE.hourly.6.weather.0.icon}
-      hourly.7.dt: ${RESPONSE.hourly.7.dt}
-      hourly.7.temp: ${RESPONSE.hourly.7.temp}
-      hourly.7.feels_like: ${RESPONSE.hourly.7.feels_like}
-      hourly.7.pressure: ${RESPONSE.hourly.7.pressure}
-      hourly.7.humidity: ${RESPONSE.hourly.7.humidity}
-      hourly.7.dew_point: ${RESPONSE.hourly.7.dew_point}
-      hourly.7.clouds: ${RESPONSE.hourly.7.clouds}
-      hourly.7.wind_speed: ${RESPONSE.hourly.7.wind_speed}
-      hourly.7.wind_deg: ${RESPONSE.hourly.7.wind_deg}
-      hourly.7.weather.0.id: ${RESPONSE.hourly.7.weather.0.id}
-      hourly.7.weather.0.main: ${RESPONSE.hourly.7.weather.0.main}
-      hourly.7.weather.0.description: ${RESPONSE.hourly.7.weather.0.description}
-      hourly.7.weather.0.icon: ${RESPONSE.hourly.7.weather.0.icon}
-      hourly.8.dt: ${RESPONSE.hourly.8.dt}
-      hourly.8.temp: ${RESPONSE.hourly.8.temp}
-      hourly.8.feels_like: ${RESPONSE.hourly.8.feels_like}
-      hourly.8.pressure: ${RESPONSE.hourly.8.pressure}
-      hourly.8.humidity: ${RESPONSE.hourly.8.humidity}
-      hourly.8.dew_point: ${RESPONSE.hourly.8.dew_point}
-      hourly.8.clouds: ${RESPONSE.hourly.8.clouds}
-      hourly.8.wind_speed: ${RESPONSE.hourly.8.wind_speed}
-      hourly.8.wind_deg: ${RESPONSE.hourly.8.wind_deg}
-      hourly.8.weather.0.id: ${RESPONSE.hourly.8.weather.0.id}
-      hourly.8.weather.0.main: ${RESPONSE.hourly.8.weather.0.main}
-      hourly.8.weather.0.description: ${RESPONSE.hourly.8.weather.0.description}
-      hourly.8.weather.0.icon: ${RESPONSE.hourly.8.weather.0.icon}
-      hourly.9.dt: ${RESPONSE.hourly.9.dt}
-      hourly.9.temp: ${RESPONSE.hourly.9.temp}
-      hourly.9.feels_like: ${RESPONSE.hourly.9.feels_like}
-      hourly.9.pressure: ${RESPONSE.hourly.9.pressure}
-      hourly.9.humidity: ${RESPONSE.hourly.9.humidity}
-      hourly.9.dew_point: ${RESPONSE.hourly.9.dew_point}
-      hourly.9.clouds: ${RESPONSE.hourly.9.clouds}
-      hourly.9.wind_speed: ${RESPONSE.hourly.9.wind_speed}
-      hourly.9.wind_deg: ${RESPONSE.hourly.9.wind_deg}
-      hourly.9.weather.0.id: ${RESPONSE.hourly.9.weather.0.id}
-      hourly.9.weather.0.main: ${RESPONSE.hourly.9.weather.0.main}
-      hourly.9.weather.0.description: ${RESPONSE.hourly.9.weather.0.description}
-      hourly.9.weather.0.icon: ${RESPONSE.hourly.9.weather.0.icon}
-      hourly.10.dt: ${RESPONSE.hourly.10.dt}
-      hourly.10.temp: ${RESPONSE.hourly.10.temp}
-      hourly.10.feels_like: ${RESPONSE.hourly.10.feels_like}
-      hourly.10.pressure: ${RESPONSE.hourly.10.pressure}
-      hourly.10.humidity: ${RESPONSE.hourly.10.humidity}
-      hourly.10.dew_point: ${RESPONSE.hourly.10.dew_point}
-      hourly.10.clouds: ${RESPONSE.hourly.10.clouds}
-      hourly.10.wind_speed: ${RESPONSE.hourly.10.wind_speed}
-      hourly.10.wind_deg: ${RESPONSE.hourly.10.wind_deg}
-      hourly.10.weather.0.id: ${RESPONSE.hourly.10.weather.0.id}
-      hourly.10.weather.0.main: ${RESPONSE.hourly.10.weather.0.main}
-      hourly.10.weather.0.description: ${RESPONSE.hourly.10.weather.0.description}
-      hourly.10.weather.0.icon: ${RESPONSE.hourly.10.weather.0.icon}
-      hourly.11.dt: ${RESPONSE.hourly.11.dt}
-      hourly.11.temp: ${RESPONSE.hourly.11.temp}
-      hourly.11.feels_like: ${RESPONSE.hourly.11.feels_like}
-      hourly.11.pressure: ${RESPONSE.hourly.11.pressure}
-      hourly.11.humidity: ${RESPONSE.hourly.11.humidity}
-      hourly.11.dew_point: ${RESPONSE.hourly.11.dew_point}
-      hourly.11.clouds: ${RESPONSE.hourly.11.clouds}
-      hourly.11.wind_speed: ${RESPONSE.hourly.11.wind_speed}
-      hourly.11.wind_deg: ${RESPONSE.hourly.11.wind_deg}
-      hourly.11.weather.0.id: ${RESPONSE.hourly.11.weather.0.id}
-      hourly.11.weather.0.main: ${RESPONSE.hourly.11.weather.0.main}
-      hourly.11.weather.0.description: ${RESPONSE.hourly.11.weather.0.description}
-      hourly.11.weather.0.icon: ${RESPONSE.hourly.11.weather.0.icon}
-      hourly.12.dt: ${RESPONSE.hourly.12.dt}
-      hourly.12.temp: ${RESPONSE.hourly.12.temp}
-      hourly.12.feels_like: ${RESPONSE.hourly.12.feels_like}
-      hourly.12.pressure: ${RESPONSE.hourly.12.pressure}
-      hourly.12.humidity: ${RESPONSE.hourly.12.humidity}
-      hourly.12.dew_point: ${RESPONSE.hourly.12.dew_point}
-      hourly.12.clouds: ${RESPONSE.hourly.12.clouds}
-      hourly.12.wind_speed: ${RESPONSE.hourly.12.wind_speed}
-      hourly.12.wind_deg: ${RESPONSE.hourly.12.wind_deg}
-      hourly.12.weather.0.id: ${RESPONSE.hourly.12.weather.0.id}
-      hourly.12.weather.0.main: ${RESPONSE.hourly.12.weather.0.main}
-      hourly.12.weather.0.description: ${RESPONSE.hourly.12.weather.0.description}
-      hourly.12.weather.0.icon: ${RESPONSE.hourly.12.weather.0.icon}
-      hourly.13.dt: ${RESPONSE.hourly.13.dt}
-      hourly.13.temp: ${RESPONSE.hourly.13.temp}
-      hourly.13.feels_like: ${RESPONSE.hourly.13.feels_like}
-      hourly.13.pressure: ${RESPONSE.hourly.13.pressure}
-      hourly.13.humidity: ${RESPONSE.hourly.13.humidity}
-      hourly.13.dew_point: ${RESPONSE.hourly.13.dew_point}
-      hourly.13.clouds: ${RESPONSE.hourly.13.clouds}
-      hourly.13.wind_speed: ${RESPONSE.hourly.13.wind_speed}
-      hourly.13.wind_deg: ${RESPONSE.hourly.13.wind_deg}
-      hourly.13.weather.0.id: ${RESPONSE.hourly.13.weather.0.id}
-      hourly.13.weather.0.main: ${RESPONSE.hourly.13.weather.0.main}
-      hourly.13.weather.0.description: ${RESPONSE.hourly.13.weather.0.description}
-      hourly.13.weather.0.icon: ${RESPONSE.hourly.13.weather.0.icon}
-      hourly.14.dt: ${RESPONSE.hourly.14.dt}
-      hourly.14.temp: ${RESPONSE.hourly.14.temp}
-      hourly.14.feels_like: ${RESPONSE.hourly.14.feels_like}
-      hourly.14.pressure: ${RESPONSE.hourly.14.pressure}
-      hourly.14.humidity: ${RESPONSE.hourly.14.humidity}
-      hourly.14.dew_point: ${RESPONSE.hourly.14.dew_point}
-      hourly.14.clouds: ${RESPONSE.hourly.14.clouds}
-      hourly.14.wind_speed: ${RESPONSE.hourly.14.wind_speed}
-      hourly.14.wind_deg: ${RESPONSE.hourly.14.wind_deg}
-      hourly.14.weather.0.id: ${RESPONSE.hourly.14.weather.0.id}
-      hourly.14.weather.0.main: ${RESPONSE.hourly.14.weather.0.main}
-      hourly.14.weather.0.description: ${RESPONSE.hourly.14.weather.0.description}
-      hourly.14.weather.0.icon: ${RESPONSE.hourly.14.weather.0.icon}
-      hourly.15.dt: ${RESPONSE.hourly.15.dt}
-      hourly.15.temp: ${RESPONSE.hourly.15.temp}
-      hourly.15.feels_like: ${RESPONSE.hourly.15.feels_like}
-      hourly.15.pressure: ${RESPONSE.hourly.15.pressure}
-      hourly.15.humidity: ${RESPONSE.hourly.15.humidity}
-      hourly.15.dew_point: ${RESPONSE.hourly.15.dew_point}
-      hourly.15.clouds: ${RESPONSE.hourly.15.clouds}
-      hourly.15.wind_speed: ${RESPONSE.hourly.15.wind_speed}
-      hourly.15.wind_deg: ${RESPONSE.hourly.15.wind_deg}
-      hourly.15.weather.0.id: ${RESPONSE.hourly.15.weather.0.id}
-      hourly.15.weather.0.main: ${RESPONSE.hourly.15.weather.0.main}
-      hourly.15.weather.0.description: ${RESPONSE.hourly.15.weather.0.description}
-      hourly.15.weather.0.icon: ${RESPONSE.hourly.15.weather.0.icon}
-      hourly.16.dt: ${RESPONSE.hourly.16.dt}
-      hourly.16.temp: ${RESPONSE.hourly.16.temp}
-      hourly.16.feels_like: ${RESPONSE.hourly.16.feels_like}
-      hourly.16.pressure: ${RESPONSE.hourly.16.pressure}
-      hourly.16.humidity: ${RESPONSE.hourly.16.humidity}
-      hourly.16.dew_point: ${RESPONSE.hourly.16.dew_point}
-      hourly.16.clouds: ${RESPONSE.hourly.16.clouds}
-      hourly.16.wind_speed: ${RESPONSE.hourly.16.wind_speed}
-      hourly.16.wind_deg: ${RESPONSE.hourly.16.wind_deg}
-      hourly.16.weather.0.id: ${RESPONSE.hourly.16.weather.0.id}
-      hourly.16.weather.0.main: ${RESPONSE.hourly.16.weather.0.main}
-      hourly.16.weather.0.description: ${RESPONSE.hourly.16.weather.0.description}
-      hourly.16.weather.0.icon: ${RESPONSE.hourly.16.weather.0.icon}
-      hourly.17.dt: ${RESPONSE.hourly.17.dt}
-      hourly.17.temp: ${RESPONSE.hourly.17.temp}
-      hourly.17.feels_like: ${RESPONSE.hourly.17.feels_like}
-      hourly.17.pressure: ${RESPONSE.hourly.17.pressure}
-      hourly.17.humidity: ${RESPONSE.hourly.17.humidity}
-      hourly.17.dew_point: ${RESPONSE.hourly.17.dew_point}
-      hourly.17.clouds: ${RESPONSE.hourly.17.clouds}
-      hourly.17.wind_speed: ${RESPONSE.hourly.17.wind_speed}
-      hourly.17.wind_deg: ${RESPONSE.hourly.17.wind_deg}
-      hourly.17.weather.0.id: ${RESPONSE.hourly.17.weather.0.id}
-      hourly.17.weather.0.main: ${RESPONSE.hourly.17.weather.0.main}
-      hourly.17.weather.0.description: ${RESPONSE.hourly.17.weather.0.description}
-      hourly.17.weather.0.icon: ${RESPONSE.hourly.17.weather.0.icon}
-      hourly.18.dt: ${RESPONSE.hourly.18.dt}
-      hourly.18.temp: ${RESPONSE.hourly.18.temp}
-      hourly.18.feels_like: ${RESPONSE.hourly.18.feels_like}
-      hourly.18.pressure: ${RESPONSE.hourly.18.pressure}
-      hourly.18.humidity: ${RESPONSE.hourly.18.humidity}
-      hourly.18.dew_point: ${RESPONSE.hourly.18.dew_point}
-      hourly.18.clouds: ${RESPONSE.hourly.18.clouds}
-      hourly.18.wind_speed: ${RESPONSE.hourly.18.wind_speed}
-      hourly.18.wind_deg: ${RESPONSE.hourly.18.wind_deg}
-      hourly.18.weather.0.id: ${RESPONSE.hourly.18.weather.0.id}
-      hourly.18.weather.0.main: ${RESPONSE.hourly.18.weather.0.main}
-      hourly.18.weather.0.description: ${RESPONSE.hourly.18.weather.0.description}
-      hourly.18.weather.0.icon: ${RESPONSE.hourly.18.weather.0.icon}
-      hourly.19.dt: ${RESPONSE.hourly.19.dt}
-      hourly.19.temp: ${RESPONSE.hourly.19.temp}
-      hourly.19.feels_like: ${RESPONSE.hourly.19.feels_like}
-      hourly.19.pressure: ${RESPONSE.hourly.19.pressure}
-      hourly.19.humidity: ${RESPONSE.hourly.19.humidity}
-      hourly.19.dew_point: ${RESPONSE.hourly.19.dew_point}
-      hourly.19.clouds: ${RESPONSE.hourly.19.clouds}
-      hourly.19.wind_speed: ${RESPONSE.hourly.19.wind_speed}
-      hourly.19.wind_deg: ${RESPONSE.hourly.19.wind_deg}
-      hourly.19.weather.0.id: ${RESPONSE.hourly.19.weather.0.id}
-      hourly.19.weather.0.main: ${RESPONSE.hourly.19.weather.0.main}
-      hourly.19.weather.0.description: ${RESPONSE.hourly.19.weather.0.description}
-      hourly.19.weather.0.icon: ${RESPONSE.hourly.19.weather.0.icon}
-      hourly.20.dt: ${RESPONSE.hourly.20.dt}
-      hourly.20.temp: ${RESPONSE.hourly.20.temp}
-      hourly.20.feels_like: ${RESPONSE.hourly.20.feels_like}
-      hourly.20.pressure: ${RESPONSE.hourly.20.pressure}
-      hourly.20.humidity: ${RESPONSE.hourly.20.humidity}
-      hourly.20.dew_point: ${RESPONSE.hourly.20.dew_point}
-      hourly.20.clouds: ${RESPONSE.hourly.20.clouds}
-      hourly.20.wind_speed: ${RESPONSE.hourly.20.wind_speed}
-      hourly.20.wind_deg: ${RESPONSE.hourly.20.wind_deg}
-      hourly.20.weather.0.id: ${RESPONSE.hourly.20.weather.0.id}
-      hourly.20.weather.0.main: ${RESPONSE.hourly.20.weather.0.main}
-      hourly.20.weather.0.description: ${RESPONSE.hourly.20.weather.0.description}
-      hourly.20.weather.0.icon: ${RESPONSE.hourly.20.weather.0.icon}
-      hourly.21.dt: ${RESPONSE.hourly.21.dt}
-      hourly.21.temp: ${RESPONSE.hourly.21.temp}
-      hourly.21.feels_like: ${RESPONSE.hourly.21.feels_like}
-      hourly.21.pressure: ${RESPONSE.hourly.21.pressure}
-      hourly.21.humidity: ${RESPONSE.hourly.21.humidity}
-      hourly.21.dew_point: ${RESPONSE.hourly.21.dew_point}
-      hourly.21.clouds: ${RESPONSE.hourly.21.clouds}
-      hourly.21.wind_speed: ${RESPONSE.hourly.21.wind_speed}
-      hourly.21.wind_deg: ${RESPONSE.hourly.21.wind_deg}
-      hourly.21.weather.0.id: ${RESPONSE.hourly.21.weather.0.id}
-      hourly.21.weather.0.main: ${RESPONSE.hourly.21.weather.0.main}
-      hourly.21.weather.0.description: ${RESPONSE.hourly.21.weather.0.description}
-      hourly.21.weather.0.icon: ${RESPONSE.hourly.21.weather.0.icon}
-      hourly.22.dt: ${RESPONSE.hourly.22.dt}
-      hourly.22.temp: ${RESPONSE.hourly.22.temp}
-      hourly.22.feels_like: ${RESPONSE.hourly.22.feels_like}
-      hourly.22.pressure: ${RESPONSE.hourly.22.pressure}
-      hourly.22.humidity: ${RESPONSE.hourly.22.humidity}
-      hourly.22.dew_point: ${RESPONSE.hourly.22.dew_point}
-      hourly.22.clouds: ${RESPONSE.hourly.22.clouds}
-      hourly.22.wind_speed: ${RESPONSE.hourly.22.wind_speed}
-      hourly.22.wind_deg: ${RESPONSE.hourly.22.wind_deg}
-      hourly.22.weather.0.id: ${RESPONSE.hourly.22.weather.0.id}
-      hourly.22.weather.0.main: ${RESPONSE.hourly.22.weather.0.main}
-      hourly.22.weather.0.description: ${RESPONSE.hourly.22.weather.0.description}
-      hourly.22.weather.0.icon: ${RESPONSE.hourly.22.weather.0.icon}
-      hourly.23.dt: ${RESPONSE.hourly.23.dt}
-      hourly.23.temp: ${RESPONSE.hourly.23.temp}
-      hourly.23.feels_like: ${RESPONSE.hourly.23.feels_like}
-      hourly.23.pressure: ${RESPONSE.hourly.23.pressure}
-      hourly.23.humidity: ${RESPONSE.hourly.23.humidity}
-      hourly.23.dew_point: ${RESPONSE.hourly.23.dew_point}
-      hourly.23.clouds: ${RESPONSE.hourly.23.clouds}
-      hourly.23.wind_speed: ${RESPONSE.hourly.23.wind_speed}
-      hourly.23.wind_deg: ${RESPONSE.hourly.23.wind_deg}
-      hourly.23.weather.0.id: ${RESPONSE.hourly.23.weather.0.id}
-      hourly.23.weather.0.main: ${RESPONSE.hourly.23.weather.0.main}
-      hourly.23.weather.0.description: ${RESPONSE.hourly.23.weather.0.description}
-      hourly.23.weather.0.icon: ${RESPONSE.hourly.23.weather.0.icon}
-      hourly.24.dt: ${RESPONSE.hourly.24.dt}
-      hourly.24.temp: ${RESPONSE.hourly.24.temp}
-      hourly.24.feels_like: ${RESPONSE.hourly.24.feels_like}
-      hourly.24.pressure: ${RESPONSE.hourly.24.pressure}
-      hourly.24.humidity: ${RESPONSE.hourly.24.humidity}
-      hourly.24.dew_point: ${RESPONSE.hourly.24.dew_point}
-      hourly.24.clouds: ${RESPONSE.hourly.24.clouds}
-      hourly.24.wind_speed: ${RESPONSE.hourly.24.wind_speed}
-      hourly.24.wind_deg: ${RESPONSE.hourly.24.wind_deg}
-      hourly.24.weather.0.id: ${RESPONSE.hourly.24.weather.0.id}
-      hourly.24.weather.0.main: ${RESPONSE.hourly.24.weather.0.main}
-      hourly.24.weather.0.description: ${RESPONSE.hourly.24.weather.0.description}
-      hourly.24.weather.0.icon: ${RESPONSE.hourly.24.weather.0.icon}
-      hourly.25.dt: ${RESPONSE.hourly.25.dt}
-      hourly.25.temp: ${RESPONSE.hourly.25.temp}
-      hourly.25.feels_like: ${RESPONSE.hourly.25.feels_like}
-      hourly.25.pressure: ${RESPONSE.hourly.25.pressure}
-      hourly.25.humidity: ${RESPONSE.hourly.25.humidity}
-      hourly.25.dew_point: ${RESPONSE.hourly.25.dew_point}
-      hourly.25.clouds: ${RESPONSE.hourly.25.clouds}
-      hourly.25.wind_speed: ${RESPONSE.hourly.25.wind_speed}
-      hourly.25.wind_deg: ${RESPONSE.hourly.25.wind_deg}
-      hourly.25.weather.0.id: ${RESPONSE.hourly.25.weather.0.id}
-      hourly.25.weather.0.main: ${RESPONSE.hourly.25.weather.0.main}
-      hourly.25.weather.0.description: ${RESPONSE.hourly.25.weather.0.description}
-      hourly.25.weather.0.icon: ${RESPONSE.hourly.25.weather.0.icon}
-      hourly.26.dt: ${RESPONSE.hourly.26.dt}
-      hourly.26.temp: ${RESPONSE.hourly.26.temp}
-      hourly.26.feels_like: ${RESPONSE.hourly.26.feels_like}
-      hourly.26.pressure: ${RESPONSE.hourly.26.pressure}
-      hourly.26.humidity: ${RESPONSE.hourly.26.humidity}
-      hourly.26.dew_point: ${RESPONSE.hourly.26.dew_point}
-      hourly.26.clouds: ${RESPONSE.hourly.26.clouds}
-      hourly.26.wind_speed: ${RESPONSE.hourly.26.wind_speed}
-      hourly.26.wind_deg: ${RESPONSE.hourly.26.wind_deg}
-      hourly.26.weather.0.id: ${RESPONSE.hourly.26.weather.0.id}
-      hourly.26.weather.0.main: ${RESPONSE.hourly.26.weather.0.main}
-      hourly.26.weather.0.description: ${RESPONSE.hourly.26.weather.0.description}
-      hourly.26.weather.0.icon: ${RESPONSE.hourly.26.weather.0.icon}
-      hourly.27.dt: ${RESPONSE.hourly.27.dt}
-      hourly.27.temp: ${RESPONSE.hourly.27.temp}
-      hourly.27.feels_like: ${RESPONSE.hourly.27.feels_like}
-      hourly.27.pressure: ${RESPONSE.hourly.27.pressure}
-      hourly.27.humidity: ${RESPONSE.hourly.27.humidity}
-      hourly.27.dew_point: ${RESPONSE.hourly.27.dew_point}
-      hourly.27.clouds: ${RESPONSE.hourly.27.clouds}
-      hourly.27.wind_speed: ${RESPONSE.hourly.27.wind_speed}
-      hourly.27.wind_deg: ${RESPONSE.hourly.27.wind_deg}
-      hourly.27.weather.0.id: ${RESPONSE.hourly.27.weather.0.id}
-      hourly.27.weather.0.main: ${RESPONSE.hourly.27.weather.0.main}
-      hourly.27.weather.0.description: ${RESPONSE.hourly.27.weather.0.description}
-      hourly.27.weather.0.icon: ${RESPONSE.hourly.27.weather.0.icon}
-      hourly.28.dt: ${RESPONSE.hourly.28.dt}
-      hourly.28.temp: ${RESPONSE.hourly.28.temp}
-      hourly.28.feels_like: ${RESPONSE.hourly.28.feels_like}
-      hourly.28.pressure: ${RESPONSE.hourly.28.pressure}
-      hourly.28.humidity: ${RESPONSE.hourly.28.humidity}
-      hourly.28.dew_point: ${RESPONSE.hourly.28.dew_point}
-      hourly.28.clouds: ${RESPONSE.hourly.28.clouds}
-      hourly.28.wind_speed: ${RESPONSE.hourly.28.wind_speed}
-      hourly.28.wind_deg: ${RESPONSE.hourly.28.wind_deg}
-      hourly.28.weather.0.id: ${RESPONSE.hourly.28.weather.0.id}
-      hourly.28.weather.0.main: ${RESPONSE.hourly.28.weather.0.main}
-      hourly.28.weather.0.description: ${RESPONSE.hourly.28.weather.0.description}
-      hourly.28.weather.0.icon: ${RESPONSE.hourly.28.weather.0.icon}
-      hourly.29.dt: ${RESPONSE.hourly.29.dt}
-      hourly.29.temp: ${RESPONSE.hourly.29.temp}
-      hourly.29.feels_like: ${RESPONSE.hourly.29.feels_like}
-      hourly.29.pressure: ${RESPONSE.hourly.29.pressure}
-      hourly.29.humidity: ${RESPONSE.hourly.29.humidity}
-      hourly.29.dew_point: ${RESPONSE.hourly.29.dew_point}
-      hourly.29.clouds: ${RESPONSE.hourly.29.clouds}
-      hourly.29.wind_speed: ${RESPONSE.hourly.29.wind_speed}
-      hourly.29.wind_deg: ${RESPONSE.hourly.29.wind_deg}
-      hourly.29.weather.0.id: ${RESPONSE.hourly.29.weather.0.id}
-      hourly.29.weather.0.main: ${RESPONSE.hourly.29.weather.0.main}
-      hourly.29.weather.0.description: ${RESPONSE.hourly.29.weather.0.description}
-      hourly.29.weather.0.icon: ${RESPONSE.hourly.29.weather.0.icon}
-      hourly.30.dt: ${RESPONSE.hourly.30.dt}
-      hourly.30.temp: ${RESPONSE.hourly.30.temp}
-      hourly.30.feels_like: ${RESPONSE.hourly.30.feels_like}
-      hourly.30.pressure: ${RESPONSE.hourly.30.pressure}
-      hourly.30.humidity: ${RESPONSE.hourly.30.humidity}
-      hourly.30.dew_point: ${RESPONSE.hourly.30.dew_point}
-      hourly.30.clouds: ${RESPONSE.hourly.30.clouds}
-      hourly.30.wind_speed: ${RESPONSE.hourly.30.wind_speed}
-      hourly.30.wind_deg: ${RESPONSE.hourly.30.wind_deg}
-      hourly.30.weather.0.id: ${RESPONSE.hourly.30.weather.0.id}
-      hourly.30.weather.0.main: ${RESPONSE.hourly.30.weather.0.main}
-      hourly.30.weather.0.description: ${RESPONSE.hourly.30.weather.0.description}
-      hourly.30.weather.0.icon: ${RESPONSE.hourly.30.weather.0.icon}
-      hourly.31.dt: ${RESPONSE.hourly.31.dt}
-      hourly.31.temp: ${RESPONSE.hourly.31.temp}
-      hourly.31.feels_like: ${RESPONSE.hourly.31.feels_like}
-      hourly.31.pressure: ${RESPONSE.hourly.31.pressure}
-      hourly.31.humidity: ${RESPONSE.hourly.31.humidity}
-      hourly.31.dew_point: ${RESPONSE.hourly.31.dew_point}
-      hourly.31.clouds: ${RESPONSE.hourly.31.clouds}
-      hourly.31.wind_speed: ${RESPONSE.hourly.31.wind_speed}
-      hourly.31.wind_deg: ${RESPONSE.hourly.31.wind_deg}
-      hourly.31.weather.0.id: ${RESPONSE.hourly.31.weather.0.id}
-      hourly.31.weather.0.main: ${RESPONSE.hourly.31.weather.0.main}
-      hourly.31.weather.0.description: ${RESPONSE.hourly.31.weather.0.description}
-      hourly.31.weather.0.icon: ${RESPONSE.hourly.31.weather.0.icon}
-      hourly.32.dt: ${RESPONSE.hourly.32.dt}
-      hourly.32.temp: ${RESPONSE.hourly.32.temp}
-      hourly.32.feels_like: ${RESPONSE.hourly.32.feels_like}
-      hourly.32.pressure: ${RESPONSE.hourly.32.pressure}
-      hourly.32.humidity: ${RESPONSE.hourly.32.humidity}
-      hourly.32.dew_point: ${RESPONSE.hourly.32.dew_point}
-      hourly.32.clouds: ${RESPONSE.hourly.32.clouds}
-      hourly.32.wind_speed: ${RESPONSE.hourly.32.wind_speed}
-      hourly.32.wind_deg: ${RESPONSE.hourly.32.wind_deg}
-      hourly.32.weather.0.id: ${RESPONSE.hourly.32.weather.0.id}
-      hourly.32.weather.0.main: ${RESPONSE.hourly.32.weather.0.main}
-      hourly.32.weather.0.description: ${RESPONSE.hourly.32.weather.0.description}
-      hourly.32.weather.0.icon: ${RESPONSE.hourly.32.weather.0.icon}
-      hourly.33.dt: ${RESPONSE.hourly.33.dt}
-      hourly.33.temp: ${RESPONSE.hourly.33.temp}
-      hourly.33.feels_like: ${RESPONSE.hourly.33.feels_like}
-      hourly.33.pressure: ${RESPONSE.hourly.33.pressure}
-      hourly.33.humidity: ${RESPONSE.hourly.33.humidity}
-      hourly.33.dew_point: ${RESPONSE.hourly.33.dew_point}
-      hourly.33.clouds: ${RESPONSE.hourly.33.clouds}
-      hourly.33.wind_speed: ${RESPONSE.hourly.33.wind_speed}
-      hourly.33.wind_deg: ${RESPONSE.hourly.33.wind_deg}
-      hourly.33.weather.0.id: ${RESPONSE.hourly.33.weather.0.id}
-      hourly.33.weather.0.main: ${RESPONSE.hourly.33.weather.0.main}
-      hourly.33.weather.0.description: ${RESPONSE.hourly.33.weather.0.description}
-      hourly.33.weather.0.icon: ${RESPONSE.hourly.33.weather.0.icon}
-      hourly.34.dt: ${RESPONSE.hourly.34.dt}
-      hourly.34.temp: ${RESPONSE.hourly.34.temp}
-      hourly.34.feels_like: ${RESPONSE.hourly.34.feels_like}
-      hourly.34.pressure: ${RESPONSE.hourly.34.pressure}
-      hourly.34.humidity: ${RESPONSE.hourly.34.humidity}
-      hourly.34.dew_point: ${RESPONSE.hourly.34.dew_point}
-      hourly.34.clouds: ${RESPONSE.hourly.34.clouds}
-      hourly.34.wind_speed: ${RESPONSE.hourly.34.wind_speed}
-      hourly.34.wind_deg: ${RESPONSE.hourly.34.wind_deg}
-      hourly.34.weather.0.id: ${RESPONSE.hourly.34.weather.0.id}
-      hourly.34.weather.0.main: ${RESPONSE.hourly.34.weather.0.main}
-      hourly.34.weather.0.description: ${RESPONSE.hourly.34.weather.0.description}
-      hourly.34.weather.0.icon: ${RESPONSE.hourly.34.weather.0.icon}
-      hourly.35.dt: ${RESPONSE.hourly.35.dt}
-      hourly.35.temp: ${RESPONSE.hourly.35.temp}
-      hourly.35.feels_like: ${RESPONSE.hourly.35.feels_like}
-      hourly.35.pressure: ${RESPONSE.hourly.35.pressure}
-      hourly.35.humidity: ${RESPONSE.hourly.35.humidity}
-      hourly.35.dew_point: ${RESPONSE.hourly.35.dew_point}
-      hourly.35.clouds: ${RESPONSE.hourly.35.clouds}
-      hourly.35.wind_speed: ${RESPONSE.hourly.35.wind_speed}
-      hourly.35.wind_deg: ${RESPONSE.hourly.35.wind_deg}
-      hourly.35.weather.0.id: ${RESPONSE.hourly.35.weather.0.id}
-      hourly.35.weather.0.main: ${RESPONSE.hourly.35.weather.0.main}
-      hourly.35.weather.0.description: ${RESPONSE.hourly.35.weather.0.description}
-      hourly.35.weather.0.icon: ${RESPONSE.hourly.35.weather.0.icon}
-      hourly.36.dt: ${RESPONSE.hourly.36.dt}
-      hourly.36.temp: ${RESPONSE.hourly.36.temp}
-      hourly.36.feels_like: ${RESPONSE.hourly.36.feels_like}
-      hourly.36.pressure: ${RESPONSE.hourly.36.pressure}
-      hourly.36.humidity: ${RESPONSE.hourly.36.humidity}
-      hourly.36.dew_point: ${RESPONSE.hourly.36.dew_point}
-      hourly.36.clouds: ${RESPONSE.hourly.36.clouds}
-      hourly.36.wind_speed: ${RESPONSE.hourly.36.wind_speed}
-      hourly.36.wind_deg: ${RESPONSE.hourly.36.wind_deg}
-      hourly.36.weather.0.id: ${RESPONSE.hourly.36.weather.0.id}
-      hourly.36.weather.0.main: ${RESPONSE.hourly.36.weather.0.main}
-      hourly.36.weather.0.description: ${RESPONSE.hourly.36.weather.0.description}
-      hourly.36.weather.0.icon: ${RESPONSE.hourly.36.weather.0.icon}
-      hourly.37.dt: ${RESPONSE.hourly.37.dt}
-      hourly.37.temp: ${RESPONSE.hourly.37.temp}
-      hourly.37.feels_like: ${RESPONSE.hourly.37.feels_like}
-      hourly.37.pressure: ${RESPONSE.hourly.37.pressure}
-      hourly.37.humidity: ${RESPONSE.hourly.37.humidity}
-      hourly.37.dew_point: ${RESPONSE.hourly.37.dew_point}
-      hourly.37.clouds: ${RESPONSE.hourly.37.clouds}
-      hourly.37.wind_speed: ${RESPONSE.hourly.37.wind_speed}
-      hourly.37.wind_deg: ${RESPONSE.hourly.37.wind_deg}
-      hourly.37.weather.0.id: ${RESPONSE.hourly.37.weather.0.id}
-      hourly.37.weather.0.main: ${RESPONSE.hourly.37.weather.0.main}
-      hourly.37.weather.0.description: ${RESPONSE.hourly.37.weather.0.description}
-      hourly.37.weather.0.icon: ${RESPONSE.hourly.37.weather.0.icon}
-      hourly.38.dt: ${RESPONSE.hourly.38.dt}
-      hourly.38.temp: ${RESPONSE.hourly.38.temp}
-      hourly.38.feels_like: ${RESPONSE.hourly.38.feels_like}
-      hourly.38.pressure: ${RESPONSE.hourly.38.pressure}
-      hourly.38.humidity: ${RESPONSE.hourly.38.humidity}
-      hourly.38.dew_point: ${RESPONSE.hourly.38.dew_point}
-      hourly.38.clouds: ${RESPONSE.hourly.38.clouds}
-      hourly.38.wind_speed: ${RESPONSE.hourly.38.wind_speed}
-      hourly.38.wind_deg: ${RESPONSE.hourly.38.wind_deg}
-      hourly.38.weather.0.id: ${RESPONSE.hourly.38.weather.0.id}
-      hourly.38.weather.0.main: ${RESPONSE.hourly.38.weather.0.main}
-      hourly.38.weather.0.description: ${RESPONSE.hourly.38.weather.0.description}
-      hourly.38.weather.0.icon: ${RESPONSE.hourly.38.weather.0.icon}
-      hourly.39.dt: ${RESPONSE.hourly.39.dt}
-      hourly.39.temp: ${RESPONSE.hourly.39.temp}
-      hourly.39.feels_like: ${RESPONSE.hourly.39.feels_like}
-      hourly.39.pressure: ${RESPONSE.hourly.39.pressure}
-      hourly.39.humidity: ${RESPONSE.hourly.39.humidity}
-      hourly.39.dew_point: ${RESPONSE.hourly.39.dew_point}
-      hourly.39.clouds: ${RESPONSE.hourly.39.clouds}
-      hourly.39.wind_speed: ${RESPONSE.hourly.39.wind_speed}
-      hourly.39.wind_deg: ${RESPONSE.hourly.39.wind_deg}
-      hourly.39.weather.0.id: ${RESPONSE.hourly.39.weather.0.id}
-      hourly.39.weather.0.main: ${RESPONSE.hourly.39.weather.0.main}
-      hourly.39.weather.0.description: ${RESPONSE.hourly.39.weather.0.description}
-      hourly.39.weather.0.icon: ${RESPONSE.hourly.39.weather.0.icon}
-      hourly.40.dt: ${RESPONSE.hourly.40.dt}
-      hourly.40.temp: ${RESPONSE.hourly.40.temp}
-      hourly.40.feels_like: ${RESPONSE.hourly.40.feels_like}
-      hourly.40.pressure: ${RESPONSE.hourly.40.pressure}
-      hourly.40.humidity: ${RESPONSE.hourly.40.humidity}
-      hourly.40.dew_point: ${RESPONSE.hourly.40.dew_point}
-      hourly.40.clouds: ${RESPONSE.hourly.40.clouds}
-      hourly.40.wind_speed: ${RESPONSE.hourly.40.wind_speed}
-      hourly.40.wind_deg: ${RESPONSE.hourly.40.wind_deg}
-      hourly.40.weather.0.id: ${RESPONSE.hourly.40.weather.0.id}
-      hourly.40.weather.0.main: ${RESPONSE.hourly.40.weather.0.main}
-      hourly.40.weather.0.description: ${RESPONSE.hourly.40.weather.0.description}
-      hourly.40.weather.0.icon: ${RESPONSE.hourly.40.weather.0.icon}
-      hourly.41.dt: ${RESPONSE.hourly.41.dt}
-      hourly.41.temp: ${RESPONSE.hourly.41.temp}
-      hourly.41.feels_like: ${RESPONSE.hourly.41.feels_like}
-      hourly.41.pressure: ${RESPONSE.hourly.41.pressure}
-      hourly.41.humidity: ${RESPONSE.hourly.41.humidity}
-      hourly.41.dew_point: ${RESPONSE.hourly.41.dew_point}
-      hourly.41.clouds: ${RESPONSE.hourly.41.clouds}
-      hourly.41.wind_speed: ${RESPONSE.hourly.41.wind_speed}
-      hourly.41.wind_deg: ${RESPONSE.hourly.41.wind_deg}
-      hourly.41.weather.0.id: ${RESPONSE.hourly.41.weather.0.id}
-      hourly.41.weather.0.main: ${RESPONSE.hourly.41.weather.0.main}
-      hourly.41.weather.0.description: ${RESPONSE.hourly.41.weather.0.description}
-      hourly.41.weather.0.icon: ${RESPONSE.hourly.41.weather.0.icon}
-      hourly.42.dt: ${RESPONSE.hourly.42.dt}
-      hourly.42.temp: ${RESPONSE.hourly.42.temp}
-      hourly.42.feels_like: ${RESPONSE.hourly.42.feels_like}
-      hourly.42.pressure: ${RESPONSE.hourly.42.pressure}
-      hourly.42.humidity: ${RESPONSE.hourly.42.humidity}
-      hourly.42.dew_point: ${RESPONSE.hourly.42.dew_point}
-      hourly.42.clouds: ${RESPONSE.hourly.42.clouds}
-      hourly.42.wind_speed: ${RESPONSE.hourly.42.wind_speed}
-      hourly.42.wind_deg: ${RESPONSE.hourly.42.wind_deg}
-      hourly.42.weather.0.id: ${RESPONSE.hourly.42.weather.0.id}
-      hourly.42.weather.0.main: ${RESPONSE.hourly.42.weather.0.main}
-      hourly.42.weather.0.description: ${RESPONSE.hourly.42.weather.0.description}
-      hourly.42.weather.0.icon: ${RESPONSE.hourly.42.weather.0.icon}
-      hourly.43.dt: ${RESPONSE.hourly.43.dt}
-      hourly.43.temp: ${RESPONSE.hourly.43.temp}
-      hourly.43.feels_like: ${RESPONSE.hourly.43.feels_like}
-      hourly.43.pressure: ${RESPONSE.hourly.43.pressure}
-      hourly.43.humidity: ${RESPONSE.hourly.43.humidity}
-      hourly.43.dew_point: ${RESPONSE.hourly.43.dew_point}
-      hourly.43.clouds: ${RESPONSE.hourly.43.clouds}
-      hourly.43.wind_speed: ${RESPONSE.hourly.43.wind_speed}
-      hourly.43.wind_deg: ${RESPONSE.hourly.43.wind_deg}
-      hourly.43.weather.0.id: ${RESPONSE.hourly.43.weather.0.id}
-      hourly.43.weather.0.main: ${RESPONSE.hourly.43.weather.0.main}
-      hourly.43.weather.0.description: ${RESPONSE.hourly.43.weather.0.description}
-      hourly.43.weather.0.icon: ${RESPONSE.hourly.43.weather.0.icon}
-      hourly.44.dt: ${RESPONSE.hourly.44.dt}
-      hourly.44.temp: ${RESPONSE.hourly.44.temp}
-      hourly.44.feels_like: ${RESPONSE.hourly.44.feels_like}
-      hourly.44.pressure: ${RESPONSE.hourly.44.pressure}
-      hourly.44.humidity: ${RESPONSE.hourly.44.humidity}
-      hourly.44.dew_point: ${RESPONSE.hourly.44.dew_point}
-      hourly.44.clouds: ${RESPONSE.hourly.44.clouds}
-      hourly.44.wind_speed: ${RESPONSE.hourly.44.wind_speed}
-      hourly.44.wind_deg: ${RESPONSE.hourly.44.wind_deg}
-      hourly.44.weather.0.id: ${RESPONSE.hourly.44.weather.0.id}
-      hourly.44.weather.0.main: ${RESPONSE.hourly.44.weather.0.main}
-      hourly.44.weather.0.description: ${RESPONSE.hourly.44.weather.0.description}
-      hourly.44.weather.0.icon: ${RESPONSE.hourly.44.weather.0.icon}
-      hourly.45.dt: ${RESPONSE.hourly.45.dt}
-      hourly.45.temp: ${RESPONSE.hourly.45.temp}
-      hourly.45.feels_like: ${RESPONSE.hourly.45.feels_like}
-      hourly.45.pressure: ${RESPONSE.hourly.45.pressure}
-      hourly.45.humidity: ${RESPONSE.hourly.45.humidity}
-      hourly.45.dew_point: ${RESPONSE.hourly.45.dew_point}
-      hourly.45.clouds: ${RESPONSE.hourly.45.clouds}
-      hourly.45.wind_speed: ${RESPONSE.hourly.45.wind_speed}
-      hourly.45.wind_deg: ${RESPONSE.hourly.45.wind_deg}
-      hourly.45.weather.0.id: ${RESPONSE.hourly.45.weather.0.id}
-      hourly.45.weather.0.main: ${RESPONSE.hourly.45.weather.0.main}
-      hourly.45.weather.0.description: ${RESPONSE.hourly.45.weather.0.description}
-      hourly.45.weather.0.icon: ${RESPONSE.hourly.45.weather.0.icon}
-      hourly.46.dt: ${RESPONSE.hourly.46.dt}
-      hourly.46.temp: ${RESPONSE.hourly.46.temp}
-      hourly.46.feels_like: ${RESPONSE.hourly.46.feels_like}
-      hourly.46.pressure: ${RESPONSE.hourly.46.pressure}
-      hourly.46.humidity: ${RESPONSE.hourly.46.humidity}
-      hourly.46.dew_point: ${RESPONSE.hourly.46.dew_point}
-      hourly.46.clouds: ${RESPONSE.hourly.46.clouds}
-      hourly.46.wind_speed: ${RESPONSE.hourly.46.wind_speed}
-      hourly.46.wind_deg: ${RESPONSE.hourly.46.wind_deg}
-      hourly.46.weather.0.id: ${RESPONSE.hourly.46.weather.0.id}
-      hourly.46.weather.0.main: ${RESPONSE.hourly.46.weather.0.main}
-      hourly.46.weather.0.description: ${RESPONSE.hourly.46.weather.0.description}
-      hourly.46.weather.0.icon: ${RESPONSE.hourly.46.weather.0.icon}
-      hourly.47.dt: ${RESPONSE.hourly.47.dt}
-      hourly.47.temp: ${RESPONSE.hourly.47.temp}
-      hourly.47.feels_like: ${RESPONSE.hourly.47.feels_like}
-      hourly.47.pressure: ${RESPONSE.hourly.47.pressure}
-      hourly.47.humidity: ${RESPONSE.hourly.47.humidity}
-      hourly.47.dew_point: ${RESPONSE.hourly.47.dew_point}
-      hourly.47.clouds: ${RESPONSE.hourly.47.clouds}
-      hourly.47.wind_speed: ${RESPONSE.hourly.47.wind_speed}
-      hourly.47.wind_deg: ${RESPONSE.hourly.47.wind_deg}
-      hourly.47.weather.0.id: ${RESPONSE.hourly.47.weather.0.id}
-      hourly.47.weather.0.main: ${RESPONSE.hourly.47.weather.0.main}
-      hourly.47.weather.0.description: ${RESPONSE.hourly.47.weather.0.description}
-      hourly.47.weather.0.icon: ${RESPONSE.hourly.47.weather.0.icon}
+      # hourly.0.dt: ${RESPONSE.hourly.0.dt}
+      # hourly.0.temp: ${RESPONSE.hourly.0.temp}
+      # hourly.0.feels_like: ${RESPONSE.hourly.0.feels_like}
+      # hourly.0.pressure: ${RESPONSE.hourly.0.pressure}
+      # hourly.0.humidity: ${RESPONSE.hourly.0.humidity}
+      # hourly.0.dew_point: ${RESPONSE.hourly.0.dew_point}
+      # hourly.0.clouds: ${RESPONSE.hourly.0.clouds}
+      # hourly.0.wind_speed: ${RESPONSE.hourly.0.wind_speed}
+      # hourly.0.wind_deg: ${RESPONSE.hourly.0.wind_deg}
+      # hourly.0.weather.0.id: ${RESPONSE.hourly.0.weather.0.id}
+      # hourly.0.weather.0.main: ${RESPONSE.hourly.0.weather.0.main}
+      # hourly.0.weather.0.description: ${RESPONSE.hourly.0.weather.0.description}
+      # hourly.0.weather.0.icon: ${RESPONSE.hourly.0.weather.0.icon}
+      # hourly.1.dt: ${RESPONSE.hourly.1.dt}
+      # hourly.1.temp: ${RESPONSE.hourly.1.temp}
+      # hourly.1.feels_like: ${RESPONSE.hourly.1.feels_like}
+      # hourly.1.pressure: ${RESPONSE.hourly.1.pressure}
+      # hourly.1.humidity: ${RESPONSE.hourly.1.humidity}
+      # hourly.1.dew_point: ${RESPONSE.hourly.1.dew_point}
+      # hourly.1.clouds: ${RESPONSE.hourly.1.clouds}
+      # hourly.1.wind_speed: ${RESPONSE.hourly.1.wind_speed}
+      # hourly.1.wind_deg: ${RESPONSE.hourly.1.wind_deg}
+      # hourly.1.weather.0.id: ${RESPONSE.hourly.1.weather.0.id}
+      # hourly.1.weather.0.main: ${RESPONSE.hourly.1.weather.0.main}
+      # hourly.1.weather.0.description: ${RESPONSE.hourly.1.weather.0.description}
+      # hourly.1.weather.0.icon: ${RESPONSE.hourly.1.weather.0.icon}
+      # hourly.2.dt: ${RESPONSE.hourly.2.dt}
+      # hourly.2.temp: ${RESPONSE.hourly.2.temp}
+      # hourly.2.feels_like: ${RESPONSE.hourly.2.feels_like}
+      # hourly.2.pressure: ${RESPONSE.hourly.2.pressure}
+      # hourly.2.humidity: ${RESPONSE.hourly.2.humidity}
+      # hourly.2.dew_point: ${RESPONSE.hourly.2.dew_point}
+      # hourly.2.clouds: ${RESPONSE.hourly.2.clouds}
+      # hourly.2.wind_speed: ${RESPONSE.hourly.2.wind_speed}
+      # hourly.2.wind_deg: ${RESPONSE.hourly.2.wind_deg}
+      # hourly.2.weather.0.id: ${RESPONSE.hourly.2.weather.0.id}
+      # hourly.2.weather.0.main: ${RESPONSE.hourly.2.weather.0.main}
+      # hourly.2.weather.0.description: ${RESPONSE.hourly.2.weather.0.description}
+      # hourly.2.weather.0.icon: ${RESPONSE.hourly.2.weather.0.icon}
+      # hourly.3.dt: ${RESPONSE.hourly.3.dt}
+      # hourly.3.temp: ${RESPONSE.hourly.3.temp}
+      # hourly.3.feels_like: ${RESPONSE.hourly.3.feels_like}
+      # hourly.3.pressure: ${RESPONSE.hourly.3.pressure}
+      # hourly.3.humidity: ${RESPONSE.hourly.3.humidity}
+      # hourly.3.dew_point: ${RESPONSE.hourly.3.dew_point}
+      # hourly.3.clouds: ${RESPONSE.hourly.3.clouds}
+      # hourly.3.wind_speed: ${RESPONSE.hourly.3.wind_speed}
+      # hourly.3.wind_deg: ${RESPONSE.hourly.3.wind_deg}
+      # hourly.3.weather.0.id: ${RESPONSE.hourly.3.weather.0.id}
+      # hourly.3.weather.0.main: ${RESPONSE.hourly.3.weather.0.main}
+      # hourly.3.weather.0.description: ${RESPONSE.hourly.3.weather.0.description}
+      # hourly.3.weather.0.icon: ${RESPONSE.hourly.3.weather.0.icon}
+      # hourly.4.dt: ${RESPONSE.hourly.4.dt}
+      # hourly.4.temp: ${RESPONSE.hourly.4.temp}
+      # hourly.4.feels_like: ${RESPONSE.hourly.4.feels_like}
+      # hourly.4.pressure: ${RESPONSE.hourly.4.pressure}
+      # hourly.4.humidity: ${RESPONSE.hourly.4.humidity}
+      # hourly.4.dew_point: ${RESPONSE.hourly.4.dew_point}
+      # hourly.4.clouds: ${RESPONSE.hourly.4.clouds}
+      # hourly.4.wind_speed: ${RESPONSE.hourly.4.wind_speed}
+      # hourly.4.wind_deg: ${RESPONSE.hourly.4.wind_deg}
+      # hourly.4.weather.0.id: ${RESPONSE.hourly.4.weather.0.id}
+      # hourly.4.weather.0.main: ${RESPONSE.hourly.4.weather.0.main}
+      # hourly.4.weather.0.description: ${RESPONSE.hourly.4.weather.0.description}
+      # hourly.4.weather.0.icon: ${RESPONSE.hourly.4.weather.0.icon}
+      # hourly.5.dt: ${RESPONSE.hourly.5.dt}
+      # hourly.5.temp: ${RESPONSE.hourly.5.temp}
+      # hourly.5.feels_like: ${RESPONSE.hourly.5.feels_like}
+      # hourly.5.pressure: ${RESPONSE.hourly.5.pressure}
+      # hourly.5.humidity: ${RESPONSE.hourly.5.humidity}
+      # hourly.5.dew_point: ${RESPONSE.hourly.5.dew_point}
+      # hourly.5.clouds: ${RESPONSE.hourly.5.clouds}
+      # hourly.5.wind_speed: ${RESPONSE.hourly.5.wind_speed}
+      # hourly.5.wind_deg: ${RESPONSE.hourly.5.wind_deg}
+      # hourly.5.weather.0.id: ${RESPONSE.hourly.5.weather.0.id}
+      # hourly.5.weather.0.main: ${RESPONSE.hourly.5.weather.0.main}
+      # hourly.5.weather.0.description: ${RESPONSE.hourly.5.weather.0.description}
+      # hourly.5.weather.0.icon: ${RESPONSE.hourly.5.weather.0.icon}
+      # hourly.6.dt: ${RESPONSE.hourly.6.dt}
+      # hourly.6.temp: ${RESPONSE.hourly.6.temp}
+      # hourly.6.feels_like: ${RESPONSE.hourly.6.feels_like}
+      # hourly.6.pressure: ${RESPONSE.hourly.6.pressure}
+      # hourly.6.humidity: ${RESPONSE.hourly.6.humidity}
+      # hourly.6.dew_point: ${RESPONSE.hourly.6.dew_point}
+      # hourly.6.clouds: ${RESPONSE.hourly.6.clouds}
+      # hourly.6.wind_speed: ${RESPONSE.hourly.6.wind_speed}
+      # hourly.6.wind_deg: ${RESPONSE.hourly.6.wind_deg}
+      # hourly.6.weather.0.id: ${RESPONSE.hourly.6.weather.0.id}
+      # hourly.6.weather.0.main: ${RESPONSE.hourly.6.weather.0.main}
+      # hourly.6.weather.0.description: ${RESPONSE.hourly.6.weather.0.description}
+      # hourly.6.weather.0.icon: ${RESPONSE.hourly.6.weather.0.icon}
+      # hourly.7.dt: ${RESPONSE.hourly.7.dt}
+      # hourly.7.temp: ${RESPONSE.hourly.7.temp}
+      # hourly.7.feels_like: ${RESPONSE.hourly.7.feels_like}
+      # hourly.7.pressure: ${RESPONSE.hourly.7.pressure}
+      # hourly.7.humidity: ${RESPONSE.hourly.7.humidity}
+      # hourly.7.dew_point: ${RESPONSE.hourly.7.dew_point}
+      # hourly.7.clouds: ${RESPONSE.hourly.7.clouds}
+      # hourly.7.wind_speed: ${RESPONSE.hourly.7.wind_speed}
+      # hourly.7.wind_deg: ${RESPONSE.hourly.7.wind_deg}
+      # hourly.7.weather.0.id: ${RESPONSE.hourly.7.weather.0.id}
+      # hourly.7.weather.0.main: ${RESPONSE.hourly.7.weather.0.main}
+      # hourly.7.weather.0.description: ${RESPONSE.hourly.7.weather.0.description}
+      # hourly.7.weather.0.icon: ${RESPONSE.hourly.7.weather.0.icon}
+      # hourly.8.dt: ${RESPONSE.hourly.8.dt}
+      # hourly.8.temp: ${RESPONSE.hourly.8.temp}
+      # hourly.8.feels_like: ${RESPONSE.hourly.8.feels_like}
+      # hourly.8.pressure: ${RESPONSE.hourly.8.pressure}
+      # hourly.8.humidity: ${RESPONSE.hourly.8.humidity}
+      # hourly.8.dew_point: ${RESPONSE.hourly.8.dew_point}
+      # hourly.8.clouds: ${RESPONSE.hourly.8.clouds}
+      # hourly.8.wind_speed: ${RESPONSE.hourly.8.wind_speed}
+      # hourly.8.wind_deg: ${RESPONSE.hourly.8.wind_deg}
+      # hourly.8.weather.0.id: ${RESPONSE.hourly.8.weather.0.id}
+      # hourly.8.weather.0.main: ${RESPONSE.hourly.8.weather.0.main}
+      # hourly.8.weather.0.description: ${RESPONSE.hourly.8.weather.0.description}
+      # hourly.8.weather.0.icon: ${RESPONSE.hourly.8.weather.0.icon}
+      # hourly.9.dt: ${RESPONSE.hourly.9.dt}
+      # hourly.9.temp: ${RESPONSE.hourly.9.temp}
+      # hourly.9.feels_like: ${RESPONSE.hourly.9.feels_like}
+      # hourly.9.pressure: ${RESPONSE.hourly.9.pressure}
+      # hourly.9.humidity: ${RESPONSE.hourly.9.humidity}
+      # hourly.9.dew_point: ${RESPONSE.hourly.9.dew_point}
+      # hourly.9.clouds: ${RESPONSE.hourly.9.clouds}
+      # hourly.9.wind_speed: ${RESPONSE.hourly.9.wind_speed}
+      # hourly.9.wind_deg: ${RESPONSE.hourly.9.wind_deg}
+      # hourly.9.weather.0.id: ${RESPONSE.hourly.9.weather.0.id}
+      # hourly.9.weather.0.main: ${RESPONSE.hourly.9.weather.0.main}
+      # hourly.9.weather.0.description: ${RESPONSE.hourly.9.weather.0.description}
+      # hourly.9.weather.0.icon: ${RESPONSE.hourly.9.weather.0.icon}
+      # hourly.10.dt: ${RESPONSE.hourly.10.dt}
+      # hourly.10.temp: ${RESPONSE.hourly.10.temp}
+      # hourly.10.feels_like: ${RESPONSE.hourly.10.feels_like}
+      # hourly.10.pressure: ${RESPONSE.hourly.10.pressure}
+      # hourly.10.humidity: ${RESPONSE.hourly.10.humidity}
+      # hourly.10.dew_point: ${RESPONSE.hourly.10.dew_point}
+      # hourly.10.clouds: ${RESPONSE.hourly.10.clouds}
+      # hourly.10.wind_speed: ${RESPONSE.hourly.10.wind_speed}
+      # hourly.10.wind_deg: ${RESPONSE.hourly.10.wind_deg}
+      # hourly.10.weather.0.id: ${RESPONSE.hourly.10.weather.0.id}
+      # hourly.10.weather.0.main: ${RESPONSE.hourly.10.weather.0.main}
+      # hourly.10.weather.0.description: ${RESPONSE.hourly.10.weather.0.description}
+      # hourly.10.weather.0.icon: ${RESPONSE.hourly.10.weather.0.icon}
+      # hourly.11.dt: ${RESPONSE.hourly.11.dt}
+      # hourly.11.temp: ${RESPONSE.hourly.11.temp}
+      # hourly.11.feels_like: ${RESPONSE.hourly.11.feels_like}
+      # hourly.11.pressure: ${RESPONSE.hourly.11.pressure}
+      # hourly.11.humidity: ${RESPONSE.hourly.11.humidity}
+      # hourly.11.dew_point: ${RESPONSE.hourly.11.dew_point}
+      # hourly.11.clouds: ${RESPONSE.hourly.11.clouds}
+      # hourly.11.wind_speed: ${RESPONSE.hourly.11.wind_speed}
+      # hourly.11.wind_deg: ${RESPONSE.hourly.11.wind_deg}
+      # hourly.11.weather.0.id: ${RESPONSE.hourly.11.weather.0.id}
+      # hourly.11.weather.0.main: ${RESPONSE.hourly.11.weather.0.main}
+      # hourly.11.weather.0.description: ${RESPONSE.hourly.11.weather.0.description}
+      # hourly.11.weather.0.icon: ${RESPONSE.hourly.11.weather.0.icon}
+      # hourly.12.dt: ${RESPONSE.hourly.12.dt}
+      # hourly.12.temp: ${RESPONSE.hourly.12.temp}
+      # hourly.12.feels_like: ${RESPONSE.hourly.12.feels_like}
+      # hourly.12.pressure: ${RESPONSE.hourly.12.pressure}
+      # hourly.12.humidity: ${RESPONSE.hourly.12.humidity}
+      # hourly.12.dew_point: ${RESPONSE.hourly.12.dew_point}
+      # hourly.12.clouds: ${RESPONSE.hourly.12.clouds}
+      # hourly.12.wind_speed: ${RESPONSE.hourly.12.wind_speed}
+      # hourly.12.wind_deg: ${RESPONSE.hourly.12.wind_deg}
+      # hourly.12.weather.0.id: ${RESPONSE.hourly.12.weather.0.id}
+      # hourly.12.weather.0.main: ${RESPONSE.hourly.12.weather.0.main}
+      # hourly.12.weather.0.description: ${RESPONSE.hourly.12.weather.0.description}
+      # hourly.12.weather.0.icon: ${RESPONSE.hourly.12.weather.0.icon}
+      # hourly.13.dt: ${RESPONSE.hourly.13.dt}
+      # hourly.13.temp: ${RESPONSE.hourly.13.temp}
+      # hourly.13.feels_like: ${RESPONSE.hourly.13.feels_like}
+      # hourly.13.pressure: ${RESPONSE.hourly.13.pressure}
+      # hourly.13.humidity: ${RESPONSE.hourly.13.humidity}
+      # hourly.13.dew_point: ${RESPONSE.hourly.13.dew_point}
+      # hourly.13.clouds: ${RESPONSE.hourly.13.clouds}
+      # hourly.13.wind_speed: ${RESPONSE.hourly.13.wind_speed}
+      # hourly.13.wind_deg: ${RESPONSE.hourly.13.wind_deg}
+      # hourly.13.weather.0.id: ${RESPONSE.hourly.13.weather.0.id}
+      # hourly.13.weather.0.main: ${RESPONSE.hourly.13.weather.0.main}
+      # hourly.13.weather.0.description: ${RESPONSE.hourly.13.weather.0.description}
+      # hourly.13.weather.0.icon: ${RESPONSE.hourly.13.weather.0.icon}
+      # hourly.14.dt: ${RESPONSE.hourly.14.dt}
+      # hourly.14.temp: ${RESPONSE.hourly.14.temp}
+      # hourly.14.feels_like: ${RESPONSE.hourly.14.feels_like}
+      # hourly.14.pressure: ${RESPONSE.hourly.14.pressure}
+      # hourly.14.humidity: ${RESPONSE.hourly.14.humidity}
+      # hourly.14.dew_point: ${RESPONSE.hourly.14.dew_point}
+      # hourly.14.clouds: ${RESPONSE.hourly.14.clouds}
+      # hourly.14.wind_speed: ${RESPONSE.hourly.14.wind_speed}
+      # hourly.14.wind_deg: ${RESPONSE.hourly.14.wind_deg}
+      # hourly.14.weather.0.id: ${RESPONSE.hourly.14.weather.0.id}
+      # hourly.14.weather.0.main: ${RESPONSE.hourly.14.weather.0.main}
+      # hourly.14.weather.0.description: ${RESPONSE.hourly.14.weather.0.description}
+      # hourly.14.weather.0.icon: ${RESPONSE.hourly.14.weather.0.icon}
+      # hourly.15.dt: ${RESPONSE.hourly.15.dt}
+      # hourly.15.temp: ${RESPONSE.hourly.15.temp}
+      # hourly.15.feels_like: ${RESPONSE.hourly.15.feels_like}
+      # hourly.15.pressure: ${RESPONSE.hourly.15.pressure}
+      # hourly.15.humidity: ${RESPONSE.hourly.15.humidity}
+      # hourly.15.dew_point: ${RESPONSE.hourly.15.dew_point}
+      # hourly.15.clouds: ${RESPONSE.hourly.15.clouds}
+      # hourly.15.wind_speed: ${RESPONSE.hourly.15.wind_speed}
+      # hourly.15.wind_deg: ${RESPONSE.hourly.15.wind_deg}
+      # hourly.15.weather.0.id: ${RESPONSE.hourly.15.weather.0.id}
+      # hourly.15.weather.0.main: ${RESPONSE.hourly.15.weather.0.main}
+      # hourly.15.weather.0.description: ${RESPONSE.hourly.15.weather.0.description}
+      # hourly.15.weather.0.icon: ${RESPONSE.hourly.15.weather.0.icon}
+      # hourly.16.dt: ${RESPONSE.hourly.16.dt}
+      # hourly.16.temp: ${RESPONSE.hourly.16.temp}
+      # hourly.16.feels_like: ${RESPONSE.hourly.16.feels_like}
+      # hourly.16.pressure: ${RESPONSE.hourly.16.pressure}
+      # hourly.16.humidity: ${RESPONSE.hourly.16.humidity}
+      # hourly.16.dew_point: ${RESPONSE.hourly.16.dew_point}
+      # hourly.16.clouds: ${RESPONSE.hourly.16.clouds}
+      # hourly.16.wind_speed: ${RESPONSE.hourly.16.wind_speed}
+      # hourly.16.wind_deg: ${RESPONSE.hourly.16.wind_deg}
+      # hourly.16.weather.0.id: ${RESPONSE.hourly.16.weather.0.id}
+      # hourly.16.weather.0.main: ${RESPONSE.hourly.16.weather.0.main}
+      # hourly.16.weather.0.description: ${RESPONSE.hourly.16.weather.0.description}
+      # hourly.16.weather.0.icon: ${RESPONSE.hourly.16.weather.0.icon}
+      # hourly.17.dt: ${RESPONSE.hourly.17.dt}
+      # hourly.17.temp: ${RESPONSE.hourly.17.temp}
+      # hourly.17.feels_like: ${RESPONSE.hourly.17.feels_like}
+      # hourly.17.pressure: ${RESPONSE.hourly.17.pressure}
+      # hourly.17.humidity: ${RESPONSE.hourly.17.humidity}
+      # hourly.17.dew_point: ${RESPONSE.hourly.17.dew_point}
+      # hourly.17.clouds: ${RESPONSE.hourly.17.clouds}
+      # hourly.17.wind_speed: ${RESPONSE.hourly.17.wind_speed}
+      # hourly.17.wind_deg: ${RESPONSE.hourly.17.wind_deg}
+      # hourly.17.weather.0.id: ${RESPONSE.hourly.17.weather.0.id}
+      # hourly.17.weather.0.main: ${RESPONSE.hourly.17.weather.0.main}
+      # hourly.17.weather.0.description: ${RESPONSE.hourly.17.weather.0.description}
+      # hourly.17.weather.0.icon: ${RESPONSE.hourly.17.weather.0.icon}
+      # hourly.18.dt: ${RESPONSE.hourly.18.dt}
+      # hourly.18.temp: ${RESPONSE.hourly.18.temp}
+      # hourly.18.feels_like: ${RESPONSE.hourly.18.feels_like}
+      # hourly.18.pressure: ${RESPONSE.hourly.18.pressure}
+      # hourly.18.humidity: ${RESPONSE.hourly.18.humidity}
+      # hourly.18.dew_point: ${RESPONSE.hourly.18.dew_point}
+      # hourly.18.clouds: ${RESPONSE.hourly.18.clouds}
+      # hourly.18.wind_speed: ${RESPONSE.hourly.18.wind_speed}
+      # hourly.18.wind_deg: ${RESPONSE.hourly.18.wind_deg}
+      # hourly.18.weather.0.id: ${RESPONSE.hourly.18.weather.0.id}
+      # hourly.18.weather.0.main: ${RESPONSE.hourly.18.weather.0.main}
+      # hourly.18.weather.0.description: ${RESPONSE.hourly.18.weather.0.description}
+      # hourly.18.weather.0.icon: ${RESPONSE.hourly.18.weather.0.icon}
+      # hourly.19.dt: ${RESPONSE.hourly.19.dt}
+      # hourly.19.temp: ${RESPONSE.hourly.19.temp}
+      # hourly.19.feels_like: ${RESPONSE.hourly.19.feels_like}
+      # hourly.19.pressure: ${RESPONSE.hourly.19.pressure}
+      # hourly.19.humidity: ${RESPONSE.hourly.19.humidity}
+      # hourly.19.dew_point: ${RESPONSE.hourly.19.dew_point}
+      # hourly.19.clouds: ${RESPONSE.hourly.19.clouds}
+      # hourly.19.wind_speed: ${RESPONSE.hourly.19.wind_speed}
+      # hourly.19.wind_deg: ${RESPONSE.hourly.19.wind_deg}
+      # hourly.19.weather.0.id: ${RESPONSE.hourly.19.weather.0.id}
+      # hourly.19.weather.0.main: ${RESPONSE.hourly.19.weather.0.main}
+      # hourly.19.weather.0.description: ${RESPONSE.hourly.19.weather.0.description}
+      # hourly.19.weather.0.icon: ${RESPONSE.hourly.19.weather.0.icon}
+      # hourly.20.dt: ${RESPONSE.hourly.20.dt}
+      # hourly.20.temp: ${RESPONSE.hourly.20.temp}
+      # hourly.20.feels_like: ${RESPONSE.hourly.20.feels_like}
+      # hourly.20.pressure: ${RESPONSE.hourly.20.pressure}
+      # hourly.20.humidity: ${RESPONSE.hourly.20.humidity}
+      # hourly.20.dew_point: ${RESPONSE.hourly.20.dew_point}
+      # hourly.20.clouds: ${RESPONSE.hourly.20.clouds}
+      # hourly.20.wind_speed: ${RESPONSE.hourly.20.wind_speed}
+      # hourly.20.wind_deg: ${RESPONSE.hourly.20.wind_deg}
+      # hourly.20.weather.0.id: ${RESPONSE.hourly.20.weather.0.id}
+      # hourly.20.weather.0.main: ${RESPONSE.hourly.20.weather.0.main}
+      # hourly.20.weather.0.description: ${RESPONSE.hourly.20.weather.0.description}
+      # hourly.20.weather.0.icon: ${RESPONSE.hourly.20.weather.0.icon}
+      # hourly.21.dt: ${RESPONSE.hourly.21.dt}
+      # hourly.21.temp: ${RESPONSE.hourly.21.temp}
+      # hourly.21.feels_like: ${RESPONSE.hourly.21.feels_like}
+      # hourly.21.pressure: ${RESPONSE.hourly.21.pressure}
+      # hourly.21.humidity: ${RESPONSE.hourly.21.humidity}
+      # hourly.21.dew_point: ${RESPONSE.hourly.21.dew_point}
+      # hourly.21.clouds: ${RESPONSE.hourly.21.clouds}
+      # hourly.21.wind_speed: ${RESPONSE.hourly.21.wind_speed}
+      # hourly.21.wind_deg: ${RESPONSE.hourly.21.wind_deg}
+      # hourly.21.weather.0.id: ${RESPONSE.hourly.21.weather.0.id}
+      # hourly.21.weather.0.main: ${RESPONSE.hourly.21.weather.0.main}
+      # hourly.21.weather.0.description: ${RESPONSE.hourly.21.weather.0.description}
+      # hourly.21.weather.0.icon: ${RESPONSE.hourly.21.weather.0.icon}
+      # hourly.22.dt: ${RESPONSE.hourly.22.dt}
+      # hourly.22.temp: ${RESPONSE.hourly.22.temp}
+      # hourly.22.feels_like: ${RESPONSE.hourly.22.feels_like}
+      # hourly.22.pressure: ${RESPONSE.hourly.22.pressure}
+      # hourly.22.humidity: ${RESPONSE.hourly.22.humidity}
+      # hourly.22.dew_point: ${RESPONSE.hourly.22.dew_point}
+      # hourly.22.clouds: ${RESPONSE.hourly.22.clouds}
+      # hourly.22.wind_speed: ${RESPONSE.hourly.22.wind_speed}
+      # hourly.22.wind_deg: ${RESPONSE.hourly.22.wind_deg}
+      # hourly.22.weather.0.id: ${RESPONSE.hourly.22.weather.0.id}
+      # hourly.22.weather.0.main: ${RESPONSE.hourly.22.weather.0.main}
+      # hourly.22.weather.0.description: ${RESPONSE.hourly.22.weather.0.description}
+      # hourly.22.weather.0.icon: ${RESPONSE.hourly.22.weather.0.icon}
+      # hourly.23.dt: ${RESPONSE.hourly.23.dt}
+      # hourly.23.temp: ${RESPONSE.hourly.23.temp}
+      # hourly.23.feels_like: ${RESPONSE.hourly.23.feels_like}
+      # hourly.23.pressure: ${RESPONSE.hourly.23.pressure}
+      # hourly.23.humidity: ${RESPONSE.hourly.23.humidity}
+      # hourly.23.dew_point: ${RESPONSE.hourly.23.dew_point}
+      # hourly.23.clouds: ${RESPONSE.hourly.23.clouds}
+      # hourly.23.wind_speed: ${RESPONSE.hourly.23.wind_speed}
+      # hourly.23.wind_deg: ${RESPONSE.hourly.23.wind_deg}
+      # hourly.23.weather.0.id: ${RESPONSE.hourly.23.weather.0.id}
+      # hourly.23.weather.0.main: ${RESPONSE.hourly.23.weather.0.main}
+      # hourly.23.weather.0.description: ${RESPONSE.hourly.23.weather.0.description}
+      # hourly.23.weather.0.icon: ${RESPONSE.hourly.23.weather.0.icon}
+      # hourly.24.dt: ${RESPONSE.hourly.24.dt}
+      # hourly.24.temp: ${RESPONSE.hourly.24.temp}
+      # hourly.24.feels_like: ${RESPONSE.hourly.24.feels_like}
+      # hourly.24.pressure: ${RESPONSE.hourly.24.pressure}
+      # hourly.24.humidity: ${RESPONSE.hourly.24.humidity}
+      # hourly.24.dew_point: ${RESPONSE.hourly.24.dew_point}
+      # hourly.24.clouds: ${RESPONSE.hourly.24.clouds}
+      # hourly.24.wind_speed: ${RESPONSE.hourly.24.wind_speed}
+      # hourly.24.wind_deg: ${RESPONSE.hourly.24.wind_deg}
+      # hourly.24.weather.0.id: ${RESPONSE.hourly.24.weather.0.id}
+      # hourly.24.weather.0.main: ${RESPONSE.hourly.24.weather.0.main}
+      # hourly.24.weather.0.description: ${RESPONSE.hourly.24.weather.0.description}
+      # hourly.24.weather.0.icon: ${RESPONSE.hourly.24.weather.0.icon}
+      # hourly.25.dt: ${RESPONSE.hourly.25.dt}
+      # hourly.25.temp: ${RESPONSE.hourly.25.temp}
+      # hourly.25.feels_like: ${RESPONSE.hourly.25.feels_like}
+      # hourly.25.pressure: ${RESPONSE.hourly.25.pressure}
+      # hourly.25.humidity: ${RESPONSE.hourly.25.humidity}
+      # hourly.25.dew_point: ${RESPONSE.hourly.25.dew_point}
+      # hourly.25.clouds: ${RESPONSE.hourly.25.clouds}
+      # hourly.25.wind_speed: ${RESPONSE.hourly.25.wind_speed}
+      # hourly.25.wind_deg: ${RESPONSE.hourly.25.wind_deg}
+      # hourly.25.weather.0.id: ${RESPONSE.hourly.25.weather.0.id}
+      # hourly.25.weather.0.main: ${RESPONSE.hourly.25.weather.0.main}
+      # hourly.25.weather.0.description: ${RESPONSE.hourly.25.weather.0.description}
+      # hourly.25.weather.0.icon: ${RESPONSE.hourly.25.weather.0.icon}
+      # hourly.26.dt: ${RESPONSE.hourly.26.dt}
+      # hourly.26.temp: ${RESPONSE.hourly.26.temp}
+      # hourly.26.feels_like: ${RESPONSE.hourly.26.feels_like}
+      # hourly.26.pressure: ${RESPONSE.hourly.26.pressure}
+      # hourly.26.humidity: ${RESPONSE.hourly.26.humidity}
+      # hourly.26.dew_point: ${RESPONSE.hourly.26.dew_point}
+      # hourly.26.clouds: ${RESPONSE.hourly.26.clouds}
+      # hourly.26.wind_speed: ${RESPONSE.hourly.26.wind_speed}
+      # hourly.26.wind_deg: ${RESPONSE.hourly.26.wind_deg}
+      # hourly.26.weather.0.id: ${RESPONSE.hourly.26.weather.0.id}
+      # hourly.26.weather.0.main: ${RESPONSE.hourly.26.weather.0.main}
+      # hourly.26.weather.0.description: ${RESPONSE.hourly.26.weather.0.description}
+      # hourly.26.weather.0.icon: ${RESPONSE.hourly.26.weather.0.icon}
+      # hourly.27.dt: ${RESPONSE.hourly.27.dt}
+      # hourly.27.temp: ${RESPONSE.hourly.27.temp}
+      # hourly.27.feels_like: ${RESPONSE.hourly.27.feels_like}
+      # hourly.27.pressure: ${RESPONSE.hourly.27.pressure}
+      # hourly.27.humidity: ${RESPONSE.hourly.27.humidity}
+      # hourly.27.dew_point: ${RESPONSE.hourly.27.dew_point}
+      # hourly.27.clouds: ${RESPONSE.hourly.27.clouds}
+      # hourly.27.wind_speed: ${RESPONSE.hourly.27.wind_speed}
+      # hourly.27.wind_deg: ${RESPONSE.hourly.27.wind_deg}
+      # hourly.27.weather.0.id: ${RESPONSE.hourly.27.weather.0.id}
+      # hourly.27.weather.0.main: ${RESPONSE.hourly.27.weather.0.main}
+      # hourly.27.weather.0.description: ${RESPONSE.hourly.27.weather.0.description}
+      # hourly.27.weather.0.icon: ${RESPONSE.hourly.27.weather.0.icon}
+      # hourly.28.dt: ${RESPONSE.hourly.28.dt}
+      # hourly.28.temp: ${RESPONSE.hourly.28.temp}
+      # hourly.28.feels_like: ${RESPONSE.hourly.28.feels_like}
+      # hourly.28.pressure: ${RESPONSE.hourly.28.pressure}
+      # hourly.28.humidity: ${RESPONSE.hourly.28.humidity}
+      # hourly.28.dew_point: ${RESPONSE.hourly.28.dew_point}
+      # hourly.28.clouds: ${RESPONSE.hourly.28.clouds}
+      # hourly.28.wind_speed: ${RESPONSE.hourly.28.wind_speed}
+      # hourly.28.wind_deg: ${RESPONSE.hourly.28.wind_deg}
+      # hourly.28.weather.0.id: ${RESPONSE.hourly.28.weather.0.id}
+      # hourly.28.weather.0.main: ${RESPONSE.hourly.28.weather.0.main}
+      # hourly.28.weather.0.description: ${RESPONSE.hourly.28.weather.0.description}
+      # hourly.28.weather.0.icon: ${RESPONSE.hourly.28.weather.0.icon}
+      # hourly.29.dt: ${RESPONSE.hourly.29.dt}
+      # hourly.29.temp: ${RESPONSE.hourly.29.temp}
+      # hourly.29.feels_like: ${RESPONSE.hourly.29.feels_like}
+      # hourly.29.pressure: ${RESPONSE.hourly.29.pressure}
+      # hourly.29.humidity: ${RESPONSE.hourly.29.humidity}
+      # hourly.29.dew_point: ${RESPONSE.hourly.29.dew_point}
+      # hourly.29.clouds: ${RESPONSE.hourly.29.clouds}
+      # hourly.29.wind_speed: ${RESPONSE.hourly.29.wind_speed}
+      # hourly.29.wind_deg: ${RESPONSE.hourly.29.wind_deg}
+      # hourly.29.weather.0.id: ${RESPONSE.hourly.29.weather.0.id}
+      # hourly.29.weather.0.main: ${RESPONSE.hourly.29.weather.0.main}
+      # hourly.29.weather.0.description: ${RESPONSE.hourly.29.weather.0.description}
+      # hourly.29.weather.0.icon: ${RESPONSE.hourly.29.weather.0.icon}
+      # hourly.30.dt: ${RESPONSE.hourly.30.dt}
+      # hourly.30.temp: ${RESPONSE.hourly.30.temp}
+      # hourly.30.feels_like: ${RESPONSE.hourly.30.feels_like}
+      # hourly.30.pressure: ${RESPONSE.hourly.30.pressure}
+      # hourly.30.humidity: ${RESPONSE.hourly.30.humidity}
+      # hourly.30.dew_point: ${RESPONSE.hourly.30.dew_point}
+      # hourly.30.clouds: ${RESPONSE.hourly.30.clouds}
+      # hourly.30.wind_speed: ${RESPONSE.hourly.30.wind_speed}
+      # hourly.30.wind_deg: ${RESPONSE.hourly.30.wind_deg}
+      # hourly.30.weather.0.id: ${RESPONSE.hourly.30.weather.0.id}
+      # hourly.30.weather.0.main: ${RESPONSE.hourly.30.weather.0.main}
+      # hourly.30.weather.0.description: ${RESPONSE.hourly.30.weather.0.description}
+      # hourly.30.weather.0.icon: ${RESPONSE.hourly.30.weather.0.icon}
+      # hourly.31.dt: ${RESPONSE.hourly.31.dt}
+      # hourly.31.temp: ${RESPONSE.hourly.31.temp}
+      # hourly.31.feels_like: ${RESPONSE.hourly.31.feels_like}
+      # hourly.31.pressure: ${RESPONSE.hourly.31.pressure}
+      # hourly.31.humidity: ${RESPONSE.hourly.31.humidity}
+      # hourly.31.dew_point: ${RESPONSE.hourly.31.dew_point}
+      # hourly.31.clouds: ${RESPONSE.hourly.31.clouds}
+      # hourly.31.wind_speed: ${RESPONSE.hourly.31.wind_speed}
+      # hourly.31.wind_deg: ${RESPONSE.hourly.31.wind_deg}
+      # hourly.31.weather.0.id: ${RESPONSE.hourly.31.weather.0.id}
+      # hourly.31.weather.0.main: ${RESPONSE.hourly.31.weather.0.main}
+      # hourly.31.weather.0.description: ${RESPONSE.hourly.31.weather.0.description}
+      # hourly.31.weather.0.icon: ${RESPONSE.hourly.31.weather.0.icon}
+      # hourly.32.dt: ${RESPONSE.hourly.32.dt}
+      # hourly.32.temp: ${RESPONSE.hourly.32.temp}
+      # hourly.32.feels_like: ${RESPONSE.hourly.32.feels_like}
+      # hourly.32.pressure: ${RESPONSE.hourly.32.pressure}
+      # hourly.32.humidity: ${RESPONSE.hourly.32.humidity}
+      # hourly.32.dew_point: ${RESPONSE.hourly.32.dew_point}
+      # hourly.32.clouds: ${RESPONSE.hourly.32.clouds}
+      # hourly.32.wind_speed: ${RESPONSE.hourly.32.wind_speed}
+      # hourly.32.wind_deg: ${RESPONSE.hourly.32.wind_deg}
+      # hourly.32.weather.0.id: ${RESPONSE.hourly.32.weather.0.id}
+      # hourly.32.weather.0.main: ${RESPONSE.hourly.32.weather.0.main}
+      # hourly.32.weather.0.description: ${RESPONSE.hourly.32.weather.0.description}
+      # hourly.32.weather.0.icon: ${RESPONSE.hourly.32.weather.0.icon}
+      # hourly.33.dt: ${RESPONSE.hourly.33.dt}
+      # hourly.33.temp: ${RESPONSE.hourly.33.temp}
+      # hourly.33.feels_like: ${RESPONSE.hourly.33.feels_like}
+      # hourly.33.pressure: ${RESPONSE.hourly.33.pressure}
+      # hourly.33.humidity: ${RESPONSE.hourly.33.humidity}
+      # hourly.33.dew_point: ${RESPONSE.hourly.33.dew_point}
+      # hourly.33.clouds: ${RESPONSE.hourly.33.clouds}
+      # hourly.33.wind_speed: ${RESPONSE.hourly.33.wind_speed}
+      # hourly.33.wind_deg: ${RESPONSE.hourly.33.wind_deg}
+      # hourly.33.weather.0.id: ${RESPONSE.hourly.33.weather.0.id}
+      # hourly.33.weather.0.main: ${RESPONSE.hourly.33.weather.0.main}
+      # hourly.33.weather.0.description: ${RESPONSE.hourly.33.weather.0.description}
+      # hourly.33.weather.0.icon: ${RESPONSE.hourly.33.weather.0.icon}
+      # hourly.34.dt: ${RESPONSE.hourly.34.dt}
+      # hourly.34.temp: ${RESPONSE.hourly.34.temp}
+      # hourly.34.feels_like: ${RESPONSE.hourly.34.feels_like}
+      # hourly.34.pressure: ${RESPONSE.hourly.34.pressure}
+      # hourly.34.humidity: ${RESPONSE.hourly.34.humidity}
+      # hourly.34.dew_point: ${RESPONSE.hourly.34.dew_point}
+      # hourly.34.clouds: ${RESPONSE.hourly.34.clouds}
+      # hourly.34.wind_speed: ${RESPONSE.hourly.34.wind_speed}
+      # hourly.34.wind_deg: ${RESPONSE.hourly.34.wind_deg}
+      # hourly.34.weather.0.id: ${RESPONSE.hourly.34.weather.0.id}
+      # hourly.34.weather.0.main: ${RESPONSE.hourly.34.weather.0.main}
+      # hourly.34.weather.0.description: ${RESPONSE.hourly.34.weather.0.description}
+      # hourly.34.weather.0.icon: ${RESPONSE.hourly.34.weather.0.icon}
+      # hourly.35.dt: ${RESPONSE.hourly.35.dt}
+      # hourly.35.temp: ${RESPONSE.hourly.35.temp}
+      # hourly.35.feels_like: ${RESPONSE.hourly.35.feels_like}
+      # hourly.35.pressure: ${RESPONSE.hourly.35.pressure}
+      # hourly.35.humidity: ${RESPONSE.hourly.35.humidity}
+      # hourly.35.dew_point: ${RESPONSE.hourly.35.dew_point}
+      # hourly.35.clouds: ${RESPONSE.hourly.35.clouds}
+      # hourly.35.wind_speed: ${RESPONSE.hourly.35.wind_speed}
+      # hourly.35.wind_deg: ${RESPONSE.hourly.35.wind_deg}
+      # hourly.35.weather.0.id: ${RESPONSE.hourly.35.weather.0.id}
+      # hourly.35.weather.0.main: ${RESPONSE.hourly.35.weather.0.main}
+      # hourly.35.weather.0.description: ${RESPONSE.hourly.35.weather.0.description}
+      # hourly.35.weather.0.icon: ${RESPONSE.hourly.35.weather.0.icon}
+      # hourly.36.dt: ${RESPONSE.hourly.36.dt}
+      # hourly.36.temp: ${RESPONSE.hourly.36.temp}
+      # hourly.36.feels_like: ${RESPONSE.hourly.36.feels_like}
+      # hourly.36.pressure: ${RESPONSE.hourly.36.pressure}
+      # hourly.36.humidity: ${RESPONSE.hourly.36.humidity}
+      # hourly.36.dew_point: ${RESPONSE.hourly.36.dew_point}
+      # hourly.36.clouds: ${RESPONSE.hourly.36.clouds}
+      # hourly.36.wind_speed: ${RESPONSE.hourly.36.wind_speed}
+      # hourly.36.wind_deg: ${RESPONSE.hourly.36.wind_deg}
+      # hourly.36.weather.0.id: ${RESPONSE.hourly.36.weather.0.id}
+      # hourly.36.weather.0.main: ${RESPONSE.hourly.36.weather.0.main}
+      # hourly.36.weather.0.description: ${RESPONSE.hourly.36.weather.0.description}
+      # hourly.36.weather.0.icon: ${RESPONSE.hourly.36.weather.0.icon}
+      # hourly.37.dt: ${RESPONSE.hourly.37.dt}
+      # hourly.37.temp: ${RESPONSE.hourly.37.temp}
+      # hourly.37.feels_like: ${RESPONSE.hourly.37.feels_like}
+      # hourly.37.pressure: ${RESPONSE.hourly.37.pressure}
+      # hourly.37.humidity: ${RESPONSE.hourly.37.humidity}
+      # hourly.37.dew_point: ${RESPONSE.hourly.37.dew_point}
+      # hourly.37.clouds: ${RESPONSE.hourly.37.clouds}
+      # hourly.37.wind_speed: ${RESPONSE.hourly.37.wind_speed}
+      # hourly.37.wind_deg: ${RESPONSE.hourly.37.wind_deg}
+      # hourly.37.weather.0.id: ${RESPONSE.hourly.37.weather.0.id}
+      # hourly.37.weather.0.main: ${RESPONSE.hourly.37.weather.0.main}
+      # hourly.37.weather.0.description: ${RESPONSE.hourly.37.weather.0.description}
+      # hourly.37.weather.0.icon: ${RESPONSE.hourly.37.weather.0.icon}
+      # hourly.38.dt: ${RESPONSE.hourly.38.dt}
+      # hourly.38.temp: ${RESPONSE.hourly.38.temp}
+      # hourly.38.feels_like: ${RESPONSE.hourly.38.feels_like}
+      # hourly.38.pressure: ${RESPONSE.hourly.38.pressure}
+      # hourly.38.humidity: ${RESPONSE.hourly.38.humidity}
+      # hourly.38.dew_point: ${RESPONSE.hourly.38.dew_point}
+      # hourly.38.clouds: ${RESPONSE.hourly.38.clouds}
+      # hourly.38.wind_speed: ${RESPONSE.hourly.38.wind_speed}
+      # hourly.38.wind_deg: ${RESPONSE.hourly.38.wind_deg}
+      # hourly.38.weather.0.id: ${RESPONSE.hourly.38.weather.0.id}
+      # hourly.38.weather.0.main: ${RESPONSE.hourly.38.weather.0.main}
+      # hourly.38.weather.0.description: ${RESPONSE.hourly.38.weather.0.description}
+      # hourly.38.weather.0.icon: ${RESPONSE.hourly.38.weather.0.icon}
+      # hourly.39.dt: ${RESPONSE.hourly.39.dt}
+      # hourly.39.temp: ${RESPONSE.hourly.39.temp}
+      # hourly.39.feels_like: ${RESPONSE.hourly.39.feels_like}
+      # hourly.39.pressure: ${RESPONSE.hourly.39.pressure}
+      # hourly.39.humidity: ${RESPONSE.hourly.39.humidity}
+      # hourly.39.dew_point: ${RESPONSE.hourly.39.dew_point}
+      # hourly.39.clouds: ${RESPONSE.hourly.39.clouds}
+      # hourly.39.wind_speed: ${RESPONSE.hourly.39.wind_speed}
+      # hourly.39.wind_deg: ${RESPONSE.hourly.39.wind_deg}
+      # hourly.39.weather.0.id: ${RESPONSE.hourly.39.weather.0.id}
+      # hourly.39.weather.0.main: ${RESPONSE.hourly.39.weather.0.main}
+      # hourly.39.weather.0.description: ${RESPONSE.hourly.39.weather.0.description}
+      # hourly.39.weather.0.icon: ${RESPONSE.hourly.39.weather.0.icon}
+      # hourly.40.dt: ${RESPONSE.hourly.40.dt}
+      # hourly.40.temp: ${RESPONSE.hourly.40.temp}
+      # hourly.40.feels_like: ${RESPONSE.hourly.40.feels_like}
+      # hourly.40.pressure: ${RESPONSE.hourly.40.pressure}
+      # hourly.40.humidity: ${RESPONSE.hourly.40.humidity}
+      # hourly.40.dew_point: ${RESPONSE.hourly.40.dew_point}
+      # hourly.40.clouds: ${RESPONSE.hourly.40.clouds}
+      # hourly.40.wind_speed: ${RESPONSE.hourly.40.wind_speed}
+      # hourly.40.wind_deg: ${RESPONSE.hourly.40.wind_deg}
+      # hourly.40.weather.0.id: ${RESPONSE.hourly.40.weather.0.id}
+      # hourly.40.weather.0.main: ${RESPONSE.hourly.40.weather.0.main}
+      # hourly.40.weather.0.description: ${RESPONSE.hourly.40.weather.0.description}
+      # hourly.40.weather.0.icon: ${RESPONSE.hourly.40.weather.0.icon}
+      # hourly.41.dt: ${RESPONSE.hourly.41.dt}
+      # hourly.41.temp: ${RESPONSE.hourly.41.temp}
+      # hourly.41.feels_like: ${RESPONSE.hourly.41.feels_like}
+      # hourly.41.pressure: ${RESPONSE.hourly.41.pressure}
+      # hourly.41.humidity: ${RESPONSE.hourly.41.humidity}
+      # hourly.41.dew_point: ${RESPONSE.hourly.41.dew_point}
+      # hourly.41.clouds: ${RESPONSE.hourly.41.clouds}
+      # hourly.41.wind_speed: ${RESPONSE.hourly.41.wind_speed}
+      # hourly.41.wind_deg: ${RESPONSE.hourly.41.wind_deg}
+      # hourly.41.weather.0.id: ${RESPONSE.hourly.41.weather.0.id}
+      # hourly.41.weather.0.main: ${RESPONSE.hourly.41.weather.0.main}
+      # hourly.41.weather.0.description: ${RESPONSE.hourly.41.weather.0.description}
+      # hourly.41.weather.0.icon: ${RESPONSE.hourly.41.weather.0.icon}
+      # hourly.42.dt: ${RESPONSE.hourly.42.dt}
+      # hourly.42.temp: ${RESPONSE.hourly.42.temp}
+      # hourly.42.feels_like: ${RESPONSE.hourly.42.feels_like}
+      # hourly.42.pressure: ${RESPONSE.hourly.42.pressure}
+      # hourly.42.humidity: ${RESPONSE.hourly.42.humidity}
+      # hourly.42.dew_point: ${RESPONSE.hourly.42.dew_point}
+      # hourly.42.clouds: ${RESPONSE.hourly.42.clouds}
+      # hourly.42.wind_speed: ${RESPONSE.hourly.42.wind_speed}
+      # hourly.42.wind_deg: ${RESPONSE.hourly.42.wind_deg}
+      # hourly.42.weather.0.id: ${RESPONSE.hourly.42.weather.0.id}
+      # hourly.42.weather.0.main: ${RESPONSE.hourly.42.weather.0.main}
+      # hourly.42.weather.0.description: ${RESPONSE.hourly.42.weather.0.description}
+      # hourly.42.weather.0.icon: ${RESPONSE.hourly.42.weather.0.icon}
+      # hourly.43.dt: ${RESPONSE.hourly.43.dt}
+      # hourly.43.temp: ${RESPONSE.hourly.43.temp}
+      # hourly.43.feels_like: ${RESPONSE.hourly.43.feels_like}
+      # hourly.43.pressure: ${RESPONSE.hourly.43.pressure}
+      # hourly.43.humidity: ${RESPONSE.hourly.43.humidity}
+      # hourly.43.dew_point: ${RESPONSE.hourly.43.dew_point}
+      # hourly.43.clouds: ${RESPONSE.hourly.43.clouds}
+      # hourly.43.wind_speed: ${RESPONSE.hourly.43.wind_speed}
+      # hourly.43.wind_deg: ${RESPONSE.hourly.43.wind_deg}
+      # hourly.43.weather.0.id: ${RESPONSE.hourly.43.weather.0.id}
+      # hourly.43.weather.0.main: ${RESPONSE.hourly.43.weather.0.main}
+      # hourly.43.weather.0.description: ${RESPONSE.hourly.43.weather.0.description}
+      # hourly.43.weather.0.icon: ${RESPONSE.hourly.43.weather.0.icon}
+      # hourly.44.dt: ${RESPONSE.hourly.44.dt}
+      # hourly.44.temp: ${RESPONSE.hourly.44.temp}
+      # hourly.44.feels_like: ${RESPONSE.hourly.44.feels_like}
+      # hourly.44.pressure: ${RESPONSE.hourly.44.pressure}
+      # hourly.44.humidity: ${RESPONSE.hourly.44.humidity}
+      # hourly.44.dew_point: ${RESPONSE.hourly.44.dew_point}
+      # hourly.44.clouds: ${RESPONSE.hourly.44.clouds}
+      # hourly.44.wind_speed: ${RESPONSE.hourly.44.wind_speed}
+      # hourly.44.wind_deg: ${RESPONSE.hourly.44.wind_deg}
+      # hourly.44.weather.0.id: ${RESPONSE.hourly.44.weather.0.id}
+      # hourly.44.weather.0.main: ${RESPONSE.hourly.44.weather.0.main}
+      # hourly.44.weather.0.description: ${RESPONSE.hourly.44.weather.0.description}
+      # hourly.44.weather.0.icon: ${RESPONSE.hourly.44.weather.0.icon}
+      # hourly.45.dt: ${RESPONSE.hourly.45.dt}
+      # hourly.45.temp: ${RESPONSE.hourly.45.temp}
+      # hourly.45.feels_like: ${RESPONSE.hourly.45.feels_like}
+      # hourly.45.pressure: ${RESPONSE.hourly.45.pressure}
+      # hourly.45.humidity: ${RESPONSE.hourly.45.humidity}
+      # hourly.45.dew_point: ${RESPONSE.hourly.45.dew_point}
+      # hourly.45.clouds: ${RESPONSE.hourly.45.clouds}
+      # hourly.45.wind_speed: ${RESPONSE.hourly.45.wind_speed}
+      # hourly.45.wind_deg: ${RESPONSE.hourly.45.wind_deg}
+      # hourly.45.weather.0.id: ${RESPONSE.hourly.45.weather.0.id}
+      # hourly.45.weather.0.main: ${RESPONSE.hourly.45.weather.0.main}
+      # hourly.45.weather.0.description: ${RESPONSE.hourly.45.weather.0.description}
+      # hourly.45.weather.0.icon: ${RESPONSE.hourly.45.weather.0.icon}
+      # hourly.46.dt: ${RESPONSE.hourly.46.dt}
+      # hourly.46.temp: ${RESPONSE.hourly.46.temp}
+      # hourly.46.feels_like: ${RESPONSE.hourly.46.feels_like}
+      # hourly.46.pressure: ${RESPONSE.hourly.46.pressure}
+      # hourly.46.humidity: ${RESPONSE.hourly.46.humidity}
+      # hourly.46.dew_point: ${RESPONSE.hourly.46.dew_point}
+      # hourly.46.clouds: ${RESPONSE.hourly.46.clouds}
+      # hourly.46.wind_speed: ${RESPONSE.hourly.46.wind_speed}
+      # hourly.46.wind_deg: ${RESPONSE.hourly.46.wind_deg}
+      # hourly.46.weather.0.id: ${RESPONSE.hourly.46.weather.0.id}
+      # hourly.46.weather.0.main: ${RESPONSE.hourly.46.weather.0.main}
+      # hourly.46.weather.0.description: ${RESPONSE.hourly.46.weather.0.description}
+      # hourly.46.weather.0.icon: ${RESPONSE.hourly.46.weather.0.icon}
+      # hourly.47.dt: ${RESPONSE.hourly.47.dt}
+      # hourly.47.temp: ${RESPONSE.hourly.47.temp}
+      # hourly.47.feels_like: ${RESPONSE.hourly.47.feels_like}
+      # hourly.47.pressure: ${RESPONSE.hourly.47.pressure}
+      # hourly.47.humidity: ${RESPONSE.hourly.47.humidity}
+      # hourly.47.dew_point: ${RESPONSE.hourly.47.dew_point}
+      # hourly.47.clouds: ${RESPONSE.hourly.47.clouds}
+      # hourly.47.wind_speed: ${RESPONSE.hourly.47.wind_speed}
+      # hourly.47.wind_deg: ${RESPONSE.hourly.47.wind_deg}
+      # hourly.47.weather.0.id: ${RESPONSE.hourly.47.weather.0.id}
+      # hourly.47.weather.0.main: ${RESPONSE.hourly.47.weather.0.main}
+      # hourly.47.weather.0.description: ${RESPONSE.hourly.47.weather.0.description}
+      # hourly.47.weather.0.icon: ${RESPONSE.hourly.47.weather.0.icon}
       daily.0.dt: ${RESPONSE.daily.0.dt}
       daily.0.sunrise: ${RESPONSE.daily.0.sunrise}
       daily.0.sunset: ${RESPONSE.daily.0.sunset}
@@ -676,172 +676,172 @@ functions:
       daily.0.weather.0.icon: ${RESPONSE.daily.0.weather.0.icon}
       daily.0.clouds: ${RESPONSE.daily.0.clouds}
       daily.0.uvi: ${RESPONSE.daily.0.uvi}
-      daily.1.dt: ${RESPONSE.daily.1.dt}
-      daily.1.sunrise: ${RESPONSE.daily.1.sunrise}
-      daily.1.sunset: ${RESPONSE.daily.1.sunset}
-      daily.1.temp.day: ${RESPONSE.daily.1.temp.day}
-      daily.1.temp.min: ${RESPONSE.daily.1.temp.min}
-      daily.1.temp.max: ${RESPONSE.daily.1.temp.max}
-      daily.1.temp.night: ${RESPONSE.daily.1.temp.night}
-      daily.1.temp.eve: ${RESPONSE.daily.1.temp.eve}
-      daily.1.temp.morn: ${RESPONSE.daily.1.temp.morn}
-      daily.1.feels_like.day: ${RESPONSE.daily.1.feels_like.day}
-      daily.1.feels_like.night: ${RESPONSE.daily.1.feels_like.night}
-      daily.1.feels_like.eve: ${RESPONSE.daily.1.feels_like.eve}
-      daily.1.feels_like.morn: ${RESPONSE.daily.1.feels_like.morn}
-      daily.1.pressure: ${RESPONSE.daily.1.pressure}
-      daily.1.humidity: ${RESPONSE.daily.1.humidity}
-      daily.1.dew_point: ${RESPONSE.daily.1.dew_point}
-      daily.1.wind_speed: ${RESPONSE.daily.1.wind_speed}
-      daily.1.wind_deg: ${RESPONSE.daily.1.wind_deg}
-      daily.1.weather.0.id: ${RESPONSE.daily.1.weather.0.id}
-      daily.1.weather.0.main: ${RESPONSE.daily.1.weather.0.main}
-      daily.1.weather.0.description: ${RESPONSE.daily.1.weather.0.description}
-      daily.1.weather.0.icon: ${RESPONSE.daily.1.weather.0.icon}
-      daily.1.clouds: ${RESPONSE.daily.1.clouds}
-      daily.1.uvi: ${RESPONSE.daily.1.uvi}
-      daily.2.dt: ${RESPONSE.daily.2.dt}
-      daily.2.sunrise: ${RESPONSE.daily.2.sunrise}
-      daily.2.sunset: ${RESPONSE.daily.2.sunset}
-      daily.2.temp.day: ${RESPONSE.daily.2.temp.day}
-      daily.2.temp.min: ${RESPONSE.daily.2.temp.min}
-      daily.2.temp.max: ${RESPONSE.daily.2.temp.max}
-      daily.2.temp.night: ${RESPONSE.daily.2.temp.night}
-      daily.2.temp.eve: ${RESPONSE.daily.2.temp.eve}
-      daily.2.temp.morn: ${RESPONSE.daily.2.temp.morn}
-      daily.2.feels_like.day: ${RESPONSE.daily.2.feels_like.day}
-      daily.2.feels_like.night: ${RESPONSE.daily.2.feels_like.night}
-      daily.2.feels_like.eve: ${RESPONSE.daily.2.feels_like.eve}
-      daily.2.feels_like.morn: ${RESPONSE.daily.2.feels_like.morn}
-      daily.2.pressure: ${RESPONSE.daily.2.pressure}
-      daily.2.humidity: ${RESPONSE.daily.2.humidity}
-      daily.2.dew_point: ${RESPONSE.daily.2.dew_point}
-      daily.2.wind_speed: ${RESPONSE.daily.2.wind_speed}
-      daily.2.wind_deg: ${RESPONSE.daily.2.wind_deg}
-      daily.2.weather.0.id: ${RESPONSE.daily.2.weather.0.id}
-      daily.2.weather.0.main: ${RESPONSE.daily.2.weather.0.main}
-      daily.2.weather.0.description: ${RESPONSE.daily.2.weather.0.description}
-      daily.2.weather.0.icon: ${RESPONSE.daily.2.weather.0.icon}
-      daily.2.clouds: ${RESPONSE.daily.2.clouds}
-      daily.2.uvi: ${RESPONSE.daily.2.uvi}
-      daily.3.dt: ${RESPONSE.daily.3.dt}
-      daily.3.sunrise: ${RESPONSE.daily.3.sunrise}
-      daily.3.sunset: ${RESPONSE.daily.3.sunset}
-      daily.3.temp.day: ${RESPONSE.daily.3.temp.day}
-      daily.3.temp.min: ${RESPONSE.daily.3.temp.min}
-      daily.3.temp.max: ${RESPONSE.daily.3.temp.max}
-      daily.3.temp.night: ${RESPONSE.daily.3.temp.night}
-      daily.3.temp.eve: ${RESPONSE.daily.3.temp.eve}
-      daily.3.temp.morn: ${RESPONSE.daily.3.temp.morn}
-      daily.3.feels_like.day: ${RESPONSE.daily.3.feels_like.day}
-      daily.3.feels_like.night: ${RESPONSE.daily.3.feels_like.night}
-      daily.3.feels_like.eve: ${RESPONSE.daily.3.feels_like.eve}
-      daily.3.feels_like.morn: ${RESPONSE.daily.3.feels_like.morn}
-      daily.3.pressure: ${RESPONSE.daily.3.pressure}
-      daily.3.humidity: ${RESPONSE.daily.3.humidity}
-      daily.3.dew_point: ${RESPONSE.daily.3.dew_point}
-      daily.3.wind_speed: ${RESPONSE.daily.3.wind_speed}
-      daily.3.wind_deg: ${RESPONSE.daily.3.wind_deg}
-      daily.3.weather.0.id: ${RESPONSE.daily.3.weather.0.id}
-      daily.3.weather.0.main: ${RESPONSE.daily.3.weather.0.main}
-      daily.3.weather.0.description: ${RESPONSE.daily.3.weather.0.description}
-      daily.3.weather.0.icon: ${RESPONSE.daily.3.weather.0.icon}
-      daily.3.clouds: ${RESPONSE.daily.3.clouds}
-      daily.3.uvi: ${RESPONSE.daily.3.uvi}
-      daily.4.dt: ${RESPONSE.daily.4.dt}
-      daily.4.sunrise: ${RESPONSE.daily.4.sunrise}
-      daily.4.sunset: ${RESPONSE.daily.4.sunset}
-      daily.4.temp.day: ${RESPONSE.daily.4.temp.day}
-      daily.4.temp.min: ${RESPONSE.daily.4.temp.min}
-      daily.4.temp.max: ${RESPONSE.daily.4.temp.max}
-      daily.4.temp.night: ${RESPONSE.daily.4.temp.night}
-      daily.4.temp.eve: ${RESPONSE.daily.4.temp.eve}
-      daily.4.temp.morn: ${RESPONSE.daily.4.temp.morn}
-      daily.4.feels_like.day: ${RESPONSE.daily.4.feels_like.day}
-      daily.4.feels_like.night: ${RESPONSE.daily.4.feels_like.night}
-      daily.4.feels_like.eve: ${RESPONSE.daily.4.feels_like.eve}
-      daily.4.feels_like.morn: ${RESPONSE.daily.4.feels_like.morn}
-      daily.4.pressure: ${RESPONSE.daily.4.pressure}
-      daily.4.humidity: ${RESPONSE.daily.4.humidity}
-      daily.4.dew_point: ${RESPONSE.daily.4.dew_point}
-      daily.4.wind_speed: ${RESPONSE.daily.4.wind_speed}
-      daily.4.wind_deg: ${RESPONSE.daily.4.wind_deg}
-      daily.4.weather.0.id: ${RESPONSE.daily.4.weather.0.id}
-      daily.4.weather.0.main: ${RESPONSE.daily.4.weather.0.main}
-      daily.4.weather.0.description: ${RESPONSE.daily.4.weather.0.description}
-      daily.4.weather.0.icon: ${RESPONSE.daily.4.weather.0.icon}
-      daily.4.clouds: ${RESPONSE.daily.4.clouds}
-      daily.4.rain: ${RESPONSE.daily.4.rain}
-      daily.4.uvi: ${RESPONSE.daily.4.uvi}
-      daily.5.dt: ${RESPONSE.daily.5.dt}
-      daily.5.sunrise: ${RESPONSE.daily.5.sunrise}
-      daily.5.sunset: ${RESPONSE.daily.5.sunset}
-      daily.5.temp.day: ${RESPONSE.daily.5.temp.day}
-      daily.5.temp.min: ${RESPONSE.daily.5.temp.min}
-      daily.5.temp.max: ${RESPONSE.daily.5.temp.max}
-      daily.5.temp.night: ${RESPONSE.daily.5.temp.night}
-      daily.5.temp.eve: ${RESPONSE.daily.5.temp.eve}
-      daily.5.temp.morn: ${RESPONSE.daily.5.temp.morn}
-      daily.5.feels_like.day: ${RESPONSE.daily.5.feels_like.day}
-      daily.5.feels_like.night: ${RESPONSE.daily.5.feels_like.night}
-      daily.5.feels_like.eve: ${RESPONSE.daily.5.feels_like.eve}
-      daily.5.feels_like.morn: ${RESPONSE.daily.5.feels_like.morn}
-      daily.5.pressure: ${RESPONSE.daily.5.pressure}
-      daily.5.humidity: ${RESPONSE.daily.5.humidity}
-      daily.5.dew_point: ${RESPONSE.daily.5.dew_point}
-      daily.5.wind_speed: ${RESPONSE.daily.5.wind_speed}
-      daily.5.wind_deg: ${RESPONSE.daily.5.wind_deg}
-      daily.5.weather.0.id: ${RESPONSE.daily.5.weather.0.id}
-      daily.5.weather.0.main: ${RESPONSE.daily.5.weather.0.main}
-      daily.5.weather.0.description: ${RESPONSE.daily.5.weather.0.description}
-      daily.5.weather.0.icon: ${RESPONSE.daily.5.weather.0.icon}
-      daily.5.clouds: ${RESPONSE.daily.5.clouds}
-      daily.5.uvi: ${RESPONSE.daily.5.uvi}
-      daily.6.dt: ${RESPONSE.daily.6.dt}
-      daily.6.sunrise: ${RESPONSE.daily.6.sunrise}
-      daily.6.sunset: ${RESPONSE.daily.6.sunset}
-      daily.6.temp.day: ${RESPONSE.daily.6.temp.day}
-      daily.6.temp.min: ${RESPONSE.daily.6.temp.min}
-      daily.6.temp.max: ${RESPONSE.daily.6.temp.max}
-      daily.6.temp.night: ${RESPONSE.daily.6.temp.night}
-      daily.6.temp.eve: ${RESPONSE.daily.6.temp.eve}
-      daily.6.temp.morn: ${RESPONSE.daily.6.temp.morn}
-      daily.6.feels_like.day: ${RESPONSE.daily.6.feels_like.day}
-      daily.6.feels_like.night: ${RESPONSE.daily.6.feels_like.night}
-      daily.6.feels_like.eve: ${RESPONSE.daily.6.feels_like.eve}
-      daily.6.feels_like.morn: ${RESPONSE.daily.6.feels_like.morn}
-      daily.6.pressure: ${RESPONSE.daily.6.pressure}
-      daily.6.humidity: ${RESPONSE.daily.6.humidity}
-      daily.6.dew_point: ${RESPONSE.daily.6.dew_point}
-      daily.6.wind_speed: ${RESPONSE.daily.6.wind_speed}
-      daily.6.wind_deg: ${RESPONSE.daily.6.wind_deg}
-      daily.6.weather.0.id: ${RESPONSE.daily.6.weather.0.id}
-      daily.6.weather.0.main: ${RESPONSE.daily.6.weather.0.main}
-      daily.6.weather.0.description: ${RESPONSE.daily.6.weather.0.description}
-      daily.6.weather.0.icon: ${RESPONSE.daily.6.weather.0.icon}
-      daily.6.clouds: ${RESPONSE.daily.6.clouds}
-      daily.6.uvi: ${RESPONSE.daily.6.uvi}
-      daily.7.dt: ${RESPONSE.daily.7.dt}
-      daily.7.sunrise: ${RESPONSE.daily.7.sunrise}
-      daily.7.sunset: ${RESPONSE.daily.7.sunset}
-      daily.7.temp.day: ${RESPONSE.daily.7.temp.day}
-      daily.7.temp.min: ${RESPONSE.daily.7.temp.min}
-      daily.7.temp.max: ${RESPONSE.daily.7.temp.max}
-      daily.7.temp.night: ${RESPONSE.daily.7.temp.night}
-      daily.7.temp.eve: ${RESPONSE.daily.7.temp.eve}
-      daily.7.temp.morn: ${RESPONSE.daily.7.temp.morn}
-      daily.7.feels_like.day: ${RESPONSE.daily.7.feels_like.day}
-      daily.7.feels_like.night: ${RESPONSE.daily.7.feels_like.night}
-      daily.7.feels_like.eve: ${RESPONSE.daily.7.feels_like.eve}
-      daily.7.feels_like.morn: ${RESPONSE.daily.7.feels_like.morn}
-      daily.7.pressure: ${RESPONSE.daily.7.pressure}
-      daily.7.humidity: ${RESPONSE.daily.7.humidity}
-      daily.7.dew_point: ${RESPONSE.daily.7.dew_point}
-      daily.7.wind_speed: ${RESPONSE.daily.7.wind_speed}
-      daily.7.wind_deg: ${RESPONSE.daily.7.wind_deg}
-      daily.7.weather.0.id: ${RESPONSE.daily.7.weather.0.id}
-      daily.7.weather.0.main: ${RESPONSE.daily.7.weather.0.main}
-      daily.7.weather.0.description: ${RESPONSE.daily.7.weather.0.description}
-      daily.7.weather.0.icon: ${RESPONSE.daily.7.weather.0.icon}
-      daily.7.clouds: ${RESPONSE.daily.7.clouds}
-      daily.7.uvi: ${RESPONSE.daily.7.uvi}
+      # daily.1.dt: ${RESPONSE.daily.1.dt}
+      # daily.1.sunrise: ${RESPONSE.daily.1.sunrise}
+      # daily.1.sunset: ${RESPONSE.daily.1.sunset}
+      # daily.1.temp.day: ${RESPONSE.daily.1.temp.day}
+      # daily.1.temp.min: ${RESPONSE.daily.1.temp.min}
+      # daily.1.temp.max: ${RESPONSE.daily.1.temp.max}
+      # daily.1.temp.night: ${RESPONSE.daily.1.temp.night}
+      # daily.1.temp.eve: ${RESPONSE.daily.1.temp.eve}
+      # daily.1.temp.morn: ${RESPONSE.daily.1.temp.morn}
+      # daily.1.feels_like.day: ${RESPONSE.daily.1.feels_like.day}
+      # daily.1.feels_like.night: ${RESPONSE.daily.1.feels_like.night}
+      # daily.1.feels_like.eve: ${RESPONSE.daily.1.feels_like.eve}
+      # daily.1.feels_like.morn: ${RESPONSE.daily.1.feels_like.morn}
+      # daily.1.pressure: ${RESPONSE.daily.1.pressure}
+      # daily.1.humidity: ${RESPONSE.daily.1.humidity}
+      # daily.1.dew_point: ${RESPONSE.daily.1.dew_point}
+      # daily.1.wind_speed: ${RESPONSE.daily.1.wind_speed}
+      # daily.1.wind_deg: ${RESPONSE.daily.1.wind_deg}
+      # daily.1.weather.0.id: ${RESPONSE.daily.1.weather.0.id}
+      # daily.1.weather.0.main: ${RESPONSE.daily.1.weather.0.main}
+      # daily.1.weather.0.description: ${RESPONSE.daily.1.weather.0.description}
+      # daily.1.weather.0.icon: ${RESPONSE.daily.1.weather.0.icon}
+      # daily.1.clouds: ${RESPONSE.daily.1.clouds}
+      # daily.1.uvi: ${RESPONSE.daily.1.uvi}
+      # daily.2.dt: ${RESPONSE.daily.2.dt}
+      # daily.2.sunrise: ${RESPONSE.daily.2.sunrise}
+      # daily.2.sunset: ${RESPONSE.daily.2.sunset}
+      # daily.2.temp.day: ${RESPONSE.daily.2.temp.day}
+      # daily.2.temp.min: ${RESPONSE.daily.2.temp.min}
+      # daily.2.temp.max: ${RESPONSE.daily.2.temp.max}
+      # daily.2.temp.night: ${RESPONSE.daily.2.temp.night}
+      # daily.2.temp.eve: ${RESPONSE.daily.2.temp.eve}
+      # daily.2.temp.morn: ${RESPONSE.daily.2.temp.morn}
+      # daily.2.feels_like.day: ${RESPONSE.daily.2.feels_like.day}
+      # daily.2.feels_like.night: ${RESPONSE.daily.2.feels_like.night}
+      # daily.2.feels_like.eve: ${RESPONSE.daily.2.feels_like.eve}
+      # daily.2.feels_like.morn: ${RESPONSE.daily.2.feels_like.morn}
+      # daily.2.pressure: ${RESPONSE.daily.2.pressure}
+      # daily.2.humidity: ${RESPONSE.daily.2.humidity}
+      # daily.2.dew_point: ${RESPONSE.daily.2.dew_point}
+      # daily.2.wind_speed: ${RESPONSE.daily.2.wind_speed}
+      # daily.2.wind_deg: ${RESPONSE.daily.2.wind_deg}
+      # daily.2.weather.0.id: ${RESPONSE.daily.2.weather.0.id}
+      # daily.2.weather.0.main: ${RESPONSE.daily.2.weather.0.main}
+      # daily.2.weather.0.description: ${RESPONSE.daily.2.weather.0.description}
+      # daily.2.weather.0.icon: ${RESPONSE.daily.2.weather.0.icon}
+      # daily.2.clouds: ${RESPONSE.daily.2.clouds}
+      # daily.2.uvi: ${RESPONSE.daily.2.uvi}
+      # daily.3.dt: ${RESPONSE.daily.3.dt}
+      # daily.3.sunrise: ${RESPONSE.daily.3.sunrise}
+      # daily.3.sunset: ${RESPONSE.daily.3.sunset}
+      # daily.3.temp.day: ${RESPONSE.daily.3.temp.day}
+      # daily.3.temp.min: ${RESPONSE.daily.3.temp.min}
+      # daily.3.temp.max: ${RESPONSE.daily.3.temp.max}
+      # daily.3.temp.night: ${RESPONSE.daily.3.temp.night}
+      # daily.3.temp.eve: ${RESPONSE.daily.3.temp.eve}
+      # daily.3.temp.morn: ${RESPONSE.daily.3.temp.morn}
+      # daily.3.feels_like.day: ${RESPONSE.daily.3.feels_like.day}
+      # daily.3.feels_like.night: ${RESPONSE.daily.3.feels_like.night}
+      # daily.3.feels_like.eve: ${RESPONSE.daily.3.feels_like.eve}
+      # daily.3.feels_like.morn: ${RESPONSE.daily.3.feels_like.morn}
+      # daily.3.pressure: ${RESPONSE.daily.3.pressure}
+      # daily.3.humidity: ${RESPONSE.daily.3.humidity}
+      # daily.3.dew_point: ${RESPONSE.daily.3.dew_point}
+      # daily.3.wind_speed: ${RESPONSE.daily.3.wind_speed}
+      # daily.3.wind_deg: ${RESPONSE.daily.3.wind_deg}
+      # daily.3.weather.0.id: ${RESPONSE.daily.3.weather.0.id}
+      # daily.3.weather.0.main: ${RESPONSE.daily.3.weather.0.main}
+      # daily.3.weather.0.description: ${RESPONSE.daily.3.weather.0.description}
+      # daily.3.weather.0.icon: ${RESPONSE.daily.3.weather.0.icon}
+      # daily.3.clouds: ${RESPONSE.daily.3.clouds}
+      # daily.3.uvi: ${RESPONSE.daily.3.uvi}
+      # daily.4.dt: ${RESPONSE.daily.4.dt}
+      # daily.4.sunrise: ${RESPONSE.daily.4.sunrise}
+      # daily.4.sunset: ${RESPONSE.daily.4.sunset}
+      # daily.4.temp.day: ${RESPONSE.daily.4.temp.day}
+      # daily.4.temp.min: ${RESPONSE.daily.4.temp.min}
+      # daily.4.temp.max: ${RESPONSE.daily.4.temp.max}
+      # daily.4.temp.night: ${RESPONSE.daily.4.temp.night}
+      # daily.4.temp.eve: ${RESPONSE.daily.4.temp.eve}
+      # daily.4.temp.morn: ${RESPONSE.daily.4.temp.morn}
+      # daily.4.feels_like.day: ${RESPONSE.daily.4.feels_like.day}
+      # daily.4.feels_like.night: ${RESPONSE.daily.4.feels_like.night}
+      # daily.4.feels_like.eve: ${RESPONSE.daily.4.feels_like.eve}
+      # daily.4.feels_like.morn: ${RESPONSE.daily.4.feels_like.morn}
+      # daily.4.pressure: ${RESPONSE.daily.4.pressure}
+      # daily.4.humidity: ${RESPONSE.daily.4.humidity}
+      # daily.4.dew_point: ${RESPONSE.daily.4.dew_point}
+      # daily.4.wind_speed: ${RESPONSE.daily.4.wind_speed}
+      # daily.4.wind_deg: ${RESPONSE.daily.4.wind_deg}
+      # daily.4.weather.0.id: ${RESPONSE.daily.4.weather.0.id}
+      # daily.4.weather.0.main: ${RESPONSE.daily.4.weather.0.main}
+      # daily.4.weather.0.description: ${RESPONSE.daily.4.weather.0.description}
+      # daily.4.weather.0.icon: ${RESPONSE.daily.4.weather.0.icon}
+      # daily.4.clouds: ${RESPONSE.daily.4.clouds}
+      # daily.4.rain: ${RESPONSE.daily.4.rain}
+      # daily.4.uvi: ${RESPONSE.daily.4.uvi}
+      # daily.5.dt: ${RESPONSE.daily.5.dt}
+      # daily.5.sunrise: ${RESPONSE.daily.5.sunrise}
+      # daily.5.sunset: ${RESPONSE.daily.5.sunset}
+      # daily.5.temp.day: ${RESPONSE.daily.5.temp.day}
+      # daily.5.temp.min: ${RESPONSE.daily.5.temp.min}
+      # daily.5.temp.max: ${RESPONSE.daily.5.temp.max}
+      # daily.5.temp.night: ${RESPONSE.daily.5.temp.night}
+      # daily.5.temp.eve: ${RESPONSE.daily.5.temp.eve}
+      # daily.5.temp.morn: ${RESPONSE.daily.5.temp.morn}
+      # daily.5.feels_like.day: ${RESPONSE.daily.5.feels_like.day}
+      # daily.5.feels_like.night: ${RESPONSE.daily.5.feels_like.night}
+      # daily.5.feels_like.eve: ${RESPONSE.daily.5.feels_like.eve}
+      # daily.5.feels_like.morn: ${RESPONSE.daily.5.feels_like.morn}
+      # daily.5.pressure: ${RESPONSE.daily.5.pressure}
+      # daily.5.humidity: ${RESPONSE.daily.5.humidity}
+      # daily.5.dew_point: ${RESPONSE.daily.5.dew_point}
+      # daily.5.wind_speed: ${RESPONSE.daily.5.wind_speed}
+      # daily.5.wind_deg: ${RESPONSE.daily.5.wind_deg}
+      # daily.5.weather.0.id: ${RESPONSE.daily.5.weather.0.id}
+      # daily.5.weather.0.main: ${RESPONSE.daily.5.weather.0.main}
+      # daily.5.weather.0.description: ${RESPONSE.daily.5.weather.0.description}
+      # daily.5.weather.0.icon: ${RESPONSE.daily.5.weather.0.icon}
+      # daily.5.clouds: ${RESPONSE.daily.5.clouds}
+      # daily.5.uvi: ${RESPONSE.daily.5.uvi}
+      # daily.6.dt: ${RESPONSE.daily.6.dt}
+      # daily.6.sunrise: ${RESPONSE.daily.6.sunrise}
+      # daily.6.sunset: ${RESPONSE.daily.6.sunset}
+      # daily.6.temp.day: ${RESPONSE.daily.6.temp.day}
+      # daily.6.temp.min: ${RESPONSE.daily.6.temp.min}
+      # daily.6.temp.max: ${RESPONSE.daily.6.temp.max}
+      # daily.6.temp.night: ${RESPONSE.daily.6.temp.night}
+      # daily.6.temp.eve: ${RESPONSE.daily.6.temp.eve}
+      # daily.6.temp.morn: ${RESPONSE.daily.6.temp.morn}
+      # daily.6.feels_like.day: ${RESPONSE.daily.6.feels_like.day}
+      # daily.6.feels_like.night: ${RESPONSE.daily.6.feels_like.night}
+      # daily.6.feels_like.eve: ${RESPONSE.daily.6.feels_like.eve}
+      # daily.6.feels_like.morn: ${RESPONSE.daily.6.feels_like.morn}
+      # daily.6.pressure: ${RESPONSE.daily.6.pressure}
+      # daily.6.humidity: ${RESPONSE.daily.6.humidity}
+      # daily.6.dew_point: ${RESPONSE.daily.6.dew_point}
+      # daily.6.wind_speed: ${RESPONSE.daily.6.wind_speed}
+      # daily.6.wind_deg: ${RESPONSE.daily.6.wind_deg}
+      # daily.6.weather.0.id: ${RESPONSE.daily.6.weather.0.id}
+      # daily.6.weather.0.main: ${RESPONSE.daily.6.weather.0.main}
+      # daily.6.weather.0.description: ${RESPONSE.daily.6.weather.0.description}
+      # daily.6.weather.0.icon: ${RESPONSE.daily.6.weather.0.icon}
+      # daily.6.clouds: ${RESPONSE.daily.6.clouds}
+      # daily.6.uvi: ${RESPONSE.daily.6.uvi}
+      # daily.7.dt: ${RESPONSE.daily.7.dt}
+      # daily.7.sunrise: ${RESPONSE.daily.7.sunrise}
+      # daily.7.sunset: ${RESPONSE.daily.7.sunset}
+      # daily.7.temp.day: ${RESPONSE.daily.7.temp.day}
+      # daily.7.temp.min: ${RESPONSE.daily.7.temp.min}
+      # daily.7.temp.max: ${RESPONSE.daily.7.temp.max}
+      # daily.7.temp.night: ${RESPONSE.daily.7.temp.night}
+      # daily.7.temp.eve: ${RESPONSE.daily.7.temp.eve}
+      # daily.7.temp.morn: ${RESPONSE.daily.7.temp.morn}
+      # daily.7.feels_like.day: ${RESPONSE.daily.7.feels_like.day}
+      # daily.7.feels_like.night: ${RESPONSE.daily.7.feels_like.night}
+      # daily.7.feels_like.eve: ${RESPONSE.daily.7.feels_like.eve}
+      # daily.7.feels_like.morn: ${RESPONSE.daily.7.feels_like.morn}
+      # daily.7.pressure: ${RESPONSE.daily.7.pressure}
+      # daily.7.humidity: ${RESPONSE.daily.7.humidity}
+      # daily.7.dew_point: ${RESPONSE.daily.7.dew_point}
+      # daily.7.wind_speed: ${RESPONSE.daily.7.wind_speed}
+      # daily.7.wind_deg: ${RESPONSE.daily.7.wind_deg}
+      # daily.7.weather.0.id: ${RESPONSE.daily.7.weather.0.id}
+      # daily.7.weather.0.main: ${RESPONSE.daily.7.weather.0.main}
+      # daily.7.weather.0.description: ${RESPONSE.daily.7.weather.0.description}
+      # daily.7.weather.0.icon: ${RESPONSE.daily.7.weather.0.icon}
+      # daily.7.clouds: ${RESPONSE.daily.7.clouds}
+      # daily.7.uvi: ${RESPONSE.daily.7.uvi}

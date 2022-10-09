@@ -8,3 +8,10 @@ ${Properties.selfObjectName}.battery:
     run:
       - SystemWarn.send('${Properties.selfObjectName} has this.battery% battery left!')
       - SystemNotify.send('${Properties.selfObjectName} has this.battery% battery left!')
+
+${Properties.selfObjectName}.click:
+  Sync with another button - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.sync-with} is not NONE
+    set:
+      ${Properties.sync-with}.click: ${Properties.selfObjectName}.click
