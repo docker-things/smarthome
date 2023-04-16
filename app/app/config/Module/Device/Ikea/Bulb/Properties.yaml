@@ -1,0 +1,6 @@
+---
+
+mqtt-topic: !required
+sync-with: NONE
+brightness: NONE
+temperature: NONE
