@@ -207,6 +207,30 @@ class Core_Object_Incoming extends Core_Object_Base {
     }
   }
 
+  private function _mapRange($value, $fromStart, $fromEnd, $toStart, $toEnd) {
+    if ($fromStart < $fromEnd) {
+      if ($value < $fromStart) {
+        return $toStart;
+      } elseif ($value > $fromEnd) {
+        return $toEnd;
+      }
+    } else {
+      if ($value > $fromStart) {
+        return $toStart;
+      } elseif ($value < $fromEnd) {
+        return $toEnd;
+      }
+    }
+
+    if ($value == $fromStart) {
+      return $toStart;
+    } elseif ($value == $fromEnd) {
+      return $toEnd;
+    }
+
+    return round(((($value - $fromStart) * ($toEnd - $toStart)) / ($fromEnd - $fromStart)) + $toStart);
+  }
+
   /**
    * @return null
    */
@@ -231,11 +255,31 @@ class Core_Object_Incoming extends Core_Object_Base {
             continue;
           }
 
-          // If the received value should be normalized
+          // If the received value is matched
           if (isset($dictionary[$this->_actions[$action][$param]])) {
 
             // Replace it with the new value
             $this->_actions[$action][$param] = $dictionary[$this->_actions[$action][$param]];
+          }
+
+          // If the dictionary contains a transformation
+          elseif (count($dictionary) == 1) {
+            $key = array_key_first($dictionary);
+            if (substr($key, 0, 1) == '$') {
+              if (substr($key, 0, 7) == '$RANGE|') {
+                $fromRange = explode('-', substr($key, 7), 2);
+                $toRange   = explode('-', $dictionary[$key], 2);
+
+                // Replace it with the new value
+                $this->_actions[$action][$param] = $this->_mapRange(
+                  $this->_actions[$action][$param],
+                  $fromRange[0],
+                  $fromRange[1],
+                  $toRange[0],
+                  $toRange[1],
+                );
+              }
+            }
           }
         }
       }

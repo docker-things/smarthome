@@ -247,6 +247,32 @@ class Core_Function {
   /**
    * @param $function
    */
+  private function _normalizeParams($function) {
+    Core_Logger::info('Core_Function::_runFunction("' . json_encode($function) . '");');
+
+    if (!isset($function['run'])) {
+      if (!isset($function['runFunctions']) && !isset($function['runFunctionsAsync'])) {
+        Core_Logger::error('Core_Function::_runFunction(): Function doensn\'t have any command to run!');
+      }
+      return false;
+    }
+
+    Core_Logger::info('Core_Function::_runFunction(): Running: ' . $function['run']);
+
+    ob_start();
+    system($function['run'] . ' 2>&1', $retval);
+    $output = ob_get_clean();
+
+    if ('' != $output) {
+      Core_Logger::info('Core_Function::_runFunction(): Output: ' . $output);
+    }
+
+    return $output;
+  }
+
+  /**
+   * @param $function
+   */
   private function _runFunction($function) {
     Core_Logger::info('Core_Function::_runFunction("' . json_encode($function) . '");');
 
@@ -311,6 +337,30 @@ class Core_Function {
     }
   }
 
+  private function _mapRange($value, $fromStart, $fromEnd, $toStart, $toEnd) {
+    if ($fromStart < $fromEnd) {
+      if ($value < $fromStart) {
+        return $toStart;
+      } elseif ($value > $fromEnd) {
+        return $toEnd;
+      }
+    } else {
+      if ($value > $fromStart) {
+        return $toStart;
+      } elseif ($value < $fromEnd) {
+        return $toEnd;
+      }
+    }
+
+    if ($value == $fromStart) {
+      return $toStart;
+    } elseif ($value == $fromEnd) {
+      return $toEnd;
+    }
+
+    return round(((($value - $fromStart) * ($toEnd - $toStart)) / ($fromEnd - $fromStart)) + $toStart);
+  }
+
   /**
    * @param  $config
    * @return mixed
@@ -319,6 +369,34 @@ class Core_Function {
     $function = $config['function'];
     if (!empty($config['params'])) {
       foreach ($config['params'] AS $from => $to) {
+        if (isset($function['normalize-params']) && isset($function['normalize-params'][$from])) {
+          $dictionary = $function['normalize-params'][$from];
+
+          // If the received value is matched
+          if (isset($dictionary[$to])) {
+            $to = $dictionary[$to];
+          }
+
+          // If the dictionary contains a transformation
+          elseif (count($dictionary) == 1) {
+            $key = array_key_first($dictionary);
+            if (substr($key, 0, 1) == '$') {
+              if (substr($key, 0, 7) == '$RANGE|') {
+                $fromRange = explode('-', substr($key, 7), 2);
+                $toRange   = explode('-', $dictionary[$key], 2);
+
+                // Replace it with the new value
+                $to = $this->_mapRange(
+                  $to,
+                  $fromRange[0],
+                  $fromRange[1],
+                  $toRange[0],
+                  $toRange[1],
+                );
+              }
+            }
+          }
+        }
         $function = $this->_str_replace_recursive('${ARGS.' . $from . '}', $to, $function);
       }
     }
