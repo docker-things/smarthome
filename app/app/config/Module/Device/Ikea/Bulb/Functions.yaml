@@ -1,0 +1,87 @@
+---
+
+set: mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/set" -m
+get: mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/get" -m
+
+functions:
+
+  on():
+    run: |
+      ${set} '{"state": "ON", "transition": 1}'
+
+  on(duration):
+    run: |
+      ${set} '{"state": "ON", "transition": ${ARGS.duration}}'
+
+  off():
+    run: |
+      ${set} '{"state": "OFF", "transition": 1}'
+
+  off(duration):
+    run: |
+      ${set} '{"state": "OFF", "transition": ${ARGS.duration}}'
+
+  toggle():
+    run: |
+      ${set} '{"state": "TOGGLE", "transition": 1}'
+
+  toggle(duration):
+    run: |
+      ${set} '{"state": "TOGGLE", "transition": ${ARGS.duration}}'
+
+  # brightness: 0-254
+  brightness(brightness):
+    normalize-params:
+      brightness:
+        "$RANGE|0-100": "0-254"
+    run: |
+      ${set} '{"brightness": "${ARGS.brightness}", "transition": 1}'
+
+  brightness(brightness,duration):
+    normalize-params:
+      brightness:
+        "$RANGE|0-100": "0-254"
+    run: |
+      ${set} '{"brightness": "${ARGS.brightness}", "transition": ${ARGS.duration}}'
+
+  # temperature: 454 (warm light) - 250 (cold light) --- OR: coolest, cool, neutral, warm, warmest
+  temperature(temperature):
+    normalize-params:
+      temperature:
+        "$RANGE|1700-6500": "454-250"
+    run: |
+      ${set} '{"color_temp": "${ARGS.temperature}", "color_temp_startup": "${ARGS.temperature}", "transition": 1}'
+
+  temperature(temperature,duration):
+    normalize-params:
+      temperature:
+        "$RANGE|1700-6500": "454-250"
+    run: |
+      ${set} '{"color_temp": "${ARGS.temperature}", "color_temp_startup": "${ARGS.temperature}", "transition": ${ARGS.duration}}'
+
+  startupTemperature(temperature):
+    normalize-params:
+      temperature:
+        "$RANGE|1700-6500": "454-250"
+    run: |
+      ${set} '{"color_temp_startup": "${ARGS.temperature}"}'
+
+  # blink, breathe, okay, channel_change, finish_effect, stop_effect
+  effect(effect):
+    run: |
+      ${set} '{"effect": "${ARGS.effect}"}'
+
+  # off, on, toggle, previous
+  powerOnStatus(status):
+    run: |
+      ${set} '{"power_on_behavior": "${ARGS.status}"}'
+
+  getStatus():
+    run: |
+      ${get} '{"state": ""}'
+
+  setOfflineStatus():
+    if:
+      - ${Properties.selfObjectName}.last-input-time.timeSince > 20
+    set:
+      status: offline

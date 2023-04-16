@@ -1,4 +1,4 @@
-version: '3'
+version: '2.2'
 
 services:
 
@@ -11,6 +11,9 @@ services:
     ports:
       - 1883:1883
       - 1884:1884
+    mem_limit: 512M
+    memswap_limit: 0M
+    cpu_shares: 2048
 
   mqtt-gaming:
     image: eclipse-mosquitto:1.6.9
@@ -21,6 +24,9 @@ services:
     ports:
       - 12345:1883
       - 12346:1884
+    mem_limit: 512M
+    memswap_limit: 0M
+    cpu_shares: 2048
 
   zigbee2mqtt:
     image: koenkk/zigbee2mqtt:1.25.2
@@ -35,6 +41,9 @@ services:
       - ./data/zigbee2mqtt:/app/data
     environment:
       - TZ=$TIMEZONE
+    mem_limit: 512M
+    memswap_limit: 0M
+    cpu_shares: 2048
 
   db:
     image: mariadb:10.2.32
@@ -49,6 +58,9 @@ services:
       - MYSQL_PASSWORD=$MYSQL_PASSWORD
       - MYSQL_DATABASE=$MYSQL_DATABASE
       - MYSQL_USER=$MYSQL_USER
+    mem_limit: 1G
+    memswap_limit: 0M
+    cpu_shares: 2048
 
   app:
     image: smarthome:0.1.0
@@ -82,12 +94,6 @@ services:
       - MYSQL_HOST=$MYSQL_HOST
       - APP_ENV=$APP_ENV
       - HOST_IP=$HOST_IP
-
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: '0.50'
-    #       memory: 50M
-    #     reservations:
-    #       cpus: '0.25'
-    #       memory: 20M
+    mem_limit: 1G
+    memswap_limit: 0M
+    cpu_shares: 2048

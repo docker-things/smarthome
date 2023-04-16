@@ -5,6 +5,7 @@ ${Properties.selfObjectName}.status:
     if:
       - ${Properties.selfObjectName}.status is 'on'
       - ${Properties.selfObjectName}.status.previousValue is 'offline'
+      - ${Properties.brightness} is NONE
     run:
       - ${Properties.selfObjectName}.brightness('25')
       - System.sleep('0.4')
@@ -18,6 +19,24 @@ ${Properties.selfObjectName}.status:
     run:
       - ${Properties.selfObjectName}.brightness('${Properties.brightness}')
 
+  Fixed temperature - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.temperature} is not NONE
+      - ${Properties.selfObjectName}.status is 'on'
+      - ${Properties.selfObjectName}.temperature is not ${Properties.temperature}
+    run:
+      - ${Properties.selfObjectName}.temperature('${Properties.temperature}')
+
+${Properties.selfObjectName}.brightness:
+  Fixed brightness - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.brightness} is not NONE
+      - ${Properties.selfObjectName}.status is 'on'
+      - ${Properties.selfObjectName}.brightness is not ${Properties.brightness}
+    run:
+      - ${Properties.selfObjectName}.brightness('${Properties.brightness}')
+
+${Properties.selfObjectName}.temperature:
   Fixed temperature - ${Properties.selfObjectName}:
     if:
       - ${Properties.temperature} is not NONE

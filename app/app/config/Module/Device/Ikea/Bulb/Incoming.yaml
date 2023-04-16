@@ -1,0 +1,36 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}
+
+# Known actions and what variables are set by them
+actions:
+  all:
+    status: ${PARAMS.state}
+    color_mode: ${PARAMS.color_mode}
+    brightness: ${PARAMS.brightness}
+    temperature: ${PARAMS.color_temp}
+    temperature_startup: ${PARAMS.color_temp_startup}
+    power_on_behavior: ${PARAMS.power_on_behavior}
+    update_state: ${PARAMS.update.state}
+    update_available: ${PARAMS.update_available}
+    linkquality: ${PARAMS.linkquality}
+    last-input-time: foo
+
+normalize-params:
+  all:
+    status:
+      "ON": "on"
+      "OFF": "off"
+    brightness:
+      "$RANGE|0-254": "0-100"
+    temperature:
+      "$RANGE|454-250": "1700-6500"
+    temperature_startup:
+      "$RANGE|454-250": "1700-6500"
+
+# Params are not rewritten in the DB if the value isn't changed.
+# This allows them to be written anyway.
+alwaysSetWhenReceived:
+  - last-input-time
