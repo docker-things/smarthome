@@ -1,0 +1,86 @@
+---
+
+functions:
+
+  on():
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.on()
+      - ${Properties.bulb-2}.on()
+    set:
+      status: 'on'
+
+  on(duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.on('${ARGS.duration}')
+      - ${Properties.bulb-2}.on('${ARGS.duration}')
+    set:
+      status: 'on'
+
+  off():
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.off()
+      - ${Properties.bulb-2}.off()
+    set:
+      status: 'off'
+
+  off(duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.off('${ARGS.duration}')
+      - ${Properties.bulb-2}.off('${ARGS.duration}')
+    set:
+      status: 'off'
+
+  toggle():
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.toggle()
+      - ${Properties.bulb-2}.toggle()
+
+  toggle(duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.toggle('${ARGS.duration}')
+      - ${Properties.bulb-2}.toggle('${ARGS.duration}')
+
+  brightness(brightness):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.brightness('${ARGS.brightness}')
+      - ${Properties.bulb-2}.brightness('${ARGS.brightness}')
+
+  brightness(brightness,duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.brightness('${ARGS.brightness}','${ARGS.duration}')
+      - ${Properties.bulb-2}.brightness('${ARGS.brightness}','${ARGS.duration}')
+
+  temperature(temperature):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.temperature('${ARGS.temperature}')
+      - ${Properties.bulb-2}.temperature('${ARGS.temperature}')
+
+  temperature(temperature,duration):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.temperature('${ARGS.temperature}','${ARGS.duration}')
+      - ${Properties.bulb-2}.temperature('${ARGS.temperature}','${ARGS.duration}')
+
+  startupTemperature(temperature):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.startupTemperature('${ARGS.temperature}')
+      - ${Properties.bulb-2}.startupTemperature('${ARGS.temperature}')
+
+  effect(effect):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.effect('${ARGS.effect}')
+      - ${Properties.bulb-2}.effect('${ARGS.effect}')
+
+  powerOnStatus(status):
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.powerOnStatus('${ARGS.status}')
+      - ${Properties.bulb-2}.powerOnStatus('${ARGS.status}')
+
+  getStatus():
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.getStatus()
+      - ${Properties.bulb-2}.getStatus()
+
+  getStatusByCron():
+    runFunctionsAsync:
+      - ${Properties.bulb-1}.getStatusByCron()
+      - ${Properties.bulb-2}.getStatusByCron()

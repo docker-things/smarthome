@@ -1,0 +1,121 @@
+---
+
+# BULB 1
+
+${Properties.bulb-1}.status:
+  When going offline - ${Properties.selfObjectName}:
+    if:
+      - this is offline
+      - ${Properties.bulb-2}.status is offline
+    set:
+      ${Properties.selfObjectName}.status: offline
+
+  Online status change - ${Properties.selfObjectName}:
+    if: this is not offline
+    set:
+      ${Properties.selfObjectName}.status: this.status
+
+${Properties.bulb-1}.color_mode:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.color_mode: this.color_mode
+
+${Properties.bulb-1}.brightness:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.brightness: this.brightness
+
+${Properties.bulb-1}.temperature:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.temperature: this.temperature
+
+${Properties.bulb-1}.temperature_startup:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.temperature_startup: this.temperature_startup
+
+${Properties.bulb-1}.power_on_behavior:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.power_on_behavior: this.power_on_behavior
+
+${Properties.bulb-1}.update_state:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.update_state: this.update_state
+
+${Properties.bulb-1}.update_available:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.update_available: this.update_available
+
+${Properties.bulb-1}.linkquality:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.linkquality: this.linkquality
+
+${Properties.bulb-1}.last-input-time:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last-input-time: this.last-input-time
+
+# BULB 2
+
+${Properties.bulb-2}.status:
+  When going offline - ${Properties.selfObjectName}:
+    if:
+      - this is offline
+      - ${Properties.bulb-1}.status is offline
+    set:
+      ${Properties.selfObjectName}.status: offline
+
+  Online status change - ${Properties.selfObjectName}:
+    if: this is not offline
+    set:
+      ${Properties.selfObjectName}.status: this.status
+
+${Properties.bulb-2}.color_mode:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.color_mode: this.color_mode
+
+${Properties.bulb-2}.brightness:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.brightness: this.brightness
+
+${Properties.bulb-2}.temperature:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.temperature: this.temperature
+
+${Properties.bulb-2}.temperature_startup:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.temperature_startup: this.temperature_startup
+
+${Properties.bulb-2}.power_on_behavior:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.power_on_behavior: this.power_on_behavior
+
+${Properties.bulb-2}.update_state:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.update_state: this.update_state
+
+${Properties.bulb-2}.update_available:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.update_available: this.update_available
+
+${Properties.bulb-2}.linkquality:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.linkquality: this.linkquality
+
+${Properties.bulb-2}.last-input-time:
+  On value change - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.last-input-time: this.last-input-time
