@@ -1,3 +1,4 @@
 ---
 
 mqtt-topic: !required
+sync-with: NONE

@@ -1,0 +1,16 @@
+---
+
+${Properties.sync-with}.status:
+  Turned on - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.sync-with}.status is on
+    run:
+      - ${Properties.selfObjectName}.on()
+      - SystemNotify.send('Turned ${Properties.selfObjectName} ON (synced ${Properties.sync-with})')
+
+  Turned off - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.sync-with}.status in ['off','offline']
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('Turned ${Properties.selfObjectName} OFF (synced ${Properties.sync-with})')
