@@ -1,0 +1,49 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/status
+
+actionParam: ${PARAMS.mqtt-topic}
+
+# Known actions and what variables are set by them
+actions:
+
+  ${Properties.mqtt-topic}/status:
+    apc: ${PARAMS.APC}
+    hostname: ${PARAMS.HOSTNAME}
+    version: ${PARAMS.VERSION}
+    ups_name: ${PARAMS.UPSNAME}
+    cable: ${PARAMS.CABLE}
+    driver: ${PARAMS.DRIVER}
+    ups_mode: ${PARAMS.UPSMODE}
+    start_time: ${PARAMS.STARTTIME}
+    model: ${PARAMS.MODEL}
+    status: ${PARAMS.STATUS}
+    voltage: ${PARAMS.LINEV}
+    power: ${PARAMS.POWER}
+    load_percent: ${PARAMS.LOADPCT}
+    battery_charge: ${PARAMS.BCHARGE}
+    time_left: ${PARAMS.TIMELEFT}
+    min_battery_charge: ${PARAMS.MBATTCHG}
+    min_battery_runtime: ${PARAMS.MINTIMEL}
+    max_battery_runtime: ${PARAMS.MAXTIME}
+    voltage_fluctuations_sensitivity: ${PARAMS.SENSE}
+    low_voltage_trigger: ${PARAMS.LOTRANS}
+    high_volgage_trigger: ${PARAMS.HITRANS}
+    alarm_delay: ${PARAMS.ALARMDEL}
+    battery_voltage: ${PARAMS.BATTV}
+    last_trigger_reason: ${PARAMS.LASTXFER}
+    trigger_count: ${PARAMS.NUMXFERS}
+    seconds_on_battery: ${PARAMS.TONBATT}
+    total_seconds_on_battery: ${PARAMS.CUMONBATT}
+    last_trigger_datetime: ${PARAMS.XOFFBATT}
+    self_test_datetime: ${PARAMS.SELFTEST}
+    status_flag: ${PARAMS.STATFLAG}
+    serial_number: ${PARAMS.SERIALNO}
+    battery_date: ${PARAMS.BATTDATE}
+    nominal_voltage: ${PARAMS.NOMINV}
+    nominal_battery_voltage: ${PARAMS.NOMBATTV}
+    nominal_power: ${PARAMS.NOMPOWER}
+    firmware: ${PARAMS.FIRMWARE}
+
