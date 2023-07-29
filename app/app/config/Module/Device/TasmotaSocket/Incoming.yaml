@@ -33,11 +33,11 @@ actions:
     Energy.Yesterday: ${PARAMS.ENERGY.Yesterday}
     Energy.Today: ${PARAMS.ENERGY.Today}
     Energy.Period: ${PARAMS.ENERGY.Period}
-    Energy.Power: ${PARAMS.ENERGY.Power}
+    power: ${PARAMS.ENERGY.Power}
     Energy.ApparentPower: ${PARAMS.ENERGY.ApparentPower}
     Energy.ReactivePower: ${PARAMS.ENERGY.ReactivePower}
     Energy.Factor: ${PARAMS.ENERGY.Factor}
-    Energy.Voltage: ${PARAMS.ENERGY.Voltage}
+    voltage: ${PARAMS.ENERGY.Voltage}
     Energy.Current: ${PARAMS.ENERGY.Current}
 
   stat/${Properties.mqtt-topic}/RESULT:
