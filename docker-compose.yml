@@ -15,18 +15,18 @@ services:
     memswap_limit: 0M
     cpu_shares: 2048
 
-  mqtt-gaming:
-    image: eclipse-mosquitto:1.6.9
-    container_name: smarthome-mqtt-gaming
-    restart: always
-    volumes:
-      - ./data/mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
-    ports:
-      - 12345:1883
-      - 12346:1884
-    mem_limit: 512M
-    memswap_limit: 0M
-    cpu_shares: 2048
+  # mqtt-gaming:
+  #   image: eclipse-mosquitto:1.6.9
+  #   container_name: smarthome-mqtt-gaming
+  #   restart: always
+  #   volumes:
+  #     - ./data/mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+  #   ports:
+  #     - 12345:1883
+  #     - 12346:1884
+  #   mem_limit: 512M
+  #   memswap_limit: 0M
+  #   cpu_shares: 2048
 
   zigbee2mqtt:
     image: koenkk/zigbee2mqtt:1.25.2
@@ -72,6 +72,7 @@ services:
     depends_on:
       - mqtt
       - db
+      - zigbee2mqtt
     restart: always
     devices:
       - $DEVICE_CEC:/dev/ttyACM0
