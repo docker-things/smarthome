@@ -5,7 +5,8 @@ jobs:
   # Delayed status
   - interval: 1
     if:
+      - ${Properties.selfObjectName}.status == paused
       - ${Properties.selfObjectName}.status != ${Properties.selfObjectName}.statusDelayed
-      - ${Properties.selfObjectName}.status.timeSince >= 5
+      - ${Properties.selfObjectName}.status.timeSince >= 4
     set:
       ${Properties.selfObjectName}.statusDelayed: ${Properties.selfObjectName}.status

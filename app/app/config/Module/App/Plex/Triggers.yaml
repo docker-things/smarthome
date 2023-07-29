@@ -1,0 +1,8 @@
+---
+
+${Properties.selfObjectName}.status:
+  Changed status - ${Properties.selfObjectName}:
+    if:
+      - this is not paused
+    set:
+      ${Properties.selfObjectName}.statusDelayed: ${Properties.selfObjectName}.status
