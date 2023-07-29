@@ -1,0 +1,9 @@
+---
+
+functions:
+  send(message):
+    run: >
+      curl -s -S --data '{"message": "${ARGS.message}", "title": "${Properties.title}", "priority":${Properties.priority}, "extras": {"client::display": {"contentType": "text/markdown"}}}' -H 'Content-Type: application/json' "${Properties.url}"
+    # if: ${RESPONSE.output} is ok
+    # set:
+    #   message: ${ARGS.message}
