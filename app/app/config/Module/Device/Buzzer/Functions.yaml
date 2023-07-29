@@ -1,0 +1,17 @@
+---
+
+cmd: 'mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/set" -m'
+
+functions:
+
+  on():
+    run: "${cmd} 'on'"
+
+  off():
+    run: "${cmd} 'off'"
+
+  toggle():
+    run: "${cmd} 'toggle'"
+
+  beep(times):
+    run: "${cmd} 'beep ${ARGS.times}'"

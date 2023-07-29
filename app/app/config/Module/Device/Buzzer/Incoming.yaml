@@ -1,0 +1,8 @@
+---
+
+recognize-by-comparing:
+  - ${PARAMS.mqtt-topic}: ${Properties.mqtt-topic}/get
+
+actions:
+  all:
+    status: ${PARAMS.status}
