@@ -16,3 +16,63 @@ jobs:
     run:
       - ${Properties.selfObjectName}.setVolume('${Properties.nightVolume}')
       - SystemNotify.send('${Properties.selfObjectName} Set volume to ${Properties.nightVolume} (Quiet hours)')
+
+  # Sockets off when speaker client is off
+  - interval: 5
+    if:
+      - ${Properties.speaker-1-socket}.status is on
+      - ${Properties.speaker-1}.status is off
+      - ${Properties.speaker-1}.status.timeSince >= 5
+    run:
+      - ${Properties.speaker-1-socket}.off()
+      - SystemNotify.send('${Properties.speaker-1-socket} OFF (${Properties.speaker-1} OFF)')
+
+  - interval: 5
+    if:
+      - ${Properties.speaker-2-socket}.status is on
+      - ${Properties.speaker-2}.status is off
+      - ${Properties.speaker-2}.status.timeSince >= 5
+    run:
+      - ${Properties.speaker-2-socket}.off()
+      - SystemNotify.send('${Properties.speaker-2-socket} OFF (${Properties.speaker-2} OFF)')
+
+  - interval: 5
+    if:
+      - ${Properties.speaker-3-socket}.status is on
+      - ${Properties.speaker-3}.status is off
+      - ${Properties.speaker-3}.status.timeSince >= 5
+    run:
+      - ${Properties.speaker-3-socket}.off()
+      - SystemNotify.send('${Properties.speaker-3-socket} OFF (${Properties.speaker-3} OFF)')
+
+  - interval: 5
+    if:
+      - ${Properties.speaker-4-socket}.status is on
+      - ${Properties.speaker-4}.status is off
+      - ${Properties.speaker-4}.status.timeSince >= 5
+    run:
+      - ${Properties.speaker-4-socket}.off()
+      - SystemNotify.send('${Properties.speaker-4-socket} OFF (${Properties.speaker-4} OFF)')
+
+  - interval: 5
+    if:
+      - ${Properties.speaker-5-socket}.status is on
+      - ${Properties.speaker-5}.status is off
+      - ${Properties.speaker-5}.status.timeSince >= 5
+    run:
+      - ${Properties.speaker-5-socket}.off()
+      - SystemNotify.send('${Properties.speaker-5-socket} OFF (${Properties.speaker-5} OFF)')
+
+  # Sockets off when not playing
+  - interval: 5
+    if:
+      - on in ['${Properties.speaker-1-socket}.status','${Properties.speaker-2-socket}.status','${Properties.speaker-3-socket}.status','${Properties.speaker-4-socket}.status','${Properties.speaker-5-socket}.status']
+      - ${Properties.selfObjectName}.playing is false
+      - ${Properties.selfObjectName}.playing.timeSince >= 5
+    run:
+      - ${Properties.speaker-1-socket}.off()
+      - ${Properties.speaker-2-socket}.off()
+      - ${Properties.speaker-3-socket}.off()
+      - ${Properties.speaker-4-socket}.off()
+      - ${Properties.speaker-5-socket}.off()
+      - SystemNotify.send('All speaker sockets OFF (${Properties.selfObjectName} idle)')
