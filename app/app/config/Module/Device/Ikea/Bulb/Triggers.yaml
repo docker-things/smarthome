@@ -1,90 +1,75 @@
 ---
 
-# ${Properties.selfObjectName}.status:
-#   Reconnect action - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.selfObjectName}.status is 'on'
-#       - ${Properties.selfObjectName}.status.previousValue is 'offline'
-#       - ${Properties.brightness} is NONE
-#     run:
-#       - ${Properties.selfObjectName}.brightness('25')
-#       - System.sleep('0.4')
-#       - ${Properties.selfObjectName}.brightness('100')
+${Properties.selfObjectName}.status:
+  # Reconnect action - ${Properties.selfObjectName}:
+  #   if:
+  #     - ${Properties.selfObjectName}.status is 'on'
+  #     - ${Properties.selfObjectName}.status.previousValue is 'offline'
+  #     - ${Properties.brightness} is NONE
+  #   run:
+  #     - ${Properties.selfObjectName}.brightness('25')
+  #     - System.sleep('0.4')
+  #     - ${Properties.selfObjectName}.brightness('100')
 
-#   Fixed brightness - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.brightness} is not NONE
-#       - ${Properties.selfObjectName}.status is 'on'
-#       - ${Properties.selfObjectName}.brightness is not ${Properties.brightness}
-#     run:
-#       - ${Properties.selfObjectName}.brightness('${Properties.brightness}')
+  Fixed brightness - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.brightness} is not NONE
+      - ${Properties.selfObjectName}.status is 'on'
+      - ${Properties.selfObjectName}.brightness is not ${Properties.brightness}
+    run:
+      - ${Properties.selfObjectName}.brightness('${Properties.brightness}')
 
-#   Fixed temperature - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.temperature} is not NONE
-#       - ${Properties.selfObjectName}.status is 'on'
-#       - ${Properties.selfObjectName}.temperature is not ${Properties.temperature}
-#     run:
-#       - ${Properties.selfObjectName}.temperature('${Properties.temperature}')
+  Fixed temperature - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.temperature} is not NONE
+      - ${Properties.selfObjectName}.status is 'on'
+      - ${Properties.selfObjectName}.temperature is not ${Properties.temperature}
+    run:
+      - ${Properties.selfObjectName}.temperature('${Properties.temperature}')
 
-# ${Properties.selfObjectName}.brightness:
-#   Fixed brightness - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.brightness} is not NONE
-#       - ${Properties.selfObjectName}.status is 'on'
-#       - ${Properties.selfObjectName}.brightness is not ${Properties.brightness}
-#     run:
-#       - ${Properties.selfObjectName}.brightness('${Properties.brightness}')
+${Properties.selfObjectName}.brightness:
+  Fixed brightness - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.brightness} is not NONE
+      - ${Properties.selfObjectName}.status is 'on'
+      - ${Properties.selfObjectName}.brightness is not ${Properties.brightness}
+    run:
+      - ${Properties.selfObjectName}.brightness('${Properties.brightness}')
 
-# ${Properties.selfObjectName}.temperature:
-#   Fixed temperature - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.temperature} is not NONE
-#       - ${Properties.selfObjectName}.status is 'on'
-#       - ${Properties.selfObjectName}.temperature is not ${Properties.temperature}
-#     run:
-#       - ${Properties.selfObjectName}.temperature('${Properties.temperature}')
+${Properties.selfObjectName}.temperature:
+  Fixed temperature - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.temperature} is not NONE
+      - ${Properties.selfObjectName}.status is 'on'
+      - ${Properties.selfObjectName}.temperature is not ${Properties.temperature}
+    run:
+      - ${Properties.selfObjectName}.temperature('${Properties.temperature}')
 
-# ${Properties.sync-with}.status:
-#   Turned on - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.sync-with}.status is on
-#     run:
-#       - ${Properties.selfObjectName}.on()
-#       - SystemNotify.send('Turned ${Properties.selfObjectName} ON (synced ${Properties.sync-with})')
+${Properties.sync-with}.status:
+  Turned on - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.sync-with}.status is on
+    run:
+      - ${Properties.selfObjectName}.on()
+      - SystemNotify.send('Turned ${Properties.selfObjectName} ON (synced ${Properties.sync-with})')
 
-#   Turned off - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.sync-with}.status in ['off','offline']
-#     run:
-#       - ${Properties.selfObjectName}.off()
-#       - SystemNotify.send('Turned ${Properties.selfObjectName} OFF (synced ${Properties.sync-with})')
+  Turned off - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.sync-with}.status in ['off','offline']
+    run:
+      - ${Properties.selfObjectName}.off()
+      - SystemNotify.send('Turned ${Properties.selfObjectName} OFF (synced ${Properties.sync-with})')
 
-# ${Properties.sync-with}.brightness:
-#   Sync brightness - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.brightness} is NONE
-#     run:
-#       - ${Properties.selfObjectName}.brightness('${Properties.sync-with}.brightness')
+${Properties.sync-with}.brightness:
+  Sync brightness - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.brightness} is NONE
+    run:
+      - ${Properties.selfObjectName}.brightness('${Properties.sync-with}.brightness')
 
-# ${Properties.sync-with}.temperature:
-#   Sync temperature - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.temperature} is NONE
-#     run:
-#       - ${Properties.selfObjectName}.temperature('${Properties.sync-with}.temperature')
-
-# ${Properties.sync-with}.mode:
-#   Sync rgb mode - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.temperature} is NONE
-#       - ${Properties.sync-with}.mode is rgb
-#     run:
-#       - ${Properties.selfObjectName}.rgb('${Properties.sync-with}.rgb')
-
-#   Sync hue mode - ${Properties.selfObjectName}:
-#     if:
-#       - ${Properties.temperature} is NONE
-#       - ${Properties.sync-with}.mode is hue
-#     run:
-#       - ${Properties.selfObjectName}.hue('${Properties.sync-with}.hue')
+${Properties.sync-with}.temperature:
+  Sync temperature - ${Properties.selfObjectName}:
+    if:
+      - ${Properties.temperature} is NONE
+    run:
+      - ${Properties.selfObjectName}.temperature('${Properties.sync-with}.temperature')

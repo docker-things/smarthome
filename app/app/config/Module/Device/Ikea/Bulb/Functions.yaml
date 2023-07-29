@@ -7,7 +7,7 @@ functions:
 
   on():
     run: |
-      ${set} '{"state": "ON", "transition": 1}'
+      ${set} '{"state": "ON", "transition": 0.5}'
 
   on(duration):
     run: |
@@ -15,7 +15,7 @@ functions:
 
   off():
     run: |
-      ${set} '{"state": "OFF", "transition": 1}'
+      ${set} '{"state": "OFF", "transition": 0.25}'
 
   off(duration):
     run: |
@@ -23,7 +23,7 @@ functions:
 
   toggle():
     run: |
-      ${set} '{"state": "TOGGLE", "transition": 1}'
+      ${set} '{"state": "TOGGLE", "transition": 0.5}'
 
   toggle(duration):
     run: |
@@ -35,7 +35,7 @@ functions:
       brightness:
         "$RANGE|0-100": "0-254"
     run: |
-      ${set} '{"brightness": "${ARGS.brightness}", "transition": 1}'
+      ${set} '{"brightness": "${ARGS.brightness}", "transition": 0.5}'
 
   brightness(brightness,duration):
     normalize-params:
@@ -50,7 +50,7 @@ functions:
       temperature:
         "$RANGE|1700-6500": "454-250"
     run: |
-      ${set} '{"color_temp": "${ARGS.temperature}", "color_temp_startup": "${ARGS.temperature}", "transition": 1}'
+      ${set} '{"color_temp": "${ARGS.temperature}", "color_temp_startup": "${ARGS.temperature}", "transition": 0.5}'
 
   temperature(temperature,duration):
     normalize-params:
