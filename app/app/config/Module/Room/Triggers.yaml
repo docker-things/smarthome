@@ -33,6 +33,20 @@ ${Properties.selfObjectName}.sleeping:
     run:
       - House.updateSleepingStatus()
 
+# SNAPCAST
+
+${Properties.snapcast.object}.playing:
+  Mark human action - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+      ${Properties.selfObjectName}.sleeping: 'false'
+
+${Properties.snapcast.object}.muted:
+  Mark human action - ${Properties.selfObjectName}:
+    set:
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+      ${Properties.selfObjectName}.sleeping: 'false'
+
 # PLEX
 
 ${Properties.plex.object}.statusDelayed:
@@ -80,7 +94,7 @@ ${Properties.plex.object}.statusDelayed:
 
   # STOP
 
-  If Plex is stopped - ${Properties.selfObjectName}:
+  If Plex is stopped - stop light - ${Properties.selfObjectName}:
     if:
       - this is stopped
       - ${Properties.plex.object}.mediaType in ['episode','movie']
@@ -93,6 +107,16 @@ ${Properties.plex.object}.statusDelayed:
       ${Properties.motion.object}.occupancy: 'true'
       ${Properties.selfObjectName}.forceLightOff: 'false'
       ${Properties.selfObjectName}.forceLightOn: 'true'
+
+  If Plex is stopped - pause light - ${Properties.selfObjectName}:
+    if:
+      - this is stopped
+      - ${Properties.plex.object}.mediaType in ['episode','movie']
+      - ${Properties.selfObjectName}.gotNaturalLight is false
+      - ${Properties.plex.stop-light} != ${Properties.plex.pause-light}
+    run:
+      - ${Properties.plex.pause-light}.off()
+      - SystemNotify.send('${Properties.plex.pause-light} OFF (${Properties.plex.object} ${Properties.plex.object}.status)')
 
   If Plex is stopped, turn purifier on - ${Properties.selfObjectName}:
     if:
@@ -111,6 +135,8 @@ ${Properties.light.object}.status:
   Mark room activity - ${Properties.selfObjectName}:
     set:
       ${Properties.selfObjectName}.lastActivity: System.timestamp
+      ${Properties.selfObjectName}.lastHumanAction: System.timestamp
+      ${Properties.selfObjectName}.sleeping: 'false'
 
   Stop ignoring motion - ${Properties.selfObjectName}:
     if: this is on
@@ -135,7 +161,7 @@ ${Properties.light.object}.status:
       - this.status is 'offline'
       - this.status.previousValue in ['on','off']
     run:
-      - SystemWarn.send('${Properties.light.object} went OFFLINE!')
+      # - SystemWarn.send('${Properties.light.object} went OFFLINE!')
       - SystemNotify.send('${Properties.light.object} went OFFLINE!')
 
   Reconnect notification - ${Properties.selfObjectName}:
@@ -143,8 +169,22 @@ ${Properties.light.object}.status:
       - this.status in ['on','off']
       - this.status.previousValue is 'offline'
     run:
-      - SystemWarn.send('${Properties.light.object} is back ONLINE')
+      # - SystemWarn.send('${Properties.light.object} is back ONLINE')
       - SystemNotify.send('${Properties.light.object} is back ONLINE')
+
+  Set proper brightness on reconnect - ${Properties.selfObjectName}:
+    if:
+      - this is on
+      - this.status.previousValue is 'offline'
+    run:
+      ${Properties.light.object}.brightness('${Properties.light.brightness}')
+
+  # Set proper temperature on reconnect - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is on
+  #     - this.status.previousValue is 'offline'
+  #   run:
+  #     ${Properties.light.object}.temperature('${Properties.light.temperature}')
 
   Abnormal light ON while nobody home - ${Properties.selfObjectName}:
     if:
@@ -180,7 +220,7 @@ ${Properties.light.secondary.object}.status:
       - this.status is 'offline'
       - this.status.previousValue in ['on','off']
     run:
-      - SystemWarn.send('${Properties.light.secondary.object} went OFFLINE!')
+      # - SystemWarn.send('${Properties.light.secondary.object} went OFFLINE!')
       - SystemNotify.send('${Properties.light.secondary.object} went OFFLINE!')
 
   Reconnect notification - ${Properties.selfObjectName}:
@@ -188,8 +228,22 @@ ${Properties.light.secondary.object}.status:
       - this.status in ['on','off']
       - this.status.previousValue is 'offline'
     run:
-      - SystemWarn.send('${Properties.light.secondary.object} is back ONLINE')
+      # - SystemWarn.send('${Properties.light.secondary.object} is back ONLINE')
       - SystemNotify.send('${Properties.light.secondary.object} is back ONLINE')
+
+  Set proper brightness on reconnect - ${Properties.selfObjectName}:
+    if:
+      - this is on
+      - this.status.previousValue is 'offline'
+    run:
+      ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')
+
+  # Set proper temperature on reconnect - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is on
+  #     - this.status.previousValue is 'offline'
+  #   run:
+  #     ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
 
   Stop ignoring motion - ${Properties.selfObjectName}:
     if: this is on
@@ -640,32 +694,42 @@ ${Properties.button.object}.click:
     if:
       - this is double
       - ${Properties.light.secondary.object}.status is on
-      - ${Properties.light.secondary.object}.brightness is ${Properties.light.secondary.brightness}
+      # - ${Properties.light.secondary.object}.brightness is ${Properties.light.secondary.brightness}
     run:
       - ${Properties.selfObjectName}.secondaryLightOff()
       - SystemNotify.send('${Properties.light.secondary.object} OFF (${Properties.button.object})')
 
-  Double click - Secondary light ON 50% - ${Properties.selfObjectName}:
+  Double click - Secondary light ON - ${Properties.selfObjectName}:
     if:
       - this is double
       - ${Properties.light.secondary.object} is not NONE
       - ${Properties.light.secondary.object}.status not in ['on','offline','NONE.status']
     run:
       - ${Properties.light.secondary.object}.on()
-      - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.mid-brightness}')
-      - ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
       - ${Properties.selfObjectName}.lightOff()
       - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
 
-  Double click - Secondary light ON 100% - ${Properties.selfObjectName}:
-    if:
-      - this is double
-      - ${Properties.light.secondary.object} is not NONE
-      - ${Properties.light.secondary.object}.status is on
-      - ${Properties.light.secondary.object}.brightness is ${Properties.light.secondary.mid-brightness}
-    run:
-      - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')
-      - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
+  # Double click - Secondary light ON 50% - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is double
+  #     - ${Properties.light.secondary.object} is not NONE
+  #     - ${Properties.light.secondary.object}.status not in ['on','offline','NONE.status']
+  #   run:
+  #     - ${Properties.light.secondary.object}.on()
+  #     - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.mid-brightness}')
+  #     - ${Properties.light.secondary.object}.temperature('${Properties.light.secondary.temperature}')
+  #     - ${Properties.selfObjectName}.lightOff()
+  #     - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
+
+  # Double click - Secondary light ON 100% - ${Properties.selfObjectName}:
+  #   if:
+  #     - this is double
+  #     - ${Properties.light.secondary.object} is not NONE
+  #     - ${Properties.light.secondary.object}.status is on
+  #     - ${Properties.light.secondary.object}.brightness is ${Properties.light.secondary.mid-brightness}
+  #   run:
+  #     - ${Properties.light.secondary.object}.brightness('${Properties.light.secondary.brightness}')
+  #     - SystemNotify.send('${Properties.light.secondary.object} ON (${Properties.button.object})')
 
   Triple click - Custom Defined Toggle OFF - ${Properties.selfObjectName}:
     if:
