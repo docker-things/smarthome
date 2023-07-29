@@ -1,0 +1,154 @@
+---
+
+${Properties.socket-1}.voltage:
+  Set voltage - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.setMinVoltage()
+    set:
+      ${Properties.selfObjectName}.socket-1-name: ${Properties.socket-1}
+      ${Properties.selfObjectName}.socket-1-voltage: ${Properties.socket-1}.voltage
+      ${Properties.selfObjectName}.socket-1-power: ${Properties.socket-1}.power
+
+  Send warning - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.voltage-warning-at}
+      - this != 0
+    run:
+      - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-1}.voltage] ${Properties.socket-1}')
+      - ${Properties.secondary-warn-object}.send('LOW VOLTAGE! [${Properties.socket-1}.voltage] ${Properties.socket-1}')
+
+${Properties.socket-2}.voltage:
+  Set voltage - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.setMinVoltage()
+    set:
+      ${Properties.selfObjectName}.socket-2-name: ${Properties.socket-2}
+      ${Properties.selfObjectName}.socket-2-voltage: ${Properties.socket-2}.voltage
+      ${Properties.selfObjectName}.socket-2-power: ${Properties.socket-2}.power
+
+  Send warning - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.voltage-warning-at}
+      - this != 0
+    run:
+      - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-2}.voltage] ${Properties.socket-2}')
+      - ${Properties.secondary-warn-object}.send('LOW VOLTAGE! [${Properties.socket-2}.voltage] ${Properties.socket-2}')
+
+${Properties.socket-3}.voltage:
+  Set voltage - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.setMinVoltage()
+    set:
+      ${Properties.selfObjectName}.socket-3-name: ${Properties.socket-3}
+      ${Properties.selfObjectName}.socket-3-voltage: ${Properties.socket-3}.voltage
+      ${Properties.selfObjectName}.socket-3-power: ${Properties.socket-3}.power
+
+  Send warning - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.voltage-warning-at}
+      - this != 0
+    run:
+      - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-3}.voltage] ${Properties.socket-3}')
+      - ${Properties.secondary-warn-object}.send('LOW VOLTAGE! [${Properties.socket-3}.voltage] ${Properties.socket-3}')
+
+${Properties.socket-4}.voltage:
+  Set voltage - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.setMinVoltage()
+    set:
+      ${Properties.selfObjectName}.socket-4-name: ${Properties.socket-4}
+      ${Properties.selfObjectName}.socket-4-voltage: ${Properties.socket-4}.voltage
+      ${Properties.selfObjectName}.socket-4-power: ${Properties.socket-4}.power
+
+  Send warning - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.voltage-warning-at}
+      - this != 0
+    run:
+      - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-4}.voltage] ${Properties.socket-4}')
+      - ${Properties.secondary-warn-object}.send('LOW VOLTAGE! [${Properties.socket-4}.voltage] ${Properties.socket-4}')
+
+${Properties.socket-5}.voltage:
+  Set voltage - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.setMinVoltage()
+    set:
+      ${Properties.selfObjectName}.socket-5-name: ${Properties.socket-5}
+      ${Properties.selfObjectName}.socket-5-voltage: ${Properties.socket-5}.voltage
+      ${Properties.selfObjectName}.socket-5-power: ${Properties.socket-5}.power
+
+  Send warning - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.voltage-warning-at}
+      - this != 0
+    run:
+      - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-5}.voltage] ${Properties.socket-5}')
+      - ${Properties.secondary-warn-object}.send('LOW VOLTAGE! [${Properties.socket-5}.voltage] ${Properties.socket-5}')
+
+${Properties.socket-6}.voltage:
+  Set voltage - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.setMinVoltage()
+    set:
+      ${Properties.selfObjectName}.socket-6-name: ${Properties.socket-6}
+      ${Properties.selfObjectName}.socket-6-voltage: ${Properties.socket-6}.voltage
+      ${Properties.selfObjectName}.socket-6-power: ${Properties.socket-6}.power
+
+  Send warning - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.voltage-warning-at}
+      - this != 0
+    run:
+      - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-6}.voltage] ${Properties.socket-6}')
+      - ${Properties.secondary-warn-object}.send('LOW VOLTAGE! [${Properties.socket-6}.voltage] ${Properties.socket-6}')
+
+${Properties.socket-7}.voltage:
+  Set voltage - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.setMinVoltage()
+    set:
+      ${Properties.selfObjectName}.socket-7-name: ${Properties.socket-7}
+      ${Properties.selfObjectName}.socket-7-voltage: ${Properties.socket-7}.voltage
+      ${Properties.selfObjectName}.socket-7-power: ${Properties.socket-7}.power
+
+  Send warning - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.voltage-warning-at}
+      - this != 0
+    run:
+      - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-7}.voltage] ${Properties.socket-7}')
+      - ${Properties.secondary-warn-object}.send('LOW VOLTAGE! [${Properties.socket-7}.voltage] ${Properties.socket-7}')
+
+${Properties.socket-8}.voltage:
+  Set voltage - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.setMinVoltage()
+    set:
+      ${Properties.selfObjectName}.socket-8-name: ${Properties.socket-8}
+      ${Properties.selfObjectName}.socket-8-voltage: ${Properties.socket-8}.voltage
+      ${Properties.selfObjectName}.socket-8-power: ${Properties.socket-8}.power
+
+  Send warning - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.voltage-warning-at}
+      - this != 0
+    run:
+      - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-8}.voltage] ${Properties.socket-8}')
+      - ${Properties.secondary-warn-object}.send('LOW VOLTAGE! [${Properties.socket-8}.voltage] ${Properties.socket-8}')
+
+${Properties.socket-9}.voltage:
+  Set voltage - ${Properties.selfObjectName}:
+    run:
+      - ${Properties.selfObjectName}.setMinVoltage()
+    set:
+      ${Properties.selfObjectName}.socket-9-name: ${Properties.socket-9}
+      ${Properties.selfObjectName}.socket-9-voltage: ${Properties.socket-9}.voltage
+      ${Properties.selfObjectName}.socket-9-power: ${Properties.socket-9}.power
+
+  Send warning - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.voltage-warning-at}
+      - this != 0
+    run:
+      - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-9}.voltage] ${Properties.socket-9}')
+      - ${Properties.secondary-warn-object}.send('LOW VOLTAGE! [${Properties.socket-9}.voltage] ${Properties.socket-9}')

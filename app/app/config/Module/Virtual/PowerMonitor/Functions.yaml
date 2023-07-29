@@ -1,0 +1,149 @@
+---
+
+functions:
+  setMinVoltage():
+    runFunctions:
+      - ${Properties.selfObjectName}.setMinVoltage1()
+      - ${Properties.selfObjectName}.setMinVoltage2()
+      - ${Properties.selfObjectName}.setMinVoltage3()
+      - ${Properties.selfObjectName}.setMinVoltage4()
+      - ${Properties.selfObjectName}.setMinVoltage5()
+      - ${Properties.selfObjectName}.setMinVoltage6()
+      - ${Properties.selfObjectName}.setMinVoltage7()
+      - ${Properties.selfObjectName}.setMinVoltage8()
+      - ${Properties.selfObjectName}.setMinVoltage9()
+
+  setMinVoltage1():
+    if:
+      - ${Properties.socket-1} != NONE
+      - ${Properties.socket-1}.voltage != 0
+      - ${Properties.socket-1}.voltage <= ${Properties.socket-2}.voltage
+      - ${Properties.socket-1}.voltage <= ${Properties.socket-3}.voltage
+      - ${Properties.socket-1}.voltage <= ${Properties.socket-4}.voltage
+      - ${Properties.socket-1}.voltage <= ${Properties.socket-5}.voltage
+      - ${Properties.socket-1}.voltage <= ${Properties.socket-6}.voltage
+      - ${Properties.socket-1}.voltage <= ${Properties.socket-7}.voltage
+      - ${Properties.socket-1}.voltage <= ${Properties.socket-8}.voltage
+      - ${Properties.socket-1}.voltage <= ${Properties.socket-9}.voltage
+    set:
+      min-voltage: ${Properties.socket-1}.voltage
+
+  setMinVoltage2():
+    if:
+      - ${Properties.socket-2} != NONE
+      - ${Properties.socket-2}.voltage != 0
+      - ${Properties.socket-2}.voltage <= ${Properties.socket-1}.voltage
+      - ${Properties.socket-2}.voltage <= ${Properties.socket-3}.voltage
+      - ${Properties.socket-2}.voltage <= ${Properties.socket-4}.voltage
+      - ${Properties.socket-2}.voltage <= ${Properties.socket-5}.voltage
+      - ${Properties.socket-2}.voltage <= ${Properties.socket-6}.voltage
+      - ${Properties.socket-2}.voltage <= ${Properties.socket-7}.voltage
+      - ${Properties.socket-2}.voltage <= ${Properties.socket-8}.voltage
+      - ${Properties.socket-2}.voltage <= ${Properties.socket-9}.voltage
+    set:
+      min-voltage: ${Properties.socket-2}.voltage
+
+  setMinVoltage3():
+    if:
+      - ${Properties.socket-3} != NONE
+      - ${Properties.socket-3}.voltage != 0
+      - ${Properties.socket-3}.voltage <= ${Properties.socket-1}.voltage
+      - ${Properties.socket-3}.voltage <= ${Properties.socket-2}.voltage
+      - ${Properties.socket-3}.voltage <= ${Properties.socket-4}.voltage
+      - ${Properties.socket-3}.voltage <= ${Properties.socket-5}.voltage
+      - ${Properties.socket-3}.voltage <= ${Properties.socket-6}.voltage
+      - ${Properties.socket-3}.voltage <= ${Properties.socket-7}.voltage
+      - ${Properties.socket-3}.voltage <= ${Properties.socket-8}.voltage
+      - ${Properties.socket-3}.voltage <= ${Properties.socket-9}.voltage
+    set:
+      min-voltage: ${Properties.socket-3}.voltage
+
+  setMinVoltage4():
+    if:
+      - ${Properties.socket-4} != NONE
+      - ${Properties.socket-4}.voltage != 0
+      - ${Properties.socket-4}.voltage <= ${Properties.socket-1}.voltage
+      - ${Properties.socket-4}.voltage <= ${Properties.socket-2}.voltage
+      - ${Properties.socket-4}.voltage <= ${Properties.socket-3}.voltage
+      - ${Properties.socket-4}.voltage <= ${Properties.socket-5}.voltage
+      - ${Properties.socket-4}.voltage <= ${Properties.socket-6}.voltage
+      - ${Properties.socket-4}.voltage <= ${Properties.socket-7}.voltage
+      - ${Properties.socket-4}.voltage <= ${Properties.socket-8}.voltage
+      - ${Properties.socket-4}.voltage <= ${Properties.socket-9}.voltage
+    set:
+      min-voltage: ${Properties.socket-4}.voltage
+
+  setMinVoltage5():
+    if:
+      - ${Properties.socket-5} != NONE
+      - ${Properties.socket-5}.voltage != 0
+      - ${Properties.socket-5}.voltage <= ${Properties.socket-1}.voltage
+      - ${Properties.socket-5}.voltage <= ${Properties.socket-2}.voltage
+      - ${Properties.socket-5}.voltage <= ${Properties.socket-3}.voltage
+      - ${Properties.socket-5}.voltage <= ${Properties.socket-4}.voltage
+      - ${Properties.socket-5}.voltage <= ${Properties.socket-6}.voltage
+      - ${Properties.socket-5}.voltage <= ${Properties.socket-7}.voltage
+      - ${Properties.socket-5}.voltage <= ${Properties.socket-8}.voltage
+      - ${Properties.socket-5}.voltage <= ${Properties.socket-9}.voltage
+    set:
+      min-voltage: ${Properties.socket-5}.voltage
+
+  setMinVoltage6():
+    if:
+      - ${Properties.socket-6} != NONE
+      - ${Properties.socket-6}.voltage != 0
+      - ${Properties.socket-6}.voltage <= ${Properties.socket-1}.voltage
+      - ${Properties.socket-6}.voltage <= ${Properties.socket-2}.voltage
+      - ${Properties.socket-6}.voltage <= ${Properties.socket-3}.voltage
+      - ${Properties.socket-6}.voltage <= ${Properties.socket-4}.voltage
+      - ${Properties.socket-6}.voltage <= ${Properties.socket-5}.voltage
+      - ${Properties.socket-6}.voltage <= ${Properties.socket-7}.voltage
+      - ${Properties.socket-6}.voltage <= ${Properties.socket-8}.voltage
+      - ${Properties.socket-6}.voltage <= ${Properties.socket-9}.voltage
+    set:
+      min-voltage: ${Properties.socket-6}.voltage
+
+  setMinVoltage7():
+    if:
+      - ${Properties.socket-7} != NONE
+      - ${Properties.socket-7}.voltage != 0
+      - ${Properties.socket-7}.voltage <= ${Properties.socket-1}.voltage
+      - ${Properties.socket-7}.voltage <= ${Properties.socket-2}.voltage
+      - ${Properties.socket-7}.voltage <= ${Properties.socket-3}.voltage
+      - ${Properties.socket-7}.voltage <= ${Properties.socket-4}.voltage
+      - ${Properties.socket-7}.voltage <= ${Properties.socket-5}.voltage
+      - ${Properties.socket-7}.voltage <= ${Properties.socket-6}.voltage
+      - ${Properties.socket-7}.voltage <= ${Properties.socket-8}.voltage
+      - ${Properties.socket-7}.voltage <= ${Properties.socket-9}.voltage
+    set:
+      min-voltage: ${Properties.socket-7}.voltage
+
+  setMinVoltage8():
+    if:
+      - ${Properties.socket-8} != NONE
+      - ${Properties.socket-8}.voltage != 0
+      - ${Properties.socket-8}.voltage <= ${Properties.socket-1}.voltage
+      - ${Properties.socket-8}.voltage <= ${Properties.socket-2}.voltage
+      - ${Properties.socket-8}.voltage <= ${Properties.socket-3}.voltage
+      - ${Properties.socket-8}.voltage <= ${Properties.socket-4}.voltage
+      - ${Properties.socket-8}.voltage <= ${Properties.socket-5}.voltage
+      - ${Properties.socket-8}.voltage <= ${Properties.socket-6}.voltage
+      - ${Properties.socket-8}.voltage <= ${Properties.socket-7}.voltage
+      - ${Properties.socket-8}.voltage <= ${Properties.socket-9}.voltage
+    set:
+      min-voltage: ${Properties.socket-8}.voltage
+
+  setMinVoltage9():
+    if:
+      - ${Properties.socket-9} != NONE
+      - ${Properties.socket-9}.voltage != 0
+      - ${Properties.socket-9}.voltage <= ${Properties.socket-1}.voltage
+      - ${Properties.socket-9}.voltage <= ${Properties.socket-2}.voltage
+      - ${Properties.socket-9}.voltage <= ${Properties.socket-3}.voltage
+      - ${Properties.socket-9}.voltage <= ${Properties.socket-4}.voltage
+      - ${Properties.socket-9}.voltage <= ${Properties.socket-5}.voltage
+      - ${Properties.socket-9}.voltage <= ${Properties.socket-6}.voltage
+      - ${Properties.socket-9}.voltage <= ${Properties.socket-7}.voltage
+      - ${Properties.socket-9}.voltage <= ${Properties.socket-8}.voltage
+    set:
+      min-voltage: ${Properties.socket-9}.voltage
