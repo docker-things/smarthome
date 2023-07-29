@@ -1,0 +1,5 @@
+---
+
+bulb-1: !required
+bulb-2: !required
+bulb-3: !required

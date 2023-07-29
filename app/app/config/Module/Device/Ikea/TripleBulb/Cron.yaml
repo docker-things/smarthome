@@ -1,0 +1,10 @@
+---
+
+jobs:
+  - interval: 1
+    if:
+      - ${Properties.bulb-1}.status is offline
+      - ${Properties.bulb-2}.status is offline
+      - ${Properties.bulb-3}.status is offline
+    set:
+      ${Properties.selfObjectName}.status: offline
