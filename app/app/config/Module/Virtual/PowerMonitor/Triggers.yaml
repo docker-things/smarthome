@@ -1,5 +1,18 @@
 ---
 
+min-voltage:
+  Critical voltage - ${Properties.selfObjectName}:
+    if:
+      - this <= 190
+    set:
+      status: critical
+
+  Normal voltage - ${Properties.selfObjectName}:
+    if:
+      - this > 190
+    set:
+      status: normal
+
 ${Properties.socket-1}.voltage:
   Set voltage - ${Properties.selfObjectName}:
     run:
