@@ -1,6 +1,6 @@
 ---
 
-voltage-warning-at: 190
+critical-voltage: 190
 secondary-warn-object: NONE
 socket-1: NONE
 socket-2: NONE

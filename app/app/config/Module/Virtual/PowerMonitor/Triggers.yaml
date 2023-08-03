@@ -3,13 +3,18 @@
 min-voltage:
   Critical voltage - ${Properties.selfObjectName}:
     if:
-      - this <= 190
+      - this <= ${Properties.critical-voltage}
+      - ${Properties.selfObjectName}.status is not critical
     set:
       status: critical
 
   Normal voltage - ${Properties.selfObjectName}:
     if:
-      - this > 190
+      - this > ${Properties.critical-voltage}
+      - ${Properties.selfObjectName}.status is not normal
+    run:
+      - SystemWarn.send('NORMAL VOLTAGE!')
+      - ${Properties.secondary-warn-object}.send('NORMAL VOLTAGE!')
     set:
       status: normal
 
@@ -24,7 +29,7 @@ ${Properties.socket-1}.voltage:
 
   Send warning - ${Properties.selfObjectName}:
     if:
-      - this <= ${Properties.voltage-warning-at}
+      - this <= ${Properties.critical-voltage}
       - this != 0
     run:
       - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-1}.voltage] ${Properties.socket-1}')
@@ -41,7 +46,7 @@ ${Properties.socket-2}.voltage:
 
   Send warning - ${Properties.selfObjectName}:
     if:
-      - this <= ${Properties.voltage-warning-at}
+      - this <= ${Properties.critical-voltage}
       - this != 0
     run:
       - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-2}.voltage] ${Properties.socket-2}')
@@ -58,7 +63,7 @@ ${Properties.socket-3}.voltage:
 
   Send warning - ${Properties.selfObjectName}:
     if:
-      - this <= ${Properties.voltage-warning-at}
+      - this <= ${Properties.critical-voltage}
       - this != 0
     run:
       - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-3}.voltage] ${Properties.socket-3}')
@@ -75,7 +80,7 @@ ${Properties.socket-4}.voltage:
 
   Send warning - ${Properties.selfObjectName}:
     if:
-      - this <= ${Properties.voltage-warning-at}
+      - this <= ${Properties.critical-voltage}
       - this != 0
     run:
       - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-4}.voltage] ${Properties.socket-4}')
@@ -92,7 +97,7 @@ ${Properties.socket-5}.voltage:
 
   Send warning - ${Properties.selfObjectName}:
     if:
-      - this <= ${Properties.voltage-warning-at}
+      - this <= ${Properties.critical-voltage}
       - this != 0
     run:
       - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-5}.voltage] ${Properties.socket-5}')
@@ -109,7 +114,7 @@ ${Properties.socket-6}.voltage:
 
   Send warning - ${Properties.selfObjectName}:
     if:
-      - this <= ${Properties.voltage-warning-at}
+      - this <= ${Properties.critical-voltage}
       - this != 0
     run:
       - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-6}.voltage] ${Properties.socket-6}')
@@ -126,7 +131,7 @@ ${Properties.socket-7}.voltage:
 
   Send warning - ${Properties.selfObjectName}:
     if:
-      - this <= ${Properties.voltage-warning-at}
+      - this <= ${Properties.critical-voltage}
       - this != 0
     run:
       - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-7}.voltage] ${Properties.socket-7}')
@@ -143,7 +148,7 @@ ${Properties.socket-8}.voltage:
 
   Send warning - ${Properties.selfObjectName}:
     if:
-      - this <= ${Properties.voltage-warning-at}
+      - this <= ${Properties.critical-voltage}
       - this != 0
     run:
       - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-8}.voltage] ${Properties.socket-8}')
@@ -160,7 +165,7 @@ ${Properties.socket-9}.voltage:
 
   Send warning - ${Properties.selfObjectName}:
     if:
-      - this <= ${Properties.voltage-warning-at}
+      - this <= ${Properties.critical-voltage}
       - this != 0
     run:
       - SystemWarn.send('LOW VOLTAGE! [${Properties.socket-9}.voltage] ${Properties.socket-9}')
