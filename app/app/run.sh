@@ -50,13 +50,13 @@ if [ "$APP_ENV" == "prod" ]; then
     full-state-provider
     state-setter
     function-run-listener
-    cec-client-mqtt-bridge
-    broadlink2mqtt
     cron
     core/telegram-bot
     core/free-text-parser
     snapcast2mqtt
     '
+    # broadlink2mqtt
+    # cec-client-mqtt-bridge
     # evdev2mqtt
     # bluetooth-scan
 else
