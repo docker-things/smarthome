@@ -1,6 +1,13 @@
 ---
 
 min-voltage:
+  Emergency voltage - ${Properties.selfObjectName}:
+    if:
+      - this <= ${Properties.emergency-voltage}
+      - ${Properties.selfObjectName}.status is not emergency
+    set:
+      status: emergency
+
   Critical voltage - ${Properties.selfObjectName}:
     if:
       - this <= ${Properties.critical-voltage}

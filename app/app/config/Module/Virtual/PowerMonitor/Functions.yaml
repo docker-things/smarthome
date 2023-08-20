@@ -1,6 +1,13 @@
 ---
 
 functions:
+  setEmergencyStatus():
+    if:
+      - ${Properties.selfObjectName}.status is critical
+      - ${Properties.selfObjectName}.status.timeSince > ${Properties.critical-to-emergency-delay}
+    set:
+      status: emergency
+
   setMinVoltage():
     runFunctions:
       - ${Properties.selfObjectName}.setMinVoltage1()

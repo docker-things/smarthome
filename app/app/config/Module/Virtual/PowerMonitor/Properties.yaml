@@ -1,6 +1,8 @@
 ---
 
+emergency-voltage: 170
 critical-voltage: 190
+critical-to-emergency-delay: 5
 secondary-warn-object: NONE
 socket-1: NONE
 socket-2: NONE
