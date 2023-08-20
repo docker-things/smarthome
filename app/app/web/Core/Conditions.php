@@ -44,11 +44,13 @@ class Core_Conditions {
     // Check each condition
     foreach ($conditions AS $condition) {
       if (!$this->_checkCondition($condition)) {
+        // Core_Logger::debug('Core_Conditions::check() FALSE : ' . $condition);
         return false;
       }
     }
 
     // All condition checks were valid
+    // Core_Logger::debug('Core_Conditions::check() TRUE : ' . $condition);
     return true;
   }
 
@@ -194,14 +196,14 @@ class Core_Conditions {
       // ' or '   => ' || ',
       '"'                     => '\'',
       ' and '                 => ' && ',
-      ' is greater than '     => ' > ',
-      ' is lower than '       => ' < ',
-      ' is not greater than ' => ' <= ',
-      ' is not lower than '   => ' >= ',
+      // ' is greater than '     => ' > ',
+      // ' is lower than '       => ' < ',
+      // ' is not greater than ' => ' <= ',
+      // ' is not lower than '   => ' >= ',
       ' is not '              => ' != ',
       ' is '                  => ' == ',
-      ' greater than '        => ' > ',
-      ' lower than '          => ' < ',
+      // ' greater than '        => ' > ',
+      // ' lower than '          => ' < ',
     ]);
     $conditions = trim(str_replace(array_keys($replace), array_values($replace), $conditions));
 

@@ -44,7 +44,7 @@ class Core_Controller_MqttListener extends Core_Controller_Base {
 
       // Get topic & json from the received line
       $topic = $tmp[0];
-      if (substr($topic, 0, 5) == 'core-') {
+      if (substr($topic, 0, 5) == 'core-' || substr($topic, 0, 19) == 'zigbee2mqtt/bridge/') {
         continue;
       }
       $json = json_decode($tmp[1], true);
