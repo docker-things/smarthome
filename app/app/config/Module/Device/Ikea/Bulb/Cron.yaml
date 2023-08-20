@@ -2,7 +2,8 @@
 
 jobs:
   - interval: 6
-    if: ${Properties.selfObjectName}.status is not offline
+    if:
+      - ${Properties.selfObjectName}.status is not offline
     run:
       - setOfflineStatus()
 
