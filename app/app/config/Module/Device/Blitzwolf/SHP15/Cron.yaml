@@ -5,10 +5,10 @@ jobs:
   # Check if we've got no readings for more than 4 hours
   - interval: 300
     if:
-      - ${Properties.selfObjectName}.last-input-time.timeSince >= 14400
+      - ${Properties.selfObjectName}.last-input-time.timeSince >= 120
       - ${Properties.selfObjectName}.last-input-time-warn != System.date
     run:
-      - SystemWarn.send('${Properties.selfObjectName} sent nothing for 4 hours! Offline?')
-      - SystemNotify.send('${Properties.selfObjectName} sent nothing for 4 hours! Offline?')
+      - SystemWarn.send('${Properties.selfObjectName} sent nothing for 2 minutes! Offline?')
+      - SystemNotify.send('${Properties.selfObjectName} sent nothing for 2 minutes! Offline?')
     set:
       last-input-time-warn: System.date
