@@ -2,160 +2,160 @@
 
 jobs:
 
-  # Ledstrip - dim light
-  - interval: 5
-    if:
-      - ${Properties.light.object}.status is on
-      - ${Properties.ledstrip.object}.status is on
-      - ${Properties.ledstrip.object}.brightness is 100
-      - ${Properties.ledstrip.motion.object}.occupancy is false
-      - ${Properties.ledstrip.motion.object}.occupancy.timeSince >= 300
-      - ${Properties.ledstrip.object}.brightness.timeSince >= 300
-    run:
-      - ${Properties.ledstrip.object}.brightness('50')
-      - SystemNotify.send('${Properties.ledstrip.object} dimmed (No motion for 300s)')
-    set:
-      ${Properties.selfObjectName}.lastActivity: System.timestamp
+  # # Ledstrip - dim light
+  # - interval: 5
+  #   if:
+  #     - ${Properties.light.object}.status is on
+  #     - ${Properties.ledstrip.object}.status is on
+  #     - ${Properties.ledstrip.object}.brightness is 100
+  #     - ${Properties.ledstrip.motion.object}.occupancy is false
+  #     - ${Properties.ledstrip.motion.object}.occupancy.timeSince >= 300
+  #     - ${Properties.ledstrip.object}.brightness.timeSince >= 300
+  #   run:
+  #     - ${Properties.ledstrip.object}.brightness('50')
+  #     - SystemNotify.send('${Properties.ledstrip.object} dimmed (No motion for 300s)')
+  #   set:
+  #     ${Properties.selfObjectName}.lastActivity: System.timestamp
 
   # NO MOTION DETECTED - LAST MOTION IS LOCAL
 
-  # Primary Light
-  - interval: 5
-    if:
-      - ${Properties.light.object}.status is on
-      - ${Properties.motion.object}.occupancy is false
-      - ${Properties.selfObjectName}.forceLightOn is not true
-      - House.lastHumanActionLocation is '${Properties.name}'
-      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-current-location}
-    run:
-      - ${Properties.selfObjectName}.lightOff()
-      - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-current-location} seconds - current location)')
-    set:
-      ${Properties.selfObjectName}.lastActivity: System.timestamp
+  # # Primary Light
+  # - interval: 5
+  #   if:
+  #     - ${Properties.light.object}.status is on
+  #     - ${Properties.motion.object}.occupancy is false
+  #     - ${Properties.selfObjectName}.forceLightOn is not true
+  #     - House.lastHumanActionLocation is '${Properties.name}'
+  #     - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-current-location}
+  #   run:
+  #     - ${Properties.selfObjectName}.lightOff()
+  #     - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-current-location} seconds - current location)')
+  #   set:
+  #     ${Properties.selfObjectName}.lastActivity: System.timestamp
 
-  # Secondary Light
-  - interval: 5
-    if:
-      - ${Properties.light.secondary.object}.status is on
-      - ${Properties.motion.object}.occupancy is false
-      - House.lastHumanActionLocation is '${Properties.name}'
-      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.secondary.off-when-no-motion-for-X-seconds-current-location}
-    run:
-      - ${Properties.selfObjectName}.secondaryLightOff()
-      - SystemNotify.send('${Properties.light.secondary.object} OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds-current-location} seconds - current location)')
-    set:
-      ${Properties.selfObjectName}.lastActivity: System.timestamp
+  # # Secondary Light
+  # - interval: 5
+  #   if:
+  #     - ${Properties.light.secondary.object}.status is on
+  #     - ${Properties.motion.object}.occupancy is false
+  #     - House.lastHumanActionLocation is '${Properties.name}'
+  #     - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.secondary.off-when-no-motion-for-X-seconds-current-location}
+  #   run:
+  #     - ${Properties.selfObjectName}.secondaryLightOff()
+  #     - SystemNotify.send('${Properties.light.secondary.object} OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds-current-location} seconds - current location)')
+  #   set:
+  #     ${Properties.selfObjectName}.lastActivity: System.timestamp
 
-  # Ledstrip
-  - interval: 5
-    if:
-      - ${Properties.ledstrip.object}.status is on
-      - ${Properties.motion.object}.occupancy is false
-      - ${Properties.selfObjectName}.forceLightOn is not true
-      - House.lastHumanActionLocation is '${Properties.name}'
-      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.ledstrip.off-when-no-motion-for-X-seconds-current-location}
-    run:
-      - ${Properties.ledstrip.object}.off()
-      - SystemNotify.send('${Properties.ledstrip.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-current-location} seconds - current location)')
-    set:
-      ${Properties.selfObjectName}.lastActivity: System.timestamp
+  # # Ledstrip
+  # - interval: 5
+  #   if:
+  #     - ${Properties.ledstrip.object}.status is on
+  #     - ${Properties.motion.object}.occupancy is false
+  #     - ${Properties.selfObjectName}.forceLightOn is not true
+  #     - House.lastHumanActionLocation is '${Properties.name}'
+  #     - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.ledstrip.off-when-no-motion-for-X-seconds-current-location}
+  #   run:
+  #     - ${Properties.ledstrip.object}.off()
+  #     - SystemNotify.send('${Properties.ledstrip.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-current-location} seconds - current location)')
+  #   set:
+  #     ${Properties.selfObjectName}.lastActivity: System.timestamp
 
   # NO MOTION DETECTED - PREV MOTION IS LOCAL
 
-  # Primary Light
-  - interval: 4
-    if:
-      - ${Properties.light.object}.status is on
-      - ${Properties.motion.object}.occupancy is false
-      - ${Properties.selfObjectName}.forceLightOn is not true
-      - House.lastHumanActionLocation.previousValue is '${Properties.name}'
-      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-prev-location}
-    run:
-      - ${Properties.selfObjectName}.lightOff()
-      - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-prev-location} seconds - prev location)')
-    set:
-      ${Properties.selfObjectName}.lastActivity: System.timestamp
+  # # Primary Light
+  # - interval: 4
+  #   if:
+  #     - ${Properties.light.object}.status is on
+  #     - ${Properties.motion.object}.occupancy is false
+  #     - ${Properties.selfObjectName}.forceLightOn is not true
+  #     - House.lastHumanActionLocation.previousValue is '${Properties.name}'
+  #     - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-prev-location}
+  #   run:
+  #     - ${Properties.selfObjectName}.lightOff()
+  #     - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-prev-location} seconds - prev location)')
+  #   set:
+  #     ${Properties.selfObjectName}.lastActivity: System.timestamp
 
-  # Secondary Light
-  - interval: 4
-    if:
-      - ${Properties.light.secondary.object}.status is on
-      - ${Properties.motion.object}.occupancy is false
-      - House.lastHumanActionLocation.previousValue is '${Properties.name}'
-      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.secondary.off-when-no-motion-for-X-seconds-prev-location}
-    run:
-      - ${Properties.selfObjectName}.secondaryLightOff()
-      - SystemNotify.send('${Properties.light.secondary.object} OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds-prev-location} seconds - prev location)')
-    set:
-      ${Properties.selfObjectName}.lastActivity: System.timestamp
+  # # Secondary Light
+  # - interval: 4
+  #   if:
+  #     - ${Properties.light.secondary.object}.status is on
+  #     - ${Properties.motion.object}.occupancy is false
+  #     - House.lastHumanActionLocation.previousValue is '${Properties.name}'
+  #     - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.secondary.off-when-no-motion-for-X-seconds-prev-location}
+  #   run:
+  #     - ${Properties.selfObjectName}.secondaryLightOff()
+  #     - SystemNotify.send('${Properties.light.secondary.object} OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds-prev-location} seconds - prev location)')
+  #   set:
+  #     ${Properties.selfObjectName}.lastActivity: System.timestamp
 
-  # Ledstrip
-  - interval: 4
-    if:
-      - ${Properties.ledstrip.object}.status is on
-      - ${Properties.motion.object}.occupancy is false
-      - ${Properties.selfObjectName}.forceLightOn is not true
-      - House.lastHumanActionLocation.previousValue is '${Properties.name}'
-      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.ledstrip.off-when-no-motion-for-X-seconds-prev-location}
-    run:
-      - ${Properties.ledstrip.object}.off()
-      - SystemNotify.send('${Properties.ledstrip.object} OFF (No motion for ${Properties.ledstrip.off-when-no-motion-for-X-seconds-prev-location} seconds - prev location)')
-    set:
-      ${Properties.selfObjectName}.lastActivity: System.timestamp
+  # # Ledstrip
+  # - interval: 4
+  #   if:
+  #     - ${Properties.ledstrip.object}.status is on
+  #     - ${Properties.motion.object}.occupancy is false
+  #     - ${Properties.selfObjectName}.forceLightOn is not true
+  #     - House.lastHumanActionLocation.previousValue is '${Properties.name}'
+  #     - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.ledstrip.off-when-no-motion-for-X-seconds-prev-location}
+  #   run:
+  #     - ${Properties.ledstrip.object}.off()
+  #     - SystemNotify.send('${Properties.ledstrip.object} OFF (No motion for ${Properties.ledstrip.off-when-no-motion-for-X-seconds-prev-location} seconds - prev location)')
+  #   set:
+  #     ${Properties.selfObjectName}.lastActivity: System.timestamp
 
   # NO MOTION DETECTED - LAST & PREV MOTION IS NOT LOCAL
 
-  # Primary Light
-  - interval: 3
-    if:
-      - ${Properties.light.object}.status is on
-      - ${Properties.motion.object}.occupancy is false
-      - ${Properties.selfObjectName}.forceLightOn is not true
-      - House.lastHumanActionLocation is not '${Properties.name}'
-      - House.lastHumanActionLocation.previousValue is not '${Properties.name}'
-      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-old-location}
-    run:
-      - ${Properties.selfObjectName}.lightOff()
-      - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-old-location} seconds - old location)')
-    set:
-      ${Properties.selfObjectName}.lastActivity: System.timestamp
+  # # Primary Light
+  # - interval: 3
+  #   if:
+  #     - ${Properties.light.object}.status is on
+  #     - ${Properties.motion.object}.occupancy is false
+  #     - ${Properties.selfObjectName}.forceLightOn is not true
+  #     - House.lastHumanActionLocation is not '${Properties.name}'
+  #     - House.lastHumanActionLocation.previousValue is not '${Properties.name}'
+  #     - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.off-when-no-motion-for-X-seconds-old-location}
+  #   run:
+  #     - ${Properties.selfObjectName}.lightOff()
+  #     - SystemNotify.send('${Properties.light.object} OFF (No motion for ${Properties.light.off-when-no-motion-for-X-seconds-old-location} seconds - old location)')
+  #   set:
+  #     ${Properties.selfObjectName}.lastActivity: System.timestamp
 
-  # Secondary Light
-  - interval: 3
-    if:
-      - ${Properties.light.secondary.object}.status is on
-      - ${Properties.motion.object}.occupancy is false
-      - House.lastHumanActionLocation is not '${Properties.name}'
-      - House.lastHumanActionLocation.previousValue is not '${Properties.name}'
-      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.secondary.off-when-no-motion-for-X-seconds-old-location}
-    run:
-      - ${Properties.selfObjectName}.secondaryLightOff()
-      - SystemNotify.send('${Properties.light.secondary.object} OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds-old-location} seconds - old location)')
-    set:
-      ${Properties.selfObjectName}.lastActivity: System.timestamp
+  # # Secondary Light
+  # - interval: 3
+  #   if:
+  #     - ${Properties.light.secondary.object}.status is on
+  #     - ${Properties.motion.object}.occupancy is false
+  #     - House.lastHumanActionLocation is not '${Properties.name}'
+  #     - House.lastHumanActionLocation.previousValue is not '${Properties.name}'
+  #     - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.light.secondary.off-when-no-motion-for-X-seconds-old-location}
+  #   run:
+  #     - ${Properties.selfObjectName}.secondaryLightOff()
+  #     - SystemNotify.send('${Properties.light.secondary.object} OFF (No motion for ${Properties.light.secondary.off-when-no-motion-for-X-seconds-old-location} seconds - old location)')
+  #   set:
+  #     ${Properties.selfObjectName}.lastActivity: System.timestamp
 
-  # Ledstrip
-  - interval: 3
-    if:
-      - ${Properties.ledstrip.object}.status is on
-      - ${Properties.motion.object}.occupancy is false
-      - ${Properties.selfObjectName}.forceLightOn is not true
-      - House.lastHumanActionLocation is not '${Properties.name}'
-      - House.lastHumanActionLocation.previousValue is not '${Properties.name}'
-      - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.ledstrip.off-when-no-motion-for-X-seconds-old-location}
-    run:
-      - ${Properties.ledstrip.object}.off()
-      - SystemNotify.send('${Properties.ledstrip.object} OFF (No motion for ${Properties.ledstrip.off-when-no-motion-for-X-seconds-old-location} seconds - old location)')
-    set:
-      ${Properties.selfObjectName}.lastActivity: System.timestamp
+  # # Ledstrip
+  # - interval: 3
+  #   if:
+  #     - ${Properties.ledstrip.object}.status is on
+  #     - ${Properties.motion.object}.occupancy is false
+  #     - ${Properties.selfObjectName}.forceLightOn is not true
+  #     - House.lastHumanActionLocation is not '${Properties.name}'
+  #     - House.lastHumanActionLocation.previousValue is not '${Properties.name}'
+  #     - ${Properties.motion.object}.occupancy.timeSince >= ${Properties.ledstrip.off-when-no-motion-for-X-seconds-old-location}
+  #   run:
+  #     - ${Properties.ledstrip.object}.off()
+  #     - SystemNotify.send('${Properties.ledstrip.object} OFF (No motion for ${Properties.ledstrip.off-when-no-motion-for-X-seconds-old-location} seconds - old location)')
+  #   set:
+  #     ${Properties.selfObjectName}.lastActivity: System.timestamp
 
-  # STOP IGNORING MOVEMENT AFTER X SECONDS
-  - interval: 5
-    if:
-      - ${Properties.selfObjectName}.ignoreMotion is true
-      - ${Properties.selfObjectName}.ignoreMotion.timeSince >= ${Properties.motion.stop-ignoring-motion-after-X-seconds}
-    set:
-      ${Properties.selfObjectName}.ignoreMotion: 'false'
+  # # STOP IGNORING MOVEMENT AFTER X SECONDS
+  # - interval: 5
+  #   if:
+  #     - ${Properties.selfObjectName}.ignoreMotion is true
+  #     - ${Properties.selfObjectName}.ignoreMotion.timeSince >= ${Properties.motion.stop-ignoring-motion-after-X-seconds}
+  #   set:
+  #     ${Properties.selfObjectName}.ignoreMotion: 'false'
 
   # STOP FORCED ON/OFF LIGHT
 

@@ -86,6 +86,7 @@ ${Properties.plex.object}.statusDelayed:
       - this is paused
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.selfObjectName}.gotNaturalLight is false
+      - Sun.state is night
     run:
       - ${Properties.plex.pause-light}.on()
       - SystemNotify.send('${Properties.plex.pause-light} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
@@ -99,6 +100,7 @@ ${Properties.plex.object}.statusDelayed:
       - this is stopped
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.selfObjectName}.gotNaturalLight is false
+      - Sun.state is night
     run:
       - ${Properties.plex.stop-light}.on()
       - SystemNotify.send('${Properties.plex.stop-light} ON (${Properties.plex.object} ${Properties.plex.object}.status)')
@@ -114,6 +116,7 @@ ${Properties.plex.object}.statusDelayed:
       - ${Properties.plex.object}.mediaType in ['episode','movie']
       - ${Properties.selfObjectName}.gotNaturalLight is false
       - ${Properties.plex.stop-light} != ${Properties.plex.pause-light}
+      - Sun.state is night
     run:
       - ${Properties.plex.pause-light}.off()
       - SystemNotify.send('${Properties.plex.pause-light} OFF (${Properties.plex.object} ${Properties.plex.object}.status)')
