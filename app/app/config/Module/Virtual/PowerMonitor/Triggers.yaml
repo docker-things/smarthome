@@ -5,13 +5,20 @@ min-voltage:
     if:
       - this <= ${Properties.emergency-voltage}
       - ${Properties.selfObjectName}.status is not emergency
+    run:
+      - SystemWarn.send('EMERGENCY VOLTAGE!')
+      - ${Properties.secondary-warn-object}.send('EMERGENCY VOLTAGE!')
     set:
       status: emergency
 
   Critical voltage - ${Properties.selfObjectName}:
     if:
+      - this > ${Properties.emergency-voltage}
       - this <= ${Properties.critical-voltage}
       - ${Properties.selfObjectName}.status is not critical
+    run:
+      - SystemWarn.send('CRITICAL VOLTAGE!')
+      - ${Properties.secondary-warn-object}.send('CRITICAL VOLTAGE!')
     set:
       status: critical
 
