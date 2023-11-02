@@ -54,36 +54,61 @@ class Core_Controller_Config extends Core_Controller_Base {
           body {
             padding: 10px;
           }
-          pre {
-            text-align: left;
-            margin: 5px;
-          }
           table {
             margin: 0 auto;
+            min-width: 480px;
+          }
+          h2 {
+            font-size: 1em;
           }
           td {
             padding: 0px 10px;
           }
-          .rawVariables {
-            opacity: 0.5;
-            color: red;
+          td.name, td.input {
+            border-top: 1px solid #DDD;
+          }
+          tbody {
+            opacity: 0.75;
+            font-size: .9em;
+            background: #F5F5F5;
+          }
+          .hidden {
+            display: none;
           }
           input[type=text],
-          input[type=number],
-          input[type=submit] {
+          input[type=number] {
             width: 150px;
             height: 32px;
             padding: 5px;
-            margin: 5px;
+            margin: 0;
+            background: transparent;
+            border: 0;
+          }
+          td.input {
+            width: 150px;
           }
           input[type=submit] {
             width: 70px;
+            height: 32px;
             padding: 0;
-          }
-          .rawVariables * {
+            margin: 0;
+            border: 1px solid red;
+            border-radius: 5px;
             color: red;
+            background: #FEE;
+          }
+          td.submit {
+            width: 70px;
           }
           </style>
+          <script src="/res/js/thirdparty/jquery.min.js"></script>
+          <script>
+          $(document).ready(function() {
+            $("thead").on("click", function() {
+              $(this).closest("table").find("tbody").toggleClass("hidden");
+            });
+          });
+          </script>
           </head><body>';
     $this->_savePostData();
     foreach ($this->getState()->getState() as $object => $vars) {
@@ -106,6 +131,7 @@ class Core_Controller_Config extends Core_Controller_Base {
       }
     }
     return '
+      <hr>
       <form method="POST" name="addNew">
         <h2>ADD</h2>
         <input type="' . (empty($object) ? 'text' : 'hidden') . '" name="objectName" placeholder="Object" value="' . $object . '">
@@ -144,7 +170,7 @@ class Core_Controller_Config extends Core_Controller_Base {
     if ($gotCustomView && !isset($_GET['raw'])) {
       $form .= '<form method="POST" name="' . $object . '-CustomView" class="customVariables">';
       $form .= '<table>';
-      $form .= '<tr><th colspan="3">';
+      $form .= '<thead><tr><th colspan="3">';
 
       // Title
       $objectAlias = $object;
@@ -153,22 +179,22 @@ class Core_Controller_Config extends Core_Controller_Base {
       }
       $form .= '<h2>' . $objectAlias . '</h2>';
       $form .= '<input type="hidden" name="objectName" value="' . $object . '">';
-      $form .= '</th></tr>';
+      $form .= '</th></tr></thead><tbody class="hidden">';
 
       // Variables
       $first = true;
       foreach ($this->customView[$object]['data'] AS $alias => $var) {
         $attr = isset($var['attr']) ? $var['attr'] : '';
         $form .= '<tr>';
-        $form .= '<td>' . str_replace('-', ' ', $alias) . '</td>';
-        $form .= '<td><input type="' . $var['type'] . '" ' . $attr . ' name="' . $alias . '" placeholder="Value" value="' . $vars[$var['data']] . '"></td>';
+        $form .= '<td class="name">' . str_replace('-', ' ', $alias) . '</td>';
+        $form .= '<td class="input"><input type="' . $var['type'] . '" ' . $attr . ' name="' . $alias . '" placeholder="Value" value="' . $vars[$var['data']] . '"></td>';
         if ($first) {
           $first = false;
-          $form .= '<td rowspan="' . count($this->customView[$object]['data']) . '"><input type="submit" name="editButton" value="Save"></td>';
+          $form .= '<td class="submit" rowspan="' . count($this->customView[$object]['data']) . '"><input type="submit" name="editButton" value="Save"></td>';
         }
         $form .= '</tr>';
       }
-      $form .= '</table>';
+      $form .= '</tbody></table>';
       $form .= '</form>';
 
       // Details
@@ -193,27 +219,27 @@ class Core_Controller_Config extends Core_Controller_Base {
     ksort($vars);
     $form .= '<form method="POST" name="' . $object . '" class="rawVariables">';
     $form .= '<table>';
-    $form .= '<tr><th colspan="4">';
+    $form .= '<thead><tr><th colspan="4">';
 
     // Title
     $form .= '<h2>' . $object . '</h2>';
     $form .= '<input type="hidden" name="objectName" value="' . $object . '">';
-    $form .= '</th></tr>';
+    $form .= '</th></tr></thead><tbody class="hidden">';
 
     // Variables
     $first = true;
     foreach ($vars AS $name => $value) {
       $form .= '<tr>';
-      $form .= '<td>' . $name . '</td>';
-      $form .= '<td><input type="text" name="' . $name . '" placeholder="Value" value="' . $value . '"></td>';
+      $form .= '<td class="name">' . $name . '</td>';
+      $form .= '<td class="input"><input type="text" name="' . $name . '" placeholder="Value" value="' . $value . '"></td>';
       if ($first) {
         $first = false;
-        $form .= '<td rowspan="' . count($vars) . '"><input type="submit" name="editButton" value="Save"></td>';
+        $form .= '<td class="submit" rowspan="' . count($vars) . '"><input type="submit" name="editButton" value="Save"></td>';
       }
       $form .= '</tr>';
     }
 
-    $form .= '</table>';
+    $form .= '</tbody></table>';
     $form .= '</form>';
     $form .= '</div>';
     return $form;
