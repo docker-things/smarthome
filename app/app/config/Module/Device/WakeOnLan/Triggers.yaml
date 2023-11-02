@@ -1,0 +1,16 @@
+---
+
+${Properties.selfObjectName}.status:
+  When online - ${Properties.selfObjectName}:
+    if:
+      - this is on
+      - ${Properties.warn-when-online} is yes
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} is ON')
+
+  When offline - ${Properties.selfObjectName}:
+    if:
+      - this is off
+      - ${Properties.warn-when-offline} is yes
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} is OFF')
