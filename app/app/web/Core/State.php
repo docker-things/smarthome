@@ -51,10 +51,12 @@ class Core_State {
   /**
    * @param $object
    */
-  public function deleteObjectData($object) {
+  public function deleteObjectData($object, $optimize = true) {
     $this->_db->exec("DELETE FROM `current` WHERE source = '" . $this->_db->escape($object) . "'");
     $this->_db->exec("DELETE FROM `history` WHERE source = '" . $this->_db->escape($object) . "'");
-    $this->optimizeDB();
+    if ($optimize) {
+      $this->optimizeDB();
+    }
   }
 
   /**
@@ -126,11 +128,11 @@ class Core_State {
   }
 
   /**
-   * @param  source  $source
+   * @param  string  $source
    * @param  int     $limit
    * @return mixed
    */
-  public function getSourceHistory(source $source, int $limit = 100) {
+  public function getSourceHistory(string $source, int $limit = 100) {
     return $this->getAllHistory([
       "`source` = '" . $this->_db->escape($source) . "'",
     ], $limit);
@@ -177,7 +179,7 @@ class Core_State {
    * @param  int    $limit    Number of rows
    * @return array  History
    */
-  public function getVariableHistory(source $source, source $name, int $limit = 100) {
+  public function getVariableHistory(string $source, string $name, int $limit = 100) {
     return $this->getAllHistory([
       "`source` = '" . $this->_db->escape($source) . "'",
       "`name`   = '" . $this->_db->escape($name) . "'",
@@ -232,7 +234,23 @@ class Core_State {
     return $this->_db->isUserValid($username, $password);
   }
 
+  public function removeUnusedStateObjects() {
+    $stateObjects = array_keys($this->_app->getState()->getFullState());
+    $configObjects = array_keys($this->_app->getConfig()->getConfig()['Objects']);
+    $unusedStateObjects = [];
+    for ($i = 0; $i < count($stateObjects); $i++) {
+      $object = $stateObjects[$i];
+      if(!in_array($object, $configObjects)) {
+        $unusedStateObjects[] = $object;
+      }
+    }
+    for ($i = 0; $i < count($unusedStateObjects); $i++) {
+      $this->_app->getState()->deleteObjectData($unusedStateObjects[ $i ], false);
+    }
+  }
+
   public function optimizeDB() {
+    $this->removeUnusedStateObjects();
     $this->_db->exec("OPTIMIZE TABLE `current`");
     $this->_db->exec("OPTIMIZE TABLE `history`");
     $this->_db->exec("PURGE BINARY LOGS BEFORE DATE(NOW() - INTERVAL 1 DAY) + INTERVAL 0 SECOND");
