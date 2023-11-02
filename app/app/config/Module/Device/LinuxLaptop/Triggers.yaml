@@ -10,31 +10,12 @@ ${Properties.selfObjectName}.battery:
 ${Properties.selfObjectName}.call:
 
   Start - ${Properties.selfObjectName}:
-    if: this is on
+    if: this is true
     run: SystemNotify.send('Starting call - ${Properties.selfObjectName}')
 
   End - ${Properties.selfObjectName}:
-    if: this is off
+    if: this is false
     run: SystemNotify.send('Call ended - ${Properties.selfObjectName}')
-
-  Pause roborock when call starts - ${Properties.selfObjectName}:
-    if:
-      - this is true
-      - ${Properties.roborock}.status in ['Cleaning','Segment_cleaning','Spot_cleaning','Zoned_cleaning']
-    run:
-      - ${Properties.roborock}.pause()
-      - SystemNotify.send('Pause Roborock - Call Starting (${Properties.selfObjectName})')
-
-  Resume roborock when call ends - ${Properties.selfObjectName}:
-    if:
-      - this is false
-      - ${Properties.roborock}.status in ['Paused','Idle']
-      - House.closedDoors is false
-      - House.sleeping is false
-      - ${Properties.roborock}.lidOpened is not true
-    run:
-      - ${Properties.roborock}.resume()
-      - SystemNotify.send('Resume Roborock - Call Ended (${Properties.selfObjectName})')
 
 ${Properties.selfObjectName}.status:
 

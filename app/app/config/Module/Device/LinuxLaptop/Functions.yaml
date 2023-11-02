@@ -5,6 +5,8 @@
 functions:
 
   checkStatus():
+    runIf:
+      - ${Properties.ip} is not NONE
     run: ping -W 1 -c 1 ${Properties.ip} | grep '1 received' | wc -l
     if: ${RESPONSE.output} is 1
     set:

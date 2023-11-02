@@ -13,6 +13,7 @@ actions:
     activity: ${PARAMS.activity}
     battery: ${PARAMS.battery}
     charging: ${PARAMS.charging}
+    temperature: ${PARAMS.temperature}
     lux: ${PARAMS.lux}
     displays: ${PARAMS.displays}
     brightness: ${PARAMS.brightness}
