@@ -2,3 +2,5 @@
 
 ip: !required
 mac: !required
+warn-when-online: 'no'
+warn-when-offline: 'no'
