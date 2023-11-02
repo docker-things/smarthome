@@ -46,4 +46,10 @@ actions:
     nominal_battery_voltage: ${PARAMS.NOMBATTV}
     nominal_power: ${PARAMS.NOMPOWER}
     firmware: ${PARAMS.FIRMWARE}
+    last-input-time: foo
+
+# Params are not rewritten in the DB if the value isn't changed.
+# This allows them to be written anyway.
+alwaysSetWhenReceived:
+  - last-input-time
 

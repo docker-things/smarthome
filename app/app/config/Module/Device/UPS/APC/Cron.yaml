@@ -1,0 +1,8 @@
+---
+
+jobs:
+  - interval: 300
+    if:
+      ${Properties.selfObjectName}.last-input-time.timeSince >= 300
+    run:
+      - SystemWarn.send('${Properties.selfObjectName} sent nothing for more than 5 minutes!')
