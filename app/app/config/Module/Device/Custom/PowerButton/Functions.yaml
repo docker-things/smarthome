@@ -1,0 +1,11 @@
+---
+
+cmd: 'mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/set" -m'
+
+functions:
+
+  shortPress():
+    run: '${cmd} "on-for 150"'
+
+  longPress():
+    run: '${cmd} "on-for 5000"'
