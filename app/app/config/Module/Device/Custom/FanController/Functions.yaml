@@ -1,0 +1,30 @@
+---
+
+cmd: 'mosquitto_pub -h mqtt -t "${Properties.mqtt-topic}/set" -m'
+
+functions:
+
+  on():
+    run: '${cmd} on'
+
+  off():
+    run: '${cmd} off'
+
+  toggle():
+    run: '${cmd} toggle'
+
+  speed(value):
+    runIf: ${Properties.selfObjectName}.speed != ${ARGS.value}
+    run: '${cmd} "speed ${ARGS.value}"'
+
+  freq(value):
+    runIf: ${Properties.selfObjectName}.freq != ${ARGS.value}
+    run: '${cmd} "freq ${ARGS.value}"'
+
+  offlineSpeed(value):
+    runIf: ${Properties.selfObjectName}.offlineSpeed != ${ARGS.value}
+    run: '${cmd} "offline-speed ${ARGS.value}"'
+
+  offlineFreq(value):
+    runIf: ${Properties.selfObjectName}.offlineFreq != ${ARGS.value}
+    run: '${cmd} "offline-freq ${ARGS.value}"'

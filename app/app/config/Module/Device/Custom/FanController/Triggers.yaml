@@ -1,0 +1,18 @@
+--- # Do stuff when certain variables are changed
+
+
+offlineSpeed:
+  Not the configured value:
+    if:
+      - ${Properties.offlineSpeed} != NONE
+      - this != ${Properties.offlineSpeed}
+    run:
+      - ${Properties.selfObjectName}.offlineSpeed('${Properties.offlineSpeed}')
+
+offlineFreq:
+  Not the configured value:
+    if:
+      - ${Properties.offlineFreq} != NONE
+      - this != ${Properties.offlineFreq}
+    run:
+      - ${Properties.selfObjectName}.offlineFreq('${Properties.offlineFreq}')
