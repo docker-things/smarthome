@@ -1,3 +1,4 @@
+var MQTT_INIT_CLIENT = undefined;
 var MQTT_CLIENT = undefined;
 
 var HOUSE_STATE = {}
@@ -696,6 +697,7 @@ function bindActivityMonitor() {
  * Show toast notifications
  */
 function showToast(message, type) {
+  console.log("[" + type + "] " + message)
   $.toast({
     text: message,
     icon: type,
@@ -821,21 +823,35 @@ function getFullState(client) {
   client.send(message);
 }
 
+function getFullStateCron() {
+  setInterval(function() {
+    if (!getStateValue('System', 'date')) {
+      if (!MQTT_INIT_CLIENT) {
+        console.log('MQTT_INIT_CLIENT is null. Get initial state!');
+        getInitialState();
+      } else {
+        console.log('No state fetched. Get full state!');
+        getFullState(MQTT_INIT_CLIENT);
+      }
+    }
+  }, 1000);
+}
+
 /**
  * Launch state listener
  */
 function getInitialState() {
 
-  let client = new Paho.MQTT.Client('192.168.0.100', 1884, "dashboard" + new Date().getTime());
+  MQTT_INIT_CLIENT = new Paho.MQTT.Client('192.168.0.100', 1884, "dashboard-init" + new Date().getTime());
 
-  client.onConnectionLost = function(responseObject) {
+  MQTT_INIT_CLIENT.onConnectionLost = function(responseObject) {
     if (responseObject.errorCode !== 0) {
-      showError('Lost MQTT connection: ' + responseObject.errorMessage);
+      // showError('Lost MQTT connection [init]: ['+responseObject.errorCode+'] ' + responseObject.errorMessage);
       setDisconnectedMode();
     }
   };
 
-  client.onMessageArrived = function(message) {
+  MQTT_INIT_CLIENT.onMessageArrived = function(message) {
     state = jQuery.parseJSON(message.payloadString)
     for (source in state) {
       if (source == 'SystemNotify' || source == 'SystemWarn') continue;
@@ -844,26 +860,26 @@ function getInitialState() {
         setLocalState(source, name, props['value'], props['prevValue'], props['timestamp']);
       }
     }
-    // client.disconnect();
+    // MQTT_INIT_CLIENT.disconnect();
     showDashboard();
   };
 
-  client.connect({
+  MQTT_INIT_CLIENT.connect({
     useSSL: false,
     reconnect: true,
 
     onSuccess: function() {
       // Subscribe to the full state reporter
-      client.subscribe("core-state/full-state-provider");
+      MQTT_INIT_CLIENT.subscribe("core-state/full-state-provider");
 
       // Request full state
-      getFullState(client)
+      getFullState(MQTT_INIT_CLIENT)
 
       setConnectedMode();
     },
 
     onFailure: function() {
-      showError('Failed to connect to MQTT');
+      showError('Failed to connect to MQTT [init]');
       setDisconnectedMode();
     },
   });
@@ -878,7 +894,7 @@ function startStateListener() {
 
   MQTT_CLIENT.onConnectionLost = function(responseObject) {
     if (responseObject.errorCode !== 0) {
-      showError('Lost MQTT connection: ' + responseObject.errorMessage);
+      showError('Lost MQTT connection: [' + responseObject.errorCode + '] ' + responseObject.errorMessage);
       setDisconnectedMode();
     }
   };
@@ -997,7 +1013,11 @@ $(document).ready(function() {
 
   // Show the screen
   createScreenList()
-  showScreen(SCREENS[0])
+  if (HOME != 'NONE') {
+    showScreen(HOME)
+  } else {
+    showScreen(SCREENS[0])
+  }
 
   // Window related handlers
   windowResizeHandler()
@@ -1005,12 +1025,15 @@ $(document).ready(function() {
   // Get full state initially - one time
   getInitialState()
 
+  // Check every second if full state is fetched
+  getFullStateCron()
+
   // Start state listener
   startStateListener()
 
   // Menu glimpse
-  setTimeout(function() {
-    showMenu()
-    setTimeout(hideMenu, 400)
-  }, 500)
+  // setTimeout(function() {
+  //   showMenu()
+  //   setTimeout(hideMenu, 400)
+  // }, 500)
 })

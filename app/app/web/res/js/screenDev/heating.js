@@ -29,7 +29,9 @@ $(document).ready(function() {
 
       tooltipFormat: "heatingSliderChangeTooltip",
 
-      // valueChange: function(e) {},
+      valueChange: function(e) {
+        // If this is not defined, stop() is sometimes not called.
+      },
       stop: function(e) {
         const minTemp = e.value;
         const maxTemp = minTemp + 0.25;
@@ -48,10 +50,26 @@ $(document).ready(function() {
     //   .bind('touchcancel', restoreTouchDrag)
   }
 
+  function activateTempTrigger(tempName, tempParam, tempClass) {
+    setTrigger(tempName, tempParam, function(props) {
+      let timeSince = (Date.now() / 1000) - props.timestamp;
+      if (timeSince <= 3600) {
+        const value = Math.round(parseFloat(props.value) * 10) / 10;
+        $('.screen.heating .top .' + tempClass + ' .value').text(value);
+      }
+    })
+  }
+
+  var initalTemp = true
+
   function activateTriggers() {
     setTrigger('Heating', 'presenceMinTemp', function(props) {
       $(".screen.heating .temperatureSlider").data("roundSlider").setValue(props.value);
-      showInfo('Temperature set to: ' + props.value)
+      if (initalTemp) {
+        initalTemp = false
+      } else {
+        showInfo('Temperature set to: ' + props.value)
+      }
     })
     setTrigger('Heating', 'status', function(props) {
       $('.screen.heating > .titleContainer .status').text(props.value);
@@ -59,22 +77,14 @@ $(document).ready(function() {
         showScreenSlideForStaticDashboard('heating');
       }
     })
-    setTrigger('Livingroom-Temperature', 'temperature', function(props) {
-      const value = Math.round(parseFloat(props.value) * 10) / 10;
-      $('.screen.heating .top .bedroom .value').text(value);
-    })
-    setTrigger('Bathroom-Temperature', 'temperature', function(props) {
-      const value = Math.round(parseFloat(props.value) * 10) / 10;
-      $('.screen.heating .top .bathroom .value').text(value);
-    })
-    setTrigger('AirPurifier', 'temperature', function(props) {
-      const value = Math.round(parseFloat(props.value) * 10) / 10;
-      $('.screen.heating .top .purifier .value').text(value);
-    })
-    setTrigger('Weather', /*'current.temp'*/ 'current.feels_like', function(props) {
-      const value = Math.round(parseFloat(props.value) * 10) / 10;
-      $('.screen.heating .top .outside .value').text(value);
-    })
+    activateTempTrigger('Livingroom-Temperature', 'temperature', 'livingroom')
+    activateTempTrigger('Bedroom-Temperature', 'temperature', 'bedroom')
+    activateTempTrigger('Bathroom-Temperature', 'temperature', 'bathroom')
+    activateTempTrigger('Kitchen-Temperature', 'temperature', 'kitchen')
+    activateTempTrigger('Diningroom-Temperature', 'temperature', 'diningroom')
+    activateTempTrigger('Kidroom-Temperature', 'temperature', 'kidroom')
+    activateTempTrigger('AirPurifier', 'temperature', 'purifier')
+    activateTempTrigger('Weather', /*'current.temp'*/ 'current.feels_like', 'outside')
   }
 
   // Actually do something

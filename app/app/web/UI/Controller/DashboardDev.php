@@ -42,7 +42,7 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
    */
   private $screens = [
     'Main',
-    'Roborock',
+    // 'Roborock',
     'Heating',
     'Audio',
     'NowPlaying',
@@ -148,6 +148,7 @@ class UI_Controller_DashboardDev extends Core_Controller_Base {
       'DASHBOARD_DEVICE'  => isset($_GET['device']) ? $_GET['device'] : 'NONE',
       'DASHBOARD_ROOM'    => isset($_GET['room']) ? $_GET['room'] : 'NONE',
       'KEEP_RETURNING_TO' => isset($_GET['keepReturningTo']) ? $_GET['keepReturningTo'] : 'NONE',
+      'HOME'              => isset($_GET['home']) ? $_GET['home'] : 'NONE',
     ];
 
     $vars = [];
