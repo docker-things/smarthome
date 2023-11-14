@@ -32,9 +32,6 @@ class Core_Controller_MqttListener extends Core_Controller_Base {
     // Whenever a new line is fetched
     while ($line = fgets($pipes[1])) {
 
-      // Show line
-      Core_Logger::info('MQTT Received: ' . trim($line));
-
       // Split line by the first space
       $tmp = explode(' ', $line, 2);
       if (!isset($tmp[1])) {
@@ -45,8 +42,13 @@ class Core_Controller_MqttListener extends Core_Controller_Base {
       // Get topic & json from the received line
       $topic = $tmp[0];
       if (substr($topic, 0, 5) == 'core-' || substr($topic, 0, 19) == 'zigbee2mqtt/bridge/') {
+        // Core_Logger::debug('MQTT Ignored: ' . trim($line));
         continue;
       }
+
+      // Log line
+      Core_Logger::info('MQTT Received: ' . trim($line));
+
       $json = json_decode($tmp[1], true);
 
       if (!$json || $json == $tmp[1]) {
