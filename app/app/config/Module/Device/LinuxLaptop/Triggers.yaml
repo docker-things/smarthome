@@ -28,6 +28,8 @@ ${Properties.selfObjectName}.status:
     run: SystemNotify.send('${Properties.selfObjectName} OFF')
     set:
       ${Properties.selfObjectName}.locked: 'true'
+      ${Properties.selfObjectName}.charging: 'false'
+      ${Properties.selfObjectName}.call: 'false'
 
 ${Properties.selfObjectName}.locked:
 
