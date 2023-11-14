@@ -3,6 +3,3 @@
 jobs:
   - interval: 30
     run: getStatus()
-
-  - interval: 31
-    run: checkIfShouldTurnOff()
