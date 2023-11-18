@@ -15,7 +15,7 @@ const serviceName = "core/telegram-bot"
 const broker = "tcp://mqtt:1883"
 
 // DO NOT COMMIT !!!
-const botToken = "1628911652:AAEKgW8-AlPUV2g6_PyRlNnrifOnJvppQKw"
+const botToken = ""
 // DO NOT COMMIT !!!
 
 var topicRequest = strings.Join([]string{serviceName, "request"}, "/")
