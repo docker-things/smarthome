@@ -100,6 +100,16 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
 
       // Send everything else
       $this->_send($state);
+
+      // !!!!!!!!!!!!!!!!!
+      // !!!!!!!!!!!!!!!!!
+      //
+      // DB connection gets screwed after a while.
+      // WORKAROUND: stop script after every message
+      //
+      // !!!!!!!!!!!!!!!!!
+      // !!!!!!!!!!!!!!!!!
+      die;
     }
 
     Core_Logger::info('Stopped listening to MQTT');
