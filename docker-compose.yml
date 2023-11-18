@@ -64,7 +64,7 @@ services:
 
   python-miio2mqtt:
     image: 192.168.0.100:5000/python-miio2mqtt:1.0.0
-    container_name: smarthome-service-python-miio2mqtt
+    container_name: smarthome-python-miio2mqtt
     restart: always
     build:
       context: ./services/python-miio2mqtt
