@@ -2,16 +2,79 @@ package config
 
 import (
   "fmt"
+  "os"
   "time"
 
-  json "../helpers/json"
+  json "app/helpers/json"
+  mqtt "app/helpers/mqtt"
 )
 
-func CompileRegexp() {
+func StartService(monolith bool) {
+
+  // Compile all regular expressions that will be used
+  compileRegexp()
+
+  // Set config path
+  setPath(ConfigPath)
+
+  // Set publish method
+  setOnChangeJsonCallback(func(configJson string) {
+    fmt.Println("Announcing config")
+    mqtt.PublishOn(TopicAnnounce, configJson)
+  })
+
+  // Connect to MQTT
+  mqtt.Connect(ServiceName, "tcp://"+os.Getenv("MQTT_HOST_CORE"))
+
+  // Get config
+  load()
+
+  // Listen for incoming MQTT requests
+  listenForIncomingRequests()
+
+  // Check for config changes every 5 seconds
+  loopReloadOnChange(5)
+}
+
+func listenForIncomingRequests() {
+  mqtt.Subscribe(TopicRequest, func(msg string) {
+    fmt.Println("REQUEST: " + msg)
+
+    var request map[string]string
+    err := json.Unmarshal([]byte(msg), &request)
+    if err != nil {
+      panic(err.Error())
+    }
+
+    if _, ok := request["path"]; !ok {
+      fmt.Println("WARN: Request contains no \"path\"!")
+      return
+    }
+
+    if _, ok := request["responseTopic"]; !ok {
+      fmt.Println("WARN: Request contains no \"responseTopic\"!")
+      return
+    }
+
+    var configJson string
+
+    if request["path"] == "" {
+      configJson = getJSON()
+    } else {
+      fmt.Println("WARN: Deep path not implemented!")
+      return
+    }
+
+    fmt.Println("Sending config to " + request["responseTopic"])
+    mqtt.PublishOn(request["responseTopic"], configJson)
+  })
+}
+
+func compileRegexp() {
   preProcessRegexp()
 }
 
-func SetPath(path string) {
+func setPath(path string) {
   configPath = path
 }
 
@@ -19,24 +82,24 @@ func SetOnChangeCallback(callback onChangeCallbackType) {
   onChangeCallback = callback
 }
 
-func SetOnChangeJsonCallback(callback onChangeJsonCallbackType) {
+func setOnChangeJsonCallback(callback onChangeJsonCallbackType) {
   onChangeJsonCallback = callback
 }
 
-func LoopReloadOnChange(interval int) {
+func loopReloadOnChange(interval int) {
   for {
     time.Sleep(time.Duration(interval) * time.Second)
-    Load()
+    load()
   }
 }
 
-func GetJSON() string {
+func getJSON() string {
   config.mutex.Lock()
   defer config.mutex.Unlock()
   return config.json
 }
 
-func Load() {
+func load() {
   fmt.Println("loadConfig()")
 
   // Get current files with their modified time

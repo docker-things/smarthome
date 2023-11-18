@@ -2,41 +2,149 @@ package state
 
 import (
   "fmt"
+  "os"
+  "os/signal"
   "reflect"
+  "syscall"
   "time"
-  // "os"
-  // "os/signal"
-  // "strings"
-  // "syscall"
 
-  json "../helpers/json"
-  // mqtt "../helpers/mqtt"
-  config "../config"
-  db "../helpers/mysql"
+  config "app/config"
+  json "app/helpers/json"
+  mqtt "app/helpers/mqtt"
+  db "app/helpers/mysql"
 )
 
-func GetJSON() string {
+/**
+ * TODO:
+ * - populate a dirty list of maps when changes are made
+ * - dump dirty changes to db every 30 seconds
+ * - dump dirty changes on sig kill
+ */
+
+func StartService(monolith bool) {
+
+  // Create channel to monitor interrupt signals
+  c := make(chan os.Signal, 1)
+  signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
+  mqtt.Connect(ServiceName, "tcp://"+os.Getenv("MQTT_HOST_CORE"))
+
+  connect()
+  defer disconnect()
+
+  initConfigClient()
+
+  load(announceFullState)
+
+  listenForIncomingRequests()
+  listenForSetRequests()
+
+  // Keep alive until interrupt is received
+  <-c
+
+  // TODO: DUMP DIRTY DATA!
+  saveDirtyData()
+}
+
+func announceFullState() {
+  fmt.Println("Announcing state")
+  stateJson := getJSON()
+  mqtt.PublishOn(TopicAnnounce, stateJson)
+}
+
+func listenForSetRequests() {
+  requiredParams := []string{
+    "source",
+    "name",
+    "value",
+  }
+
+  mqtt.Subscribe(TopicSet, func(msg string) {
+    fmt.Println("SET: " + msg)
+
+    var request map[string]interface{}
+    err := json.Unmarshal([]byte(msg), &request)
+    if err != nil {
+      panic(err.Error())
+    }
+
+    if !mapHasAllKeys(request, requiredParams) {
+      fmt.Printf("[WARN] Request must contain these params: %s", requiredParams)
+      return
+    }
+
+    source := request["source"].(string)
+    name := request["name"].(string)
+    value := request["value"].(string)
+
+    set(source, name, value, func() {
+      fmt.Println("[DEBUG] Announcing change")
+      variable := getVariable(source, name)
+      mqtt.PublishOn(TopicAnnounce, json.Encode(variable))
+    })
+  })
+}
+
+func listenForIncomingRequests() {
+  requiredParams := []string{
+    "source",
+    "name",
+    "responseTopic",
+  }
+
+  mqtt.Subscribe(TopicRequest, func(msg string) {
+    fmt.Println("REQUEST: " + msg)
+
+    var request map[string]interface{}
+    err := json.Unmarshal([]byte(msg), &request)
+    if err != nil {
+      panic(err.Error())
+    }
+
+    if !mapHasAllKeys(request, requiredParams) {
+      fmt.Printf("[WARN] Request must contain these params: %s", requiredParams)
+      return
+    }
+
+    var stateJson string
+
+    source := request["source"].(string)
+    responseTopic := request["responseTopic"].(string)
+
+    if source == "" {
+      stateJson = getJSON()
+    } else {
+      fmt.Println("WARN: Granular requests not implemented!")
+      return
+    }
+
+    fmt.Println("Sending config to " + responseTopic)
+    mqtt.PublishOn(responseTopic, stateJson)
+  })
+}
+
+func getJSON() string {
   state.mutex.Lock()
   defer state.mutex.Unlock()
   return state.json
 }
 
-func SaveDirtyData() {
-  fmt.Println("[WARN] SaveDirtyData() NOT IMPLEMENTED!")
+func saveDirtyData() {
+  fmt.Println("[WARN] saveDirtyData() NOT IMPLEMENTED!")
 }
 
-func Connect() {
+func connect() {
   db.Connect()
 }
-func Disconnect() {
+func disconnect() {
   db.Disconnect()
 }
 
-func InitConfigClient() {
+func initConfigClient() {
   config.CreateClient(ServiceName)
 }
 
-func Load(callback func()) {
+func load(callback func()) {
   getCurrentState()
   callback()
 }
@@ -62,11 +170,11 @@ func getCurrentState() {
 
   setNewState(newState)
 
-  fmt.Printf("Loaded %d variables for %d objects\n", variables, objects)
+  fmt.Printf("loaded %d variables for %d objects\n", variables, objects)
 }
 
-func Set(source string, name string, value string, callback func()) {
-  currentVar := GetVariable(source, name)
+func set(source string, name string, value string, callback func()) {
+  currentVar := getVariable(source, name)
   prevValue := ""
   if currentVar.Source == "" {
     prevValue = currentVar.Value
@@ -121,7 +229,7 @@ func setVariableState(newVar db.StateType) {
   state.value[newVar.Source][newVar.Name] = newVar
 }
 
-func GetVariable(source string, name string) db.StateType {
+func getVariable(source string, name string) db.StateType {
   state.mutex.Lock()
   defer state.mutex.Unlock()
   if sourceData, ok := state.value[source]; ok {
@@ -132,7 +240,7 @@ func GetVariable(source string, name string) db.StateType {
   return db.StateType{}
 }
 
-func GetStringParam(source string, name string, param string) string {
+func getStringParam(source string, name string, param string) string {
   state.mutex.Lock()
   defer state.mutex.Unlock()
   if sourceData, ok := state.value[source]; ok {
@@ -166,6 +274,6 @@ func setNewPartialState(newState map[string]map[string]db.StateType) {
   state.json = json.Encode(state.value)
 }
 
-func MapHasAllKeys(data map[string]interface{}, keys []string) bool {
+func mapHasAllKeys(data map[string]interface{}, keys []string) bool {
   return db.MapHasAllKeys(data, keys)
 }

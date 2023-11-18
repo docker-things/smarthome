@@ -7,7 +7,7 @@ import (
   "strings"
   "syscall"
 
-  mqtt "./helpers/mqtt"
+  mqtt "app/helpers/mqtt"
 )
 
 const serviceName = "core/free-text-parser"

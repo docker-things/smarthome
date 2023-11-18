@@ -6,15 +6,15 @@ import (
   "os/signal"
   "syscall"
 
-  mqtt "./helpers/mqtt"
+  mqtt "app/helpers/mqtt"
 )
 
 const serviceName = "core/mqtt-stealer"
 
-const sourceBroker = "tcp://192.168.0.100:1883"
-const destinationBroker = "tcp://mqtt:1883"
-
 func main() {
+  sourceBroker := "tcp://192.168.0.100:1883"
+  destinationBroker := "tcp://" + os.Getenv("MQTT_HOST")
+
   // Create channel to monitor interrupt signals
   c := make(chan os.Signal, 1)
   signal.Notify(c, os.Interrupt, syscall.SIGTERM)
@@ -27,7 +27,7 @@ func main() {
 
   fmt.Println("Forwarding...")
   mqtt.BrokerSubscribeWithTopic(sourceBroker, "#", func(topic string, msg string) {
-    // fmt.Println(topic + ": " + msg)
+    fmt.Println(topic + ": " + msg)
     mqtt.BrokerPublishOn(destinationBroker, topic, msg)
   })
 

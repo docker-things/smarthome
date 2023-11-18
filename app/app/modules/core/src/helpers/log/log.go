@@ -5,7 +5,7 @@ import (
   "os"
   "strings"
 
-  json "../json"
+  json "app/helpers/json"
 )
 
 var active bool

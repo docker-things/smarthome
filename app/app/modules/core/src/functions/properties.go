@@ -2,11 +2,11 @@ package functions
 
 import (
   "strings"
-  "sync"
+  // "sync"
 )
 
 const ServiceName = "core/functions"
-const MqttBroker = "tcp://mqtt:1883"
+const MqttBroker = "tcp://mqtt-core:18830" // TODO: READ FROM ENV
 
 // IN
 var TopicRunSync = strings.Join([]string{ServiceName, "run"}, "/")

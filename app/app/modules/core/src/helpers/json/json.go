@@ -11,3 +11,7 @@ func Encode(result interface{}) string {
 	}
 	return string(jsonData)
 }
+
+func Unmarshal(data []byte, v any) error {
+	return json.Unmarshal(data, &v)
+}

@@ -5,7 +5,7 @@ import (
     "os"
     "strings"
     "sync"
-    "./goyeelight"
+    "goyeelight"
 )
 
 func usage() {

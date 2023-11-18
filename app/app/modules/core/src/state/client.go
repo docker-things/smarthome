@@ -2,12 +2,13 @@ package state
 
 import (
   "encoding/json"
+  "os"
   "strings"
   "time"
 
-  mqtt "../helpers/mqtt"
-  db "../helpers/mysql"
-  randomString "../helpers/randomString"
+  mqtt "app/helpers/mqtt"
+  db "app/helpers/mysql"
+  randomString "app/helpers/randomString"
 )
 
 var clientCreated bool
@@ -26,7 +27,7 @@ func CreateClient(serviceName string) {
   id := randomString.RandomString(16)
   responseTopic := strings.Join([]string{serviceName, "state-client", id}, "/")
 
-  mqtt.Connect(serviceName, MqttBroker)
+  mqtt.Connect(ServiceName, "tcp://"+os.Getenv("MQTT_HOST_CORE"))
 
   listenForAnnouncements()
   listenForRequestResponse(responseTopic)

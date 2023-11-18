@@ -6,7 +6,7 @@ import (
   "strings"
   "time"
 
-  mqtt "./helpers/mqtt"
+  mqtt "app/helpers/mqtt"
 
   tb "gopkg.in/tucnak/telebot.v2"
 )
@@ -14,7 +14,9 @@ import (
 const serviceName = "core/telegram-bot"
 const broker = "tcp://mqtt:1883"
 
-const botToken = "1628911652:AAHg8TUeI6aqMSF4LBh9hfz78DDmPsiRxe8"
+// DO NOT COMMIT !!!
+const botToken = "1628911652:AAEKgW8-AlPUV2g6_PyRlNnrifOnJvppQKw"
+// DO NOT COMMIT !!!
 
 var topicRequest = strings.Join([]string{serviceName, "request"}, "/")
 var topicPublish = strings.Join([]string{serviceName, "get"}, "/")

@@ -5,7 +5,6 @@ import (
 )
 
 const ServiceName = "core/incoming"
-const MqttBroker = "tcp://mqtt:1883"
 
 // IN
 const TopicIncoming = "#"

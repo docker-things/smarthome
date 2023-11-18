@@ -2,19 +2,74 @@ package incoming
 
 import (
   "fmt"
+  "os"
+  "os/signal"
+  "syscall"
 
-  // json "../helpers/json"
-  // // mqtt "../helpers/mqtt"
-  config "../config"
-  state "../state"
-  // db "../helpers/mysql"
+  config "app/config"
+  json "app/helpers/json"
+  mqtt "app/helpers/mqtt"
+  state "app/state"
 )
 
-func CreateStateClient() {
+func StartService(monolith bool) {
+  // Create channel to monitor interrupt signals
+  c := make(chan os.Signal, 1)
+  signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
+  mqtt.Connect(ServiceName, "tcp://"+os.Getenv("MQTT_HOST"))
+
+  createConfigClient()
+  createStateClient()
+
+  listenForIncomingData()
+
+  // Keep alive until interrupt is received
+  <-c
+}
+
+func listenForIncomingData() {
+  mqtt.SubscribeWithTopic(TopicIncoming, func(topic string, msg string) {
+    if shouldIgnoreTopic(topic) {
+      return
+    }
+
+    object := getObjectFromTopic(topic)
+    if object == "" {
+      return
+    }
+
+    fmt.Printf("%s: %s\n", topic, msg)
+
+    var data map[string]interface{}
+    err := json.Unmarshal([]byte(msg), &data)
+    if err != nil {
+      data = make(map[string]interface{})
+      data["RAW"] = msg
+    }
+    data["mqtt-topic"] = topic
+
+    // state.Set(source, name, value, func() {
+    //   fmt.Println("[DEBUG] Announcing change")
+    //   variable := state.GetVariable(source, name)
+    //   mqtt.PublishOn(state.TopicAnnounce, jsonHelper.Encode(variable))
+    // })
+  })
+}
+
+func shouldIgnoreTopic(topic string) bool {
+  topicStart := topic[0:5]
+  if topicStart == "core-" || topicStart == "core/" {
+    return true
+  }
+  return false
+}
+
+func createStateClient() {
   state.CreateClient(ServiceName)
 }
 
-func CreateConfigClient() {
+func createConfigClient() {
   config.SetOnChangeCallback(onConfigChange)
   config.CreateClient(ServiceName)
 }
@@ -77,7 +132,7 @@ func onConfigChange(data map[string]interface{}) {
   topicRules.value = newTopicRules
 }
 
-func GetObjectFromTopic(topic string) string {
+func getObjectFromTopic(topic string) string {
   // return ""
   topicRules.mutex.Lock()
   defer topicRules.mutex.Unlock()

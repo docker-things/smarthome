@@ -6,7 +6,6 @@ import (
 )
 
 const ServiceName = "core/config"
-const MqttBroker = "tcp://mqtt:1883"
 const ConfigPath = "/app/data/config"
 
 // IN

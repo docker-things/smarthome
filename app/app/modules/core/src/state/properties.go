@@ -4,11 +4,10 @@ import (
   "sync"
   "strings"
 
-  db "../helpers/mysql"
+  db "app/helpers/mysql"
 )
 
 const ServiceName = "core/state"
-const MqttBroker = "tcp://mqtt:1883"
 
 // IN
 var TopicSet = strings.Join([]string{ServiceName, "set"}, "/")

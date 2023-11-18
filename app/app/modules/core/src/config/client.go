@@ -2,11 +2,12 @@ package config
 
 import (
   "encoding/json"
+  "os"
   "strings"
   "time"
 
-  mqtt "../helpers/mqtt"
-  randomString "../helpers/randomString"
+  mqtt "app/helpers/mqtt"
+  randomString "app/helpers/randomString"
 )
 
 var clientCreated bool
@@ -25,7 +26,7 @@ func CreateClient(serviceName string) {
   id := randomString.RandomString(16)
   responseTopic := strings.Join([]string{serviceName, "config-client", id}, "/")
 
-  mqtt.Connect(serviceName, MqttBroker)
+  mqtt.Connect(serviceName, "tcp://"+os.Getenv("MQTT_HOST_CORE"))
 
   listenForAnnouncements()
   listenForRequestResponse(responseTopic)
