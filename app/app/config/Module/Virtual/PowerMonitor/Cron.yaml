@@ -3,4 +3,4 @@
 jobs:
   - interval: 2
     run:
-      - setEmergencyState()
+      - setEmergencyStatus()
