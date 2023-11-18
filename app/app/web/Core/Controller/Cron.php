@@ -196,7 +196,7 @@ class Core_Controller_Cron extends Core_Controller_Base {
 
     $where = explode('.', $where, 2);
     if (!isset($where[1])) {
-      Core_Logger::error('Core_Cron::_setNewState("' . $where . '", "' . $value . '"): INVALID $where PARAM!');
+      Core_Logger::error('Core_Cron::_setNewState("' . print_r($where,1) . '", "' . $value . '"): INVALID $where PARAM!');
       return false;
     }
 

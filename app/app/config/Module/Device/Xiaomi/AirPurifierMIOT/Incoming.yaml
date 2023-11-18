@@ -1,0 +1,37 @@
+---
+
+# How to recognize the request
+recognize-by-comparing:
+  - ${PARAMS.mqtt-topic}: service/python-miio/${Properties.ip}/rx
+
+# Known actions and what variables are set by them
+actions:
+  all:
+    status: ${PARAMS.power}
+    aqi: ${PARAMS.aqi}
+    average_aqi: ${PARAMS.average_aqi}
+    humidity: ${PARAMS.humidity}
+    temperature: ${PARAMS.temperature}
+    fan_level: ${PARAMS.fan_level}
+    mode: ${PARAMS.mode}
+    led: ${PARAMS.led}
+    led_brightness: ${PARAMS.led_brightness}
+    buzzer: ${PARAMS.buzzer}
+    buzzer_vol: ${PARAMS.buzzer_vol}
+    child_lock: ${PARAMS.child_lock}
+    favorite_level: ${PARAMS.favorite_level}
+    filter_life_remaining: ${PARAMS.filter_life_remaining}
+    filter_hours_used: ${PARAMS.filter_hours_used}
+    use_time: ${PARAMS.use_time}
+    purify_volume: ${PARAMS.purify_volume}
+    motor_speed: ${PARAMS.motor_speed}
+    filter_rfid_product_id: ${PARAMS.filter_rfid_product_id}
+    filter_rfid_tag: ${PARAMS.filter_rfid_tag}
+    filter_type: ${PARAMS.filter_type}
+    error: ${PARAMS.error}
+    last-input-time: foo
+
+# Params are not rewritten in the DB if the value isn't changed.
+# This allows them to be written anyway.
+alwaysSetWhenReceived:
+  - last-input-time

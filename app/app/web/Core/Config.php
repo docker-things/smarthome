@@ -1065,6 +1065,9 @@ class Core_Config {
       }
 
       // Replace in the new string
+      if ($varValue === null) {
+        $varValue = "";
+      }
       $newString = str_replace('${' . $var . '}', $varValue, $newString);
     }
 

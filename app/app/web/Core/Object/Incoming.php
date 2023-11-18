@@ -23,6 +23,8 @@ class Core_Object_Incoming extends Core_Object_Base {
    */
   private $_actions = [];
 
+  private $_name = "";
+
   /**
    * Provide normalization of certain params
    *
@@ -132,8 +134,13 @@ class Core_Object_Incoming extends Core_Object_Base {
       return false;
     }
 
+    $recognized = false;
+
     // For each set of rules
     foreach ($this->_recognizeByComparing AS $rules) {
+      if (empty($rules)) {
+        continue;
+      }
 
       // Assume recognized
       $recognized = true;

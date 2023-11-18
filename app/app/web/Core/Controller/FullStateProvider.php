@@ -114,12 +114,14 @@ class Core_Controller_FullStateProvider extends Core_Controller_Base {
     }
     Core_Logger::info('Sending batch [' . count($state) . ']: ' . implode(', ', array_keys($state)));
     $state = json_encode($state);
+    $state = str_replace('$', '\$', $state);
     $state = str_replace('"', '\"', $state);
     $state = str_replace('\\\\"', '\\\\\\"', $state);
     $cmd   = "mosquitto_pub -h mqtt -t 'core-state/full-state-provider' -m \"" . $state . "\"";
     // file_put_contents('/app/data/dump', $cmd);
     // ob_start();
-    system($cmd . ' 2>&1 &', $retval);
+    // system($cmd . ' 2>&1 &', $retval);
     // ob_end_clean();
+    exec($cmd . ' 2>&1 &', $retval);
   }
 }

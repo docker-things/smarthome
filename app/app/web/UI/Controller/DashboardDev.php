@@ -1,6 +1,8 @@
 <?php
 
 class UI_Controller_DashboardDev extends Core_Controller_Base {
+  public $create;
+
   /**
    * CSS files
    * @var array

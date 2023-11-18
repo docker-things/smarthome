@@ -32,9 +32,9 @@ services:
     image: koenkk/zigbee2mqtt:1.25.2
     # image: koenkk/zigbee2mqtt:1.18.1
     container_name: smarthome-zigbee2mqtt
+    restart: always
     depends_on:
       - mqtt
-    restart: always
     devices:
       - $DEVICE_ZIGBEE:/dev/ttyACM0
     volumes:
@@ -62,8 +62,24 @@ services:
     memswap_limit: 0M
     cpu_shares: 2048
 
+  python-miio2mqtt:
+    image: 192.168.0.100:5000/python-miio2mqtt:1.0.0
+    container_name: smarthome-service-python-miio2mqtt
+    restart: always
+    build:
+      context: ./services/python-miio2mqtt
+    # network_mode: host
+    depends_on:
+      - mqtt
+    environment:
+      - MQTT_HOST=mqtt
+      - MQTT_TOPIC=service/python-miio
+    mem_limit: 256M
+    memswap_limit: 0M
+    cpu_shares: 2048
+
   app:
-    image: smarthome:0.1.0
+    image: 192.168.0.100:5000/smarthome:1.0.0
     container_name: smarthome-app
     build:
       context: ./app
